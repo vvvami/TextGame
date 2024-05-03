@@ -18,8 +18,16 @@ public class StatusInstance extends Status {
     }
 
 
-    public void onStatusTick() {
-
+    public void statusTick(StatusInstance statusInstance, Entity target) {
+        if (statusInstance.getStatus() == Status.BURNING) {
+            target.hurt(statusInstance.getSource(), statusInstance.getAmplifier(), Damage.fire);
+        }
+        else if (statusInstance.getStatus() == Status.FROZEN) {
+            target.hurt(statusInstance.getSource(),statusInstance.getAmplifier(), Damage.ice);
+        }
+        else if (statusInstance.getStatus() == Status.BLEEDING) {
+            target.hurt(statusInstance.getSource(),statusInstance.getAmplifier(), Damage.bleed);
+        }
     }
 
     public Status getStatus() {

@@ -10,6 +10,7 @@ public abstract class Entity {
     private final float baseDamage;
     private int armor;
     private final Damage defaultDamage;
+    private int level;
     private List<Damage> weaknesses;
     private List<StatusInstance> statusEffects = new ArrayList<>();
     private List<ItemObject> inventory = new ArrayList<>();
@@ -17,8 +18,9 @@ public abstract class Entity {
     private Action action;
     private boolean enemy;
     
-    public Entity(String name, int maxHealth, float baseDamage, int armor, Damage defaultDamage, boolean enemy) {
+    public Entity(String name, int level, int maxHealth, float baseDamage, int armor, Damage defaultDamage, boolean enemy) {
         this.name = name;
+        this.level = level;
         this.maxHealth = maxHealth;
         this.baseDamage = baseDamage;
         this.armor = armor;
@@ -36,7 +38,7 @@ public abstract class Entity {
 
         health -= amount;
         System.out.println(name + " was hit by " + source.name + " for "
-                + new DecimalFormat("##.##").format(amount) + " damage!");
+                + new DecimalFormat("##.##").format(amount) + " " + damage.getName() + " damage!");
 
     }
 

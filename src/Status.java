@@ -10,6 +10,7 @@ public class Status {
     public static final Status BLESSED = new Status(true, true, false);
     public static final Status IMMUNE = new Status(false, true, false);
     public static final Status INSPIRED = new Status(true, false, false);
+    public static final Status BLEEDING = new Status(true,true,true);
 
     public Status() {
     }
