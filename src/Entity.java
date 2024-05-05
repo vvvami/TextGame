@@ -55,12 +55,13 @@ public abstract class Entity {
 
     // Main healing function
     public void heal(Entity source, float amount) {
+        String stringAmount = Main.ANSI_YELLOW + amount + Main.ANSI_RESET;
         if (!isAlive()) {
             return;
         }
         health = Math.min(maxHealth, health + amount);
         System.out.printf("%s was healed by %s for %s health! %n", getDisplayName(), source.getDisplayName(),
-                Main.ANSI_YELLOW + new DecimalFormat("##.##").format(amount) + Main.ANSI_RESET);
+                 stringAmount);
     }
 
     // Checks if the entity is alive
@@ -85,28 +86,23 @@ public abstract class Entity {
 
     // Remove a status. Removing a status means removing an entire instance of that status, because Statuses stack
     public void removeStatus(Status status) {
-        Iterator<StatusInstance> statusInstanceIterator = statusEffects.iterator();
-        while (statusInstanceIterator.hasNext()) {
-            StatusInstance statusInstance = statusInstanceIterator.next();
-            if (status.equals(statusInstance.getStatus())) {
-                statusInstanceIterator.remove();
-            }
-        }
+            statusEffects.removeIf(statusInstance -> statusInstance.getStatus() == status);
     }
 
     public void entityTurn() {
         if (hasStatus()) {
-            Iterator<StatusInstance> statusIterator = statusEffects.iterator();
-            while (statusIterator.hasNext()) {
-                StatusInstance nextStatus = statusIterator.next();
-                nextStatus.statusTurn();
-                if (nextStatus.getDuration() <= 0) {
-                    statusIterator.remove();
-                    System.out.printf("%s is no longer %s. %n", getDisplayName(), nextStatus.getStatus().getName());
+            List<StatusInstance> removeList = new ArrayList<>();
+            for (StatusInstance statusInstance : statusEffects) {
+                statusInstance.statusTurn();
+                if (statusInstance.getDuration() <= 0) {
+                    removeList.add(statusInstance);
                 }
             }
+            for (StatusInstance statusInstance : removeList) {
+                removeStatus(statusInstance.getStatus());
+                System.out.printf("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+            }
         }
-
     }
 
     public StatusInstance getEntityStatus(Status status) {
@@ -220,23 +216,16 @@ public abstract class Entity {
     }
 
     public String statusDisplay() {
-        String color = "";
         String display = "";
         String space = ", ";
 
         if (!statusEffects.isEmpty()) {
             for (StatusInstance statusInstance : statusEffects) {
-                if (statusInstance.getStatus().isHarmful()) {
-                 color = Main.ANSI_RED;
-                }
-                else {
-                    color = Main.ANSI_GREEN;
-                }
                 if (statusEffects.getLast() == statusInstance) {
                     space = "";
                 }
-                display = display + color + statusInstance.getStatus()
-                        .getName() + Main.ANSI_RESET + space;
+                display = display + statusInstance.getStatus()
+                        .getName() + space;
             }
             display = " (" + display + ")";
         }

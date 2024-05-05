@@ -26,12 +26,17 @@ public class PlayerInterpreter {
 
 
     private static String actionInput(String input) {
+        String actionInput;
+        String targetInput;
         for (Action action : Action.actions) {
             for (String keyword : action.getSynonyms()) {
-                if (input.contains(keyword)) {
-                    Game.player.setAction(action);
-                    input = input.substring(input.indexOf(" ") + 1);
-                    return input;
+                if (input.contains(" ")) {
+                    actionInput = input.substring(0, input.indexOf(" "));
+                    targetInput = input.substring(input.indexOf(" ") + 1);
+                    if (actionInput.equalsIgnoreCase(keyword)) {
+                        Game.player.setAction(action);
+                        return targetInput;
+                    }
                 }
             }
         }

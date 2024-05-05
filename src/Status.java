@@ -20,6 +20,12 @@ public enum Status {
             this.stacksAmplifier = stacksAmplifier;
             this.stacksDuration = stacksDuration;
             this.harmful = harmful;
+            if (harmful) {
+                this.name = Main.ANSI_RED + name + Main.ANSI_RESET;
+            }
+            else {
+                this.name = Main.ANSI_GREEN + name + Main.ANSI_RESET;
+            }
 
         }
 

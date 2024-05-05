@@ -7,7 +7,7 @@ public abstract class Game extends GameInitializer {
 
     private static Scanner playerNameScanner = new Scanner(System.in);
     private static String playerName = playerNameScanner.nextLine();
-    public static final Player player = new Player(playerName, 10, 1000, 1, 0, Ability.BURN);
+    public static final Player player = new Player(playerName, 1, 1000, 1, 0, Ability.HEAL);
     public static List<Entity> entityList = new ArrayList<>();
     public static List<ObjectInteractable> objectInteractables = new ArrayList<>();
     private static boolean generatedEnemies;
@@ -60,7 +60,7 @@ public abstract class Game extends GameInitializer {
             }
         }
         if (Game.getEnemies().isEmpty()) {
-            generatedEnemies = false;
+            endGame = true;
         }
     }
 
