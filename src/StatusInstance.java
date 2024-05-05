@@ -1,4 +1,4 @@
-public class StatusInstance extends Status {
+public class StatusInstance {
     private int amplifier;
     private int duration;
     private Entity target;
@@ -6,27 +6,33 @@ public class StatusInstance extends Status {
     private Status status;
 
     public StatusInstance(Status status, int amplifier, int duration, Entity source) {
+        this.status = status;
         this.amplifier = amplifier;
         this.duration = duration;
         this.source = source;
-        if (target.hasStatus(status)) {
-            this.amplifier = status.stacksAmplifier() ? target.getEntityStatus(status).getAmplifier() + this.amplifier : this.amplifier;
-            this.duration = status.stacksDuration() ? target.getEntityStatus(status).getDuration() + this.duration : this.duration;
-        }
-        target.removeStatus(status);
-        target.addStatus(this);
     }
 
 
-    public void statusTick(StatusInstance statusInstance, Entity target) {
-        if (statusInstance.getStatus() == Status.BURNING) {
-            target.hurt(statusInstance.getSource(), statusInstance.getAmplifier(), Damage.fire);
+    public void statusTurn() {
+        if (status == Status.BURNING) {
+            target.hurt(source, amplifier, DamageType.fire);
         }
-        else if (statusInstance.getStatus() == Status.FROZEN) {
-            target.hurt(statusInstance.getSource(),statusInstance.getAmplifier(), Damage.ice);
+        else if (status == Status.FROZEN) {
+            target.hurt(source,amplifier, DamageType.ice);
         }
-        else if (statusInstance.getStatus() == Status.BLEEDING) {
-            target.hurt(statusInstance.getSource(),statusInstance.getAmplifier(), Damage.bleed);
+        else if (status == Status.BLEEDING) {
+            target.hurt(source,amplifier, DamageType.bleed);
+        }
+        else if (status == Status.BLESSED) {
+            target.heal(source, amplifier);
+        }
+        this.duration--;
+    }
+
+    private void statusCountersCancel() {
+        if (target.hasSpecifiedStatus(status.getCounterStatus())) {
+            target.removeStatus(status.getCounterStatus());
+            target.removeStatus(status);
         }
     }
 
@@ -34,20 +40,36 @@ public class StatusInstance extends Status {
         return this.status;
     }
 
+    public void setDuration(int duration) {
+
+        this.duration = duration;
+    }
+
+    public void setAmplifier(int amplifier) {
+        this.amplifier = amplifier;
+    }
+
     public int getDuration() {
+
         return this.duration;
     }
 
     public int getAmplifier() {
+
         return this.amplifier;
     }
 
     public Entity getSource() {
+
         return this.source;
     }
 
     public Entity getTarget() {
+
         return this.target;
     }
 
+    public void setTarget(Entity target) {
+        this.target = target;
+    }
 }

@@ -9,6 +9,15 @@ public class Position {
         this.zPos = zPos;
     }
 
+    public Node getNodeFromPosition() {
+        for (Node node : Node.nodeMap) {
+            if (node.getNodePosition() == this) {
+                return node;
+            }
+        }
+        return null;
+    }
+
     public int getPosX() {
         return this.xPos;
     }

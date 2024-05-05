@@ -1,0 +1,44 @@
+public class Status {
+
+    private String name;
+    private boolean harmful;
+    private boolean stackDuration;
+    private boolean stackAmplifier;
+    public static final Status CRIPPLED = new Status("Crippled",false, true,true);
+    public static final Status BURNING = new Status("Burning",true, true,true);
+    public static final Status FROZEN = new Status("Frozen",false,true,true);
+    public static final Status PARALYZED = new Status("Paralyzed",false, true, true);
+    public static final Status BLESSED = new Status("Blessed",true, true, false);
+    public static final Status IMMUNE = new Status("Immune",false, true, false);
+    public static final Status INSPIRED = new Status("Inpired",true, false, false);
+    public static final Status BLEEDING = new Status("Bleeding",true,true,true);
+
+    public Status() {
+    }
+
+    public Status(String name, boolean stackAmplifier, boolean stackDuration, boolean harmful) {
+        this.name = name;
+        this.stackAmplifier = stackAmplifier;
+        this.stackDuration = stackDuration;
+        this.harmful = harmful;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean stacksAmplifier() {
+        return stackAmplifier;
+    }
+
+    public boolean stacksDuration() {
+        return stackDuration;
+    }
+
+    public boolean isHarmful() {
+        return harmful;
+    }
+
+
+
+}

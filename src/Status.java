@@ -1,38 +1,53 @@
-public class Status {
+public enum Status {
 
-    private boolean harmful;
-    private boolean stackDuration;
-    private boolean stackAmplifier;
-    public static final Status CRIPPLED = new Status(false, true,true);
-    public static final Status BURNING = new Status(true, true,true);
-    public static final Status FROZEN = new Status(false,true,true);
-    public static final Status PARALYZED = new Status(false, true, true);
-    public static final Status BLESSED = new Status(true, true, false);
-    public static final Status IMMUNE = new Status(false, true, false);
-    public static final Status INSPIRED = new Status(true, false, false);
-    public static final Status BLEEDING = new Status(true,true,true);
+    CRIPPLED("Crippled",false, true,true),
+    BURNING("Burning",true, true,true),
+    FROZEN("Frozen",false,true,true, Status.BURNING),
+    PARALYZED("Paralyzed",false, true, true),
+    BLESSED("Blessed",true, true, false),
+    IMMUNE("Immune",false, true, false),
+    INSPIRED("Inspired",true, false, false, Status.CRIPPLED),
+    BLEEDING("Bleeding",true,true,true, Status.BLESSED);
 
-    public Status() {
-    }
+        private String name;
+        private boolean harmful;
+        private boolean stacksDuration;
+        private boolean stacksAmplifier;
+        private Status counterStatus;
 
-    public Status(boolean stackAmplifier, boolean stackDuration, boolean harmful) {
-        this.stackAmplifier = stackAmplifier;
-        this.stackDuration = stackDuration;
+        Status(String name, boolean stacksAmplifier, boolean stacksDuration, boolean harmful) {
+            this.name = name;
+            this.stacksAmplifier = stacksAmplifier;
+            this.stacksDuration = stacksDuration;
+            this.harmful = harmful;
+
+        }
+
+        Status(String name, boolean stacksAmplifier, boolean stacksDuration, boolean harmful, Status counterStatus) {
+        this.name = name;
+        this.stacksAmplifier = stacksAmplifier;
+        this.stacksDuration = stacksDuration;
         this.harmful = harmful;
+        this.counterStatus = counterStatus;
     }
 
-    public boolean stacksAmplifier() {
-        return stackAmplifier;
+        public String getName() {
+            return name;
+        }
+
+        public boolean stacksAmplifier() {
+            return stacksAmplifier;
+        }
+
+        public boolean stacksDuration() {
+            return stacksDuration;
+        }
+
+        public boolean isHarmful() {
+            return harmful;
+        }
+
+    public Status getCounterStatus() {
+        return counterStatus;
     }
-
-    public boolean stacksDuration() {
-        return stackDuration;
-    }
-
-    public boolean isHarmful() {
-        return harmful;
-    }
-
-
-
 }
