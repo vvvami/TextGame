@@ -1,10 +1,11 @@
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Action {
     private List<String> synonyms;
     public static List<Action> actions = new ArrayList<>();
+    public static HashMap<String, Action> synonymToAction = new HashMap<>();
 
     public Action() {
         this.synonyms = new ArrayList<>();
@@ -15,26 +16,33 @@ public class Action {
         return synonyms;
     }
 
-    public void addSynonym(String synonym) {
+    public void addSynonym(String synonym) throws Exception {
+
+        if (synonymToAction.put(synonym, this) != null) {
+            throw new Exception("Duplicate synonym: " + synonym);
+        }
+
         synonyms.add(synonym);
     }
 
     public static final Action attack = new Action();
-    public static final Action move = new Action();
+    public static final Action movement = new Action();
     public static final Action use = new Action();
     public static final Action take = new Action();
     public static final Action equip = new Action();
     public static final Action ability = new Action();
 
-    public static void actionSynonymInitializer() {
+    public static void actionSynonymInitializer() throws Exception {
+
         Action.attackSynonymInitializer();
         Action.moveSynonymInitializer();
         Action.useSynonymInitializer();
         Action.abilitySynonymInitializer();
         Action.takeSynonymInitializer();
+
     }
 
-    private static void attackSynonymInitializer() {
+    private static void attackSynonymInitializer() throws Exception {
         attack.addSynonym("attack");
         attack.addSynonym("strike");
         attack.addSynonym("kick");
@@ -44,16 +52,15 @@ public class Action {
         attack.addSynonym("kill");
     }
 
-    private static void moveSynonymInitializer() {
-        move.addSynonym("move");
-        move.addSynonym("walk");
-        move.addSynonym("run");
-        move.addSynonym("escape");
-        move.addSynonym("flee");
-        move.addSynonym("go");
+    private static void moveSynonymInitializer() throws Exception {
+        movement.addSynonym("walk");
+        movement.addSynonym("run");
+        movement.addSynonym("escape");
+        movement.addSynonym("flee");
+        movement.addSynonym("go");
     }
 
-    private static void useSynonymInitializer() {
+    private static void useSynonymInitializer() throws Exception {
         use.addSynonym("use");
         use.addSynonym("utilize");
         use.addSynonym("activate");
@@ -61,20 +68,21 @@ public class Action {
         use.addSynonym("eat");
     }
 
-    private static void abilitySynonymInitializer() {
+    private static void abilitySynonymInitializer() throws Exception {
         ability.addSynonym("ability");
         ability.addSynonym("cast");
         ability.addSynonym("draw");
         ability.addSynonym("conjure");
     }
 
-    private static void takeSynonymInitializer() {
+    private static void takeSynonymInitializer() throws Exception {
         take.addSynonym("take");
         take.addSynonym("steal");
         take.addSynonym("grab");
         take.addSynonym("pocket");
-        take.addSynonym("inventory");
     }
+
+
 
     public static void entityAction(Entity target, Entity source) {
         if (source.getAction() == Action.attack) {
@@ -90,6 +98,12 @@ public class Action {
 
         }
         else if (source.getAction() == Action.equip) {
+
+        }
+    }
+
+    public static void entityAction(Entity source) {
+        if (source.getAction() == Action.movement) {
 
         }
     }

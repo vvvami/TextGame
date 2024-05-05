@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Entity {
+public abstract class Entity extends ObjectInteractable {
 
     private static int identifier;
     private final int ID = identifier;
-    private final String NAME;
     private int maxHealth;
     private float health;
     private float baseDamage;
@@ -22,14 +21,12 @@ public abstract class Entity {
     private ItemObject equippedItem;
     private Action action;
     private boolean enemy;
-    private String description;
     private Ability ability;
     private Entity target;
 
-    public Entity(String NAME, int level, int maxHealth, float baseDamage,
+    public Entity(String name, int level, int maxHealth, float baseDamage,
                   int armor, DamageType DEFAULT_DAMAGETYPE, boolean enemy, Ability ability) {
-
-        this.NAME = NAME;
+        super(name, null);
         this.level = level;
         this.maxHealth = maxHealth;
         this.baseDamage = baseDamage;
@@ -39,6 +36,7 @@ public abstract class Entity {
         this.ability = ability;
         this.enemy = enemy;
         identifier++;
+
     }
 
     // Main damage function
@@ -147,11 +145,6 @@ public abstract class Entity {
         return baseDamage;
     }
 
-
-    public String getName() {
-        return NAME;
-    }
-
     public ItemObject getEquippedItem() {
         return equippedItem;
     }
@@ -187,14 +180,6 @@ public abstract class Entity {
         return level;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Ability getAbility() {
         return ability;
     }
@@ -208,7 +193,7 @@ public abstract class Entity {
     }
 
     public String getDisplayName() {
-        return NAME + statusDisplay();
+        return getName() + statusDisplay();
     }
 
     public String levelDisplay() {

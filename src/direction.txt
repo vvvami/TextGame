@@ -1,0 +1,19 @@
+public enum Direction {
+    N(),
+    S,
+    E,
+    W,
+    NW,
+    NE,
+    SW,
+    SE,
+    U,
+    D;
+
+
+    Direction(Position position) {
+        this.position = position;
+    }
+
+    private Position position;
+}

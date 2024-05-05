@@ -25,4 +25,5 @@ public class Object {
     public String getName() {
         return name;
     }
+
 }

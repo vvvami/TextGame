@@ -1,9 +1,9 @@
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         GameInitializer.InitializeGame();
         System.out.println("Enter your name, traveler:");
         Game.StartGame();
