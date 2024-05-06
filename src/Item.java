@@ -1,20 +1,17 @@
-public class ItemObject extends ObjectInteractable {
+public class Item extends Interactable {
 
     private boolean reusable;
     private int damageAmount;
     private DamageType damageType;
     private boolean equipped;
 
-    public ItemObject(String name, String description, boolean reusable, int damageAmount, DamageType damageType) {
-        super(name, description);
+    public Item(String name, String description, Position position,
+                boolean reusable, int damageAmount, DamageType damageType) {
+        super(name, description, position);
         this.reusable = reusable;
         this.damageAmount = damageAmount;
         this.damageType = damageType;
     }
-
-    public final ItemObject sword = new ItemObject
-            ("Sword", "a rusty sword", true, 10, DamageType.sharp);
-
 
     public void setEquipped(boolean equipped) {
         this.equipped = equipped;

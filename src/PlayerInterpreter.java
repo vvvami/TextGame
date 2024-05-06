@@ -6,31 +6,26 @@ public class PlayerInterpreter {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Choose your next action: ");
         String fullAction = scanner.nextLine();
-        String actionTarget = actionInput(fullAction);
+        actionInput(fullAction);
 
-        for (Entity entity : Game.entityList) {
-            if (entity.getName().equalsIgnoreCase(actionTarget)) {
-                Action.entityAction(entity, Game.player);
-                return true;
-            }
-        }
-
-        for (ObjectInteractable object : Game.objectInteractables) {
-            if (object.getName().equalsIgnoreCase(actionTarget)) {
-                Action.entityAction(object, Game.player);
-                return true;
-            }
-        }
         return false;
     }
 
 
-    private static String actionInput(String input) {
-            String[] inputArr = input.split("\\s+");
-            switch (inputArr.length) {
-                case 0: return null;
-                case 1:
-            }
-        return null;
+    private static void actionInput(String input) {
+        String[] inputArr = input.toLowerCase()
+                .split("\\s+");
+
+        Node node = Game.getCurrentNode();
+        Interactable target = Game.player;
+        switch (inputArr.length) {
+            case 2:
+                target = node.stringToInteractable(inputArr[1]);
+            case 1:
+                Action action = Action.synonymToAction.get(inputArr[0]);
+                Game.player.receiveAction(target, action);
+                break;
+            default:
+        }
     }
 }

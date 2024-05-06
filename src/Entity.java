@@ -2,13 +2,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public abstract class Entity extends ObjectInteractable {
+public abstract class Entity extends Interactable {
 
-    private static int identifier;
-    private final int ID = identifier;
+
     private int maxHealth;
     private float health;
     private float baseDamage;
@@ -16,17 +14,17 @@ public abstract class Entity extends ObjectInteractable {
     private final DamageType DEFAULT_DAMAGETYPE;
     private int level;
     private List<DamageType> weaknesses;
+    private List<DamageType> resistances;
     private List<StatusInstance> statusEffects = new ArrayList<>();
-    private List<ItemObject> inventory = new ArrayList<>();
-    private ItemObject equippedItem;
-    private Action action;
+    private List<Item> inventory = new ArrayList<>();
+    private Item equippedItem;
     private boolean enemy;
     private Ability ability;
     private Entity target;
 
-    public Entity(String name, int level, int maxHealth, float baseDamage,
+    public Entity(String name, Position position, int level, int maxHealth, float baseDamage,
                   int armor, DamageType DEFAULT_DAMAGETYPE, boolean enemy, Ability ability) {
-        super(name, null);
+        super(name, null, position);
         this.level = level;
         this.maxHealth = maxHealth;
         this.baseDamage = baseDamage;
@@ -35,7 +33,6 @@ public abstract class Entity extends ObjectInteractable {
         this.DEFAULT_DAMAGETYPE = DEFAULT_DAMAGETYPE;
         this.ability = ability;
         this.enemy = enemy;
-        identifier++;
 
     }
 
@@ -132,10 +129,6 @@ public abstract class Entity extends ObjectInteractable {
         return statusEffects;
     }
 
-    public int getID() {
-        return ID;
-    }
-
     public float getHealth() {
         return this.health;
     }
@@ -145,7 +138,7 @@ public abstract class Entity extends ObjectInteractable {
         return baseDamage;
     }
 
-    public ItemObject getEquippedItem() {
+    public Item getEquippedItem() {
         return equippedItem;
     }
 
@@ -153,22 +146,12 @@ public abstract class Entity extends ObjectInteractable {
         return !(getEquippedItem() == null);
     }
 
-    public void setEquippedItem(ItemObject equippedItem) {
+    public void setEquippedItem(Item equippedItem) {
         this.equippedItem = equippedItem;
     }
 
     public DamageType getDefaultDamageType() {
         return DEFAULT_DAMAGETYPE;
-    }
-
-
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
-
-    public Action getAction() {
-        return action;
     }
 
     // Checks of the entity is an enemy (against the player)

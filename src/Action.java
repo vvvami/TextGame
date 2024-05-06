@@ -83,31 +83,6 @@ public class Action {
     }
 
 
-
-    public static void entityAction(Entity target, Entity source) {
-        if (source.getAction() == Action.attack) {
-            attackAction(target, source);
-        }
-        else if (source.getAction() == Action.ability) {
-            abilityAction(target, source);
-        }
-    }
-
-    public static void entityAction(Object objectTarget, Entity source) {
-        if (source.getAction() == Action.use) {
-
-        }
-        else if (source.getAction() == Action.equip) {
-
-        }
-    }
-
-    public static void entityAction(Entity source) {
-        if (source.getAction() == Action.movement) {
-
-        }
-    }
-
     public static void attackAction(Entity target, Entity source) {
         float damage = source.getBaseDamage();
         DamageType type = source.getDefaultDamageType();

@@ -2,7 +2,7 @@ public class ActionInstance extends Action {
     private Action action;
     private Entity source;
     private Entity target;
-    private ObjectInteractable object;
+    private Interactable object;
 
 
     public ActionInstance(Action action, Entity source, Entity target) {
@@ -12,7 +12,7 @@ public class ActionInstance extends Action {
 
     }
 
-    public ActionInstance(Action action, Entity source, ObjectInteractable object) {
+    public ActionInstance(Action action, Entity source, Interactable object) {
         this.action = action;
         this.source = source;
         this.object = object;
@@ -27,7 +27,7 @@ public class ActionInstance extends Action {
         return source;
     }
 
-    public ObjectInteractable getObject() {
+    public Interactable getObject() {
         return object;
     }
 

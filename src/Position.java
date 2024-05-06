@@ -1,4 +1,6 @@
-public class Position {
+import java.util.Objects;
+
+public final class Position {
     private int xPos;
     private int yPos;
     private int zPos;
@@ -9,13 +11,17 @@ public class Position {
         this.zPos = zPos;
     }
 
-    public Node getNodeFromPosition() {
-        for (Node node : Node.nodeMap) {
-            if (node.getNodePosition() == this) {
-                return node;
-            }
-        }
-        return null;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return xPos == position.xPos && yPos == position.yPos && zPos == position.zPos;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(xPos, yPos, zPos);
     }
 
     public int getPosX() {
@@ -29,4 +35,6 @@ public class Position {
     public int getPosZ() {
         return this.zPos;
     }
+
+
 }

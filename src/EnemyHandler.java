@@ -1,19 +1,7 @@
-import java.util.List;
-import java.util.Random;
-
 public class EnemyHandler {
 
     public static void enemyAction() {
-        for (Entity enemy : Game.getEnemies()) {
-            enemyTargeting(enemy);
-            if (Math.random() < 0.75) {
-                enemy.setAction(Action.attack);
-            }
-            else {
-                enemy.setAction(Action.ability);
-            }
-            Action.entityAction(enemy.getTarget(), enemy);
-        }
+
     }
 
     public static void enemyTargeting(Entity source) {
@@ -24,7 +12,7 @@ public class EnemyHandler {
         }
     }
 
-    public static void Generate() {
+    public static void Generate(Position position) {
         int randonNum = Math.min((int) (Math.random() * Math.random() * 100), 4);
         Entity enemy;
         switch (randonNum) {
@@ -33,7 +21,7 @@ public class EnemyHandler {
             case 3: enemy = new Werewolf(3);
             default: enemy = new Maneater(5);
         }
-        Game.entityList.add(enemy);
+        Game.getCurrentNode().getInteractables().add(enemy);
     }
 
 }
