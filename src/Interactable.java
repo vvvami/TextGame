@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
 
 public class Interactable {
     private boolean equipped;
@@ -6,6 +8,8 @@ public class Interactable {
     private final String name;
     private Position position;
     private String description;
+    private List<Action> receivableActions = new ArrayList<>();
+    private List<Action> availableActions = new ArrayList<>();
 
     public String getDescription() {
         return description;
@@ -32,6 +36,9 @@ public class Interactable {
     }
 
     public boolean receiveAction(Interactable source, Action action) {
+        if (action == Action.attack) {
+
+        }
         return true;
     }
 

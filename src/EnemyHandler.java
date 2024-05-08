@@ -6,7 +6,7 @@ public class EnemyHandler {
 
     public static void enemyTargeting(Entity source) {
         if (source.getTarget() == null || !source.getTarget().isAlive()) {
-            for (Entity ally : Game.getAllies()) {
+            for (Entity ally : Node.getAllies()) {
                 source.setTarget(ally);
             }
         }

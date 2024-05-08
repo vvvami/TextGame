@@ -50,6 +50,32 @@ public class Node {
         return null;
     }
 
+    public static List<Entity> getEnemies() {
+        List<Entity> enemies = new ArrayList<>();
+        for (Entity entity : Node.getEntities()) {
+            if (entity.isEnemy()) {
+                enemies.add(entity);
+            }
+        }
+        return enemies;
+    }
+
+    public static List<Entity> getAllies() {
+        List<Entity> allies = new ArrayList<>();
+        for (Entity entity : Node.getEntities()) {
+            if (!entity.isEnemy()) {
+                allies.add(entity);
+            }
+        }
+        return allies;
+    }
+
+    public static List<Entity> getEntities() {
+        return ((Game.getCurrentNode()
+                .getInteractables().stream().filter(interactable -> interactable instanceof Entity)
+                .map(interactable -> (Entity) interactable))).toList();
+    }
+
     public static void initializeNodes() {
         int size = 50;
         for (int h = -50; h <= 50; h++) {

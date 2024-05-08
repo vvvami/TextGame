@@ -33,14 +33,13 @@ public class Action {
     public static final Action ability = new Action();
 
     public static void actionSynonymInitializer() throws Exception {
-
-        Action.attackSynonymInitializer();
+        Action.actionSynonymInitializer();
         Action.moveSynonymInitializer();
         Action.useSynonymInitializer();
         Action.abilitySynonymInitializer();
         Action.takeSynonymInitializer();
-
     }
+
 
     private static void attackSynonymInitializer() throws Exception {
         attack.addSynonym("attack");
