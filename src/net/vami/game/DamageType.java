@@ -1,3 +1,5 @@
+package net.vami.game;
+import net.vami.interactables.*;
 import java.util.ArrayList;
 import java.util.List;
 

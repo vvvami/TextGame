@@ -1,10 +1,11 @@
+package net.vami.interactables;
+import net.vami.game.*;
 import org.jetbrains.annotations.NotNull;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Entity extends Interactable {
+public class Entity extends Interactable {
 
 
     private int maxHealth;
@@ -36,7 +37,7 @@ public abstract class Entity extends Interactable {
 
     }
 
-    // Main damage function
+    // net.vami.game.Main damage function
     public void hurt(Entity source, float amount, DamageType damageType) {
 
         if (armor > 0) {
@@ -48,10 +49,10 @@ public abstract class Entity extends Interactable {
                 + Main.ANSI_RESET + " " + damageType.getName());
     }
 
-    // Main healing function
+    // net.vami.game.Main healing function
     public void heal(Entity source, float amount) {
         String stringAmount = Main.ANSI_YELLOW + amount + Main.ANSI_RESET;
-        if (!isAlive()) {
+        if (!isEnded()) {
             return;
         }
         health = Math.min(maxHealth, health + amount);
@@ -60,11 +61,12 @@ public abstract class Entity extends Interactable {
     }
 
     // Checks if the entity is alive
-    public boolean isAlive() {
+    @Override
+    public boolean isEnded() {
         return health > 0;
     }
 
-    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status enum
+    // Adds a status effect. Stacks the status according to the status' parameters defined in the net.vami.interactables.Status enum
     public void addStatus(@NotNull StatusInstance status) {
         if (this.hasSpecifiedStatus(status.getStatus())) {
             if (status.getStatus().stacksAmplifier()) {
@@ -200,5 +202,24 @@ public abstract class Entity extends Interactable {
         return display;
     }
 
+
+    @Override
+    protected boolean receiveAttack(Interactable source, Action action) {
+        if (!(source instanceof Entity)) {
+            return false;
+        }
+        Entity entitySource = (Entity) source;
+        float damage = entitySource.getBaseDamage();
+        DamageType type = entitySource.getDefaultDamageType();
+
+        if (entitySource.hasEquippedItem()) {
+            damage += entitySource.getEquippedItem().getDamageAmount();
+            type = entitySource.getEquippedItem().getDamageType();
+        }
+
+        System.out.printf("%s was hit by %s! %n", getDisplayName(), entitySource.getDisplayName());
+        hurt(entitySource, damage, type);
+        return true;
+    }
 
 }

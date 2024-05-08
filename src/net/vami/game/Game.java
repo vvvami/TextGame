@@ -1,8 +1,10 @@
-import java.util.ArrayList;
-import java.util.Iterator;
+package net.vami.game;
+
+import net.vami.interactables.Entity;
+import net.vami.interactables.Player;
+
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public abstract class Game extends GameInitializer {
 
@@ -18,7 +20,7 @@ public abstract class Game extends GameInitializer {
 
             EnemyHandler.enemyAction();
 
-            if (Game.player.isAlive()) {
+            if (Game.player.isEnded()) {
                 PlayerInterpreter.read();
             }
 
@@ -31,13 +33,13 @@ public abstract class Game extends GameInitializer {
     private static void Turn() {
         List<Entity> entities = Node.getEntities();
         for (Entity entity : entities) {
-            if (entity.isAlive()) {
+            if (entity.isEnded()) {
                 entity.entityTurn();
             }
             else {
                 System.out.println(entity.getName() + " has died!");
                 if (entity.equals(Game.player)) {
-                    System.out.println("Game Over!");
+                    System.out.println("net.vami.game.Game Over!");
                     endGame = true;
                 }
                 else {

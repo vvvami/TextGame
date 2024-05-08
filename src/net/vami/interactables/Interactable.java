@@ -1,3 +1,5 @@
+package net.vami.interactables;
+import net.vami.game.*;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
@@ -10,6 +12,15 @@ public class Interactable {
     private String description;
     private List<Action> receivableActions = new ArrayList<>();
     private List<Action> availableActions = new ArrayList<>();
+    private Interactable ended;
+
+    public Interactable getEnded() {
+        return ended;
+    }
+
+    public void setEnded(Interactable ended) {
+        this.ended = ended;
+    }
 
     public String getDescription() {
         return description;
@@ -31,12 +42,23 @@ public class Interactable {
 
     }
 
+    public boolean isEnded() {
+        return false;
+    }
+
     public UUID getID() {
         return ID;
     }
 
     public boolean receiveAction(Interactable source, Action action) {
-        if (action == Action.attack) {
+        switch (action) {
+            case Action.ATTACK: return receiveAttack(source, action);
+            case Action.MOVEMENT:
+            case Action.USE:
+            case Action.TAKE:
+            case Action.EQUIP:
+            case Action.ABILITY:
+
 
         }
         return true;
@@ -65,5 +87,20 @@ public class Interactable {
             node.addInteractable(this);
         }
 
+    }
+
+    protected boolean receiveAttack(Interactable source, Action action) {
+        if (!receivableActions.contains(action)) {
+            return false;
+        }
+
+        Interactable ended = this.ended == null
+                ? new InteractableEnded(name, description, position)
+                : this.ended;
+        Node node = Node.getNodeFromPosition(this.position);
+        node.removeInteractable(this);
+        node.addInteractable(ended);
+
+        return true;
     }
 }

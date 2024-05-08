@@ -1,5 +1,4 @@
-import java.io.*;
-import java.util.*;
+package net.vami.game;
 
 
 public class Main {

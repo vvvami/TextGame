@@ -1,4 +1,5 @@
-import java.util.Scanner;
+package net.vami.interactables;
+import net.vami.game.*;
 
 public class Player extends Entity {
 

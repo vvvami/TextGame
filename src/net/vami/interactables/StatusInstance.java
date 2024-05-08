@@ -1,3 +1,7 @@
+package net.vami.interactables;
+
+import net.vami.game.DamageType;
+
 public class StatusInstance {
     private int amplifier;
     private int duration;

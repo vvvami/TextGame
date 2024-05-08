@@ -1,3 +1,6 @@
+package net.vami.game;
+import net.vami.interactables.*;
+
 public enum Ability {
     HEAL("Heal"),
     BURN("Burn"),

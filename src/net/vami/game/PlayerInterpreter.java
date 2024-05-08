@@ -1,3 +1,7 @@
+package net.vami.game;
+
+import net.vami.interactables.Interactable;
+
 import java.util.Scanner;
 
 public class PlayerInterpreter {

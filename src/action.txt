@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Action {
+public class net.vami.game.Action {
     private List<String> synonyms;
-    public static List<Action> actions = new ArrayList<>();
-    public static HashMap<String, Action> synonymToAction = new HashMap<>();
+    public static List<net.vami.game.Action> actions = new ArrayList<>();
+    public static HashMap<String, net.vami.game.Action> synonymToAction = new HashMap<>();
 
-    public Action() {
+    public net.vami.game.Action() {
         this.synonyms = new ArrayList<>();
         actions.add(this);
     }
@@ -25,19 +25,19 @@ public class Action {
         synonyms.add(synonym);
     }
 
-    public static final Action attack = new Action();
-    public static final Action movement = new Action();
-    public static final Action use = new Action();
-    public static final Action take = new Action();
-    public static final Action equip = new Action();
-    public static final Action ability = new Action();
+    public static final net.vami.game.Action attack = new net.vami.game.Action();
+    public static final net.vami.game.Action movement = new net.vami.game.Action();
+    public static final net.vami.game.Action use = new net.vami.game.Action();
+    public static final net.vami.game.Action take = new net.vami.game.Action();
+    public static final net.vami.game.Action equip = new net.vami.game.Action();
+    public static final net.vami.game.Action ability = new net.vami.game.Action();
 
     public static void actionSynonymInitializer() throws Exception {
-        Action.actionSynonymInitializer();
-        Action.moveSynonymInitializer();
-        Action.useSynonymInitializer();
-        Action.abilitySynonymInitializer();
-        Action.takeSynonymInitializer();
+        net.vami.game.Action.actionSynonymInitializer();
+        net.vami.game.Action.moveSynonymInitializer();
+        net.vami.game.Action.useSynonymInitializer();
+        net.vami.game.Action.abilitySynonymInitializer();
+        net.vami.game.Action.takeSynonymInitializer();
     }
 
 
@@ -82,9 +82,9 @@ public class Action {
     }
 
 
-    public static void attackAction(Entity target, Entity source) {
+    public static void attackAction(net.vami.interactables.Entity target, net.vami.interactables.Entity source) {
         float damage = source.getBaseDamage();
-        DamageType type = source.getDefaultDamageType();
+        net.vami.game.DamageType type = source.getDefaultDamageType();
 
         if (source.hasEquippedItem()) {
             damage += source.getEquippedItem().getDamageAmount();
@@ -95,10 +95,10 @@ public class Action {
         target.hurt(source, damage, type);
     }
 
-    public static void abilityAction(Entity target, Entity source) {
+    public static void abilityAction(net.vami.interactables.Entity target, net.vami.interactables.Entity source) {
         System.out.println(source.getDisplayName() + " casts " + source.getAbility().getName()
                 + " on " + target.getDisplayName() + "!");
-        new AbilityInstance(source.getAbility(), target, source);
+        new net.vami.game.AbilityInstance(source.getAbility(), target, source);
     }
 
 }

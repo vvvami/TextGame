@@ -1,3 +1,7 @@
+package net.vami.interactables;
+
+import net.vami.game.Main;
+
 public enum Status {
 
     CRIPPLED("Crippled",false, true,true),

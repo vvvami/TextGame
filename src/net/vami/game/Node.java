@@ -1,3 +1,8 @@
+package net.vami.game;
+
+import net.vami.interactables.Entity;
+import net.vami.interactables.Interactable;
+
 import java.util.*;
 
 public class Node {

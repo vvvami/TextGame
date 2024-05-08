@@ -11,9 +11,9 @@ public enum Direction {
     D;
 
 
-    Direction(Position position) {
+    Direction(net.vami.game.Position position) {
         this.position = position;
     }
 
-    private Position position;
+    private net.vami.game.Position position;
 }

@@ -1,3 +1,6 @@
+package net.vami.interactables;
+import net.vami.game.*;
+
 public class Item extends Interactable {
 
     private boolean reusable;

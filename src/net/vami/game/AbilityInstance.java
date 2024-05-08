@@ -1,3 +1,8 @@
+package net.vami.game;
+import net.vami.interactables.*;
+
+import net.vami.interactables.Entity;
+
 public class AbilityInstance {
     private Entity source;
     private Entity target;

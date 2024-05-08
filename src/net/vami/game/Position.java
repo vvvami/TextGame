@@ -1,3 +1,5 @@
+package net.vami.game;
+
 import java.util.Objects;
 
 public final class Position {
