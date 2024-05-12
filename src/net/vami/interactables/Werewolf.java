@@ -7,7 +7,7 @@ public class Werewolf extends Entity{
     }
 
     public Werewolf(Position position, int level) {
-        super("net.vami.interactables.Werewolf", position, level, 20 * level, 3 * level,
+        super("Werewolf", position, level, 20 * level, 3 * level,
                 2 * level, DamageType.sharp, true, Ability.WOUND);
     }
 }

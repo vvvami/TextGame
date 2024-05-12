@@ -56,7 +56,6 @@ public enum Action {
 
     private static List<String> abilitySynonyms() {
         List<String> synonymList = new ArrayList<>();
-        synonymList.add("ability");
         synonymList.add("cast");
         synonymList.add("draw");
         synonymList.add("conjure");

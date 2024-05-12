@@ -44,6 +44,7 @@ public class Node {
 
     public void removeInteractable(Interactable interactable) {
         interactables.remove(interactable);
+        interactable.kill();
     }
 
     public Interactable stringToInteractable(String name) {

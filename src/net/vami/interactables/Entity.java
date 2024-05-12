@@ -23,6 +23,7 @@ public class Entity extends Interactable {
     private Ability ability;
     private Entity target;
 
+
     public Entity(String name, Position position, int level, int maxHealth, float baseDamage,
                   int armor, DamageType DEFAULT_DAMAGETYPE, boolean enemy, Ability ability) {
         super(name, null, position);
@@ -204,7 +205,26 @@ public class Entity extends Interactable {
 
 
     @Override
-    protected boolean receiveAttack(Interactable source, Action action) {
+    protected boolean receiveAttack(Interactable source) {
+        if (!(source instanceof Entity)) {
+            return false;
+        }
+        Entity entitySource = (Entity) source;
+        float damage = entitySource.getBaseDamage();
+        DamageType type = entitySource.getDefaultDamageType();
+
+        if (entitySource.hasEquippedItem()) {
+            damage += entitySource.getEquippedItem().getDamageAmount();
+            type = entitySource.getEquippedItem().getDamageType();
+        }
+
+        System.out.printf("%s was hit by %s! %n", getDisplayName(), entitySource.getDisplayName());
+        hurt(entitySource, damage, type);
+        return true;
+    }
+
+    @Override
+    protected boolean receiveAbility(Interactable source) {
         if (!(source instanceof Entity)) {
             return false;
         }

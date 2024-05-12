@@ -1,6 +1,9 @@
 package net.vami.interactables;
 import net.vami.game.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Item extends Interactable {
 
     private boolean reusable;
@@ -14,6 +17,8 @@ public class Item extends Interactable {
         this.reusable = reusable;
         this.damageAmount = damageAmount;
         this.damageType = damageType;
+        this.addReceivableAction(Action.TAKE);
+        this.addReceivableAction(Action.EQUIP);
     }
 
     public void setEquipped(boolean equipped) {

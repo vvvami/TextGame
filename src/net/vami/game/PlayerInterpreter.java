@@ -21,13 +21,14 @@ public class PlayerInterpreter {
                 .split("\\s+");
 
         Node node = Game.getCurrentNode();
-        Interactable target = Game.player;
+        Interactable target = null;
         switch (inputArr.length) {
             case 2:
                 target = node.stringToInteractable(inputArr[1]);
             case 1:
                 Action action = Action.synonymToAction.get(inputArr[0]);
-                Game.player.receiveAction(target, action);
+                assert target != null;
+                target.receiveAction(Game.player, action);
                 break;
             default:
         }

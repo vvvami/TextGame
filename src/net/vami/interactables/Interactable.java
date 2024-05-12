@@ -1,8 +1,7 @@
 package net.vami.interactables;
 import net.vami.game.*;
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.List;
+
+import java.util.*;
 
 public class Interactable {
     private boolean equipped;
@@ -10,8 +9,8 @@ public class Interactable {
     private final String name;
     private Position position;
     private String description;
-    private List<Action> receivableActions = new ArrayList<>();
-    private List<Action> availableActions = new ArrayList<>();
+    private Set<Action> receivableActions = new HashSet<>();
+    private Set<Action> availableActions = new HashSet<>();
     private Interactable ended;
 
     public Interactable getEnded() {
@@ -51,22 +50,41 @@ public class Interactable {
     }
 
     public boolean receiveAction(Interactable source, Action action) {
+        if (!receivableActions.contains(action)) {
+            System.out.println("Nothing happens.");
+            return false;
+        }
+
         switch (action) {
-            case Action.ATTACK: return receiveAttack(source, action);
+            case Action.ATTACK: return receiveAttack(source);
             case Action.MOVEMENT:
             case Action.USE:
             case Action.TAKE:
             case Action.EQUIP:
             case Action.ABILITY:
-
-
         }
-        return true;
+        return false;
     }
 
     public boolean applyAction(Interactable target, Action action) {
+        if (!availableActions.contains(action)) {
+            System.out.printf("%s tries to %s %s, but nothing happens. %n",
+                    getName(), action.getSynonyms().getFirst(), target.getName());
+            return false;
+        }
+
+        switch (action) {
+            case Action.ATTACK: return target.receiveAttack(this);
+            case Action.MOVEMENT:
+            case Action.USE:
+            case Action.TAKE:
+            case Action.EQUIP:
+            case Action.ABILITY: return target.receiveAbility(this);
+        }
         return false;
     }
+
+
 
     public void kill() {
         setPosition(null);
@@ -89,18 +107,40 @@ public class Interactable {
 
     }
 
-    protected boolean receiveAttack(Interactable source, Action action) {
-        if (!receivableActions.contains(action)) {
-            return false;
-        }
+    public void addReceivableAction(Action action) {
+        receivableActions.add(action);
+    }
 
+    public void addAvailableAction(Action action) {
+        availableActions.add(action);
+    }
+
+    public void removeReceivableAction(Action action) {
+        receivableActions.remove(action);
+    }
+
+    public void removeAvailableAction(Action action) {
+        availableActions.remove(action);
+    }
+
+    protected boolean receiveAttack(Interactable source) {
         Interactable ended = this.ended == null
                 ? new InteractableEnded(name, description, position)
                 : this.ended;
         Node node = Node.getNodeFromPosition(this.position);
         node.removeInteractable(this);
         node.addInteractable(ended);
-
         return true;
     }
+
+    protected boolean receiveAbility(Interactable source) {
+        Interactable ended = this.ended == null
+                ? new InteractableEnded(name, description, position)
+                : this.ended;
+        Node node = Node.getNodeFromPosition(this.position);
+        node.removeInteractable(this);
+        node.addInteractable(ended);
+        return true;
+    }
+
 }

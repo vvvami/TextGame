@@ -8,7 +8,7 @@ public class Maneater extends Entity{
 
     public Maneater(Position position, int level) {
 
-        super("net.vami.interactables.Maneater", position, level, 10 * level, 4 * level,
+        super("Maneater", position, level, 10 * level, 4 * level,
                 5 * level, DamageType.sharp, true, Ability.FREEZE);
     }
 }
