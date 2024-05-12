@@ -22,30 +22,46 @@ public class Item extends Interactable {
     }
 
     public void setEquipped(boolean equipped) {
+
         this.equipped = equipped;
     }
 
     public void setDamageAmount(int damageAmount) {
+
         this.damageAmount = damageAmount;
     }
 
     public void setDamageType(DamageType damageType) {
+
         this.damageType = damageType;
     }
 
     public boolean isEquipped() {
+
         return equipped;
     }
 
     public DamageType getDamageType() {
+
         return damageType;
     }
 
     public int getDamageAmount() {
+
         return damageAmount;
     }
 
     public boolean isReusable() {
+
         return reusable;
+    }
+
+    @Override
+    protected boolean receiveEquip(Interactable source) {
+        if (!(source instanceof Entity)) {
+            return false;
+        }
+        ((Entity) source).setEquippedItem(this);
+        return true;
     }
 }

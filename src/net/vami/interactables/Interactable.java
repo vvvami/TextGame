@@ -143,4 +143,8 @@ public class Interactable {
         return true;
     }
 
+    protected boolean receiveEquip(Interactable source) {
+        return false;
+    }
+
 }

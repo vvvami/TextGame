@@ -64,6 +64,7 @@ public class Entity extends Interactable {
     // Checks if the entity is alive
     @Override
     public boolean isEnded() {
+
         return health > 0;
     }
 
@@ -125,32 +126,48 @@ public class Entity extends Interactable {
     }
 
     public boolean hasStatus() {
+
         return !(this.statusEffects.isEmpty());
     }
 
     public List<StatusInstance> getEntityStatuses() {
+
         return statusEffects;
     }
 
     public float getHealth() {
+
         return this.health;
     }
 
-
     public float getBaseDamage() {
+
         return baseDamage;
     }
 
+    public void addInventoryItem(Item item) {
+        inventory.add(item);
+    }
+
+    public void removeInventoryItem(Item item) {
+        inventory.remove(item);
+    }
+
     public Item getEquippedItem() {
+
         return equippedItem;
     }
 
     public boolean hasEquippedItem() {
+
         return !(getEquippedItem() == null);
     }
 
-    public void setEquippedItem(Item equippedItem) {
-        this.equippedItem = equippedItem;
+    public void setEquippedItem(Item item) {
+        if (equippedItem != null) {
+            addInventoryItem(equippedItem);
+        }
+        equippedItem = item;
     }
 
     public DamageType getDefaultDamageType() {
@@ -195,7 +212,7 @@ public class Entity extends Interactable {
                 if (statusEffects.getLast() == statusInstance) {
                     space = "";
                 }
-                display = display + statusInstance.getStatus()
+                display += statusInstance.getStatus()
                         .getName() + space;
             }
             display = " (" + display + ")";
@@ -224,21 +241,12 @@ public class Entity extends Interactable {
     }
 
     @Override
-    protected boolean receiveAbility(Interactable source) {
-        if (!(source instanceof Entity)) {
+    protected boolean receiveAbility(Interactable interactable) {
+        if (!(interactable instanceof Entity source)) {
             return false;
         }
-        Entity entitySource = (Entity) source;
-        float damage = entitySource.getBaseDamage();
-        DamageType type = entitySource.getDefaultDamageType();
 
-        if (entitySource.hasEquippedItem()) {
-            damage += entitySource.getEquippedItem().getDamageAmount();
-            type = entitySource.getEquippedItem().getDamageType();
-        }
-
-        System.out.printf("%s was hit by %s! %n", getDisplayName(), entitySource.getDisplayName());
-        hurt(entitySource, damage, type);
+        new AbilityInstance(source.ability, this, source);
         return true;
     }
 
