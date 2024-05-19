@@ -1,4 +1,4 @@
-package net.vami.interactables;
+package net.vami.interactables.entities;
 import net.vami.game.*;
 
 public class Player extends Entity {

@@ -1,7 +1,7 @@
-package net.vami.interactables;
+package net.vami.interactables.entities;
 import net.vami.game.*;
 
-public class Maneater extends Entity{
+public class Maneater extends Entity {
     public Maneater(String name, Position position, int level, int maxHealth, float baseDamage, int armor, boolean enemy, Ability ability) {
         super(name, position, level, maxHealth, baseDamage, armor, DamageType.sharp, enemy, ability);
     }

@@ -1,8 +1,6 @@
 package net.vami.interactables;
 import net.vami.game.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import net.vami.interactables.entities.Entity;
 
 public class Item extends Interactable {
 
@@ -61,7 +59,7 @@ public class Item extends Interactable {
         if (!(source instanceof Entity)) {
             return false;
         }
-        ((Entity) source).setEquippedItem(this);
+        ((Entity) source).equipItem(this);
         return true;
     }
 }

@@ -1,22 +1,22 @@
-public class net.vami.interactables.Status {
+public class net.vami.game.Status {
 
     private String name;
     private boolean harmful;
     private boolean stackDuration;
     private boolean stackAmplifier;
-    public static final net.vami.interactables.Status CRIPPLED = new net.vami.interactables.Status("Crippled",false, true,true);
-    public static final net.vami.interactables.Status BURNING = new net.vami.interactables.Status("Burning",true, true,true);
-    public static final net.vami.interactables.Status FROZEN = new net.vami.interactables.Status("Frozen",false,true,true);
-    public static final net.vami.interactables.Status PARALYZED = new net.vami.interactables.Status("Paralyzed",false, true, true);
-    public static final net.vami.interactables.Status BLESSED = new net.vami.interactables.Status("Blessed",true, true, false);
-    public static final net.vami.interactables.Status IMMUNE = new net.vami.interactables.Status("Immune",false, true, false);
-    public static final net.vami.interactables.Status INSPIRED = new net.vami.interactables.Status("Inpired",true, false, false);
-    public static final net.vami.interactables.Status BLEEDING = new net.vami.interactables.Status("Bleeding",true,true,true);
+    public static final net.vami.game.Status CRIPPLED = new net.vami.game.Status("Crippled",false, true,true);
+    public static final net.vami.game.Status BURNING = new net.vami.game.Status("Burning",true, true,true);
+    public static final net.vami.game.Status FROZEN = new net.vami.game.Status("Frozen",false,true,true);
+    public static final net.vami.game.Status PARALYZED = new net.vami.game.Status("Paralyzed",false, true, true);
+    public static final net.vami.game.Status BLESSED = new net.vami.game.Status("Blessed",true, true, false);
+    public static final net.vami.game.Status IMMUNE = new net.vami.game.Status("Immune",false, true, false);
+    public static final net.vami.game.Status INSPIRED = new net.vami.game.Status("Inpired",true, false, false);
+    public static final net.vami.game.Status BLEEDING = new net.vami.game.Status("Bleeding",true,true,true);
 
-    public net.vami.interactables.Status() {
+    public net.vami.game.Status() {
     }
 
-    public net.vami.interactables.Status(String name, boolean stackAmplifier, boolean stackDuration, boolean harmful) {
+    public net.vami.game.Status(String name, boolean stackAmplifier, boolean stackDuration, boolean harmful) {
         this.name = name;
         this.stackAmplifier = stackAmplifier;
         this.stackDuration = stackDuration;

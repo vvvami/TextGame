@@ -1,8 +1,10 @@
 package net.vami.game;
-import net.vami.interactables.*;
+import net.vami.interactables.entities.Entity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum Action {
     ATTACK(attackSynonyms()),
@@ -11,14 +13,15 @@ public enum Action {
     TAKE(takeSynonyms()),
     EQUIP(equipSynonyms()),
     ABILITY(abilitySynonyms());
+    public static Map<String, Action> synonymToAction = new HashMap<>();
     private List<String> synonyms;
-    public static HashMap<String, Action> synonymToAction = new HashMap<>();
 
     Action(List<String> synonyms) {
-        this.synonyms = new ArrayList<>();
+        this.synonyms = synonyms;
     }
 
     public List<String> getSynonyms(){
+
         return synonyms;
     }
 
@@ -80,14 +83,13 @@ public enum Action {
         return synonymList;
     }
 
-
-    public static void attackAction(Entity target, Entity source) {
+    public static void registerActionSynonyms() {
+        for (Action action : Action.values()) {
+            for (String synonym : action.synonyms) {
+                synonymToAction.put(synonym, action);
+            }
+        }
     }
 
-    public static void abilityAction(Entity target, Entity source) {
-        System.out.println(source.getDisplayName() + " casts " + source.getAbility().getName()
-                + " on " + target.getDisplayName() + "!");
-        new AbilityInstance(source.getAbility(), target, source);
-    }
 
 }

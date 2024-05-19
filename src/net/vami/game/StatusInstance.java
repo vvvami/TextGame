@@ -1,6 +1,6 @@
-package net.vami.interactables;
+package net.vami.game;
 
-import net.vami.game.DamageType;
+import net.vami.interactables.entities.Entity;
 
 public class StatusInstance {
     private int amplifier;
@@ -17,18 +17,12 @@ public class StatusInstance {
     }
 
 
-    public void statusTurn() {
-        if (status == Status.BURNING) {
-            target.hurt(source, amplifier, DamageType.fire);
-        }
-        else if (status == Status.FROZEN) {
-            target.hurt(source,amplifier, DamageType.ice);
-        }
-        else if (status == Status.BLEEDING) {
-            target.hurt(source,amplifier, DamageType.bleed);
-        }
-        else if (status == Status.BLESSED) {
-            target.heal(source, amplifier);
+    public void turn() {
+        switch (status) {
+            case BURNING -> target.hurt(source, amplifier, DamageType.fire);
+            case FROZEN -> target.hurt(source,amplifier, DamageType.ice);
+            case BLEEDING -> target.hurt(source,amplifier, DamageType.bleed);
+            case BLESSED -> target.heal(source, amplifier);
         }
         this.duration--;
     }

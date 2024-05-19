@@ -1,6 +1,4 @@
-package net.vami.interactables;
-
-import net.vami.game.Main;
+package net.vami.game;
 
 public enum Status {
 

@@ -1,6 +1,6 @@
 package net.vami.game;
 
-import net.vami.interactables.Entity;
+import net.vami.interactables.entities.Entity;
 import net.vami.interactables.Interactable;
 
 import java.util.*;
@@ -48,9 +48,14 @@ public class Node {
     }
 
     public Interactable stringToInteractable(String name) {
-        for (Interactable interactable : interactables) {
-            if (name.equals(interactable.getName())) {
-                return interactable;
+        if (!interactables.isEmpty()) {
+            for (Interactable interactable : interactables) {
+                if (interactable == null) {
+                    break;
+                }
+                if (name.equals(interactable.getName())) {
+                    return interactable;
+                }
             }
         }
         return null;

@@ -82,7 +82,7 @@ public class net.vami.game.Action {
     }
 
 
-    public static void attackAction(net.vami.interactables.Entity target, net.vami.interactables.Entity source) {
+    public static void attackAction(net.vami.interactables.entities.Entity target, net.vami.interactables.entities.Entity source) {
         float damage = source.getBaseDamage();
         net.vami.game.DamageType type = source.getDefaultDamageType();
 
@@ -95,7 +95,7 @@ public class net.vami.game.Action {
         target.hurt(source, damage, type);
     }
 
-    public static void abilityAction(net.vami.interactables.Entity target, net.vami.interactables.Entity source) {
+    public static void abilityAction(net.vami.interactables.entities.Entity target, net.vami.interactables.entities.Entity source) {
         System.out.println(source.getDisplayName() + " casts " + source.getAbility().getName()
                 + " on " + target.getDisplayName() + "!");
         new net.vami.game.AbilityInstance(source.getAbility(), target, source);

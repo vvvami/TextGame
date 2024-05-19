@@ -61,7 +61,7 @@ public class Interactable {
             case Action.USE:
             case Action.TAKE:
             case Action.EQUIP:
-            case Action.ABILITY:
+            case Action.ABILITY: return receiveAbility(source);
         }
         return false;
     }

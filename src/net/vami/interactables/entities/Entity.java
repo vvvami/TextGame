@@ -1,5 +1,9 @@
-package net.vami.interactables;
+package net.vami.interactables.entities;
 import net.vami.game.*;
+import net.vami.interactables.Interactable;
+import net.vami.interactables.Item;
+import net.vami.game.Status;
+import net.vami.game.StatusInstance;
 import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,6 +39,11 @@ public class Entity extends Interactable {
         this.DEFAULT_DAMAGETYPE = DEFAULT_DAMAGETYPE;
         this.ability = ability;
         this.enemy = enemy;
+        this.addAvailableAction(Action.ATTACK);
+        this.addAvailableAction(Action.ABILITY);
+        this.addAvailableAction(Action.MOVEMENT);
+        this.addReceivableAction(Action.ATTACK);
+        this.addReceivableAction(Action.ABILITY);
 
     }
 
@@ -53,7 +62,7 @@ public class Entity extends Interactable {
     // net.vami.game.Main healing function
     public void heal(Entity source, float amount) {
         String stringAmount = Main.ANSI_YELLOW + amount + Main.ANSI_RESET;
-        if (!isEnded()) {
+        if (isEnded()) {
             return;
         }
         health = Math.min(maxHealth, health + amount);
@@ -65,10 +74,10 @@ public class Entity extends Interactable {
     @Override
     public boolean isEnded() {
 
-        return health > 0;
+        return health <= 0;
     }
 
-    // Adds a status effect. Stacks the status according to the status' parameters defined in the net.vami.interactables.Status enum
+    // Adds a status effect. Stacks the status according to the status' parameters defined in the net.vami.game.Status enum
     public void addStatus(@NotNull StatusInstance status) {
         if (this.hasSpecifiedStatus(status.getStatus())) {
             if (status.getStatus().stacksAmplifier()) {
@@ -88,11 +97,11 @@ public class Entity extends Interactable {
             statusEffects.removeIf(statusInstance -> statusInstance.getStatus() == status);
     }
 
-    public void entityTurn() {
+    public void turn() {
         if (hasStatus()) {
             List<StatusInstance> removeList = new ArrayList<>();
             for (StatusInstance statusInstance : statusEffects) {
-                statusInstance.statusTurn();
+                statusInstance.turn();
                 if (statusInstance.getDuration() <= 0) {
                     removeList.add(statusInstance);
                 }
@@ -163,7 +172,7 @@ public class Entity extends Interactable {
         return !(getEquippedItem() == null);
     }
 
-    public void setEquippedItem(Item item) {
+    public void equipItem(Item item) {
         if (equippedItem != null) {
             addInventoryItem(equippedItem);
         }
@@ -193,6 +202,10 @@ public class Entity extends Interactable {
 
     public void setTarget(Entity target) {
         this.target = target;
+    }
+
+    public boolean hasTarget() {
+        return target != null;
     }
 
     public String getDisplayName() {
