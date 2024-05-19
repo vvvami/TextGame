@@ -70,6 +70,10 @@ public class Entity extends Interactable {
                  stringAmount);
     }
 
+//    public boolean useAbility(Interactable target) {
+//
+//    }
+
     // Checks if the entity is alive
     @Override
     public boolean isEnded() {
@@ -169,11 +173,11 @@ public class Entity extends Interactable {
 
     public boolean hasEquippedItem() {
 
-        return !(getEquippedItem() == null);
+        return !(equippedItem == null);
     }
 
     public void equipItem(Item item) {
-        if (equippedItem != null) {
+        if (hasEquippedItem()) {
             addInventoryItem(equippedItem);
         }
         equippedItem = item;
