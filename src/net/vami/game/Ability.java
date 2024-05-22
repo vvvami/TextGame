@@ -1,5 +1,6 @@
 package net.vami.game;
 import net.vami.interactables.*;
+import net.vami.interactables.entities.Entity;
 
 public enum Ability {
     HEAL("Heal"),
@@ -16,6 +17,35 @@ public enum Ability {
 
     public String getName() {
         return this.name;
+    }
+
+    public static void useAbility(Interactable target, Entity source, Ability ability) {
+        switch (ability) {
+            case BURN: {
+                StatusInstance burnAbility = new StatusInstance
+                        (Status.BURNING, source.getLevel(), source.getLevel(), source);
+                target.addStatus(burnAbility);
+            }
+
+            case FREEZE: {
+                StatusInstance freezeAbility = new StatusInstance
+                        (Status.FROZEN, source.getLevel(), source.getLevel() * 2, source);
+                target.addStatus(freezeAbility);
+            }
+
+            case HEAL: {
+                target.heal(source, source.getLevel() * 2);
+                StatusInstance healAbility = new StatusInstance
+                        (Status.BLESSED, source.getLevel(), source.getLevel(), source);
+                target.addStatus(healAbility);
+            }
+
+            case WOUND: {
+                StatusInstance woundAbility = new StatusInstance
+                        (Status.BLEEDING, source.getLevel(), source.getLevel() * 2, source);
+                target.addStatus(woundAbility);
+            }
+        }
     }
 
 }

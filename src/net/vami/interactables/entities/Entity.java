@@ -60,6 +60,7 @@ public class Entity extends Interactable {
     }
 
     // net.vami.game.Main healing function
+    @Override
     public void heal(Entity source, float amount) {
         String stringAmount = Main.ANSI_YELLOW + amount + Main.ANSI_RESET;
         if (isEnded()) {
@@ -70,9 +71,11 @@ public class Entity extends Interactable {
                  stringAmount);
     }
 
-//    public boolean useAbility(Interactable target) {
-//
-//    }
+    @Override
+    public boolean useAbility(Interactable target) {
+        Ability.useAbility(target, this, ability);
+        return true;
+    }
 
     // Checks if the entity is alive
     @Override
@@ -82,6 +85,7 @@ public class Entity extends Interactable {
     }
 
     // Adds a status effect. Stacks the status according to the status' parameters defined in the net.vami.game.Status enum
+    @Override
     public void addStatus(@NotNull StatusInstance status) {
         if (this.hasSpecifiedStatus(status.getStatus())) {
             if (status.getStatus().stacksAmplifier()) {
@@ -259,11 +263,11 @@ public class Entity extends Interactable {
 
     @Override
     protected boolean receiveAbility(Interactable interactable) {
-        if (!(interactable instanceof Entity source)) {
+        if (!(interactable instanceof Entity)) {
             return false;
         }
 
-        new AbilityInstance(source.ability, this, source);
+        interactable.useAbility(this);
         return true;
     }
 

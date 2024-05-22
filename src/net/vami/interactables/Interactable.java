@@ -1,5 +1,7 @@
 package net.vami.interactables;
 import net.vami.game.*;
+import net.vami.interactables.entities.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -144,6 +146,18 @@ public class Interactable {
     }
 
     protected boolean receiveEquip(Interactable source) {
+        return false;
+    }
+
+    public void addStatus(@NotNull StatusInstance status) {
+
+    }
+
+    public void heal(Entity source, float amount) {
+
+    }
+
+    public boolean useAbility(Interactable target) {
         return false;
     }
 
