@@ -9,7 +9,12 @@ public class EnemyHandler {
         for (Entity enemy : Node.getEnemies()) {
                 enemyTargeting(enemy);
             if (enemy.hasTarget()) {
-                enemy.applyAction(enemy.getTarget(), Action.ATTACK);
+                if (enemy.hasSpecifiedStatus(Status.CRIPPLED)) {
+                    System.out.printf("%s cannot move in their crippled state. %n", enemy.getDisplayName());
+                }
+                else {
+                    enemy.applyAction(enemy.getTarget(), Action.ATTACK);
+                }
             }
         }
     }

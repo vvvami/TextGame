@@ -9,7 +9,7 @@ import java.util.Scanner;
 public abstract class Game {
 
     private static boolean endGame = false;
-    public static final Player player = new Player(namePlayer(), new Position(0,0,0), 1, 1000, 1, 0, Ability.HEAL);
+    public static final Player player = new Player(namePlayer(), new Position(0,0,0), 1, 1000, 1, 0, Ability.BURN);
 
     public static void startGame() {
         EnemyHandler.Generate(player.getPosition());

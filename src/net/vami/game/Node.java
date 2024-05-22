@@ -53,7 +53,7 @@ public class Node {
                 if (interactable == null) {
                     break;
                 }
-                if (name.equals(interactable.getName())) {
+                if (name.equalsIgnoreCase(interactable.getName())) {
                     return interactable;
                 }
             }

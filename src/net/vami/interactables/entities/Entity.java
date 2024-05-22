@@ -57,6 +57,18 @@ public class Entity extends Interactable {
         System.out.printf("%s suffered %s damage! %n", getDisplayName(), Main.ANSI_YELLOW
                 + new DecimalFormat("##.##").format(amount)
                 + Main.ANSI_RESET + " " + damageType.getName());
+
+        Status attackStatus = null;
+        switch (damageType) {
+            case SHARP -> attackStatus = Status.BLEEDING;
+            case BLUNT -> attackStatus = Status.CRIPPLED;
+        }
+
+        StatusInstance attackStatusInstance = new StatusInstance(attackStatus, (int) amount, (int) amount * 2, source);
+        if (Math.random() > 0.9) {
+            addStatus(attackStatusInstance);
+        }
+
     }
 
     // net.vami.game.Main healing function

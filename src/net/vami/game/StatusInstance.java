@@ -19,9 +19,9 @@ public class StatusInstance {
 
     public void turn() {
         switch (status) {
-            case BURNING -> target.hurt(source, amplifier, DamageType.fire);
-            case FROZEN -> target.hurt(source,amplifier, DamageType.ice);
-            case BLEEDING -> target.hurt(source,amplifier, DamageType.bleed);
+            case BURNING -> target.hurt(source, amplifier, DamageType.FIRE);
+            case FROZEN -> target.hurt(source,amplifier, DamageType.ICE);
+            case BLEEDING -> target.hurt(source,amplifier, DamageType.BLEED);
             case BLESSED -> target.heal(source, amplifier);
         }
         this.duration--;
