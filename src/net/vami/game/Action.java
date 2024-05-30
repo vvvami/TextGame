@@ -12,6 +12,7 @@ public enum Action {
     USE(useSynonyms()),
     TAKE(takeSynonyms()),
     EQUIP(equipSynonyms()),
+    SAVE(saveSynonyms()),
     ABILITY(abilitySynonyms());
     public static Map<String, Action> synonymToAction = new HashMap<>();
     private List<String> synonyms;
@@ -54,6 +55,16 @@ public enum Action {
         synonymList.add("activate");
         synonymList.add("drink");
         synonymList.add("eat");
+        return synonymList;
+    }
+
+    private static List<String> saveSynonyms() {
+        List<String> synonymList = new ArrayList<>();
+        synonymList.add("save");
+        synonymList.add("pray");
+        synonymList.add("meditate");
+        synonymList.add("determination");
+        synonymList.add("cry");
         return synonymList;
     }
 

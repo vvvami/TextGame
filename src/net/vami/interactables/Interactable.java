@@ -57,39 +57,39 @@ public class Interactable {
             return false;
         }
 
-        switch (action) {
-            case Action.ATTACK: return receiveAttack(source);
-            case Action.MOVEMENT:
-            case Action.USE:
-            case Action.TAKE:
-            case Action.EQUIP:
-            case Action.ABILITY: return receiveAbility(source);
-        }
-        return false;
+        return switch (action) {
+            case Action.ATTACK -> receiveAttack(source);
+            case Action.MOVEMENT -> receiveMovement(source);
+            case Action.TAKE -> receiveTake(source);
+            case Action.EQUIP -> receiveEquip(source);
+            case Action.ABILITY -> receiveAbility(source);
+            case Action.SAVE -> receiveSave(source);
+            default -> false;
+        };
     }
 
     public boolean applyAction(Interactable target, Action action) {
         if (!availableActions.contains(action)) {
             System.out.printf("%s tries to %s %s, but nothing happens. %n",
-                    getName(), action.getSynonyms().getFirst(), target.getName());
+                    getName(), action.getSynonyms().stream().findAny(), target.getName());
             return false;
         }
 
-        switch (action) {
-            case Action.ATTACK: return target.receiveAttack(this);
-            case Action.MOVEMENT:
-            case Action.USE:
-            case Action.TAKE:
-            case Action.EQUIP:
-            case Action.ABILITY: return target.receiveAbility(this);
-        }
-        return false;
+        return switch (action) {
+            case Action.ATTACK -> target.receiveAttack(this);
+            case Action.MOVEMENT -> target.receiveMovement(this);
+            case Action.TAKE -> target.receiveTake(this);
+            case Action.EQUIP -> target.receiveEquip(this);
+            case Action.ABILITY -> target.receiveAbility(this);
+            case Action.SAVE -> target.receiveSave(this);
+            default -> false;
+        };
     }
 
 
 
     public void kill() {
-        setPosition(null);
+        position = null;
     }
 
     public Position getPosition() {
@@ -146,6 +146,18 @@ public class Interactable {
     }
 
     protected boolean receiveEquip(Interactable source) {
+        return false;
+    }
+
+    protected boolean receiveMovement(Interactable source) {
+        return false;
+    }
+
+    protected boolean receiveTake(Interactable source) {
+        return false;
+    }
+
+    protected boolean receiveSave(Interactable source) {
         return false;
     }
 

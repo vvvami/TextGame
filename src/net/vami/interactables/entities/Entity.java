@@ -1,13 +1,16 @@
 package net.vami.interactables.entities;
 import net.vami.game.*;
 import net.vami.interactables.Interactable;
-import net.vami.interactables.Item;
+import net.vami.interactables.items.Item;
 import net.vami.game.Status;
 import net.vami.game.StatusInstance;
+import net.vami.interactables.items.ItemEquipable;
+import net.vami.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Entity extends Interactable {
 
@@ -16,43 +19,58 @@ public class Entity extends Interactable {
     private float health;
     private float baseDamage;
     private int armor;
-    private final DamageType DEFAULT_DAMAGETYPE;
+    private DamageType defaultDamageType;
     private int level;
-    private List<DamageType> weaknesses;
-    private List<DamageType> resistances;
+
+    private List<DamageType> weaknesses = new ArrayList<>();
+    private List<DamageType> resistances = new ArrayList<>();
     private List<StatusInstance> statusEffects = new ArrayList<>();
+
     private List<Item> inventory = new ArrayList<>();
-    private Item equippedItem;
+    private ItemHoldable heldItem;
+    private List<ItemEquipable> equippedItems = new ArrayList<>();
+    private int maxEquipSlots = 3;
+
     private boolean enemy;
     private Ability ability;
     private Entity target;
 
 
     public Entity(String name, Position position, int level, int maxHealth, float baseDamage,
-                  int armor, DamageType DEFAULT_DAMAGETYPE, boolean enemy, Ability ability) {
+                  int armor, DamageType defaultDamageType, boolean enemy, Ability ability) {
         super(name, null, position);
         this.level = level;
         this.maxHealth = maxHealth;
         this.baseDamage = baseDamage;
         this.armor = armor;
         health = this.maxHealth;
-        this.DEFAULT_DAMAGETYPE = DEFAULT_DAMAGETYPE;
+        this.defaultDamageType = defaultDamageType;
         this.ability = ability;
         this.enemy = enemy;
-        this.addAvailableAction(Action.ATTACK);
-        this.addAvailableAction(Action.ABILITY);
-        this.addAvailableAction(Action.MOVEMENT);
-        this.addReceivableAction(Action.ATTACK);
-        this.addReceivableAction(Action.ABILITY);
+        addAvailableAction(Action.ATTACK);
+        addAvailableAction(Action.ABILITY);
+        addAvailableAction(Action.MOVEMENT);
+        addReceivableAction(Action.ATTACK);
+        addReceivableAction(Action.ABILITY);
+        addAvailableAction(Action.MOVEMENT);
 
     }
 
-    // net.vami.game.Main damage function
+    // Main damage function
     public void hurt(Entity source, float amount, DamageType damageType) {
 
         if (armor > 0) {
             amount = (float) (amount / Math.sqrt(armor));
         }
+
+        if (weaknesses.contains(damageType)) {
+            amount = amount * 2;
+        }
+
+        if (resistances.contains(damageType)) {
+            amount = amount / 2;
+        }
+
         health -= amount;
         System.out.printf("%s suffered %s damage! %n", getDisplayName(), Main.ANSI_YELLOW
                 + new DecimalFormat("##.##").format(amount)
@@ -62,16 +80,19 @@ public class Entity extends Interactable {
         switch (damageType) {
             case SHARP -> attackStatus = Status.BLEEDING;
             case BLUNT -> attackStatus = Status.CRIPPLED;
+            case ICE -> attackStatus = Status.FROZEN;
+            case FIRE -> attackStatus = Status.BURNING;
         }
 
-        StatusInstance attackStatusInstance = new StatusInstance(attackStatus, (int) amount, (int) amount * 2, source);
-        if (Math.random() > 0.9) {
-            addStatus(attackStatusInstance);
+        if (attackStatus != null) {
+            StatusInstance attackStatusInstance = new StatusInstance(attackStatus, (int) amount, (int) amount * 2, source);
+            if (Math.random() > 0.9) {
+                addStatus(attackStatusInstance);
+            }
         }
-
     }
 
-    // net.vami.game.Main healing function
+    // Main healing function
     @Override
     public void heal(Entity source, float amount) {
         String stringAmount = Main.ANSI_YELLOW + amount + Main.ANSI_RESET;
@@ -96,7 +117,7 @@ public class Entity extends Interactable {
         return health <= 0;
     }
 
-    // Adds a status effect. Stacks the status according to the status' parameters defined in the net.vami.game.Status enum
+    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status enum
     @Override
     public void addStatus(@NotNull StatusInstance status) {
         if (this.hasSpecifiedStatus(status.getStatus())) {
@@ -108,16 +129,23 @@ public class Entity extends Interactable {
             }
             removeStatus(status.getStatus());
         }
+        else {
+            System.out.printf("%s is now %s. %n", this.getName(), status.getStatus().getName());
+        }
         status.setTarget(this);
         statusEffects.add(status);
     }
 
-    // Remove a status. Removing a status means removing an entire instance of that status, because Statuses stack
+    // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
     public void removeStatus(Status status) {
             statusEffects.removeIf(statusInstance -> statusInstance.getStatus() == status);
     }
 
     public void turn() {
+        statusTurn();
+    }
+
+    private void statusTurn() {
         if (hasStatus()) {
             List<StatusInstance> removeList = new ArrayList<>();
             for (StatusInstance statusInstance : statusEffects) {
@@ -131,6 +159,22 @@ public class Entity extends Interactable {
                 System.out.printf("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
+    }
+
+    public void addResistance(DamageType resistance) {
+        weaknesses.add(resistance);
+    }
+
+    public List<DamageType> getResistances() {
+        return resistances;
+    }
+
+    public void addWeakness(DamageType weakness) {
+        weaknesses.add(weakness);
+    }
+
+    public List<DamageType> getWeaknesses() {
+        return weaknesses;
     }
 
     public StatusInstance getEntityStatus(Status status) {
@@ -174,33 +218,8 @@ public class Entity extends Interactable {
         return baseDamage;
     }
 
-    public void addInventoryItem(Item item) {
-        inventory.add(item);
-    }
-
-    public void removeInventoryItem(Item item) {
-        inventory.remove(item);
-    }
-
-    public Item getEquippedItem() {
-
-        return equippedItem;
-    }
-
-    public boolean hasEquippedItem() {
-
-        return !(equippedItem == null);
-    }
-
-    public void equipItem(Item item) {
-        if (hasEquippedItem()) {
-            addInventoryItem(equippedItem);
-        }
-        equippedItem = item;
-    }
-
     public DamageType getDefaultDamageType() {
-        return DEFAULT_DAMAGETYPE;
+        return defaultDamageType;
     }
 
     // Checks of the entity is an enemy (against the player)
@@ -245,8 +264,7 @@ public class Entity extends Interactable {
                 if (statusEffects.getLast() == statusInstance) {
                     space = "";
                 }
-                display += statusInstance.getStatus()
-                        .getName() + space;
+                display += statusInstance.getStatus().getName() + space;
             }
             display = " (" + display + ")";
         }
@@ -263,9 +281,9 @@ public class Entity extends Interactable {
         float damage = entitySource.getBaseDamage();
         DamageType type = entitySource.getDefaultDamageType();
 
-        if (entitySource.hasEquippedItem()) {
-            damage += entitySource.getEquippedItem().getDamageAmount();
-            type = entitySource.getEquippedItem().getDamageType();
+        if (entitySource.hasHeldItem()) {
+            damage += entitySource.getHeldItem().getDamageAmount();
+            type = entitySource.getHeldItem().getDamageType();
         }
 
         System.out.printf("%s was hit by %s! %n", getDisplayName(), entitySource.getDisplayName());
@@ -283,4 +301,76 @@ public class Entity extends Interactable {
         return true;
     }
 
+    public List<ItemEquipable> getEquippedItems() {
+        return equippedItems;
+    }
+
+    public int getMaxEquipSlots() {
+        return maxEquipSlots;
+    }
+
+    public void setMaxEquipSlots(int maxEquipSlots) {
+        this.maxEquipSlots = maxEquipSlots;
+    }
+
+    public void addInventoryItem(Item item) {
+        inventory.add(item);
+        item.kill();
+    }
+
+    public void removeInventoryItem(Item item) {
+        inventory.remove(item);
+    }
+
+    public ItemHoldable getHeldItem() {
+
+        return heldItem;
+    }
+
+    public boolean hasHeldItem() {
+
+        return !(heldItem == null);
+    }
+
+    public boolean equipItem(Item item) {
+
+        if (item instanceof ItemEquipable) {
+            if (equippedItems.size() >= maxEquipSlots) {
+                return false;
+            }
+
+            item.setOwner(this);
+            equippedItems.add((ItemEquipable) item);
+            return true;
+        }
+
+        else if (item instanceof ItemHoldable) {
+            if (hasHeldItem()) {
+                addInventoryItem(heldItem);
+            }
+
+            item.setOwner(this);
+            heldItem = (ItemHoldable) item;
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeItem(Item item) {
+        if (item instanceof ItemEquipable) {
+            if (!equippedItems.contains(item)) {
+                return false;
+            }
+            equippedItems.remove(item);
+        }
+        else if (item instanceof ItemHoldable) {
+            if (!hasHeldItem()) {
+                return false;
+            }
+            heldItem = null;
+        }
+        addInventoryItem(item);
+        return true;
+    }
 }

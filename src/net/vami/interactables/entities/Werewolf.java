@@ -9,5 +9,7 @@ public class Werewolf extends Entity {
     public Werewolf(Position position, int level) {
         super("Werewolf", position, level, 20 * level, 3 * level,
                 2 * level, DamageType.SHARP, true, Ability.WOUND);
+        addWeakness(DamageType.FIRE);
+        addResistance(DamageType.ICE);
     }
 }

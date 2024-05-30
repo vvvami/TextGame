@@ -16,10 +16,25 @@ public class PlayerInterpreter {
     }
 
 
+
     private static boolean actionInput(String input) {
         String[] inputArr = input.toLowerCase()
                 .split("\\s+");
         Node node = Game.getCurrentNode();
+        Action action = Action.synonymToAction.get(inputArr[0]);
+        if (action == null) {
+            return false;
+        }
+        return switch (action) {
+            case MOVEMENT -> false;
+            case USE -> false;
+            case TAKE, EQUIP -> interactionSwitch(input, node, action);
+            case SAVE -> Game.player.receiveAction(Game.player, action);
+            case ATTACK, ABILITY -> combatSwitch(inputArr, node, action);
+        };
+    }
+
+    private static boolean combatSwitch(String[] inputArr, Node node, Action action) {
         Interactable target = null;
         switch (inputArr.length) {
             case 2:
@@ -29,10 +44,20 @@ public class PlayerInterpreter {
                 if (target == null) {
                     break;
                 }
-                Action action = Action.synonymToAction.get(inputArr[0]);
                 return target.receiveAction(Game.player, action);
             default: break;
         }
         return false;
+    }
+
+    private static boolean interactionSwitch(String input, Node node, Action action) {
+        Interactable target;
+        input = input.substring(input.indexOf(' ') + 1);
+        System.out.printf("%s %n", input);
+        target = node.stringToInteractable(input);
+        if (target == null) {
+            return false;
+        }
+        return target.receiveAction(Game.player, action);
     }
 }
