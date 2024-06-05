@@ -18,7 +18,7 @@ public class Node {
     }
 
 
-    public Position getNodePosition() {
+    public Position getNodePos() {
         return position;
     }
 
@@ -89,9 +89,6 @@ public class Node {
 
     public static void initializeNodes() {
         int size = 50;
-        for (int h = -50; h <= 50; h++) {
-
-        }
             for (int j = -size; j <= size; j++) {
                 for (int i = -size; i <= size; i++) {
                 new Node(new Position(i, 0, j));

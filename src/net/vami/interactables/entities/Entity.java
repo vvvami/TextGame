@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Entity extends Interactable {
 
@@ -162,7 +161,7 @@ public class Entity extends Interactable {
     }
 
     public void addResistance(DamageType resistance) {
-        weaknesses.add(resistance);
+        resistances.add(resistance);
     }
 
     public List<DamageType> getResistances() {
@@ -282,7 +281,7 @@ public class Entity extends Interactable {
         DamageType type = entitySource.getDefaultDamageType();
 
         if (entitySource.hasHeldItem()) {
-            damage += entitySource.getHeldItem().getDamageAmount();
+            damage += entitySource.getHeldItem().getBaseDamage();
             type = entitySource.getHeldItem().getDamageType();
         }
 

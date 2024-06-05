@@ -5,20 +5,20 @@ import net.vami.game.Position;
 
 public class ItemHoldable extends Item {
 
-    private int damageAmount;
+    private int baseDamage;
     private DamageType damageType;
 
     public ItemHoldable(String name, String description, Position position, int durability,
-                        int damageAmount, DamageType damageType) {
+                        int baseDamage, DamageType damageType) {
 
         super(name, description, position, durability);
-        this.damageAmount = damageAmount;
+        this.baseDamage = baseDamage;
         this.damageType = damageType;
     }
 
-    public void setDamageAmount(int damageAmount) {
+    public void setBaseDamage(int baseDamage) {
 
-        this.damageAmount = damageAmount;
+        this.baseDamage = baseDamage;
     }
 
     public void setDamageType(DamageType damageType) {
@@ -30,8 +30,8 @@ public class ItemHoldable extends Item {
         return damageType;
     }
 
-    public int getDamageAmount() {
-        return damageAmount;
+    public int getBaseDamage() {
+        return baseDamage;
     }
 
 

@@ -38,5 +38,17 @@ public final class Position {
         return this.zPos;
     }
 
+    public Position setX(int x) {
+        return new Position(x, yPos, zPos);
+    }
+
+    public Position setY(int y) {
+        return new Position(xPos, y, zPos);
+    }
+
+    public Position setZ(int z) {
+        return new Position(xPos, yPos, z);
+    }
+
 
 }

@@ -2,10 +2,9 @@ package net.vami.game;
 
 import net.vami.interactables.Interactable;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
-public class PlayerInterpreter {
+public class PlayerHandler {
 
     public static boolean read() {
         Scanner scanner = new Scanner(System.in);
@@ -53,7 +52,6 @@ public class PlayerInterpreter {
     private static boolean interactionSwitch(String input, Node node, Action action) {
         Interactable target;
         input = input.substring(input.indexOf(' ') + 1);
-        System.out.printf("%s %n", input);
         target = node.stringToInteractable(input);
         if (target == null) {
             return false;

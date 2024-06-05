@@ -12,23 +12,21 @@ public abstract class Game {
 
     private static boolean endGame = false;
     public static final Player player = new Player(namePlayer(), new Position(0,0,0),
-            1, 1000, 100, 0, Ability.BURN);
+            1, 20, 2, 0, Ability.BURN);
 
     public static void startGame() {
         EnemyHandler.Generate(player.getPosition());
-        getCurrentNode().addInteractable(new ItemHoldable("Ice Sword", null, getCurrentNode().getNodePosition(),
-                10,5, DamageType.ICE));
+
         do {
             if (!getCurrentNode().getInteractables().contains(player)) {
                 getCurrentNode().addInteractable(player);
             }
 
             EnemyHandler.enemyAction();
-
             enemyTurn();
 
             if (!Game.player.isEnded()) {
-                if (!PlayerInterpreter.read()) {
+                if (!PlayerHandler.read()) {
                     continue;
                 }
             }
@@ -41,11 +39,11 @@ public abstract class Game {
 
     static void enemyTurn() {
         itemTicker();
-        allyTicker();
+        enemyTicker();
     }
 
     static void playerTurn() {
-        enemyTicker();
+        allyTicker();
     }
 
     static void itemTicker() {

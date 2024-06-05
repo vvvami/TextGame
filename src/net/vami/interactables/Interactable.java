@@ -8,12 +8,31 @@ import java.util.*;
 public class Interactable {
     private boolean equipped;
     private final UUID ID;
-    private final String name;
+    private String name;
     private Position position;
     private String description;
     private Set<Action> receivableActions = new HashSet<>();
     private Set<Action> availableActions = new HashSet<>();
     private Interactable ended;
+
+    public Interactable(String name, String description, Position position) {
+        this.name = name;
+        this.description = description;
+        this.position = position;
+        if (Node.getNodeFromPosition(position) != null) {
+            Node.getNodeFromPosition(position).addInteractable(this);
+        }
+        ID = UUID.randomUUID();
+
+    }
+
+    public boolean isEnded() {
+        return this == ended;
+    }
+
+    public UUID getID() {
+        return ID;
+    }
 
     public Interactable getEnded() {
         return ended;
@@ -35,23 +54,11 @@ public class Interactable {
         return name;
     }
 
-    public Interactable(String name, String description, Position position) {
-        this.name = name;
-        this.description = description;
-        this.position = position;
-        ID = UUID.randomUUID();
-
-    }
-
-    public boolean isEnded() {
-        return false;
-    }
-
-    public UUID getID() {
-        return ID;
-    }
-
     public boolean receiveAction(Interactable source, Action action) {
+        if (!actionPredicate(source)) {
+            return false;
+        }
+
         if (!receivableActions.contains(action)) {
             System.out.println("Nothing happens.");
             return false;
@@ -86,7 +93,22 @@ public class Interactable {
         };
     }
 
+    private boolean actionPredicate(Interactable source) {
+        Entity sourceEntity = (Entity) source;
 
+        // can simplify this into a switch if needed in the future
+        if (sourceEntity.hasSpecifiedStatus(Status.CRIPPLED) &&
+                (Math.random() < (double) sourceEntity.getEntityStatus(Status.CRIPPLED).getAmplifier() / 10)) {
+            return false;
+        }
+
+        if (sourceEntity.hasSpecifiedStatus(Status.FROZEN) &&
+                (Math.random() < (double) sourceEntity.getEntityStatus(Status.FROZEN).getAmplifier() / 20)) {
+            return false;
+        }
+
+        return true;
+    }
 
     public void kill() {
         position = null;

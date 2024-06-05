@@ -2,6 +2,7 @@ package net.vami.game;
 
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Werewolf;
+import net.vami.interactables.items.ItemHoldable;
 
 public class EnemyHandler {
 
@@ -9,18 +10,13 @@ public class EnemyHandler {
         for (Entity enemy : Node.getEnemies()) {
                 enemyTargeting(enemy);
             if (enemy.hasTarget()) {
-                if (enemy.hasSpecifiedStatus(Status.CRIPPLED)) {
-                    System.out.printf("%s cannot move in their crippled state. %n", enemy.getDisplayName());
-                }
-                else {
-                    enemy.applyAction(enemy.getTarget(), Action.ATTACK);
-                }
+                enemy.applyAction(enemy.getTarget(), Action.ATTACK);
             }
         }
     }
 
     public static void enemyTargeting(Entity source) {
-        if (source.getTarget() == null || source.getTarget().isEnded()) {
+        if (source.getTarget() == null) {
             for (Entity ally : Node.getAllies()) {
                 source.setTarget(ally);
             }
@@ -28,8 +24,9 @@ public class EnemyHandler {
     }
 
     public static void Generate(Position position) {
-        Entity enemy = new Werewolf(position,1);
-        Game.getCurrentNode().addInteractable(enemy);
+        new Werewolf(position, 1);
+        new ItemHoldable("Excalibur", null, position,
+                1,5, DamageType.FIRE);
     }
 
 }

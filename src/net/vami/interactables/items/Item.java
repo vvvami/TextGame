@@ -38,7 +38,7 @@ public abstract class Item extends Interactable {
         durability -= amount;
         if (durability <= 0) {
             owner.removeItem(this);
-            this.kill();
+            kill();
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class Item extends Interactable {
         Entity entitySource = (Entity) source;
         if (entitySource.equipItem(this)) {
             onEquip(entitySource);
-            System.out.printf("%s equips %s. %n", entitySource.getName(), Main.ANSI_PURPLE + this.getName() + Main.ANSI_RESET);
+            System.out.printf("%s equips %s. %n", entitySource.getName(), getName());
             return true;
         }
         return false;
