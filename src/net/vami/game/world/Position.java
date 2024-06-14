@@ -1,4 +1,4 @@
-package net.vami.game;
+package net.vami.game.world;
 
 import java.util.Objects;
 

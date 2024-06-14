@@ -1,4 +1,6 @@
-package net.vami.game;
+package net.vami.game.interactions;
+
+import net.vami.game.Main;
 
 public enum Status {
 
@@ -31,22 +33,27 @@ public enum Status {
         }
 
         public String getName() {
+
             return name;
         }
 
         public boolean stacksAmplifier() {
+
             return stacksAmplifier;
         }
 
         public boolean stacksDuration() {
+
             return stacksDuration;
         }
 
         public boolean isHarmful() {
+
             return harmful;
         }
 
     public Status getCounterStatus() {
+
         return counterStatus;
     }
 }

@@ -1,5 +1,6 @@
 package net.vami.interactables;
-import net.vami.game.*;
+import net.vami.game.interactions.Action;
+import net.vami.game.world.Position;
 
 
 public class InteractableEnded extends Interactable {

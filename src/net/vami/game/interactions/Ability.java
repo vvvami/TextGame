@@ -1,4 +1,4 @@
-package net.vami.game;
+package net.vami.game.interactions;
 import net.vami.interactables.*;
 import net.vami.interactables.entities.Entity;
 

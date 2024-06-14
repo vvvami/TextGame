@@ -1,14 +1,15 @@
 package net.vami.game;
 
 
-import java.util.Random;
-import java.util.Scanner;
+import net.vami.game.world.Game;
+import net.vami.game.world.Position;
+import net.vami.interactables.entities.Werewolf;
 
 public class Main {
     public static void main(String[] args) {
         Game.initializeGame();
         Game.startGame();
-
+        Werewolf test = new Werewolf("Test", 1);
     }
 
     public static final String ANSI_RESET = "\u001B[0m";

@@ -1,4 +1,4 @@
-package net.vami.game;
+package net.vami.game.interactions;
 
 import net.vami.interactables.entities.Entity;
 
@@ -35,6 +35,7 @@ public class StatusInstance {
     }
 
     public Status getStatus() {
+
         return this.status;
     }
 
@@ -44,6 +45,7 @@ public class StatusInstance {
     }
 
     public void setAmplifier(int amplifier) {
+
         this.amplifier = amplifier;
     }
 
@@ -68,6 +70,7 @@ public class StatusInstance {
     }
 
     public void setTarget(Entity target) {
+
         this.target = target;
     }
 }

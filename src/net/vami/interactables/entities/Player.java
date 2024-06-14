@@ -1,5 +1,8 @@
 package net.vami.interactables.entities;
-import net.vami.game.*;
+import net.vami.game.interactions.Ability;
+import net.vami.game.interactions.Action;
+import net.vami.game.interactions.DamageType;
+import net.vami.game.world.Position;
 
 public class Player extends Entity {
 

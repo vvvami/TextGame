@@ -1,5 +1,6 @@
 package net.vami.interactables.items;
-import net.vami.game.*;
+import net.vami.game.interactions.Action;
+import net.vami.game.world.Position;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
 

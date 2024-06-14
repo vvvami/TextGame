@@ -1,5 +1,9 @@
 package net.vami.interactables;
-import net.vami.game.*;
+import net.vami.game.interactions.Action;
+import net.vami.game.interactions.Status;
+import net.vami.game.interactions.StatusInstance;
+import net.vami.game.world.Node;
+import net.vami.game.world.Position;
 import net.vami.interactables.entities.Entity;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,30 +31,37 @@ public class Interactable {
     }
 
     public boolean isEnded() {
+
         return this == ended;
     }
 
     public UUID getID() {
+
         return ID;
     }
 
     public Interactable getEnded() {
+
         return ended;
     }
 
     public void setEnded(Interactable ended) {
+
         this.ended = ended;
     }
 
     public String getDescription() {
+
         return description;
     }
 
     public void setDescription(String description) {
+
         this.description = description;
     }
 
     public String getName() {
+
         return name;
     }
 
@@ -111,10 +122,12 @@ public class Interactable {
     }
 
     public void kill() {
+
         position = null;
     }
 
     public Position getPosition() {
+
         return position;
     }
 
@@ -132,18 +145,22 @@ public class Interactable {
     }
 
     public void addReceivableAction(Action action) {
+
         receivableActions.add(action);
     }
 
     public void addAvailableAction(Action action) {
+
         availableActions.add(action);
     }
 
     public void removeReceivableAction(Action action) {
+
         receivableActions.remove(action);
     }
 
     public void removeAvailableAction(Action action) {
+
         availableActions.remove(action);
     }
 
@@ -168,18 +185,22 @@ public class Interactable {
     }
 
     protected boolean receiveEquip(Interactable source) {
+
         return false;
     }
 
     protected boolean receiveMovement(Interactable source) {
+
         return false;
     }
 
     protected boolean receiveTake(Interactable source) {
+
         return false;
     }
 
     protected boolean receiveSave(Interactable source) {
+
         return false;
     }
 
@@ -192,6 +213,7 @@ public class Interactable {
     }
 
     public boolean useAbility(Interactable target) {
+
         return false;
     }
 

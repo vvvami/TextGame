@@ -1,9 +1,9 @@
 package net.vami.interactables.entities;
-import net.vami.game.*;
+import net.vami.game.interactions.*;
+import net.vami.game.Main;
+import net.vami.game.world.Position;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.items.Item;
-import net.vami.game.Status;
-import net.vami.game.StatusInstance;
 import net.vami.interactables.items.ItemEquipable;
 import net.vami.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.NotNull;
@@ -203,7 +203,6 @@ public class Entity extends Interactable {
     }
 
     public List<StatusInstance> getEntityStatuses() {
-
         return statusEffects;
     }
 
@@ -224,6 +223,10 @@ public class Entity extends Interactable {
     // Checks of the entity is an enemy (against the player)
     public boolean isEnemy() {
         return enemy;
+    }
+
+    public void setEnemy(boolean enemy) {
+        this.enemy = enemy;
     }
 
     public int getLevel() {

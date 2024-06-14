@@ -1,9 +1,13 @@
-package net.vami.game;
+package net.vami.game.world;
 
+import net.vami.game.interactions.Ability;
+import net.vami.game.interactions.Action;
+import net.vami.interactables.ai.AllyHandler;
+import net.vami.interactables.ai.EnemyHandler;
+import net.vami.interactables.ai.PlayerHandler;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Player;
 import net.vami.interactables.items.ItemEquipable;
-import net.vami.interactables.items.ItemHoldable;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +19,12 @@ public abstract class Game {
             1, 20, 2, 0, Ability.BURN);
 
     public static void startGame() {
+        if (!getCurrentNode().getInteractables().contains(player)) {
+            getCurrentNode().addInteractable(player);
+        }
+
         EnemyHandler.Generate(player.getPosition());
+        AllyHandler.Generate(player.getPosition());
 
         do {
             if (!getCurrentNode().getInteractables().contains(player)) {
@@ -27,6 +36,7 @@ public abstract class Game {
 
             if (!Game.player.isEnded()) {
                 if (!PlayerHandler.read()) {
+                    AllyHandler.allyAction();
                     continue;
                 }
             }
