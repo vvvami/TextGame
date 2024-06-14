@@ -4,8 +4,9 @@ import net.vami.game.world.Position;
 
 
 public class InteractableEnded extends Interactable {
-    public InteractableEnded(String name, String description, Position position) {
-        super(name, description, position);
+    public InteractableEnded(String name) {
+
+        super(name);
     }
 
     protected boolean receiveAttack(Interactable source, Action action) {

@@ -1,6 +1,7 @@
 package net.vami.interactables.entities;
 import net.vami.game.interactions.*;
 import net.vami.game.Main;
+import net.vami.game.world.Game;
 import net.vami.game.world.Position;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.items.Item;
@@ -11,7 +12,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Entity extends Interactable {
+public abstract class Entity extends Interactable {
 
 
     private int maxHealth;
@@ -20,6 +21,8 @@ public class Entity extends Interactable {
     private int armor;
     private DamageType defaultDamageType;
     private int level;
+
+    private Attributes attributes;
 
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
@@ -34,21 +37,23 @@ public class Entity extends Interactable {
     private Ability ability;
     private Entity target;
 
+    public Entity(String name, Attributes attributes) {
+        super(name);
 
-    public Entity(String name, Position position, int level, int maxHealth, float baseDamage,
-                  int armor, DamageType defaultDamageType, boolean enemy, Ability ability) {
-        super(name, null, position);
-        this.level = level;
-        this.maxHealth = maxHealth;
-        this.baseDamage = baseDamage;
-        this.armor = armor;
-        health = this.maxHealth;
-        this.defaultDamageType = defaultDamageType;
-        this.ability = ability;
-        this.enemy = enemy;
+        level = attributes.levelAttribute;
+        maxHealth = attributes.maxHealthAttribute;
+        baseDamage = attributes.baseDamageAttribute;
+        armor = attributes.armorAttribute;
+        defaultDamageType = attributes.damageTypeAttribute;
+        ability = attributes.abilityAttribute;
+        health = maxHealth;
+
+        this.attributes = attributes;
+
         addAvailableAction(Action.ATTACK);
         addAvailableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
+
         addReceivableAction(Action.ATTACK);
         addReceivableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
@@ -56,6 +61,7 @@ public class Entity extends Interactable {
     }
 
     // Main damage function
+    @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
 
         if (armor > 0) {
@@ -141,6 +147,7 @@ public class Entity extends Interactable {
     }
 
     public void turn() {
+
         statusTurn();
     }
 
@@ -161,18 +168,22 @@ public class Entity extends Interactable {
     }
 
     public void addResistance(DamageType resistance) {
+
         resistances.add(resistance);
     }
 
     public List<DamageType> getResistances() {
+
         return resistances;
     }
 
     public void addWeakness(DamageType weakness) {
+
         weaknesses.add(weakness);
     }
 
     public List<DamageType> getWeaknesses() {
+
         return weaknesses;
     }
 
@@ -217,43 +228,53 @@ public class Entity extends Interactable {
     }
 
     public DamageType getDefaultDamageType() {
+
         return defaultDamageType;
     }
 
     // Checks of the entity is an enemy (against the player)
     public boolean isEnemy() {
+
         return enemy;
     }
 
     public void setEnemy(boolean enemy) {
+
         this.enemy = enemy;
     }
 
     public int getLevel() {
+
         return level;
     }
 
     public Ability getAbility() {
+
         return ability;
     }
 
     public Entity getTarget() {
+
         return this.target;
     }
 
     public void setTarget(Entity target) {
+
         this.target = target;
     }
 
     public boolean hasTarget() {
+
         return target != null;
     }
 
     public String getDisplayName() {
+
         return getName() + statusDisplay();
     }
 
     public String levelDisplay() {
+
         return "[" + level + "]";
     }
 
@@ -275,11 +296,10 @@ public class Entity extends Interactable {
 
 
     @Override
-    protected boolean receiveAttack(Interactable source) {
-        if (!(source instanceof Entity)) {
+    public boolean receiveAttack(Interactable source) {
+        if (!(source instanceof Entity entitySource)) {
             return false;
         }
-        Entity entitySource = (Entity) source;
         float damage = entitySource.getBaseDamage();
         DamageType type = entitySource.getDefaultDamageType();
 
@@ -288,13 +308,13 @@ public class Entity extends Interactable {
             type = entitySource.getHeldItem().getDamageType();
         }
 
-        System.out.printf("%s was hit by %s! %n", getDisplayName(), entitySource.getDisplayName());
+        System.out.printf("%s was hit by %s! %n", this.getDisplayName(), entitySource.getDisplayName());
         hurt(entitySource, damage, type);
         return true;
     }
 
     @Override
-    protected boolean receiveAbility(Interactable interactable) {
+    public boolean receiveAbility(Interactable interactable) {
         if (!(interactable instanceof Entity)) {
             return false;
         }
@@ -304,14 +324,17 @@ public class Entity extends Interactable {
     }
 
     public List<ItemEquipable> getEquippedItems() {
+
         return equippedItems;
     }
 
     public int getMaxEquipSlots() {
+
         return maxEquipSlots;
     }
 
     public void setMaxEquipSlots(int maxEquipSlots) {
+
         this.maxEquipSlots = maxEquipSlots;
     }
 
@@ -321,6 +344,7 @@ public class Entity extends Interactable {
     }
 
     public void removeInventoryItem(Item item) {
+
         inventory.remove(item);
     }
 
@@ -374,5 +398,68 @@ public class Entity extends Interactable {
         }
         addInventoryItem(item);
         return true;
+    }
+
+    public static class Attributes {
+        int levelAttribute;
+        int maxHealthAttribute;
+        float baseDamageAttribute;
+        int armorAttribute;
+        DamageType damageTypeAttribute;
+        Ability abilityAttribute;
+        boolean enemyAttribute;
+
+        public Attributes() {
+            this.levelAttribute = 1;
+            this.maxHealthAttribute = 20 * levelAttribute;
+            this.baseDamageAttribute = levelAttribute;
+            this.armorAttribute = 2 * levelAttribute;
+            this.damageTypeAttribute = DamageType.BLUNT;
+            this.abilityAttribute = Ability.WOUND;
+            this.enemyAttribute = true;
+            ;
+        }
+
+        public Attributes level(int level) {
+            this.levelAttribute = level;
+            return this;
+        }
+        public Attributes maxHealth(int maxHealth) {
+            this.maxHealthAttribute = maxHealth;
+            return this;
+        }
+        public Attributes baseDamage(float baseDamage) {
+            this.baseDamageAttribute = baseDamage;
+            return this;
+        }
+        public Attributes armor(int armor) {
+            this.armorAttribute = armor;
+            return this;
+        }
+        public Attributes defaultDamageType(DamageType damageType) {
+            this.damageTypeAttribute = damageType;
+            return this;
+        }
+        public Attributes ability(Ability ability) {
+            this.abilityAttribute = ability;
+            return this;
+        }
+
+        public Attributes enemy(boolean enemy) {
+            this.enemyAttribute = enemy;
+            return this;
+        }
+
+        public Attributes copyOf(Entity entity) {
+            Attributes attributes = entity.attributes;
+            this.levelAttribute = attributes.levelAttribute;
+            this.maxHealthAttribute = attributes.maxHealthAttribute;
+            this.baseDamageAttribute = attributes.baseDamageAttribute;
+            this.armorAttribute = attributes.armorAttribute;
+            this.damageTypeAttribute = attributes.damageTypeAttribute;
+            this.abilityAttribute = attributes.abilityAttribute;
+            this.enemyAttribute = attributes.enemyAttribute;
+            return this;
+        }
     }
 }

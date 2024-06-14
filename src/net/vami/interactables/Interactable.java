@@ -1,31 +1,36 @@
 package net.vami.interactables;
 import net.vami.game.interactions.Action;
+import net.vami.game.interactions.DamageType;
 import net.vami.game.interactions.Status;
 import net.vami.game.interactions.StatusInstance;
+import net.vami.game.world.Game;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
+import net.vami.interactables.ai.IActionable;
 import net.vami.interactables.entities.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class Interactable {
+public class Interactable implements IActionable {
     private boolean equipped;
     private final UUID ID;
     private String name;
-    private Position position;
+    private Position position = new Position(0,0,0);
     private String description;
     private Set<Action> receivableActions = new HashSet<>();
     private Set<Action> availableActions = new HashSet<>();
     private Interactable ended;
 
-    public Interactable(String name, String description, Position position) {
+    public Interactable(String name) {
         this.name = name;
-        this.description = description;
-        this.position = position;
+        System.out.println("loaded " + getName() + " with pos " + this.position.toString());
+
         if (Node.getNodeFromPosition(position) != null) {
             Node.getNodeFromPosition(position).addInteractable(this);
+            System.out.println("added " + getName());
         }
+
         ID = UUID.randomUUID();
 
     }
@@ -63,6 +68,10 @@ public class Interactable {
     public String getName() {
 
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean receiveAction(Interactable source, Action action) {
@@ -126,16 +135,20 @@ public class Interactable {
         position = null;
     }
 
-    public Position getPosition() {
+    public Position getPos() {
 
         return position;
     }
 
     public void setPosition(Position position) {
-        if (position == this.position) {
+        if (position.equals(this.position)) {
             return;
         }
-        Node.getNodeFromPosition(this.position).removeInteractable(this);
+
+        if (Node.getNodeFromPosition(this.position).getInteractables().contains(this)) {
+            Node.getNodeFromPosition(this.position).removeInteractable(this);
+        }
+
         this.position = position;
         Node node = Node.getNodeFromPosition(this.position);
         if (node != null) {
@@ -164,9 +177,10 @@ public class Interactable {
         availableActions.remove(action);
     }
 
-    protected boolean receiveAttack(Interactable source) {
+    @Override
+    public boolean receiveAttack(Interactable source) {
         Interactable ended = this.ended == null
-                ? new InteractableEnded(name, description, position)
+                ? new InteractableEnded(name)
                 : this.ended;
         Node node = Node.getNodeFromPosition(this.position);
         node.removeInteractable(this);
@@ -174,9 +188,10 @@ public class Interactable {
         return true;
     }
 
-    protected boolean receiveAbility(Interactable source) {
+    @Override
+    public boolean receiveAbility(Interactable source) {
         Interactable ended = this.ended == null
-                ? new InteractableEnded(name, description, position)
+                ? new InteractableEnded(name)
                 : this.ended;
         Node node = Node.getNodeFromPosition(this.position);
         node.removeInteractable(this);
@@ -184,27 +199,33 @@ public class Interactable {
         return true;
     }
 
-    protected boolean receiveEquip(Interactable source) {
-
+    @Override
+    public boolean receiveEquip(Interactable source) {
         return false;
     }
 
-    protected boolean receiveMovement(Interactable source) {
-
+    @Override
+    public boolean receiveMovement(Interactable source) {
         return false;
     }
 
-    protected boolean receiveTake(Interactable source) {
 
+    @Override
+    public boolean receiveTake(Interactable source) {
         return false;
     }
 
-    protected boolean receiveSave(Interactable source) {
-
+    @Override
+    public boolean receiveSave(Interactable source) {
         return false;
     }
 
     public void addStatus(@NotNull StatusInstance status) {
+
+    }
+
+
+    public void hurt(Entity source, float amount, DamageType damageType) {
 
     }
 

@@ -17,8 +17,8 @@ public class Node {
         nodeMap.put(position, this);
     }
 
-
     public Position getNodePos() {
+
         return position;
     }
 
@@ -35,6 +35,9 @@ public class Node {
     }
 
     public List<Interactable> getInteractables() {
+        if (interactables == null) {
+            return new ArrayList<>();
+        }
         return interactables;
     }
 

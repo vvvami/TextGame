@@ -11,11 +11,13 @@ public enum DamageType {
     private String name;
 
     DamageType(String name) {
+
         this.name = name;
     }
 
 
     public String getName() {
+
         return name;
     }
 

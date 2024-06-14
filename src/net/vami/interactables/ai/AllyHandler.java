@@ -2,6 +2,7 @@ package net.vami.interactables.ai;
 
 import net.vami.game.interactions.Action;
 import net.vami.game.interactions.DamageType;
+import net.vami.game.world.Game;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.interactables.entities.Entity;
@@ -27,10 +28,8 @@ public class AllyHandler {
         }
     }
 
-    public static void Generate(Position position) {
-        new Werewolf("Friend",1).setEnemy(false);
-        new ItemHoldable("Excalibur", null, position,
-                1,5, DamageType.FIRE);
+    public static void Generate() {
+        new Werewolf("Friend", new Entity.Attributes().enemy(false));
     }
 
 }

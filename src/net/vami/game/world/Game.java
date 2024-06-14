@@ -1,30 +1,32 @@
 package net.vami.game.world;
 
-import net.vami.game.interactions.Ability;
 import net.vami.game.interactions.Action;
+import net.vami.interactables.Interactable;
 import net.vami.interactables.ai.AllyHandler;
 import net.vami.interactables.ai.EnemyHandler;
 import net.vami.interactables.ai.PlayerHandler;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Player;
+import net.vami.interactables.entities.Werewolf;
 import net.vami.interactables.items.ItemEquipable;
 
 import java.util.List;
 import java.util.Scanner;
 
 public abstract class Game {
+    public static final Player player = new Player(namePlayer(),
+            new Entity.Attributes()
+                    .level(1)
+                    .maxHealth(20)
+                    .armor(20));
 
     private static boolean endGame = false;
-    public static final Player player = new Player(namePlayer(), new Position(0,0,0),
-            1, 20, 2, 0, Ability.BURN);
+
 
     public static void startGame() {
-        if (!getCurrentNode().getInteractables().contains(player)) {
-            getCurrentNode().addInteractable(player);
-        }
 
-        EnemyHandler.Generate(player.getPosition());
-        AllyHandler.Generate(player.getPosition());
+        EnemyHandler.Generate();
+        AllyHandler.Generate();
 
         do {
             if (!getCurrentNode().getInteractables().contains(player)) {
@@ -112,18 +114,27 @@ public abstract class Game {
 
 
     public static Node getCurrentNode() {
-        return Node.getNodeFromPosition(player.getPosition());
+
+        return Node.getNodeFromPosition(gamePos());
     }
 
     public static void initializeGame() {
         Node.initializeNodes();
         Action.registerActionSynonyms();
+        if (Node.getNodeFromPosition(player.getPos()) != null) {
+            Node.getNodeFromPosition(player.getPos()).addInteractable(player);
+            System.out.println("added " + player.getName());
+        }
     }
 
-    static String namePlayer() {
+    public static String namePlayer() {
         System.out.println("Enter your name, traveler:");
         Scanner playerNameScanner = new Scanner(System.in);
         return playerNameScanner.nextLine();
+    }
+
+    public static Position gamePos() {
+        return player.getPos();
     }
 
 }

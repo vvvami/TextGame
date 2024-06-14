@@ -9,9 +9,8 @@ public abstract class Item extends Interactable {
     private int durability;
     private Entity owner;
 
-    public Item(String name, String description, Position position,
-                int durability) {
-        super(name, description, position);
+    public Item(String name, int durability) {
+        super(name);
         this.durability = durability;
         this.addReceivableAction(Action.TAKE);
         this.addReceivableAction(Action.EQUIP);
@@ -44,7 +43,7 @@ public abstract class Item extends Interactable {
     }
 
     @Override
-    protected boolean receiveEquip(Interactable source) {
+    public boolean receiveEquip(Interactable source) {
         Entity entitySource = (Entity) source;
         if (entitySource.equipItem(this)) {
             onEquip(entitySource);
@@ -55,7 +54,7 @@ public abstract class Item extends Interactable {
     }
 
     @Override
-    protected boolean receiveTake(Interactable source) {
+    public boolean receiveTake(Interactable source) {
         Entity entitySource = (Entity) source;
         entitySource.addInventoryItem(this);
         System.out.printf("%s takes %s. %n", entitySource.getName(), this.getName());
@@ -63,10 +62,12 @@ public abstract class Item extends Interactable {
     }
 
     public boolean onEquip(Entity owner) {
+
         return true;
     }
 
     public boolean turn() {
+
         return true;
     }
 

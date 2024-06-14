@@ -8,10 +8,8 @@ public class ItemHoldable extends Item {
     private int baseDamage;
     private DamageType damageType;
 
-    public ItemHoldable(String name, String description, Position position, int durability,
-                        int baseDamage, DamageType damageType) {
-
-        super(name, description, position, durability);
+    public ItemHoldable(String name, int durability, int baseDamage, DamageType damageType) {
+        super(name, durability);
         this.baseDamage = baseDamage;
         this.damageType = damageType;
     }

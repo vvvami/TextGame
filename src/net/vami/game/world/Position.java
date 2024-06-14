@@ -23,6 +23,7 @@ public final class Position {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(xPos, yPos, zPos);
     }
 
@@ -31,24 +32,32 @@ public final class Position {
     }
 
     public int getPosY() {
+
         return this.yPos;
     }
 
     public int getPosZ() {
+
         return this.zPos;
     }
 
     public Position setX(int x) {
+
         return new Position(x, yPos, zPos);
     }
 
     public Position setY(int y) {
+
         return new Position(xPos, y, zPos);
     }
 
     public Position setZ(int z) {
+
         return new Position(xPos, yPos, z);
     }
 
-
+    @Override
+    public String toString() {
+        return "(" + getPosX() + ", " + getPosY() + ", " + getPosZ() + ")";
+    }
 }

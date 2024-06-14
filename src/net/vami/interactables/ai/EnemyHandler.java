@@ -2,11 +2,14 @@ package net.vami.interactables.ai;
 
 import net.vami.game.interactions.Action;
 import net.vami.game.interactions.DamageType;
+import net.vami.game.world.Game;
 import net.vami.game.world.Node;
-import net.vami.game.world.Position;
+import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Werewolf;
 import net.vami.interactables.items.ItemHoldable;
+
+import java.util.ArrayList;
 
 public class EnemyHandler {
 
@@ -27,10 +30,9 @@ public class EnemyHandler {
         }
     }
 
-    public static void Generate(Position position) {
-        new Werewolf("Foe",1);
-        new ItemHoldable("Excalibur", null, position,
-                1,5, DamageType.FIRE);
+    public static void Generate() {
+        new Werewolf("Enemy", new Entity.Attributes().level(1).maxHealth(1));
+
     }
 
 }
