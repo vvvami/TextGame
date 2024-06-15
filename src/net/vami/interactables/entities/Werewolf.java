@@ -1,15 +1,14 @@
 package net.vami.interactables.entities;
-import net.vami.game.interactions.Action;
-import net.vami.game.interactions.DamageType;
-import net.vami.game.world.Position;
-import net.vami.interactables.Interactable;
+import net.vami.interactables.interactions.DamageType;
 
 public class Werewolf extends Entity {
     public Werewolf(String name, Attributes attributes) {
         super(name, attributes
-                .maxHealth(attributes.levelAttribute * 10)
+                .level(1)
+                .maxHealth(attributes.levelAttribute * 5)
                 .armor(attributes.levelAttribute * 2)
-                .baseDamage(attributes.levelAttribute * 1.5f));
+                .baseDamage(attributes.levelAttribute * 1.5f)
+                .defaultDamageType(DamageType.SHARP));
 
         addResistance(DamageType.ICE);
         addWeakness(DamageType.FIRE);

@@ -1,12 +1,13 @@
 package net.vami.interactables.entities;
-import net.vami.game.interactions.Action;
-import net.vami.game.world.Position;
+import net.vami.interactables.Interactable;
+import net.vami.interactables.interactions.Action;
 
-public class Player extends Entity {
+import java.io.*;
+
+public class Player extends Entity implements Serializable {
 
     public Player(String name, Attributes attributes) {
         super(name, attributes
-                .enemy(false)
                 .maxHealth(attributes.levelAttribute * 10)
                 .armor((int) (attributes.levelAttribute * 1.5f))
                 .baseDamage(attributes.levelAttribute));
@@ -14,4 +15,11 @@ public class Player extends Entity {
         addAvailableAction(Action.SAVE);
         addReceivableAction(Action.SAVE);
     }
+
+    @Override
+    public boolean receiveSave(Interactable source) {
+
+        return super.receiveSave(source);
+    }
+
 }

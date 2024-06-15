@@ -1,18 +1,16 @@
 package net.vami.interactables;
-import net.vami.game.interactions.Action;
-import net.vami.game.interactions.DamageType;
-import net.vami.game.interactions.Status;
-import net.vami.game.interactions.StatusInstance;
-import net.vami.game.world.Game;
+import net.vami.interactables.interactions.Action;
+import net.vami.interactables.interactions.DamageType;
+import net.vami.interactables.interactions.Status;
+import net.vami.interactables.interactions.StatusInstance;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
-import net.vami.interactables.ai.IActionable;
 import net.vami.interactables.entities.Entity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class Interactable implements IActionable {
+public class Interactable {
     private boolean equipped;
     private final UUID ID;
     private String name;
@@ -69,6 +67,7 @@ public class Interactable implements IActionable {
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
@@ -94,11 +93,11 @@ public class Interactable implements IActionable {
     }
 
     public boolean applyAction(Interactable target, Action action) {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
 
         if (!availableActions.contains(action)) {
             System.out.printf("%s tries to %s %s, but nothing happens. %n",
@@ -181,7 +180,7 @@ public class Interactable implements IActionable {
         availableActions.remove(action);
     }
 
-    @Override
+
     public boolean receiveAttack(Interactable source) {
         Interactable ended = this.ended == null
                 ? new InteractableEnded(name)
@@ -192,7 +191,6 @@ public class Interactable implements IActionable {
         return true;
     }
 
-    @Override
     public boolean receiveAbility(Interactable source) {
         Interactable ended = this.ended == null
                 ? new InteractableEnded(name)
@@ -203,24 +201,24 @@ public class Interactable implements IActionable {
         return true;
     }
 
-    @Override
     public boolean receiveEquip(Interactable source) {
+
         return false;
     }
 
-    @Override
     public boolean receiveMovement(Interactable source) {
+
         return false;
     }
 
 
-    @Override
     public boolean receiveTake(Interactable source) {
+
         return false;
     }
 
-    @Override
     public boolean receiveSave(Interactable source) {
+
         return false;
     }
 

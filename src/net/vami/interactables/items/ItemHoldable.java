@@ -1,7 +1,6 @@
 package net.vami.interactables.items;
 
-import net.vami.game.interactions.DamageType;
-import net.vami.game.world.Position;
+import net.vami.interactables.interactions.DamageType;
 
 public class ItemHoldable extends Item {
 

@@ -1,15 +1,16 @@
 package net.vami.game.world;
 
-import net.vami.game.interactions.Action;
-import net.vami.interactables.Interactable;
+import net.vami.interactables.interactions.Action;
 import net.vami.interactables.ai.AllyHandler;
 import net.vami.interactables.ai.EnemyHandler;
 import net.vami.interactables.ai.PlayerHandler;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Player;
-import net.vami.interactables.entities.Werewolf;
 import net.vami.interactables.items.ItemEquipable;
 
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -68,41 +69,26 @@ public abstract class Game {
     }
 
     static void enemyTicker() {
-        List<Entity> enemies = Node.getEnemies();
-        for (Entity enemy : enemies) {
-
-            if (!enemy.isEnded()) {
+        for (Entity enemy : Node.getEnemies()) {
+            if (!enemyEndedCheck(enemy)) {
                 enemy.turn();
             }
+        }
 
-            else {
-                System.out.println(enemy.getName() + " has died!");
-                getCurrentNode().removeInteractable(enemy);
-
-                if (Node.getEnemies().isEmpty()) {
-                    endGame = true;
-                }
-            }
+        for (Entity ally : Node.getAllies()) {
+            allyEndedCheck(ally);
         }
     }
 
     static void allyTicker() {
-        List<Entity> allies = Node.getAllies();
-        for (Entity ally : allies) {
-
-            if (!ally.isEnded()) {
+        for (Entity ally : Node.getAllies()) {
+            if (!allyEndedCheck(ally)) {
                 ally.turn();
             }
+        }
 
-            else {
-                System.out.println(ally.getName() + " has died!");
-                getCurrentNode().removeInteractable(ally);
-
-                if (ally.equals(Game.player)) {
-                    System.out.println("Game Over!");
-                    endGame = true;
-                }
-            }
+        for (Entity enemy : Node.getEnemies()) {
+            enemyEndedCheck(enemy);
         }
     }
 
@@ -113,6 +99,9 @@ public abstract class Game {
     }
 
     public static void initializeGame() {
+
+
+
         Node.initializeNodes();
         Action.registerActionSynonyms();
         if (Node.getNodeFromPosition(player.getPos()) != null) {
@@ -128,6 +117,32 @@ public abstract class Game {
 
     public static Position gamePos() {
         return player.getPos();
+    }
+
+    private static boolean allyEndedCheck(Entity ally) {
+            if (ally.isEnded()) {
+                System.out.println(ally.getName() + " has died!");
+                getCurrentNode().removeInteractable(ally);
+
+                if (ally.equals(Game.player)) {
+                    System.out.println("Game Over!");
+                    endGame = true;
+                }
+                return true;
+            }
+            return false;
+    }
+
+    private static boolean enemyEndedCheck(Entity enemy) {
+        if (enemy.isEnded()) {
+            System.out.println(enemy.getName() + " has died!");
+            getCurrentNode().removeInteractable(enemy);
+            if (Node.getEnemies().isEmpty()) {
+                endGame = true;
+            }
+            return true;
+        }
+        return false;
     }
 
 }

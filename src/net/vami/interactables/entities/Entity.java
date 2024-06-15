@@ -1,8 +1,6 @@
 package net.vami.interactables.entities;
-import net.vami.game.interactions.*;
+import net.vami.interactables.interactions.*;
 import net.vami.game.Main;
-import net.vami.game.world.Game;
-import net.vami.game.world.Position;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.items.Item;
 import net.vami.interactables.items.ItemEquipable;
@@ -11,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Entity extends Interactable {
 
@@ -46,10 +45,10 @@ public abstract class Entity extends Interactable {
         armor = attributes.armorAttribute;
         defaultDamageType = attributes.damageTypeAttribute;
         ability = attributes.abilityAttribute;
-        enemy = attributes.enemyAttribute;
         health = maxHealth;
 
         this.attributes = attributes;
+        attributes.setDefaults();
 
         addAvailableAction(Action.ATTACK);
         addAvailableAction(Action.ABILITY);
@@ -408,46 +407,47 @@ public abstract class Entity extends Interactable {
         int armorAttribute;
         DamageType damageTypeAttribute;
         Ability abilityAttribute;
-        boolean enemyAttribute;
 
         public Attributes() {
-            this.levelAttribute = 1;
-            this.maxHealthAttribute = 20 * levelAttribute;
-            this.baseDamageAttribute = levelAttribute;
-            this.armorAttribute = 2 * levelAttribute;
-            this.damageTypeAttribute = DamageType.BLUNT;
-            this.abilityAttribute = Ability.WOUND;
-            this.enemyAttribute = true;
-            ;
+            this.levelAttribute = -1;
+            this.maxHealthAttribute = -1;
+            this.baseDamageAttribute = -1;
+            this.armorAttribute = -1;
+            this.damageTypeAttribute = DamageType.NONE;
+            this.abilityAttribute = Ability.NONE;
+        }
+
+        public void setDefaults() {
+            if (levelAttribute == -1) {levelAttribute = 1;}
+            if (maxHealthAttribute == -1) {maxHealthAttribute = 20 * levelAttribute;}
+            if (baseDamageAttribute == -1) {baseDamageAttribute = levelAttribute;}
+            if (armorAttribute == -1) {armorAttribute = levelAttribute;}
+            if (damageTypeAttribute == DamageType.NONE) {damageTypeAttribute = DamageType.BLUNT;}
+            if (abilityAttribute == Ability.NONE) {abilityAttribute = Ability.WOUND;}
         }
 
         public Attributes level(int level) {
-            this.levelAttribute = level;
+            if (levelAttribute == -1) {levelAttribute = level;}
             return this;
         }
         public Attributes maxHealth(int maxHealth) {
-            this.maxHealthAttribute = maxHealth;
+            if (maxHealthAttribute == -1) {maxHealthAttribute = maxHealth;}
             return this;
         }
         public Attributes baseDamage(float baseDamage) {
-            this.baseDamageAttribute = baseDamage;
+            if (baseDamageAttribute == -1) {baseDamageAttribute = baseDamage;}
             return this;
         }
         public Attributes armor(int armor) {
-            this.armorAttribute = armor;
+            if (armorAttribute == -1) {armorAttribute = armor;}
             return this;
         }
         public Attributes defaultDamageType(DamageType damageType) {
-            this.damageTypeAttribute = damageType;
+            if (damageTypeAttribute == DamageType.NONE) {damageTypeAttribute = damageType;}
             return this;
         }
         public Attributes ability(Ability ability) {
-            this.abilityAttribute = ability;
-            return this;
-        }
-
-        public Attributes enemy(boolean enemy) {
-            this.enemyAttribute = enemy;
+            if (abilityAttribute == Ability.NONE) {abilityAttribute = ability;}
             return this;
         }
 
@@ -459,7 +459,6 @@ public abstract class Entity extends Interactable {
             this.armorAttribute = attributes.armorAttribute;
             this.damageTypeAttribute = attributes.damageTypeAttribute;
             this.abilityAttribute = attributes.abilityAttribute;
-            this.enemyAttribute = attributes.enemyAttribute;
             return this;
         }
     }

@@ -1,6 +1,6 @@
 package net.vami.interactables.items;
-import net.vami.game.interactions.Action;
-import net.vami.game.world.Position;
+import net.vami.game.Main;
+import net.vami.interactables.interactions.Action;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
 
@@ -47,7 +47,7 @@ public abstract class Item extends Interactable {
         Entity entitySource = (Entity) source;
         if (entitySource.equipItem(this)) {
             onEquip(entitySource);
-            System.out.printf("%s equips %s. %n", entitySource.getName(), getName());
+            System.out.printf("%s equips %s. %n", entitySource.getName(), Main.ANSI_PURPLE + getName() + Main.ANSI_RESET);
             return true;
         }
         return false;

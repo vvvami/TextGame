@@ -1,4 +1,4 @@
-package net.vami.game.interactions;
+package net.vami.interactables.interactions;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package net.vami.interactables.ai;
 
-import net.vami.game.interactions.Action;
+import net.vami.interactables.interactions.Action;
 import net.vami.game.world.Game;
 import net.vami.game.Main;
 import net.vami.game.world.Node;

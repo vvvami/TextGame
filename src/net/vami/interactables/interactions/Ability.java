@@ -1,8 +1,9 @@
-package net.vami.game.interactions;
+package net.vami.interactables.interactions;
 import net.vami.interactables.*;
 import net.vami.interactables.entities.Entity;
 
 public enum Ability {
+    NONE("None"),
     HEAL("Heal"),
     BURN("Burn"),
     FREEZE("Freeze"),
