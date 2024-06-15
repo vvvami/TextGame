@@ -35,9 +35,6 @@ public class Node {
     }
 
     public List<Interactable> getInteractables() {
-        if (interactables == null) {
-            return new ArrayList<>();
-        }
         return interactables;
     }
 

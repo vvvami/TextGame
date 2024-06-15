@@ -16,9 +16,7 @@ import java.util.Scanner;
 public abstract class Game {
     public static final Player player = new Player(namePlayer(),
             new Entity.Attributes()
-                    .level(1)
-                    .maxHealth(20)
-                    .armor(20));
+                    .level(4));
 
     private static boolean endGame = false;
 
@@ -29,20 +27,16 @@ public abstract class Game {
         AllyHandler.Generate();
 
         do {
-            if (!getCurrentNode().getInteractables().contains(player)) {
-                getCurrentNode().addInteractable(player);
-            }
 
             EnemyHandler.enemyAction();
             enemyTurn();
 
             if (!Game.player.isEnded()) {
                 if (!PlayerHandler.read()) {
-                    AllyHandler.allyAction();
                     continue;
                 }
             }
-
+            AllyHandler.allyAction();
             playerTurn();
         }
         while (!endGame);
@@ -123,7 +117,6 @@ public abstract class Game {
         Action.registerActionSynonyms();
         if (Node.getNodeFromPosition(player.getPos()) != null) {
             Node.getNodeFromPosition(player.getPos()).addInteractable(player);
-            System.out.println("added " + player.getName());
         }
     }
 

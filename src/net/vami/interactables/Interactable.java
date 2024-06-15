@@ -24,11 +24,9 @@ public class Interactable implements IActionable {
 
     public Interactable(String name) {
         this.name = name;
-        System.out.println("loaded " + getName() + " with pos " + this.position.toString());
 
         if (Node.getNodeFromPosition(position) != null) {
             Node.getNodeFromPosition(position).addInteractable(this);
-            System.out.println("added " + getName());
         }
 
         ID = UUID.randomUUID();
@@ -96,6 +94,12 @@ public class Interactable implements IActionable {
     }
 
     public boolean applyAction(Interactable target, Action action) {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         if (!availableActions.contains(action)) {
             System.out.printf("%s tries to %s %s, but nothing happens. %n",
                     getName(), action.getSynonyms().stream().findAny(), target.getName());

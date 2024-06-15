@@ -31,7 +31,7 @@ public class EnemyHandler {
     }
 
     public static void Generate() {
-        new Werewolf("Enemy", new Entity.Attributes().level(1).maxHealth(1));
+        new Werewolf("Enemy", new Entity.Attributes().level(1).maxHealth(1).enemy(true));
 
     }
 

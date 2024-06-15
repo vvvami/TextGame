@@ -46,6 +46,7 @@ public abstract class Entity extends Interactable {
         armor = attributes.armorAttribute;
         defaultDamageType = attributes.damageTypeAttribute;
         ability = attributes.abilityAttribute;
+        enemy = attributes.enemyAttribute;
         health = maxHealth;
 
         this.attributes = attributes;
