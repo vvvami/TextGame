@@ -2,10 +2,7 @@ package net.vami.game;
 
 
 import net.vami.game.world.Game;
-import net.vami.game.world.Position;
-import net.vami.interactables.entities.Entity;
-import net.vami.interactables.entities.Player;
-import net.vami.interactables.entities.Werewolf;
+import net.vami.interactables.interactions.abilities.FlamesAbility;
 
 public class Main {
     public static void main(String[] args) {

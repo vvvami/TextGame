@@ -2,14 +2,14 @@ package net.vami.interactables.entities;
 import net.vami.interactables.interactions.*;
 import net.vami.game.Main;
 import net.vami.interactables.Interactable;
+import net.vami.interactables.interactions.abilities.FlamesAbility;
+import net.vami.interactables.interactions.abilities.NoneAbility;
 import net.vami.interactables.items.Item;
 import net.vami.interactables.items.ItemEquipable;
 import net.vami.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class Entity extends Interactable {
 
@@ -112,7 +112,7 @@ public abstract class Entity extends Interactable {
 
     @Override
     public boolean useAbility(Interactable target) {
-        Ability.useAbility(target, this, ability);
+        ability.useAbility(this, target);
         return true;
     }
 
@@ -415,7 +415,7 @@ public abstract class Entity extends Interactable {
             this.baseDamageAttribute = -1;
             this.armorAttribute = -1;
             this.damageTypeAttribute = DamageType.NONE;
-            this.abilityAttribute = Ability.NONE;
+            this.abilityAttribute = NoneAbility.ABILITY;
         }
 
         public void setDefaults() {
@@ -424,7 +424,7 @@ public abstract class Entity extends Interactable {
             if (baseDamageAttribute == -1) {baseDamageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
             if (damageTypeAttribute == DamageType.NONE) {damageTypeAttribute = DamageType.BLUNT;}
-            if (abilityAttribute == Ability.NONE) {abilityAttribute = Ability.WOUND;}
+            if (abilityAttribute == NoneAbility.ABILITY) {abilityAttribute = FlamesAbility.ABILITY;}
         }
 
         public Attributes level(int level) {
@@ -448,7 +448,7 @@ public abstract class Entity extends Interactable {
             return this;
         }
         public Attributes ability(Ability ability) {
-            if (abilityAttribute == Ability.NONE) {abilityAttribute = ability;}
+            if (abilityAttribute == NoneAbility.ABILITY) {abilityAttribute = ability;}
             return this;
         }
 

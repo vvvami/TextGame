@@ -1,56 +1,42 @@
 package net.vami.interactables.interactions;
-import net.vami.interactables.*;
-import net.vami.interactables.entities.Entity;
 
-public enum Ability {
-    NONE("None"),
-    HEAL("Heal"),
-    BURN("Burn"),
-    FREEZE("Freeze"),
-    WOUND("Wound");
+import net.vami.interactables.Interactable;
 
-    private String name;
-    private String manaCost;
+import java.util.HashMap;
+import java.util.Locale;
 
-    Ability(String name) {
-        this.name = name;
+public abstract class Ability<T extends Ability> {
+    private final String name;
+    private static HashMap<String, Ability> ABILITIES = new HashMap<>();
+
+    protected Ability() {
+        name = this.getClass().getSimpleName().replace("Ability", "");
+        if (ABILITIES.containsKey(name) || name.isEmpty()) {
+            try {
+                throw new Exception("Ability instantiation error");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        ABILITIES.put(name, this);
+    }
+
+    public boolean useAbility(Interactable source, Interactable target) {
+
+        return false;
+    }
+
+    public void beforeAbilityUsed(Interactable source, Interactable target) {
+
+    }
+
+    public static Ability getAbility(String name) {
+        name = name.toLowerCase();
+        return ABILITIES.get(name.toLowerCase());
     }
 
     public String getName() {
-        return this.name;
-    }
-
-    public static void useAbility(Interactable target, Entity source, Ability ability) {
-        switch (ability) {
-            case BURN: {
-                StatusInstance burnAbility = new StatusInstance
-                        (Status.BURNING, source.getLevel(), source.getLevel(), source);
-                target.addStatus(burnAbility);
-                break;
-            }
-
-            case FREEZE: {
-                StatusInstance freezeAbility = new StatusInstance
-                        (Status.FROZEN, source.getLevel(), source.getLevel() * 2, source);
-                target.addStatus(freezeAbility);
-                break;
-            }
-
-            case HEAL: {
-                target.heal(source, source.getLevel() * 2);
-                StatusInstance healAbility = new StatusInstance
-                        (Status.BLESSED, source.getLevel(), source.getLevel(), source);
-                target.addStatus(healAbility);
-                break;
-            }
-
-            case WOUND: {
-                StatusInstance woundAbility = new StatusInstance
-                        (Status.BLEEDING, source.getLevel(), source.getLevel() * 2, source);
-                target.addStatus(woundAbility);
-                break;
-            }
-        }
+        return name;
     }
 
 }

@@ -5,6 +5,7 @@ import net.vami.game.world.Node;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Werewolf;
 import net.vami.interactables.interactions.DamageType;
+import net.vami.interactables.interactions.abilities.FlamesAbility;
 
 public class EnemyHandler {
 
@@ -29,6 +30,8 @@ public class EnemyHandler {
         Werewolf enemy = new Werewolf("Enemy", new Entity.Attributes().level(4));
         System.out.println(enemy.getHealth());
         System.out.println(enemy.getDefaultDamageType().getName());
+        System.out.println(enemy.getAbility().getName());
+
     }
 
 }
