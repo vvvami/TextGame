@@ -38,6 +38,8 @@ public abstract class Entity extends Interactable {
 
     public Entity(String name, Attributes attributes) {
         super(name);
+        this.attributes = attributes;
+        attributes.setDefaults();
 
         level = attributes.levelAttribute;
         maxHealth = attributes.maxHealthAttribute;
@@ -47,8 +49,7 @@ public abstract class Entity extends Interactable {
         ability = attributes.abilityAttribute;
         health = maxHealth;
 
-        this.attributes = attributes;
-        attributes.setDefaults();
+
 
         addAvailableAction(Action.ATTACK);
         addAvailableAction(Action.ABILITY);
