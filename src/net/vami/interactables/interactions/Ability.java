@@ -3,11 +3,12 @@ package net.vami.interactables.interactions;
 import net.vami.interactables.Interactable;
 
 import java.util.HashMap;
-import java.util.Locale;
 
-public abstract class Ability<T extends Ability> {
+public class Ability {
     private final String name;
     private static HashMap<String, Ability> ABILITIES = new HashMap<>();
+
+
 
     protected Ability() {
         name = this.getClass().getSimpleName().replace("Ability", "");

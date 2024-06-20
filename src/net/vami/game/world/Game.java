@@ -7,12 +7,8 @@ import net.vami.interactables.ai.PlayerHandler;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Player;
 import net.vami.interactables.interactions.abilities.FlamesAbility;
-import net.vami.interactables.interactions.abilities.PrayAbility;
 import net.vami.interactables.items.ItemEquipable;
 
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.List;
 import java.util.Scanner;
 

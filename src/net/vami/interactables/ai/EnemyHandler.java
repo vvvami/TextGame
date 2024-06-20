@@ -27,10 +27,7 @@ public class EnemyHandler {
     }
 
     public static void Generate() {
-        Werewolf enemy = new Werewolf("Enemy", new Entity.Attributes().level(4));
-        System.out.println(enemy.getHealth());
-        System.out.println(enemy.getDefaultDamageType().getName());
-        System.out.println(enemy.getAbility().getName());
+        new Werewolf("Enemy", new Entity.Attributes().level(4)).setEnemy(true);
 
     }
 

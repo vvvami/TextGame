@@ -1,8 +1,5 @@
 package net.vami.interactables;
-import net.vami.interactables.interactions.Action;
-import net.vami.interactables.interactions.DamageType;
-import net.vami.interactables.interactions.Status;
-import net.vami.interactables.interactions.StatusInstance;
+import net.vami.interactables.interactions.*;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.interactables.entities.Entity;
@@ -11,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class Interactable {
-    private boolean equipped;
     private final UUID ID;
     private String name;
     private Position position = new Position(0,0,0);

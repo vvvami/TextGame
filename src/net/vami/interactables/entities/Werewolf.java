@@ -1,5 +1,4 @@
 package net.vami.interactables.entities;
-import net.vami.interactables.interactions.Ability;
 import net.vami.interactables.interactions.DamageType;
 import net.vami.interactables.interactions.abilities.FlamesAbility;
 

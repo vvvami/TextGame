@@ -14,6 +14,7 @@ public class FlamesAbility extends Ability {
         super();
     }
 
+
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
 
