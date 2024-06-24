@@ -27,16 +27,16 @@ public final class Position {
         return Objects.hash(xPos, yPos, zPos);
     }
 
-    public int getPosX() {
+    public int x() {
         return this.xPos;
     }
 
-    public int getPosY() {
+    public int y() {
 
         return this.yPos;
     }
 
-    public int getPosZ() {
+    public int z() {
 
         return this.zPos;
     }
@@ -58,6 +58,6 @@ public final class Position {
 
     @Override
     public String toString() {
-        return "(" + getPosX() + ", " + getPosY() + ", " + getPosZ() + ")";
+        return "(" + x() + ", " + y() + ", " + z() + ")";
     }
 }

@@ -1,4 +1,4 @@
-package net.vami.interactables.interactions;
+package net.vami.interactables.interactions.abilities;
 
 import net.vami.interactables.Interactable;
 

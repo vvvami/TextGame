@@ -17,20 +17,24 @@ public abstract class Item extends Interactable {
     }
 
     public Entity getOwner() {
+
         return owner;
     }
 
     public void setOwner(Entity owner) {
+
         this.owner = owner;
     }
 
 
 
     public int getDurability() {
+
         return durability;
     }
 
     public void setDurability(int durability) {
+
         this.durability = durability;
     }
 

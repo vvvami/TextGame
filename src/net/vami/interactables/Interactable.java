@@ -3,6 +3,9 @@ import net.vami.interactables.interactions.*;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.interactables.entities.Entity;
+import net.vami.interactables.interactions.Status;
+import net.vami.interactables.interactions.statuses.CrippledStatus;
+import net.vami.interactables.interactions.statuses.FrozenStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -116,13 +119,13 @@ public class Interactable {
         Entity sourceEntity = (Entity) source;
 
         // can simplify this into a switch if needed in the future
-        if (sourceEntity.hasSpecifiedStatus(Status.CRIPPLED) &&
-                (Math.random() < (double) sourceEntity.getEntityStatus(Status.CRIPPLED).getAmplifier() / 10)) {
+        if (sourceEntity.hasSpecifiedStatus(CrippledStatus.STATUS) &&
+                (Math.random() < (double) sourceEntity.getStatusInstance(CrippledStatus.STATUS).getAmplifier() / 10)) {
             return false;
         }
 
-        if (sourceEntity.hasSpecifiedStatus(Status.FROZEN) &&
-                (Math.random() < (double) sourceEntity.getEntityStatus(Status.FROZEN).getAmplifier() / 20)) {
+        if (sourceEntity.hasSpecifiedStatus(FrozenStatus.STATUS) &&
+                (Math.random() < (double) sourceEntity.getStatusInstance(FrozenStatus.STATUS).getAmplifier() / 20)) {
             return false;
         }
 
@@ -130,6 +133,9 @@ public class Interactable {
     }
 
     public void kill() {
+        if (Node.getNodeFromPosition(this.position).getInteractables().contains(this)) {
+            Node.getNodeFromPosition(this.position).removeInteractable(this);
+        }
 
         position = null;
     }
@@ -218,7 +224,7 @@ public class Interactable {
         return false;
     }
 
-    public void addStatus(@NotNull StatusInstance status) {
+    public void addStatus(@NotNull Status.Instance status) {
 
     }
 

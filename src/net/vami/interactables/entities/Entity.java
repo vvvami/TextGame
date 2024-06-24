@@ -2,8 +2,14 @@ package net.vami.interactables.entities;
 import net.vami.interactables.interactions.*;
 import net.vami.game.Main;
 import net.vami.interactables.Interactable;
+import net.vami.interactables.interactions.abilities.Ability;
 import net.vami.interactables.interactions.abilities.FlamesAbility;
 import net.vami.interactables.interactions.abilities.NoneAbility;
+import net.vami.interactables.interactions.Status;
+import net.vami.interactables.interactions.statuses.BurningStatus;
+import net.vami.interactables.interactions.statuses.CrippledStatus;
+import net.vami.interactables.interactions.statuses.FrozenStatus;
+import net.vami.interactables.interactions.statuses.WoundedStatus;
 import net.vami.interactables.items.Item;
 import net.vami.interactables.items.ItemEquipable;
 import net.vami.interactables.items.ItemHoldable;
@@ -25,7 +31,7 @@ public abstract class Entity extends Interactable {
 
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
-    private List<StatusInstance> statusEffects = new ArrayList<>();
+    private List<Status.Instance> statusEffects = new ArrayList<>();
 
     private List<Item> inventory = new ArrayList<>();
     private ItemHoldable heldItem;
@@ -61,6 +67,11 @@ public abstract class Entity extends Interactable {
 
     }
 
+    public void turn() {
+
+        statusTurn();
+    }
+
     // Main damage function
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
@@ -84,14 +95,14 @@ public abstract class Entity extends Interactable {
 
         Status attackStatus = null;
         switch (damageType) {
-            case SHARP -> attackStatus = Status.BLEEDING;
-            case BLUNT -> attackStatus = Status.CRIPPLED;
-            case ICE -> attackStatus = Status.FROZEN;
-            case FIRE -> attackStatus = Status.BURNING;
+            case SHARP -> attackStatus = WoundedStatus.STATUS;
+            case BLUNT -> attackStatus = CrippledStatus.STATUS;
+            case ICE -> attackStatus = FrozenStatus.STATUS;
+            case FIRE -> attackStatus = BurningStatus.STATUS;
         }
 
         if (attackStatus != null) {
-            StatusInstance attackStatusInstance = new StatusInstance(attackStatus, (int) amount, (int) amount * 2, source);
+            Status.Instance attackStatusInstance = new Status.Instance(attackStatus, (int) amount, (int) amount * 2, source);
             if (Math.random() > 0.9) {
                 addStatus(attackStatusInstance);
             }
@@ -123,19 +134,21 @@ public abstract class Entity extends Interactable {
         return health <= 0;
     }
 
-    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status enum
+
+    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status class
     @Override
-    public void addStatus(@NotNull StatusInstance status) {
+    public void addStatus(@NotNull Status.Instance status) {
         if (this.hasSpecifiedStatus(status.getStatus())) {
             if (status.getStatus().stacksAmplifier()) {
-                status.setAmplifier(status.getAmplifier() + this.getEntityStatus(status.getStatus()).getAmplifier());
+                status.setAmplifier(status.getAmplifier() + this.getStatusInstance(status.getStatus()).getAmplifier());
             }
             if (status.getStatus().stacksDuration()) {
-               status.setDuration(status.getDuration() + this.getEntityStatus(status.getStatus()).getDuration());
+               status.setDuration(status.getDuration() + this.getStatusInstance(status.getStatus()).getDuration());
             }
             removeStatus(status.getStatus());
         }
         else {
+            status.onApply();
             System.out.printf("%s is now %s. %n", this.getName(), status.getStatus().getName());
         }
         status.setTarget(this);
@@ -147,27 +160,61 @@ public abstract class Entity extends Interactable {
             statusEffects.removeIf(statusInstance -> statusInstance.getStatus() == status);
     }
 
-    public void turn() {
-
-        statusTurn();
-    }
-
     private void statusTurn() {
         if (hasStatus()) {
-            List<StatusInstance> removeList = new ArrayList<>();
-            for (StatusInstance statusInstance : statusEffects) {
+            List<Status.Instance> removeList = new ArrayList<>();
+            for (Status.Instance statusInstance : statusEffects) {
                 statusInstance.turn();
                 if (statusInstance.getDuration() <= 0) {
                     removeList.add(statusInstance);
                 }
             }
-            for (StatusInstance statusInstance : removeList) {
+            for (Status.Instance statusInstance : removeList) {
+                statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
                 System.out.printf("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
     }
 
+// Gets the instance of a status on the entity (if it has it)
+    public Status.Instance getStatusInstance(Status status) {
+
+        for (Status.Instance statusInstance : statusEffects) {
+            if (status.equals(statusInstance.getStatus())) {
+                return statusInstance;
+            }
+        }
+        return null;
+    }
+
+// Check if the entity has a specific status applied to them
+    public boolean hasSpecifiedStatus(Status status) {
+        if (hasStatus()) {
+            for (Status.Instance statusInstance : statusEffects) {
+                if (statusInstance.getStatus().equals(status)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Checks if the entity has ANY status
+    public boolean hasStatus() {
+
+        return !(this.statusEffects.isEmpty());
+    }
+
+
+    public List<Status.Instance> getEntityStatuses() {
+
+        return statusEffects;
+    }
+
+
+
+// Adds a damagetype resistance to the entity
     public void addResistance(DamageType resistance) {
 
         resistances.add(resistance);
@@ -186,36 +233,6 @@ public abstract class Entity extends Interactable {
     public List<DamageType> getWeaknesses() {
 
         return weaknesses;
-    }
-
-    public StatusInstance getEntityStatus(Status status) {
-
-            for (StatusInstance statusInstance : statusEffects) {
-                if (status.equals(statusInstance.getStatus())) {
-                    return statusInstance;
-                }
-        }
-        return null;
-    }
-
-    public boolean hasSpecifiedStatus(Status status) {
-        if (hasStatus()) {
-            for (StatusInstance statusInstance : statusEffects) {
-                if (statusInstance.getStatus().equals(status)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean hasStatus() {
-
-        return !(this.statusEffects.isEmpty());
-    }
-
-    public List<StatusInstance> getEntityStatuses() {
-        return statusEffects;
     }
 
     public float getHealth() {
@@ -284,7 +301,7 @@ public abstract class Entity extends Interactable {
         String space = ", ";
 
         if (!statusEffects.isEmpty()) {
-            for (StatusInstance statusInstance : statusEffects) {
+            for (Status.Instance statusInstance : statusEffects) {
                 if (statusEffects.getLast() == statusInstance) {
                     space = "";
                 }
@@ -306,7 +323,7 @@ public abstract class Entity extends Interactable {
 
         if (entitySource.hasHeldItem()) {
             damage += entitySource.getHeldItem().getBaseDamage();
-            type = entitySource.getHeldItem().getDamageType();
+            if (entitySource.getHeldItem().getDamageType() != DamageType.NONE) {type = entitySource.getHeldItem().getDamageType();}
         }
 
         System.out.printf("%s was hit by %s! %n", this.getDisplayName(), entitySource.getDisplayName());
@@ -363,10 +380,10 @@ public abstract class Entity extends Interactable {
 
         if (item instanceof ItemEquipable) {
             if (equippedItems.size() >= maxEquipSlots) {
-                return false;
+                addInventoryItem(item);
+                return true;
             }
 
-            item.setOwner(this);
             equippedItems.add((ItemEquipable) item);
             return true;
         }

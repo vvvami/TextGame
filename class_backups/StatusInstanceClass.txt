@@ -1,6 +1,7 @@
 package net.vami.interactables.interactions;
 
 import net.vami.interactables.entities.Entity;
+import net.vami.interactables.interactions.Status;
 
 public class StatusInstance {
     private int amplifier;
@@ -18,20 +19,8 @@ public class StatusInstance {
 
 
     public void turn() {
-        switch (status) {
-            case BURNING -> target.hurt(source, amplifier, DamageType.FIRE);
-            case FROZEN -> target.hurt(source, amplifier, DamageType.ICE);
-            case BLEEDING -> target.hurt(source, amplifier, DamageType.BLEED);
-            case BLESSED -> target.heal(source, amplifier);
-        }
+        this.getStatus().turn(this.target, this.source);
         this.duration--;
-    }
-
-    private void statusCountersCancel() {
-        if (target.hasSpecifiedStatus(status.getCounterStatus())) {
-            target.removeStatus(status.getCounterStatus());
-            target.removeStatus(status);
-        }
     }
 
     public Status getStatus() {
