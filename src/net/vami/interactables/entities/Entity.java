@@ -1,15 +1,12 @@
 package net.vami.interactables.entities;
+import net.vami.game.TextGame;
+import net.vami.game.display.TextFormatter;
 import net.vami.interactables.interactions.*;
-import net.vami.game.Main;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.interactions.abilities.Ability;
 import net.vami.interactables.interactions.abilities.FlamesAbility;
 import net.vami.interactables.interactions.abilities.NoneAbility;
-import net.vami.interactables.interactions.Status;
-import net.vami.interactables.interactions.statuses.BurningStatus;
-import net.vami.interactables.interactions.statuses.CrippledStatus;
-import net.vami.interactables.interactions.statuses.FrozenStatus;
-import net.vami.interactables.interactions.statuses.WoundedStatus;
+import net.vami.interactables.interactions.statuses.*;
 import net.vami.interactables.items.Item;
 import net.vami.interactables.items.ItemEquipable;
 import net.vami.interactables.items.ItemHoldable;
@@ -19,27 +16,30 @@ import java.util.*;
 
 public abstract class Entity extends Interactable {
 
-
+    // Basic entity stats
     private int maxHealth;
     private float health;
     private float baseDamage;
     private int armor;
     private DamageType defaultDamageType;
     private int level;
+    private Ability ability;
+    private boolean enemy;
 
     private Attributes attributes;
 
+    // DamageType weaknesses and resistances as well as the statusEffect list
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
     private List<Status.Instance> statusEffects = new ArrayList<>();
 
+    // All item-related variables (like the inventory)
     private List<Item> inventory = new ArrayList<>();
     private ItemHoldable heldItem;
-    private List<ItemEquipable> equippedItems = new ArrayList<>();
     private int maxEquipSlots = 3;
+    private List<ItemEquipable> equippedItems = new ArrayList<>(maxEquipSlots);
 
-    private boolean enemy;
-    private Ability ability;
+    // This is mostly for the AI of the entity, not necessarily used for all entities
     private Entity target;
 
     public Entity(String name, Attributes attributes) {
@@ -55,8 +55,8 @@ public abstract class Entity extends Interactable {
         ability = attributes.abilityAttribute;
         health = maxHealth;
 
-
-
+        // By default, all entities have these actions available and receivable
+        // You can remove them manually if you wish using removeAvailableAction or removeReceivableAction
         addAvailableAction(Action.ATTACK);
         addAvailableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
@@ -67,6 +67,7 @@ public abstract class Entity extends Interactable {
 
     }
 
+    // A "tick" of the entity
     public void turn() {
 
         statusTurn();
@@ -76,51 +77,47 @@ public abstract class Entity extends Interactable {
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
 
-        if (armor > 0) {
-            amount = (float) (amount / Math.sqrt(armor));
-        }
-
-        if (weaknesses.contains(damageType)) {
-            amount = amount * 2;
-        }
-
-        if (resistances.contains(damageType)) {
-            amount = amount / 2;
-        }
-
+        amount = Calc.damage(this, source, amount, damageType);
         health -= amount;
-        System.out.printf("%s suffered %s damage! %n", getDisplayName(), Main.ANSI_YELLOW
-                + new DecimalFormat("##.##").format(amount)
-                + Main.ANSI_RESET + " " + damageType.getName());
 
+        TextFormatter.EntityInteraction.hurtEntity(new TextFormatter.EntityInteraction(
+                this, source, amount, damageType));
+
+        // Applies status instance based on the damage type dealt (needs revamp)
         Status attackStatus = null;
         switch (damageType) {
-            case SHARP -> attackStatus = WoundedStatus.STATUS;
-            case BLUNT -> attackStatus = CrippledStatus.STATUS;
-            case ICE -> attackStatus = FrozenStatus.STATUS;
-            case FIRE -> attackStatus = BurningStatus.STATUS;
+            case SHARP -> attackStatus = new WoundedStatus();
+            case BLUNT -> attackStatus = new CrippledStatus();
+            case ICE -> attackStatus = new FrozenStatus();
+            case FIRE -> attackStatus = new BurningStatus();
         }
 
         if (attackStatus != null) {
-            Status.Instance attackStatusInstance = new Status.Instance(attackStatus, (int) amount, (int) amount * 2, source);
+            Status.Instance attackStatusInstance = new Status.Instance(
+                    attackStatus, (int) amount, (int) amount * 2, source);
             if (Math.random() > 0.9) {
                 addStatus(attackStatusInstance);
             }
         }
     }
 
+
     // Main healing function
     @Override
     public void heal(Entity source, float amount) {
-        String stringAmount = Main.ANSI_YELLOW + amount + Main.ANSI_RESET;
+
         if (isEnded()) {
             return;
         }
+
+        TextFormatter.EntityInteraction.healEntity(new TextFormatter.EntityInteraction(
+                this, source, amount));
         health = Math.min(maxHealth, health + amount);
-        System.out.printf("%s was healed by %s for %s health! %n", getDisplayName(), source.getDisplayName(),
-                 stringAmount);
+
+
     }
 
+    // Uses the ability of the entity
     @Override
     public boolean useAbility(Interactable target) {
         ability.useAbility(this, target);
@@ -137,7 +134,7 @@ public abstract class Entity extends Interactable {
 
     // Adds a status effect. Stacks the status according to the status' parameters defined in the Status class
     @Override
-    public void addStatus(@NotNull Status.Instance status) {
+    public void addStatus(Status.Instance status) {
         if (this.hasSpecifiedStatus(status.getStatus())) {
             if (status.getStatus().stacksAmplifier()) {
                 status.setAmplifier(status.getAmplifier() + this.getStatusInstance(status.getStatus()).getAmplifier());
@@ -157,9 +154,10 @@ public abstract class Entity extends Interactable {
 
     // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
     public void removeStatus(Status status) {
-            statusEffects.removeIf(statusInstance -> statusInstance.getStatus() == status);
+            statusEffects.removeIf(statusInstance -> statusInstance.getStatus().equals(status));
     }
 
+    // Triggered by the turn() function. Checks the entity's statuses and applies their effect accordingly.
     private void statusTurn() {
         if (hasStatus()) {
             List<Status.Instance> removeList = new ArrayList<>();
@@ -177,7 +175,7 @@ public abstract class Entity extends Interactable {
         }
     }
 
-// Gets the instance of a status on the entity (if it has it)
+    // Gets the instance of a status on the entity (if it has it)
     public Status.Instance getStatusInstance(Status status) {
 
         for (Status.Instance statusInstance : statusEffects) {
@@ -188,13 +186,14 @@ public abstract class Entity extends Interactable {
         return null;
     }
 
-// Check if the entity has a specific status applied to them
+    // Check if the entity has a specific status applied to them
     public boolean hasSpecifiedStatus(Status status) {
         if (hasStatus()) {
             for (Status.Instance statusInstance : statusEffects) {
                 if (statusInstance.getStatus().equals(status)) {
                     return true;
                 }
+
             }
         }
         return false;
@@ -206,49 +205,62 @@ public abstract class Entity extends Interactable {
         return !(this.statusEffects.isEmpty());
     }
 
-
-    public List<Status.Instance> getEntityStatuses() {
+    // Gets the list of all statuses on the entity
+    public List<Status.Instance> getStatuses() {
 
         return statusEffects;
     }
 
 
 
-// Adds a damagetype resistance to the entity
+// Adds a damage type resistance to the entity
     public void addResistance(DamageType resistance) {
 
         resistances.add(resistance);
     }
 
+    // Gets all the entity's damage type resistances
     public List<DamageType> getResistances() {
 
         return resistances;
     }
 
+    // Adds a damage type weakness to the entity
     public void addWeakness(DamageType weakness) {
 
         weaknesses.add(weakness);
     }
 
+    // Gets all the entity's damage type weaknesses
     public List<DamageType> getWeaknesses() {
 
         return weaknesses;
     }
 
+    // Gets the entity health
     public float getHealth() {
 
         return this.health;
     }
 
+    // Gets the entity max health
+    public int getMaxHealth() {
+
+        return this.maxHealth;
+    }
+
+    // Gets the entity's base damage
     public float getBaseDamage() {
 
         return baseDamage;
     }
 
+    // Gets the entity's damage type
     public DamageType getDefaultDamageType() {
 
         return defaultDamageType;
     }
+
 
     // Checks of the entity is an enemy (against the player)
     public boolean isEnemy() {
@@ -256,41 +268,49 @@ public abstract class Entity extends Interactable {
         return enemy;
     }
 
+    // Sets the entity to an enemy
     public void setEnemy(boolean enemy) {
 
         this.enemy = enemy;
     }
 
+    // Gets the level of the entity
     public int getLevel() {
 
         return level;
     }
 
+    // Gets the entity's ability
     public Ability getAbility() {
 
         return ability;
     }
 
+    // Gets the current target of the entity
     public Entity getTarget() {
 
         return this.target;
     }
 
+    // Sets the current target of the entity
     public void setTarget(Entity target) {
 
         this.target = target;
     }
 
+    // Checks if the entity has a target
     public boolean hasTarget() {
 
-        return target != null;
+        return target != null && !target.isEnded();
     }
 
+    // Gets the formatted display name of the entity
     public String getDisplayName() {
 
         return getName() + statusDisplay();
     }
 
+    // Formatted level display of the entity
     public String levelDisplay() {
 
         return "[" + level + "]";
@@ -341,41 +361,50 @@ public abstract class Entity extends Interactable {
         return true;
     }
 
+    // Gets all the equipped items of the entity
     public List<ItemEquipable> getEquippedItems() {
 
         return equippedItems;
     }
 
+    // Gets the max equipment slots for equipable items (ItemEquipable)
     public int getMaxEquipSlots() {
 
         return maxEquipSlots;
     }
 
+    // Sets the max equipment slots for ItemEquipable items
     public void setMaxEquipSlots(int maxEquipSlots) {
 
         this.maxEquipSlots = maxEquipSlots;
     }
 
+    // Adds an item to the inventory
     public void addInventoryItem(Item item) {
         inventory.add(item);
         item.kill();
     }
 
+    // Removes an item from the inventory
     public void removeInventoryItem(Item item) {
 
         inventory.remove(item);
     }
 
+    // Gets the item the entity is currently holding
     public ItemHoldable getHeldItem() {
 
         return heldItem;
     }
 
+    // Checks if the entity has an item in their hand
     public boolean hasHeldItem() {
 
         return !(heldItem == null);
     }
 
+    // Equips an item to the entity's hand.
+    // If the item is ItemEquipable it takes from the maxEquipSlots, else it holds the item instead
     public boolean equipItem(Item item) {
 
         if (item instanceof ItemEquipable) {
@@ -401,6 +430,7 @@ public abstract class Entity extends Interactable {
         return false;
     }
 
+    // Removes an item from holdable or equipable
     public boolean removeItem(Item item) {
         if (item instanceof ItemEquipable) {
             if (!equippedItems.contains(item)) {
@@ -418,6 +448,9 @@ public abstract class Entity extends Interactable {
         return true;
     }
 
+    // This class exists entirely because im a lazy piece of shit.
+    // It lets me dynamically change the attributes of an entity both in its class and when instantiated.
+    // I kinda took "inspiration" from Minecraft for this one
     public static class Attributes {
         int levelAttribute;
         int maxHealthAttribute;
@@ -479,5 +512,34 @@ public abstract class Entity extends Interactable {
             this.abilityAttribute = attributes.abilityAttribute;
             return this;
         }
+    }
+
+    public static class Calc {
+
+        public static float damage(Entity target, Entity source, float initialDamage, DamageType damageType) {
+            float finalDamage = initialDamage;
+
+            if (target.weaknesses.contains(damageType)) {
+                finalDamage = finalDamage * 2;
+            }
+
+            else if (target.resistances.contains(damageType)) {
+                finalDamage = finalDamage / 2;
+            }
+
+            if (source.hasSpecifiedStatus(new FrenziedStatus())) {
+                finalDamage = finalDamage +
+                        (finalDamage * source.getStatusInstance(new FrenziedStatus()).getAmplifier() / 20);
+            }
+
+            // Armor defense is applied after the weakness/resistance calc
+            if (target.armor > 0) {
+                finalDamage = (float) (finalDamage / Math.sqrt(target.armor));
+            }
+
+            return finalDamage;
+        }
+
+
     }
 }

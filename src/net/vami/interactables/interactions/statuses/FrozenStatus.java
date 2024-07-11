@@ -2,13 +2,28 @@ package net.vami.interactables.interactions.statuses;
 
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.interactions.DamageType;
-import net.vami.interactables.interactions.Status;
 
 public class FrozenStatus extends Status {
-    public static final FrozenStatus STATUS = new FrozenStatus("Frozen", true, true, true);
 
-    protected FrozenStatus(String name, boolean stacksAmplifier, boolean stacksDuration, boolean harmful) {
-        super(name, stacksAmplifier, stacksDuration, harmful);
+
+    @Override
+    public String getName() {
+        return "Frozen";
+    }
+
+    @Override
+    public boolean stacksAmplifier() {
+        return true;
+    }
+
+    @Override
+    public boolean stacksDuration() {
+        return true;
+    }
+
+    @Override
+    public boolean isHarmful() {
+        return true;
     }
 
     @Override

@@ -3,7 +3,7 @@ import net.vami.interactables.interactions.*;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.Status;
+import net.vami.interactables.interactions.statuses.Status;
 import net.vami.interactables.interactions.statuses.CrippledStatus;
 import net.vami.interactables.interactions.statuses.FrozenStatus;
 import org.jetbrains.annotations.NotNull;
@@ -119,13 +119,13 @@ public class Interactable {
         Entity sourceEntity = (Entity) source;
 
         // can simplify this into a switch if needed in the future
-        if (sourceEntity.hasSpecifiedStatus(CrippledStatus.STATUS) &&
-                (Math.random() < (double) sourceEntity.getStatusInstance(CrippledStatus.STATUS).getAmplifier() / 10)) {
+        if (sourceEntity.hasSpecifiedStatus(new CrippledStatus()) &&
+                (Math.random() < (double) sourceEntity.getStatusInstance(new CrippledStatus()).getAmplifier() / 10)) {
             return false;
         }
 
-        if (sourceEntity.hasSpecifiedStatus(FrozenStatus.STATUS) &&
-                (Math.random() < (double) sourceEntity.getStatusInstance(FrozenStatus.STATUS).getAmplifier() / 20)) {
+        if (sourceEntity.hasSpecifiedStatus(new FrozenStatus()) &&
+                (Math.random() < (double) sourceEntity.getStatusInstance(new FrozenStatus()).getAmplifier() / 20)) {
             return false;
         }
 

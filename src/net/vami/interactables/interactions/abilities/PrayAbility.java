@@ -2,13 +2,14 @@ package net.vami.interactables.interactions.abilities;
 
 import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.Status;
+import net.vami.interactables.interactions.statuses.Status;
 import net.vami.interactables.interactions.statuses.BlessedStatus;
 
 public class PrayAbility extends Ability {
     public static final PrayAbility ABILITY = new PrayAbility();
 
     protected PrayAbility() {
+
         super();
     }
 
@@ -19,7 +20,7 @@ public class PrayAbility extends Ability {
 
             targetEntity.heal(sourceEntity, sourceEntity.getLevel() * 1.5f);
             targetEntity.addStatus(new Status.Instance
-                    (BlessedStatus.STATUS, sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
+                    (new BlessedStatus(), sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;
     }

@@ -15,16 +15,18 @@ public class AllyHandler {
     public static void allyAction() {
         for (Entity ally : Node.getAllies()) {
             if (!(ally instanceof Player)) {
-                allyTargeting(ally);
                 if (ally.hasTarget()) {
                     ally.applyAction(ally.getTarget(), Action.ATTACK);
+                }
+                else {
+                    allyTargeting(ally);
                 }
             }
         }
     }
 
     public static void allyTargeting(Entity source) {
-        if (source.getTarget() == null) {
+        if (!source.hasTarget()) {
             for (Entity enemy : Node.getEnemies()) {
                 source.setTarget(enemy);
             }
@@ -33,7 +35,10 @@ public class AllyHandler {
 
     public static void Generate() {
         new Werewolf("Friend", new Entity.Attributes()).setEnemy(false);
-        ExcaliburItem test = new ExcaliburItem("Excalibur", new ItemHoldable.Attributes().baseDamage(100).damageType(DamageType.ICE));
+        ExcaliburItem test = new ExcaliburItem("Excalibur", new ItemHoldable.Attributes()
+                .baseDamage(100)
+                .damageType(DamageType.ICE));
+
         System.out.println(test.getBaseDamage());
         System.out.println(test.getDamageType().getName());
 

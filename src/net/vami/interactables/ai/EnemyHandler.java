@@ -11,15 +11,17 @@ public class EnemyHandler {
 
     public static void enemyAction() {
         for (Entity enemy : Node.getEnemies()) {
-                enemyTargeting(enemy);
             if (enemy.hasTarget()) {
                 enemy.applyAction(enemy.getTarget(), Action.ATTACK);
+            }
+            else {
+                enemyTargeting(enemy);
             }
         }
     }
 
     public static void enemyTargeting(Entity source) {
-        if (source.getTarget() == null) {
+        if (!source.hasTarget()) {
             for (Entity ally : Node.getAllies()) {
                 source.setTarget(ally);
             }

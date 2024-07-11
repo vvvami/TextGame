@@ -1,46 +1,18 @@
-package net.vami.interactables.interactions;
+package net.vami.interactables.interactions.statuses;
 
-import net.vami.game.Main;
+import net.vami.game.TextGame;
 import net.vami.interactables.entities.Entity;
 
-public class Status {
+public abstract class Status {
 
+    protected Status() {
 
-    private String name;
-    private boolean harmful;
-    private boolean stacksDuration;
-    private boolean stacksAmplifier;
-
-
-    protected Status(String name, boolean stacksAmplifier, boolean stacksDuration, boolean harmful) {
-        this.stacksAmplifier = stacksAmplifier;
-        this.stacksDuration = stacksDuration;
-        this.harmful = harmful;
-
-        if (harmful) {
-            this.name = Main.ANSI_RED + name + Main.ANSI_RESET;
-        }
-        else {
-            this.name = Main.ANSI_GREEN + name + Main.ANSI_RESET;
-        }
     }
 
-    public String getName() {
-        return name;
-    }
-
-
-    public boolean isHarmful() {
-        return harmful;
-    }
-
-    public boolean stacksDuration() {
-        return stacksDuration;
-    }
-
-    public boolean stacksAmplifier() {
-        return stacksAmplifier;
-    }
+    public abstract String getName();
+    public abstract boolean stacksAmplifier();
+    public abstract boolean stacksDuration();
+    public abstract boolean isHarmful();
 
     protected void turn(Entity target, Entity source) {
 
@@ -52,6 +24,12 @@ public class Status {
 
     protected void onEnded(Entity target, Entity source) {
 
+    }
+
+    // Always use this and not == when comparing statuses
+    @Override
+    public boolean equals(Object obj) {
+        return this.getClass() == obj.getClass();
     }
 
     public static class Instance {
@@ -69,6 +47,7 @@ public class Status {
         }
 
         public void onApply() {
+
             this.getStatus().onApply(target, source);
         }
 
@@ -78,7 +57,8 @@ public class Status {
         }
 
         public void onEnded() {
-            this.getStatus().onApply(target, source);
+
+            this.getStatus().onEnded(target, source);
         }
 
         public Status getStatus() {
@@ -120,6 +100,7 @@ public class Status {
 
             this.target = target;
         }
+
     }
 
 }

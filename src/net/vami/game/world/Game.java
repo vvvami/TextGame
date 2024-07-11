@@ -7,6 +7,8 @@ import net.vami.interactables.ai.PlayerHandler;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Player;
 import net.vami.interactables.interactions.abilities.FlamesAbility;
+import net.vami.interactables.interactions.abilities.PrayAbility;
+import net.vami.interactables.interactions.abilities.RageAbility;
 import net.vami.interactables.items.ItemEquipable;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public abstract class Game {
     public static final Player player = new Player(namePlayer(),
             new Entity.Attributes()
                     .level(10)
-                    .ability(FlamesAbility.ABILITY));
+                    .ability(RageAbility.ABILITY));
 
     private static boolean endGame = false;
 
@@ -49,6 +51,7 @@ public abstract class Game {
     }
 
     static void playerTurn() {
+
         allyTicker();
     }
 
@@ -121,7 +124,7 @@ public abstract class Game {
     private static boolean allyEndedCheck(Entity ally) {
             if (ally.isEnded()) {
                 System.out.println(ally.getName() + " has died!");
-                getCurrentNode().removeInteractable(ally);
+                ally.kill();
 
                 if (ally.equals(Game.player)) {
                     System.out.println("Game Over!");
@@ -135,7 +138,7 @@ public abstract class Game {
     private static boolean enemyEndedCheck(Entity enemy) {
         if (enemy.isEnded()) {
             System.out.println(enemy.getName() + " has died!");
-            getCurrentNode().removeInteractable(enemy);
+            enemy.kill();
             if (Node.getEnemies().isEmpty()) {
                 endGame = true;
             }

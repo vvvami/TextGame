@@ -4,7 +4,7 @@ import net.vami.interactables.Interactable;
 
 import java.util.HashMap;
 
-public class Ability {
+public abstract class Ability {
     private final String name;
     private static HashMap<String, Ability> ABILITIES = new HashMap<>();
 
@@ -33,10 +33,11 @@ public class Ability {
 
     public static Ability getAbility(String name) {
         name = name.toLowerCase();
-        return ABILITIES.get(name.toLowerCase());
+        return ABILITIES.get(name);
     }
 
     public String getName() {
+
         return name;
     }
 

@@ -3,13 +3,14 @@ package net.vami.interactables.interactions.abilities;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.interactions.DamageType;
-import net.vami.interactables.interactions.Status;
+import net.vami.interactables.interactions.statuses.Status;
 import net.vami.interactables.interactions.statuses.BurningStatus;
 
 public class FlamesAbility extends Ability {
     public static final FlamesAbility ABILITY = new FlamesAbility();
 
     protected FlamesAbility() {
+
         super();
     }
 
@@ -20,7 +21,7 @@ public class FlamesAbility extends Ability {
         if (source instanceof Entity sourceEntity) {
             target.hurt(sourceEntity, sourceEntity.getLevel(), DamageType.FIRE);
             target.addStatus(new Status.Instance(
-                    BurningStatus.STATUS, ((Entity) source).getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
+                    new BurningStatus(), ((Entity) source).getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;
     }

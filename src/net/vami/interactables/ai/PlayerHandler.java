@@ -1,8 +1,9 @@
 package net.vami.interactables.ai;
 
+import net.vami.game.TextGame;
+import net.vami.game.display.TextFormatter;
 import net.vami.interactables.interactions.Action;
 import net.vami.game.world.Game;
-import net.vami.game.Main;
 import net.vami.game.world.Node;
 import net.vami.interactables.Interactable;
 
@@ -12,7 +13,7 @@ public class PlayerHandler {
 
     public static boolean read() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print(Main.ANSI_BLUE + "> " + Main.ANSI_RESET);
+        System.out.print(TextFormatter.ANSI_BLUE + "> " + TextFormatter.ANSI_RESET);
         String fullAction = scanner.nextLine();
         return actionInput(fullAction);
 

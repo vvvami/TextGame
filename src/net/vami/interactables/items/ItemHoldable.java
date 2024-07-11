@@ -9,7 +9,7 @@ public abstract class ItemHoldable extends Item {
     private Attributes attributes;
 
     public ItemHoldable(String name, Attributes attributes) {
-        super(name, attributes.durabilityAttribute);
+        super(name, 0);
         this.attributes = attributes;
         attributes.setDefaults();
 
