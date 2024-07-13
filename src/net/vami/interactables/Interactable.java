@@ -87,16 +87,12 @@ public class Interactable {
             case Action.EQUIP -> receiveEquip(source);
             case Action.ABILITY -> receiveAbility(source);
             case Action.SAVE -> receiveSave(source);
+            case Action.RESIST -> receiveResist(source);
             default -> false;
         };
     }
 
     public boolean applyAction(Interactable target, Action action) {
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
 
         if (!availableActions.contains(action)) {
             System.out.printf("%s tries to %s %s, but nothing happens. %n",
@@ -110,7 +106,6 @@ public class Interactable {
             case Action.TAKE -> target.receiveTake(this);
             case Action.EQUIP -> target.receiveEquip(this);
             case Action.ABILITY -> target.receiveAbility(this);
-            case Action.SAVE -> target.receiveSave(this);
             default -> false;
         };
     }
@@ -220,6 +215,11 @@ public class Interactable {
     }
 
     public boolean receiveSave(Interactable source) {
+
+        return false;
+    }
+
+    public boolean receiveResist(Interactable source) {
 
         return false;
     }

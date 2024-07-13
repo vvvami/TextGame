@@ -1,5 +1,6 @@
 package net.vami.interactables.entities;
 import net.vami.interactables.Interactable;
+import net.vami.interactables.ai.Brain;
 import net.vami.interactables.interactions.Action;
 
 import java.io.*;
@@ -14,6 +15,11 @@ public class Player extends Entity implements Serializable {
 
         addAvailableAction(Action.SAVE);
         addReceivableAction(Action.SAVE);
+    }
+
+    @Override
+    public Brain getBrain() {
+        return null;
     }
 
     @Override

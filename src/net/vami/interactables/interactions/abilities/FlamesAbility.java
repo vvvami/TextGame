@@ -7,13 +7,6 @@ import net.vami.interactables.interactions.statuses.Status;
 import net.vami.interactables.interactions.statuses.BurningStatus;
 
 public class FlamesAbility extends Ability {
-    public static final FlamesAbility ABILITY = new FlamesAbility();
-
-    protected FlamesAbility() {
-
-        super();
-    }
-
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
@@ -24,5 +17,10 @@ public class FlamesAbility extends Ability {
                     new BurningStatus(), ((Entity) source).getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "Flames";
     }
 }

@@ -6,12 +6,6 @@ import net.vami.interactables.interactions.statuses.Status;
 import net.vami.interactables.interactions.statuses.BlessedStatus;
 
 public class PrayAbility extends Ability {
-    public static final PrayAbility ABILITY = new PrayAbility();
-
-    protected PrayAbility() {
-
-        super();
-    }
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
@@ -23,5 +17,10 @@ public class PrayAbility extends Ability {
                     (new BlessedStatus(), sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "Pray";
     }
 }

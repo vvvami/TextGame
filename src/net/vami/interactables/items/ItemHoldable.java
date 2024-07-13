@@ -57,17 +57,17 @@ public abstract class ItemHoldable extends Item {
         }
 
         public Attributes baseDamage(int baseDamage) {
-            baseDamageAttribute = baseDamage;
+            if (baseDamageAttribute == -1) baseDamageAttribute = baseDamage;
             return this;
         }
 
         public Attributes damageType(DamageType damageType) {
-            damageTypeAttribute = damageType;
+            if (damageTypeAttribute == DamageType.NONE) damageTypeAttribute = damageType;
             return this;
         }
 
         public Attributes durability(int durability) {
-            durabilityAttribute = durability;
+            if (durabilityAttribute == -1) durabilityAttribute = durability;
             return this;
         }
 

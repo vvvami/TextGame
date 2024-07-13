@@ -1,17 +1,17 @@
 package net.vami.interactables.entities;
-import net.vami.game.TextGame;
 import net.vami.game.display.TextFormatter;
+import net.vami.interactables.ai.Brain;
 import net.vami.interactables.interactions.*;
 import net.vami.interactables.Interactable;
 import net.vami.interactables.interactions.abilities.Ability;
 import net.vami.interactables.interactions.abilities.FlamesAbility;
 import net.vami.interactables.interactions.abilities.NoneAbility;
+import net.vami.interactables.interactions.abilities.RageAbility;
 import net.vami.interactables.interactions.statuses.*;
 import net.vami.interactables.items.Item;
 import net.vami.interactables.items.ItemEquipable;
 import net.vami.interactables.items.ItemHoldable;
-import org.jetbrains.annotations.NotNull;
-import java.text.DecimalFormat;
+
 import java.util.*;
 
 public abstract class Entity extends Interactable {
@@ -60,10 +60,12 @@ public abstract class Entity extends Interactable {
         addAvailableAction(Action.ATTACK);
         addAvailableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
+        addReceivableAction(Action.RESIST);
 
         addReceivableAction(Action.ATTACK);
         addReceivableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
+        addReceivableAction(Action.RESIST);
 
     }
 
@@ -73,11 +75,13 @@ public abstract class Entity extends Interactable {
         statusTurn();
     }
 
+    public abstract Brain getBrain();
+
     // Main damage function
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
 
-        amount = Calc.damage(this, source, amount, damageType);
+        amount = EntityManager.Calc.damage(this, source, amount, damageType);
         health -= amount;
 
         TextFormatter.EntityInteraction.hurtEntity(new TextFormatter.EntityInteraction(
@@ -105,16 +109,16 @@ public abstract class Entity extends Interactable {
     // Main healing function
     @Override
     public void heal(Entity source, float amount) {
-
         if (isEnded()) {
             return;
         }
 
+        amount = EntityManager.Calc.heal(this, source, amount);
+
         TextFormatter.EntityInteraction.healEntity(new TextFormatter.EntityInteraction(
                 this, source, amount));
+
         health = Math.min(maxHealth, health + amount);
-
-
     }
 
     // Uses the ability of the entity
@@ -135,18 +139,24 @@ public abstract class Entity extends Interactable {
     // Adds a status effect. Stacks the status according to the status' parameters defined in the Status class
     @Override
     public void addStatus(Status.Instance status) {
-        if (this.hasSpecifiedStatus(status.getStatus())) {
-            if (status.getStatus().stacksAmplifier()) {
-                status.setAmplifier(status.getAmplifier() + this.getStatusInstance(status.getStatus()).getAmplifier());
+        Status temp = status.getStatus();
+
+        if (this.hasSpecifiedStatus(temp)) {
+            Status.Instance tempInstance = this.getStatusInstance(temp);
+
+            if (temp.stacksAmplifier()) {
+                status.setAmplifier(status.getAmplifier() + tempInstance.getAmplifier());
             }
-            if (status.getStatus().stacksDuration()) {
-               status.setDuration(status.getDuration() + this.getStatusInstance(status.getStatus()).getDuration());
+
+            if (temp.stacksDuration()) {
+               status.setDuration(status.getDuration() + tempInstance.getDuration());
             }
-            removeStatus(status.getStatus());
+
+            removeStatus(temp);
         }
         else {
             status.onApply();
-            System.out.printf("%s is now %s. %n", this.getName(), status.getStatus().getName());
+            System.out.printf("%s is now %s. %n", this.getName(), temp.getName());
         }
         status.setTarget(this);
         statusEffects.add(status);
@@ -247,6 +257,11 @@ public abstract class Entity extends Interactable {
     public int getMaxHealth() {
 
         return this.maxHealth;
+    }
+
+    public int getArmor() {
+
+        return this.armor;
     }
 
     // Gets the entity's base damage
@@ -361,6 +376,25 @@ public abstract class Entity extends Interactable {
         return true;
     }
 
+    @Override
+    public boolean receiveResist(Interactable source) {
+        Status.Instance instance1 = null;
+        for (Status.Instance instance : statusEffects) {
+            if (new Random().nextInt(instance.getAmplifier() + 1) == 1) {
+                instance1 = instance;
+                break;
+            }
+        }
+
+        if (instance1 == null) {
+            return false;
+        }
+
+        removeStatus(instance1.getStatus());
+        System.out.printf("%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
+        return true;
+    }
+
     // Gets all the equipped items of the entity
     public List<ItemEquipable> getEquippedItems() {
 
@@ -465,7 +499,7 @@ public abstract class Entity extends Interactable {
             this.baseDamageAttribute = -1;
             this.armorAttribute = -1;
             this.damageTypeAttribute = DamageType.NONE;
-            this.abilityAttribute = NoneAbility.ABILITY;
+            this.abilityAttribute = null;
         }
 
         public void setDefaults() {
@@ -474,7 +508,7 @@ public abstract class Entity extends Interactable {
             if (baseDamageAttribute == -1) {baseDamageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
             if (damageTypeAttribute == DamageType.NONE) {damageTypeAttribute = DamageType.BLUNT;}
-            if (abilityAttribute == NoneAbility.ABILITY) {abilityAttribute = FlamesAbility.ABILITY;}
+            if (abilityAttribute == null) {abilityAttribute = new RageAbility();}
         }
 
         public Attributes level(int level) {
@@ -498,7 +532,7 @@ public abstract class Entity extends Interactable {
             return this;
         }
         public Attributes ability(Ability ability) {
-            if (abilityAttribute == NoneAbility.ABILITY) {abilityAttribute = ability;}
+            if (abilityAttribute == null) {abilityAttribute = ability;}
             return this;
         }
 
@@ -512,34 +546,5 @@ public abstract class Entity extends Interactable {
             this.abilityAttribute = attributes.abilityAttribute;
             return this;
         }
-    }
-
-    public static class Calc {
-
-        public static float damage(Entity target, Entity source, float initialDamage, DamageType damageType) {
-            float finalDamage = initialDamage;
-
-            if (target.weaknesses.contains(damageType)) {
-                finalDamage = finalDamage * 2;
-            }
-
-            else if (target.resistances.contains(damageType)) {
-                finalDamage = finalDamage / 2;
-            }
-
-            if (source.hasSpecifiedStatus(new FrenziedStatus())) {
-                finalDamage = finalDamage +
-                        (finalDamage * source.getStatusInstance(new FrenziedStatus()).getAmplifier() / 20);
-            }
-
-            // Armor defense is applied after the weakness/resistance calc
-            if (target.armor > 0) {
-                finalDamage = (float) (finalDamage / Math.sqrt(target.armor));
-            }
-
-            return finalDamage;
-        }
-
-
     }
 }

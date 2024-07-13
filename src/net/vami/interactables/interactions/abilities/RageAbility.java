@@ -6,12 +6,6 @@ import net.vami.interactables.interactions.statuses.FrenziedStatus;
 import net.vami.interactables.interactions.statuses.Status;
 
 public class RageAbility extends Ability {
-    public static final RageAbility ABILITY = new RageAbility();
-
-    protected RageAbility() {
-
-        super();
-    }
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
@@ -20,5 +14,10 @@ public class RageAbility extends Ability {
                     new FrenziedStatus(), sourceEntity.getLevel(), sourceEntity.getLevel(), sourceEntity));
         }
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "Rage";
     }
 }

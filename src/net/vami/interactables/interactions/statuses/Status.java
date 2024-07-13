@@ -41,8 +41,8 @@ public abstract class Status {
 
         public Instance(Status status, int amplifier, int duration, Entity source) {
             this.status = status;
-            this.amplifier = amplifier;
-            this.duration = duration;
+            this.amplifier = Math.max(1, duration);
+            this.duration = Math.max(1, duration);
             this.source = source;
         }
 

@@ -3,14 +3,14 @@ package net.vami.game.world;
 import java.util.Objects;
 
 public final class Position {
-    private int xPos;
-    private int yPos;
-    private int zPos;
+    private int x;
+    private int y;
+    private int z;
 
-    public Position(int xPos, int yPos, int zPos) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.zPos = zPos;
+    public Position(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     @Override
@@ -18,46 +18,44 @@ public final class Position {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return xPos == position.xPos && yPos == position.yPos && zPos == position.zPos;
+        return x == position.x && y == position.y && z == position.z;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(xPos, yPos, zPos);
+        return Objects.hash(x, y, z);
     }
 
     public int x() {
-        return this.xPos;
+        return this.x;
     }
 
     public int y() {
 
-        return this.yPos;
+        return this.y;
     }
 
     public int z() {
 
-        return this.zPos;
+        return this.z;
     }
 
     public Position setX(int x) {
 
-        return new Position(x, yPos, zPos);
+        return new Position(x, y, z);
     }
 
     public Position setY(int y) {
 
-        return new Position(xPos, y, zPos);
+        return new Position(x, y, z);
     }
 
     public Position setZ(int z) {
 
-        return new Position(xPos, yPos, z);
+        return new Position(x, y, z);
     }
 
     @Override
-    public String toString() {
-        return "(" + x() + ", " + y() + ", " + z() + ")";
-    }
+    public String toString() {return "(" + x + ", " + y + ", " + z + ")";}
 }

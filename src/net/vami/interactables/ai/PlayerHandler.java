@@ -33,7 +33,7 @@ public class PlayerHandler {
             case MOVEMENT -> false;
             case USE -> false;
             case TAKE, EQUIP -> interactionSwitch(input, node, action);
-            case SAVE -> Game.player.receiveAction(Game.player, action);
+            case SAVE, RESIST -> Game.player.receiveAction(Game.player, action);
             case ATTACK, ABILITY -> combatSwitch(inputArr, node, action);
         };
     }
@@ -63,4 +63,5 @@ public class PlayerHandler {
         }
         return target.receiveAction(Game.player, action);
     }
+
 }

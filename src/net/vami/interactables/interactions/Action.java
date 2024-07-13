@@ -12,7 +12,8 @@ public enum Action {
     TAKE(takeSynonyms()),
     EQUIP(equipSynonyms()),
     SAVE(saveSynonyms()),
-    ABILITY(abilitySynonyms());
+    ABILITY(abilitySynonyms()),
+    RESIST(resistSynonyms());
     public static Map<String, Action> synonymToAction = new HashMap<>();
     private List<String> synonyms;
 
@@ -44,6 +45,17 @@ public enum Action {
         synonymList.add("escape");
         synonymList.add("flee");
         synonymList.add("go");
+        return synonymList;
+    }
+
+    private static List<String> resistSynonyms() {
+        List<String> synonymList = new ArrayList<>();
+        synonymList.add("resist");
+        synonymList.add("endure");
+        synonymList.add("suffer");
+        synonymList.add("withstand");
+        synonymList.add("outlast");
+        synonymList.add("repel");
         return synonymList;
     }
 
