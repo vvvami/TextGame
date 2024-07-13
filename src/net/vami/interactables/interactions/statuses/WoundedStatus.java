@@ -1,9 +1,9 @@
 package net.vami.interactables.interactions.statuses;
 
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.DamageType;
+import net.vami.interactables.interactions.damagetypes.BleedDamage;
 
-public class WoundedStatus extends Status {
+public class WoundedStatus implements IStatus {
 
     @Override
     public String getName() {
@@ -26,7 +26,7 @@ public class WoundedStatus extends Status {
     }
 
     @Override
-    protected void turn(Entity target, Entity source) {
-        target.hurt(source, target.getStatusInstance(this).getAmplifier(), DamageType.BLEED);
+    public void turn(Entity target, Entity source) {
+        target.hurt(source, target.getStatusInstance(this).getAmplifier(), new BleedDamage());
     }
 }

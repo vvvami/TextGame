@@ -1,6 +1,6 @@
 package net.vami.interactables.interactions.statuses;
 
-public class CrippledStatus extends Status {
+public class CrippledStatus implements IStatus {
 
     @Override
     public String getName() {

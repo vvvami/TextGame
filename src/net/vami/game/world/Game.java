@@ -1,13 +1,12 @@
 package net.vami.game.world;
 
+import net.vami.interactables.Interactable;
 import net.vami.interactables.interactions.Action;
 import net.vami.interactables.ai.AllyHandler;
 import net.vami.interactables.ai.EnemyHandler;
 import net.vami.interactables.ai.PlayerHandler;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.entities.Player;
-import net.vami.interactables.interactions.abilities.FlamesAbility;
-import net.vami.interactables.interactions.abilities.PrayAbility;
 import net.vami.interactables.interactions.abilities.RageAbility;
 import net.vami.interactables.items.ItemEquipable;
 
@@ -18,7 +17,7 @@ public abstract class Game {
     public static final Player player = new Player(namePlayer(),
             new Entity.Attributes()
                     .level(10)
-                    .ability(RageAbility.ABILITY));
+                    .ability(new RageAbility()));
 
     private static boolean endGame = false;
 
@@ -29,17 +28,18 @@ public abstract class Game {
         AllyHandler.Generate();
 
         do {
-
             EnemyHandler.enemyAction();
             enemyTurn();
 
             if (!Game.player.isEnded()) {
                 if (!PlayerHandler.read()) {
+                    AllyHandler.allyAction();
                     continue;
                 }
+                AllyHandler.allyAction();
+                allyTurn();
             }
-            AllyHandler.allyAction();
-            playerTurn();
+
         }
         while (!endGame);
 
@@ -50,7 +50,7 @@ public abstract class Game {
         enemyTicker();
     }
 
-    static void playerTurn() {
+    static void allyTurn() {
 
         allyTicker();
     }
@@ -145,6 +145,10 @@ public abstract class Game {
             return true;
         }
         return false;
+    }
+
+    public static List<Interactable> getInteractables() {
+        return Game.getCurrentNode().getInteractables();
     }
 
 }

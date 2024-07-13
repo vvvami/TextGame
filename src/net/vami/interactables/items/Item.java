@@ -28,7 +28,6 @@ public abstract class Item extends Interactable {
     }
 
 
-
     public int getDurability() {
 
         return durability;
@@ -38,6 +37,7 @@ public abstract class Item extends Interactable {
 
         this.durability = durability;
     }
+
 
     public void hurt(int amount) {
         durability -= amount;
@@ -52,7 +52,8 @@ public abstract class Item extends Interactable {
         Entity entitySource = (Entity) source;
         if (entitySource.equipItem(this)) {
             onEquip(entitySource);
-            System.out.printf("%s equips %s. %n", entitySource.getName(), TextFormatter.ANSI_PURPLE + getName() + TextFormatter.ANSI_RESET);
+            System.out.printf("%s equips %s. %n", entitySource.getName(), TextFormatter.purple(getName()));
+            this.kill();
             return true;
         }
         return false;

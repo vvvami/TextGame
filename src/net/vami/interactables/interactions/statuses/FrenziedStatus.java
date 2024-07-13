@@ -1,6 +1,6 @@
 package net.vami.interactables.interactions.statuses;
 
-public class FrenziedStatus extends Status {
+public class FrenziedStatus implements IStatus {
 
     @Override
     public String getName() {return "Frenzied";}

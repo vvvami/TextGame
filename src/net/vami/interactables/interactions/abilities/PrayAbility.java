@@ -2,10 +2,10 @@ package net.vami.interactables.interactions.abilities;
 
 import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.statuses.Status;
+import net.vami.interactables.interactions.statuses.IStatus;
 import net.vami.interactables.interactions.statuses.BlessedStatus;
 
-public class PrayAbility extends Ability {
+public class PrayAbility implements IAbility {
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
@@ -13,7 +13,7 @@ public class PrayAbility extends Ability {
         && source instanceof Entity sourceEntity) {
 
             targetEntity.heal(sourceEntity, sourceEntity.getLevel() * 1.5f);
-            targetEntity.addStatus(new Status.Instance
+            targetEntity.addStatus(new IStatus.Instance
                     (new BlessedStatus(), sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;

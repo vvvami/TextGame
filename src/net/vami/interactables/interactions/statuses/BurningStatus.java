@@ -1,9 +1,9 @@
 package net.vami.interactables.interactions.statuses;
 
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.DamageType;
+import net.vami.interactables.interactions.damagetypes.FireDamage;
 
-public class BurningStatus extends Status {
+public class BurningStatus implements IStatus {
 
     @Override
     public String getName() {
@@ -12,7 +12,7 @@ public class BurningStatus extends Status {
 
     @Override
     public boolean stacksAmplifier() {
-        return false;
+        return true;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class BurningStatus extends Status {
     }
 
     @Override
-    protected void turn(Entity target, Entity source) {
-        target.hurt(source, target.getStatusInstance(this).getAmplifier(), DamageType.FIRE);
+    public void turn(Entity target, Entity source) {
+        target.hurt(source, target.getStatusInstance(this).getAmplifier(), new FireDamage());
     }
 }

@@ -1,12 +1,9 @@
-package net.vami.interactables.ai;
+package net.vami.interactables.ai.tasks;
 
 import net.vami.interactables.entities.Entity;
 
 public abstract class Task {
     private int priority;
-
-    public Task() {
-    }
 
     public int getPriority() {
         return priority;
@@ -18,5 +15,9 @@ public abstract class Task {
 
     public abstract void taskAction(Entity source);
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.getClass() == obj.getClass();
+    }
 }
 

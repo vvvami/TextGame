@@ -1,16 +1,15 @@
 package net.vami.game.display;
 
-import net.vami.game.TextGame;
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.DamageType;
-import net.vami.interactables.interactions.statuses.Status;
+import net.vami.interactables.interactions.damagetypes.IDamageType;
+import net.vami.interactables.interactions.statuses.IStatus;
 
 import java.text.DecimalFormat;
 
 public class TextFormatter {
 
 
-    protected static String formatName(Status status) {
+    protected static String formatName(IStatus status) {
         String statusName;
         if (status.isHarmful()) {
             statusName = ANSI_RED + status.getName() + ANSI_RESET;
@@ -26,9 +25,9 @@ public class TextFormatter {
         Entity target;
         Entity source;
         float amount;
-        DamageType damageType;
+        IDamageType damageType;
 
-        public EntityInteraction(Entity target, Entity source, float amount, DamageType damageType) {
+        public EntityInteraction(Entity target, Entity source, float amount, IDamageType damageType) {
             this.target = target;
             this.source = source;
             this.amount = amount;
@@ -44,9 +43,10 @@ public class TextFormatter {
 
 
         public static void hurtEntity(EntityInteraction interaction) {
-            System.out.printf("%s suffered %s damage! %n", interaction.target.getDisplayName(), ANSI_YELLOW
-                    + new DecimalFormat("##.##").format(interaction.amount)
-                    + ANSI_RESET + " " + interaction.damageType.getName());
+            System.out.printf("%s was hit by %s for %s %s damage! %n", interaction.target.getDisplayName(),
+                    interaction.source.getDisplayName(),
+                    TextFormatter.yellow(new DecimalFormat("##.##").format(interaction.amount)),
+                    interaction.damageType.getName());
         }
 
         public static void healEntity(EntityInteraction interaction) {
@@ -55,6 +55,27 @@ public class TextFormatter {
                     interaction.source.getDisplayName(), stringAmount);
         }
     }
+
+    public static String blue(String input) {
+        return ANSI_BLUE + input + ANSI_RESET;
+    }
+
+    public static String red(String input) {
+        return ANSI_RED + input + ANSI_RESET;
+    }
+
+    public static String green(String input) {
+        return ANSI_GREEN + input + ANSI_RESET;
+    }
+
+    public static String yellow(String input) {
+        return ANSI_YELLOW + input + ANSI_RESET;
+    }
+
+    public static String purple(String input) {
+        return ANSI_PURPLE + input + ANSI_RESET;
+    }
+
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";

@@ -1,47 +1,41 @@
 package net.vami.interactables.interactions.statuses;
 
-import net.vami.game.TextGame;
 import net.vami.interactables.entities.Entity;
 
-public abstract class Status {
+public interface IStatus {
 
-    protected Status() {
+    String getName();
+    boolean stacksAmplifier();
+    boolean stacksDuration();
+    boolean isHarmful();
 
-    }
-
-    public abstract String getName();
-    public abstract boolean stacksAmplifier();
-    public abstract boolean stacksDuration();
-    public abstract boolean isHarmful();
-
-    protected void turn(Entity target, Entity source) {
+    default void turn(Entity target, Entity source) {
 
     }
 
-    protected void onApply(Entity target, Entity source) {
+    default void onApply(Entity target, Entity source) {
 
     }
 
-    protected void onEnded(Entity target, Entity source) {
+    default void onEnded(Entity target, Entity source) {
 
     }
 
     // Always use this and not == when comparing statuses
-    @Override
-    public boolean equals(Object obj) {
-        return this.getClass() == obj.getClass();
+    default boolean is(IStatus status) {
+        return this.getClass() == status.getClass();
     }
 
-    public static class Instance {
+    class Instance {
         private int amplifier;
         private int duration;
         private Entity target;
         private Entity source;
-        private Status status;
+        private IStatus status;
 
-        public Instance(Status status, int amplifier, int duration, Entity source) {
+        public Instance(IStatus status, int amplifier, int duration, Entity source) {
             this.status = status;
-            this.amplifier = Math.max(1, duration);
+            this.amplifier = Math.max(1, amplifier);
             this.duration = Math.max(1, duration);
             this.source = source;
         }
@@ -61,7 +55,7 @@ public abstract class Status {
             this.getStatus().onEnded(target, source);
         }
 
-        public Status getStatus() {
+        public IStatus getStatus() {
 
             return this.status;
         }

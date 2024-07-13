@@ -1,12 +1,13 @@
 package net.vami.interactables.interactions;
 
 import net.vami.interactables.entities.Entity;
+import net.vami.interactables.interactions.damagetypes.IDamageType;
 import net.vami.interactables.interactions.statuses.FrenziedStatus;
 
 public class EntityManager {
 
     public static class Calc {
-        public static float damage(Entity target, Entity source, float initialDamage, DamageType damageType) {
+        public static float damage(Entity target, Entity source, float initialDamage, IDamageType damageType) {
             float finalDamage = initialDamage;
 
             if (target.getWeaknesses().contains(damageType)) {

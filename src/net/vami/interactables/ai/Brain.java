@@ -1,6 +1,7 @@
 package net.vami.interactables.ai;
 
 import net.vami.game.display.TextFormatter;
+import net.vami.interactables.ai.tasks.Task;
 import net.vami.interactables.entities.Entity;
 
 import java.util.ArrayList;
@@ -18,6 +19,19 @@ public class Brain {
         taskList.add(task);
     }
 
+    public void removeTask(Task task) {
+        Task temp = null;
+        for (Task taskIndex : taskList) {
+            if (task.equals(taskIndex)) {
+                temp = taskIndex;
+            }
+        }
+
+        if (temp != null) {
+            taskList.remove(temp);
+        }
+    }
+
     public Task getTask(Task task1) {
         for (Task task2 : taskList) {
             if (task1.getClass() == task2.getClass()) {
@@ -29,12 +43,12 @@ public class Brain {
 
     public boolean hasTask(Task task1) {
         for (Task task2 : taskList) {
-            return (task1.getClass() == task2.getClass());
+            return (task1.equals(task2));
         }
         return false;
     }
 
-    public void executeTask(Entity source) {
+    public void chooseTask(Entity source) {
         quickSort(taskList, 0, taskList.size() - 1);
 
         float priorityAvg = 0;
@@ -47,13 +61,16 @@ public class Brain {
         for (Task task : taskList) {
 
             if (rnd <= task.getPriority()) {
-                System.out.println("Selected task: " + TextFormatter.ANSI_RED + task.getClass().getSimpleName() + TextFormatter.ANSI_RESET);
                 task.taskAction(source);
                 return;
             }
         }
 
         taskList.getLast().taskAction(source);
+    }
+
+    public void doTask(Entity source, Task task) {
+        task.taskAction(source);
     }
 
     private void quickSort(List<Task> arr, int begin, int end) {

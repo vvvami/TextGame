@@ -2,18 +2,18 @@ package net.vami.interactables.interactions.abilities;
 
 import net.vami.interactables.Interactable;
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.DamageType;
-import net.vami.interactables.interactions.statuses.Status;
+import net.vami.interactables.interactions.damagetypes.FireDamage;
+import net.vami.interactables.interactions.statuses.IStatus;
 import net.vami.interactables.interactions.statuses.BurningStatus;
 
-public class FlamesAbility extends Ability {
+public class FlamesAbility implements IAbility {
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
 
         if (source instanceof Entity sourceEntity) {
-            target.hurt(sourceEntity, sourceEntity.getLevel(), DamageType.FIRE);
-            target.addStatus(new Status.Instance(
+            target.hurt(sourceEntity, sourceEntity.getLevel(), new FireDamage());
+            target.addStatus(new IStatus.Instance(
                     new BurningStatus(), ((Entity) source).getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;

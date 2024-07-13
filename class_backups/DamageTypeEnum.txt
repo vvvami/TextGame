@@ -1,8 +1,7 @@
-package net.vami.interactables.interactions;
+package net.vami.interactables.interactions.damagetypes;
 
 public enum DamageType {
 
-    NONE("None"),
     BLUNT("Blunt"),
     SHARP("Sharp"),
     FIRE("Fire"),

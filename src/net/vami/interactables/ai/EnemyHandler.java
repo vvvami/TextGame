@@ -9,7 +9,7 @@ public class EnemyHandler {
     public static void enemyAction() {
         for (Entity enemy : Node.getEnemies()) {
 
-            enemy.getBrain().executeTask(enemy);
+            enemy.getBrain().chooseTask(enemy);
         }
     }
 

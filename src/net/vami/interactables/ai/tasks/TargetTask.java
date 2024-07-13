@@ -1,5 +1,6 @@
-package net.vami.interactables.ai;
+package net.vami.interactables.ai.tasks;
 
+import net.vami.game.display.TextFormatter;
 import net.vami.game.world.Node;
 import net.vami.interactables.entities.Entity;
 
@@ -18,11 +19,5 @@ public class TargetTask extends Task {
             targetList = Node.getEnemies();
         }
         source.setTarget(targetList.get(new Random().nextInt(targetList.size())));
-
-        System.out.println(source.getTarget().getName());
-
-        if (source.hasTarget() && source.getBrain().hasTask(new AttackTask())) {
-            new AttackTask().taskAction(source);
-        }
     }
 }

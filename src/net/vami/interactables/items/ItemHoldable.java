@@ -1,11 +1,12 @@
 package net.vami.interactables.items;
 
-import net.vami.interactables.interactions.DamageType;
+import net.vami.interactables.interactions.damagetypes.BluntDamage;
+import net.vami.interactables.interactions.damagetypes.IDamageType;
 
 public abstract class ItemHoldable extends Item {
 
     private int baseDamage;
-    private DamageType damageType;
+    private IDamageType damageType;
     private Attributes attributes;
 
     public ItemHoldable(String name, Attributes attributes) {
@@ -23,13 +24,13 @@ public abstract class ItemHoldable extends Item {
         this.baseDamage = baseDamage;
     }
 
-    public void setDamageType(DamageType damageType) {
+    public void setDamageType(IDamageType damageType) {
 
         this.damageType = damageType;
     }
 
 
-    public DamageType getDamageType() {
+    public IDamageType getDamageType() {
 
         return damageType;
     }
@@ -41,18 +42,18 @@ public abstract class ItemHoldable extends Item {
 
     public static class Attributes {
         int baseDamageAttribute;
-        DamageType damageTypeAttribute;
+        IDamageType damageTypeAttribute;
         int durabilityAttribute;
 
         public Attributes() {
             baseDamageAttribute = -1;
-            damageTypeAttribute = DamageType.NONE;
+            damageTypeAttribute = null;
             durabilityAttribute = -1;
         }
 
         public void setDefaults() {
             if (this.baseDamageAttribute == -1) {this.baseDamageAttribute = 1;}
-            if (this.damageTypeAttribute == DamageType.NONE) {this.damageTypeAttribute = DamageType.BLUNT;}
+            if (this.damageTypeAttribute == null) {this.damageTypeAttribute = new BluntDamage();}
             if (this.durabilityAttribute == -1) {this.durabilityAttribute = 1;}
         }
 
@@ -61,8 +62,8 @@ public abstract class ItemHoldable extends Item {
             return this;
         }
 
-        public Attributes damageType(DamageType damageType) {
-            if (damageTypeAttribute == DamageType.NONE) damageTypeAttribute = damageType;
+        public Attributes damageType(IDamageType damageType) {
+            if (damageTypeAttribute == null) damageTypeAttribute = damageType;
             return this;
         }
 
