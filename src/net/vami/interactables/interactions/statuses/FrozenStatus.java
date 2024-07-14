@@ -3,7 +3,7 @@ package net.vami.interactables.interactions.statuses;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.interactions.damagetypes.IceDamage;
 
-public class FrozenStatus implements IStatus {
+public class FrozenStatus implements Status {
 
 
     @Override

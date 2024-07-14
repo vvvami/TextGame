@@ -1,15 +1,15 @@
 package net.vami.game.display;
 
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.damagetypes.IDamageType;
-import net.vami.interactables.interactions.statuses.IStatus;
+import net.vami.interactables.interactions.damagetypes.DamageType;
+import net.vami.interactables.interactions.statuses.Status;
 
 import java.text.DecimalFormat;
 
 public class TextFormatter {
 
 
-    protected static String formatName(IStatus status) {
+    protected static String formatName(Status status) {
         String statusName;
         if (status.isHarmful()) {
             statusName = ANSI_RED + status.getName() + ANSI_RESET;
@@ -25,9 +25,9 @@ public class TextFormatter {
         Entity target;
         Entity source;
         float amount;
-        IDamageType damageType;
+        DamageType damageType;
 
-        public EntityInteraction(Entity target, Entity source, float amount, IDamageType damageType) {
+        public EntityInteraction(Entity target, Entity source, float amount, DamageType damageType) {
             this.target = target;
             this.source = source;
             this.amount = amount;

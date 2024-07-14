@@ -19,8 +19,8 @@ public enum Ability {
         return this.name;
     }
 
-    public static void useAbility(Interactable target, Entity source, Ability IAbility) {
-        switch (IAbility) {
+    public static void useAbility(Interactable target, Entity source, Ability Ability) {
+        switch (Ability) {
             case BURN: {
                 StatusInstance burnAbility = new StatusInstance
                         (Status.BURNING, source.getLevel(), source.getLevel(), source);

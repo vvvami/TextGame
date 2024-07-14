@@ -2,7 +2,7 @@ package net.vami.interactables.interactions.statuses;
 
 import net.vami.interactables.entities.Entity;
 
-public class BlessedStatus implements IStatus {
+public class BlessedStatus implements Status {
 
     @Override
     public void onApply(Entity target, Entity source) {

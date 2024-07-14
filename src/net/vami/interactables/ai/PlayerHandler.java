@@ -1,6 +1,5 @@
 package net.vami.interactables.ai;
 
-import net.vami.game.TextGame;
 import net.vami.game.display.TextFormatter;
 import net.vami.interactables.interactions.Action;
 import net.vami.game.world.Game;

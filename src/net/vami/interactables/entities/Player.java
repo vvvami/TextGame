@@ -7,6 +7,8 @@ import java.io.*;
 
 public class Player extends Entity implements Serializable {
 
+    private Entity patron;
+
     public Player(String name, Attributes attributes) {
         super(name, attributes
                 .maxHealth(attributes.levelAttribute * 10)

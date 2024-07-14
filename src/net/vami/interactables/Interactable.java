@@ -3,8 +3,8 @@ import net.vami.interactables.interactions.*;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.interactables.entities.Entity;
-import net.vami.interactables.interactions.damagetypes.IDamageType;
-import net.vami.interactables.interactions.statuses.IStatus;
+import net.vami.interactables.interactions.damagetypes.DamageType;
+import net.vami.interactables.interactions.statuses.Status;
 import net.vami.interactables.interactions.statuses.CrippledStatus;
 import net.vami.interactables.interactions.statuses.FrozenStatus;
 import org.jetbrains.annotations.NotNull;
@@ -225,12 +225,12 @@ public class Interactable {
         return false;
     }
 
-    public void addStatus(@NotNull IStatus.Instance status) {
+    public void addStatus(@NotNull Status.Instance status) {
 
     }
 
 
-    public void hurt(Entity source, float amount, IDamageType damageType) {
+    public void hurt(Entity source, float amount, DamageType damageType) {
 
     }
 

@@ -2,7 +2,7 @@ package net.vami.interactables.interactions.statuses;
 
 import net.vami.interactables.entities.Entity;
 
-public interface IStatus {
+public interface Status {
 
     String getName();
     boolean stacksAmplifier();
@@ -22,7 +22,7 @@ public interface IStatus {
     }
 
     // Always use this and not == when comparing statuses
-    default boolean is(IStatus status) {
+    default boolean is(Status status) {
         return this.getClass() == status.getClass();
     }
 
@@ -31,9 +31,9 @@ public interface IStatus {
         private int duration;
         private Entity target;
         private Entity source;
-        private IStatus status;
+        private Status status;
 
-        public Instance(IStatus status, int amplifier, int duration, Entity source) {
+        public Instance(Status status, int amplifier, int duration, Entity source) {
             this.status = status;
             this.amplifier = Math.max(1, amplifier);
             this.duration = Math.max(1, duration);
@@ -55,7 +55,7 @@ public interface IStatus {
             this.getStatus().onEnded(target, source);
         }
 
-        public IStatus getStatus() {
+        public Status getStatus() {
 
             return this.status;
         }

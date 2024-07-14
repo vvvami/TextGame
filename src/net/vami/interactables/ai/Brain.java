@@ -61,7 +61,9 @@ public class Brain {
         for (Task task : taskList) {
 
             if (rnd <= task.getPriority()) {
-                task.taskAction(source);
+                if (!task.taskAction(source)) {
+                    this.chooseTask(source);
+                }
                 return;
             }
         }

@@ -1,4 +1,5 @@
-A text-based RPG. 
+A text-based RPG.  
+You may copy/modify this work as long as credit is given to the original.
 
 - Made by a single dev with a very wonderful father
 - A coding journey of learning on the road

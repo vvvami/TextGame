@@ -6,12 +6,13 @@ import net.vami.interactables.items.Item;
 
 public class SmartEquipTask extends Task {
     @Override
-    public void taskAction(Entity source) {
+    public boolean taskAction(Entity source) {
         if (source.hasHeldItem()) {
-            source.getBrain().chooseTask(source);
+            return false;
         }
         else {
             new EquipTask().taskAction(source);
         }
+        return true;
     }
 }

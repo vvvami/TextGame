@@ -3,7 +3,7 @@ package net.vami.interactables.interactions.statuses;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.interactions.damagetypes.BleedDamage;
 
-public class WoundedStatus implements IStatus {
+public class WoundedStatus implements Status {
 
     @Override
     public String getName() {

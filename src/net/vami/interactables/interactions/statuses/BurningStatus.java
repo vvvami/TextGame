@@ -3,7 +3,7 @@ package net.vami.interactables.interactions.statuses;
 import net.vami.interactables.entities.Entity;
 import net.vami.interactables.interactions.damagetypes.FireDamage;
 
-public class BurningStatus implements IStatus {
+public class BurningStatus implements Status {
 
     @Override
     public String getName() {

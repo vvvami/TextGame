@@ -2,10 +2,11 @@ package net.vami.interactables.ai.tasks;
 
 import net.vami.interactables.entities.Entity;
 
-public class SelfAbilityTask extends Task {
+public class TargetAnyAndAttackTask extends Task {
     @Override
     public boolean taskAction(Entity source) {
-        source.receiveAbility(source);
+        new TargetTask().taskAction(source);
+        new AttackTask().taskAction(source);
         return true;
     }
 }

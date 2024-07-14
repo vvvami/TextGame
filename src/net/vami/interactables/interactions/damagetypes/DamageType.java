@@ -2,7 +2,7 @@ package net.vami.interactables.interactions.damagetypes;
 
 import net.vami.interactables.entities.Entity;
 
-public abstract interface IDamageType {
+public abstract interface DamageType {
 
     default void onHit(Entity target, Entity source, float amount) {
 
@@ -10,7 +10,7 @@ public abstract interface IDamageType {
 
     String getName();
 
-    default boolean is(IDamageType damageType) {
+    default boolean is(DamageType damageType) {
         return this.getClass() == damageType.getClass();
     }
 

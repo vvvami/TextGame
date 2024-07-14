@@ -1,12 +1,12 @@
 package net.vami.interactables.items;
 
 import net.vami.interactables.interactions.damagetypes.BluntDamage;
-import net.vami.interactables.interactions.damagetypes.IDamageType;
+import net.vami.interactables.interactions.damagetypes.DamageType;
 
 public abstract class ItemHoldable extends Item {
 
     private int baseDamage;
-    private IDamageType damageType;
+    private DamageType damageType;
     private Attributes attributes;
 
     public ItemHoldable(String name, Attributes attributes) {
@@ -24,13 +24,13 @@ public abstract class ItemHoldable extends Item {
         this.baseDamage = baseDamage;
     }
 
-    public void setDamageType(IDamageType damageType) {
+    public void setDamageType(DamageType damageType) {
 
         this.damageType = damageType;
     }
 
 
-    public IDamageType getDamageType() {
+    public DamageType getDamageType() {
 
         return damageType;
     }
@@ -42,7 +42,7 @@ public abstract class ItemHoldable extends Item {
 
     public static class Attributes {
         int baseDamageAttribute;
-        IDamageType damageTypeAttribute;
+        DamageType damageTypeAttribute;
         int durabilityAttribute;
 
         public Attributes() {
@@ -62,7 +62,7 @@ public abstract class ItemHoldable extends Item {
             return this;
         }
 
-        public Attributes damageType(IDamageType damageType) {
+        public Attributes damageType(DamageType damageType) {
             if (damageTypeAttribute == null) damageTypeAttribute = damageType;
             return this;
         }
