@@ -56,6 +56,27 @@ public final class Position {
         return new Position(x, y, z);
     }
 
+    public Position add(Position position) {
+        return new Position(
+                this.x + position.x,
+                this.y + position.y,
+                this.z + position.z);
+    }
+
+    public Position subtract(Position position) {
+        return new Position(
+                this.x - position.x,
+                this.y - position.y,
+                this.z - position.z);
+    }
+
+    public float distance(Position position) {
+        return (float) Math.sqrt(
+                ((position.x - this.x) ^ 2) +
+                ((position.y - this.y) ^ 2) +
+                ((position.z - this.z) ^ 2));
+    }
+
     @Override
     public String toString() {return "(" + x + ", " + y + ", " + z + ")";}
 }

@@ -1,14 +1,15 @@
 package net.vami.game.world;
 
-import net.vami.interactables.Interactable;
-import net.vami.interactables.interactions.Action;
-import net.vami.interactables.ai.AllyHandler;
-import net.vami.interactables.ai.EnemyHandler;
-import net.vami.interactables.ai.PlayerHandler;
-import net.vami.interactables.entities.Entity;
-import net.vami.interactables.entities.Player;
-import net.vami.interactables.interactions.abilities.RageAbility;
-import net.vami.interactables.items.ItemEquipable;
+import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.ai.AllyHandler;
+import net.vami.game.interactables.ai.EnemyHandler;
+import net.vami.game.interactables.ai.PlayerHandler;
+import net.vami.game.interactables.entities.Entity;
+import net.vami.game.interactables.entities.Player;
+import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
+import net.vami.game.interactables.interactions.abilities.RageAbility;
+import net.vami.game.interactables.items.ItemEquipable;
 
 import java.util.List;
 import java.util.Scanner;
@@ -16,8 +17,8 @@ import java.util.Scanner;
 public abstract class Game {
     public static final Player player = new Player(namePlayer(),
             new Entity.Attributes()
-                    .level(10)
-                    .ability(new RageAbility()));
+                    .level(5)
+                    .ability(new HypnosisAbility()));
 
     private static boolean endGame = false;
 
@@ -28,32 +29,24 @@ public abstract class Game {
         AllyHandler.Generate();
 
         do {
-            EnemyHandler.enemyAction();
-            enemyTurn();
 
-            if (!Game.player.isEnded()) {
-                if (!PlayerHandler.read()) {
-                    AllyHandler.allyAction();
-                    continue;
-                }
-                AllyHandler.allyAction();
-                allyTurn();
+            itemTicker();
+
+            EnemyHandler.enemyAction();
+            allyTicker();
+
+            if (Game.player.getPos() == Game.gamePos()) {
+                    PlayerHandler.read();
             }
+
+            AllyHandler.allyAction();
+            enemyTicker();
 
         }
         while (!endGame);
 
     }
 
-    static void enemyTurn() {
-        itemTicker();
-        enemyTicker();
-    }
-
-    static void allyTurn() {
-
-        allyTicker();
-    }
 
     static void itemTicker() {
         List<Entity> entities = Node.getEntities();
@@ -124,12 +117,11 @@ public abstract class Game {
     private static boolean allyEndedCheck(Entity ally) {
             if (ally.isEnded()) {
                 System.out.println(ally.getName() + " has died!");
-                ally.kill();
-
                 if (ally.equals(Game.player)) {
                     System.out.println("Game Over!");
                     endGame = true;
                 }
+                ally.kill();
                 return true;
             }
             return false;

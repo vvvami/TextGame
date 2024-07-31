@@ -1,7 +1,7 @@
 package net.vami.game.world;
 
-import net.vami.interactables.entities.Entity;
-import net.vami.interactables.Interactable;
+import net.vami.game.interactables.entities.Entity;
+import net.vami.game.interactables.Interactable;
 
 import java.util.*;
 
@@ -94,6 +94,12 @@ public class Node {
                 }
             }
 
+    }
+
+    public ArrayList<Node> getNodes() {
+        ArrayList<Node> nodeList = new ArrayList<>();
+        nodeMap.forEach((position1, node) -> nodeList.add(node));
+        return nodeList;
     }
 
 
