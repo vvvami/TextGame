@@ -165,7 +165,10 @@ public class Interactable {
         if (node != null) {
             node.addInteractable(this);
         }
+    }
 
+    public Node getNode() {
+        return Node.getNodeFromPosition(position);
     }
 
     public void addReceivableAction(Action action) {
@@ -215,14 +218,14 @@ public class Interactable {
     }
 
     public boolean receiveMovement(Interactable source) {
-        Position newPos = position.add(direction.getPos());
+        Position newPos = position.add(direction.pos);
 
         if (Node.getNodeFromPosition(newPos) == null) {
             return false;
         }
 
         this.setPosition(newPos);
-        System.out.println(this.getName() + " has move to position: " + this.position.toString());
+        System.out.println(this.getName() + " has moved to position: " + this.position.toString());
         return true;
     }
 

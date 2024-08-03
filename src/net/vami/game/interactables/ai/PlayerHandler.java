@@ -22,6 +22,11 @@ public class PlayerHandler {
 
 
     private static boolean actionInput(String input) {
+        if (input.equalsIgnoreCase("quit")) {
+            Game.endGame = true;
+            return false;
+        }
+
         String[] inputArr = input.toLowerCase()
                 .split("\\s+");
         Node node = Game.getCurrentNode();

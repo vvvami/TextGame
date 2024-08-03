@@ -11,13 +11,13 @@ public class TargetTask extends Task {
 
     @Override
     public boolean taskAction(Entity source) {
-        List<Entity> targetList = new ArrayList<>();
+        List<Entity> targetList;
         if (source.isEnemy()) {
-            targetList = Node.getAllies();
+            targetList = source.getNode().getAllies();
         } else {
-            targetList = Node.getEnemies();
+            targetList = source.getNode().getEnemies();
         }
-        if (targetList.size() <= 0) {
+        if (targetList.isEmpty()) {
             return false;
         }
         source.setTarget(targetList.get(new Random().nextInt(targetList.size())));

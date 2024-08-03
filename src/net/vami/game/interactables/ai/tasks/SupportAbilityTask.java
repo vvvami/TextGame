@@ -13,9 +13,9 @@ public class SupportAbilityTask extends Task {
         Entity target = null;
         List<Entity> targetList = new ArrayList<>();
         if (source.isEnemy()) {
-            targetList = Node.getEnemies();
+            targetList = source.getNode().getEnemies();
         } else {
-            targetList = Node.getAllies();
+            targetList = source.getNode().getAllies();
         }
         target = targetList.get(new Random().nextInt(targetList.size()));
         target.receiveAbility(source);

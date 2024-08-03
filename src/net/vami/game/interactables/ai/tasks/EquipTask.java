@@ -10,6 +10,9 @@ public class EquipTask extends Task {
 
     @Override
     public boolean taskAction(Entity source) {
+        if (source.hasHeldItem()) {
+            return false;
+        }
             for (Interactable interactable : Game.getInteractables()) {
                 if (interactable instanceof ItemHoldable item) {
                     item.receiveEquip(source);

@@ -47,60 +47,38 @@ public class Brain {
         return false;
     }
 
-    public void chooseTask(Entity source) {
-        quickSort(taskList, 0, taskList.size() - 1);
+    public void selectTask(Entity source) {
+        List<Task> tempList = new ArrayList<>(taskList);
 
-        float priorityAvg = 0;
-        for (Task task : taskList) {
-            priorityAvg += task.getPriority();
+        while (!tempList.isEmpty()) {
+            Task chosenTask = chooseTask();
+            if (chosenTask.taskAction(source)) {
+                System.out.println("Chosen task: " + chosenTask.getClass().getSimpleName());
+                break;
+            }
+
+            tempList.remove(chosenTask);
         }
-        priorityAvg = priorityAvg / taskList.size();
+    }
 
-        int rnd = new Random().nextInt((int) priorityAvg + 1);
-        for (Task task : taskList) {
+    Task chooseTask() {
+        List<Integer> priorityList = taskList.stream().map(Task::getPriority).toList();
+        int totalPriority = priorityList.stream().reduce(0, Integer::sum);
 
-            if (rnd <= task.getPriority()) {
-                if (!task.taskAction(source)) {
-                    this.chooseTask(source);
-                }
-                return;
+        int rnd = new Random().nextInt(totalPriority);
+        int acc = 0;
+
+        for (int i = 0; i < priorityList.size(); i++) {
+            acc += priorityList.get(i);
+            if (rnd < acc) {
+                return taskList.get(i);
             }
         }
-
-        taskList.getLast().taskAction(source);
+        // This should never reach here
+        return null;
     }
 
     public void doTask(Entity source, Task task) {
         task.taskAction(source);
-    }
-
-    private void quickSort(List<Task> arr, int begin, int end) {
-        if (begin < end) {
-            int partitionIndex = partition(arr, begin, end);
-
-            quickSort(arr, begin, partitionIndex - 1);
-            quickSort(arr, partitionIndex + 1, end);
-        }
-    }
-
-    private int partition(List<Task> arr, int begin, int end) {
-        int pivot = arr.get(end).getPriority();
-        int i = (begin - 1);
-
-        for (int j = begin; j < end; j++) {
-            if (arr.get(j).getPriority() <= pivot) {
-                i++;
-
-                Task swapTemp = arr.get(i);
-                arr.set(i, arr.get(j));
-                arr.set(j, swapTemp);
-            }
-        }
-
-        Task swapTemp = arr.get(i + 1);
-        arr.set(i + 1, arr.get(end));
-        arr.set(end, swapTemp);
-
-        return i + 1;
     }
 }

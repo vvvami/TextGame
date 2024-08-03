@@ -26,7 +26,7 @@ public abstract class Entity extends Interactable {
 
     private Attributes attributes;
 
-    // DamageType weaknesses and resistances as well as the statusEffect list
+    // DamageType weaknesses and resistances as well as the statusEffect list and the status immunities
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
     private List<Status.Instance> statusEffects = new ArrayList<>();
@@ -35,7 +35,7 @@ public abstract class Entity extends Interactable {
     // All item-related variables (like the inventory)
     private List<Item> inventory = new ArrayList<>();
     private ItemHoldable heldItem;
-    private int maxEquipSlots = 3;
+    private int maxEquipSlots = 6;
     private List<ItemEquipable> equippedItems = new ArrayList<>(maxEquipSlots);
 
     // This is mostly for the AI of the entity, not necessarily used for all entities
@@ -80,16 +80,20 @@ public abstract class Entity extends Interactable {
 
         amount = source.getDamage();
 
-        if (this.getWeaknesses().contains(damageType)) {
+        if (weaknesses.contains(damageType)) {
             amount = amount * 2;
         }
 
-        if (this.getResistances().contains(damageType)) {
+        if (resistances.contains(damageType)) {
             amount = amount / 2;
         }
 
-        if (this.getArmor() > 0) {
-            amount = (float) (amount / Math.sqrt(this.getArmor()));
+        if (armor > 0) {
+            amount = (float) (amount / Math.sqrt(armor));
+        }
+
+        if (amount < 0) {
+            amount = 0;
         }
 
         health -= amount;
@@ -382,6 +386,11 @@ public abstract class Entity extends Interactable {
         if (!(source instanceof Entity entitySource)) {
             return false;
         }
+
+        if (!this.getPos().equals(entitySource.getPos())) {
+            return false;
+        }
+
         float damage = entitySource.getDamage();
         DamageType type = entitySource.getDamageType();
 

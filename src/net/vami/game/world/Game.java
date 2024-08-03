@@ -11,16 +11,17 @@ import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
 import net.vami.game.interactables.interactions.abilities.RageAbility;
 import net.vami.game.interactables.items.ItemEquipable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public abstract class Game {
     public static final Player player = new Player(namePlayer(),
             new Entity.Attributes()
-                    .level(5)
+                    .level(2)
                     .ability(new HypnosisAbility()));
 
-    private static boolean endGame = false;
+    public static boolean endGame = false;
 
 
     public static void startGame() {
@@ -29,63 +30,37 @@ public abstract class Game {
         AllyHandler.Generate();
 
         do {
+            Node playerNode = Node.getNodeFromPosition(player.getPos());
+            Node northNode = Node.getNodeFromPosition(player.getPos().add(Direction.NORTH.pos));
+            Node southNode = Node.getNodeFromPosition(player.getPos().add(Direction.SOUTH.pos));
+            Node eastNode = Node.getNodeFromPosition(player.getPos().add(Direction.EAST.pos));
+            Node westNode = Node.getNodeFromPosition(player.getPos().add(Direction.WEST.pos));
 
-            itemTicker();
+            ArrayList<Node> nodes = new ArrayList<>();
+            nodes.add(playerNode);
+            nodes.add(northNode);
+            nodes.add(southNode);
+            nodes.add(eastNode);
+            nodes.add(westNode);
 
-            EnemyHandler.enemyAction();
-            allyTicker();
-
-            if (Game.player.getPos() == Game.gamePos()) {
-                    PlayerHandler.read();
+            for (Node node : nodes) {
+                node.getInstance().preTurn();
             }
 
-            AllyHandler.allyAction();
-            enemyTicker();
+            PlayerHandler.read();
 
-        }
-        while (!endGame);
+            for (Node node : nodes) {
+                node.getInstance().turn();
+            }
+
+        } while (!endGame);
 
     }
 
+    static void globalTicker() {
 
-    static void itemTicker() {
-        List<Entity> entities = Node.getEntities();
-        for (Entity entity : entities) {
-            List<ItemEquipable> itemEquipables = entity.getEquippedItems();
-
-            for (ItemEquipable item : itemEquipables)
-            {
-                item.turn();
-            }
-            if (entity.getHeldItem() != null) {
-                entity.getHeldItem().turn();
-            }
-        }
     }
 
-    static void enemyTicker() {
-        for (Entity enemy : Node.getEnemies()) {
-            if (!enemyEndedCheck(enemy)) {
-                enemy.turn();
-            }
-        }
-
-        for (Entity ally : Node.getAllies()) {
-            allyEndedCheck(ally);
-        }
-    }
-
-    static void allyTicker() {
-        for (Entity ally : Node.getAllies()) {
-            if (!allyEndedCheck(ally)) {
-                ally.turn();
-            }
-        }
-
-        for (Entity enemy : Node.getEnemies()) {
-            enemyEndedCheck(enemy);
-        }
-    }
 
 
     public static Node getCurrentNode() {
@@ -114,30 +89,7 @@ public abstract class Game {
         return player.getPos();
     }
 
-    private static boolean allyEndedCheck(Entity ally) {
-            if (ally.isEnded()) {
-                System.out.println(ally.getName() + " has died!");
-                if (ally.equals(Game.player)) {
-                    System.out.println("Game Over!");
-                    endGame = true;
-                }
-                ally.kill();
-                return true;
-            }
-            return false;
-    }
 
-    private static boolean enemyEndedCheck(Entity enemy) {
-        if (enemy.isEnded()) {
-            System.out.println(enemy.getName() + " has died!");
-            enemy.kill();
-            if (Node.getEnemies().isEmpty()) {
-                endGame = true;
-            }
-            return true;
-        }
-        return false;
-    }
 
     public static List<Interactable> getInteractables() {
         return Game.getCurrentNode().getInteractables();

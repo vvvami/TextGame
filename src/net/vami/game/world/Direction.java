@@ -8,14 +8,10 @@ public enum Direction {
     EAST(new Position(0,0,1)),
     WEST(new Position(0,0,-1));
 
-    Position pos;
+    public final Position pos;
 
     Direction(Position pos) {
         this.pos = pos;
-    }
-
-    public Position getPos() {
-        return this.pos;
     }
 
     public static Direction getDirectionFromString(String input) {

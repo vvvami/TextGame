@@ -23,8 +23,9 @@ public class Werewolf extends Entity {
     @Override
     public Brain getBrain() {
         Brain werewolfBrain = new Brain();
-        werewolfBrain.addTask(new TargetAnyAndAttackTask(), 20);
-        werewolfBrain.addTask(new EquipTask(), 1);
+        werewolfBrain.addTask(new TargetAnyAndAttackTask(), 10);
+        werewolfBrain.addTask(new ChaseTargetTask(), 1);
+        werewolfBrain.addTask(new EquipTask(), 3);
 
         if (this.getHealth() < (float) this.getMaxHealth() / 2) {
             werewolfBrain.addTask(new SupportAbilityTask(), 20);
