@@ -42,7 +42,9 @@ public class Brain {
 
     public boolean hasTask(Task task1) {
         for (Task task2 : taskList) {
-            return (task1.equals(task2));
+            if (task1.equals(task2)) {
+                return true;
+            }
         }
         return false;
     }
@@ -53,7 +55,6 @@ public class Brain {
         while (!tempList.isEmpty()) {
             Task chosenTask = chooseTask();
             if (chosenTask.taskAction(source)) {
-                System.out.println("Chosen task: " + chosenTask.getClass().getSimpleName());
                 break;
             }
 
