@@ -22,6 +22,8 @@ public class Interactable {
     private Interactable ended;
     private Direction direction;
 
+    private List<Modifier> modifiers = new ArrayList<>();
+
     public Interactable(String name) {
         this.name = name;
 
@@ -79,6 +81,10 @@ public class Interactable {
     public void setName(String name) {
 
         this.name = name;
+    }
+
+    public List<Modifier> getModifiers() {
+        return modifiers;
     }
 
     public boolean receiveAction(Interactable source, Action action) {
@@ -247,6 +253,25 @@ public class Interactable {
 
     public void addStatus(@NotNull Status.Instance status) {
 
+    }
+
+    public void addModifier(Modifier modifier) {
+        modifiers.add(modifier);
+    }
+
+    public void removeModifier(String ID) {
+        if (modifiers.isEmpty()) {
+            return;
+        }
+
+        Modifier removeMod = modifiers.getFirst();
+        for (Modifier modifier : modifiers) {
+            if (Objects.equals(modifier.getID(), ID)) {
+                removeMod = modifier;
+                break;
+            }
+        }
+        modifiers.remove(removeMod);
     }
 
 

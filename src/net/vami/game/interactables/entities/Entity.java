@@ -17,9 +17,7 @@ import java.util.*;
 public abstract class Entity extends Interactable {
 
     // Basic entity stats
-    private int maxHealth;
     private float health;
-    private int armor;
     private int level;
     private Ability ability;
     private boolean enemy;
@@ -30,7 +28,7 @@ public abstract class Entity extends Interactable {
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
     private List<Status.Instance> statusEffects = new ArrayList<>();
-    private List <Status> immunities = new ArrayList<>();
+    private List<Status> immunities = new ArrayList<>();
 
     // All item-related variables (like the inventory)
     private List<Item> inventory = new ArrayList<>();
@@ -47,10 +45,8 @@ public abstract class Entity extends Interactable {
         attributes.initialize();
 
         level = attributes.levelAttribute;
-        maxHealth = attributes.maxHealthAttribute;
-        armor = attributes.armorAttribute;
         ability = attributes.abilityAttribute;
-        health = maxHealth;
+        health = attributes.maxHealthAttribute;
 
         // By default, all entities have these actions available and receivable
         // You can remove them manually if you wish using removeAvailableAction or removeReceivableAction
@@ -78,8 +74,6 @@ public abstract class Entity extends Interactable {
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
 
-        amount = source.getDamage();
-
         if (weaknesses.contains(damageType)) {
             amount = amount * 2;
         }
@@ -88,8 +82,8 @@ public abstract class Entity extends Interactable {
             amount = amount / 2;
         }
 
-        if (armor > 0) {
-            amount = (float) (amount / Math.sqrt(armor));
+        if (this.getArmor() > 0) {
+            amount = (float) amount - this.getArmor();
         }
 
         if (amount < 0) {
@@ -117,7 +111,7 @@ public abstract class Entity extends Interactable {
         TextFormatter.EntityInteraction.healEntity(new TextFormatter.EntityInteraction(
                 this, source, amount));
 
-        health = Math.min(maxHealth, health + amount);
+        health = Math.min(this.getMaxHealth(), health + amount);
     }
 
     // Checks if the entity is alive
@@ -272,23 +266,34 @@ public abstract class Entity extends Interactable {
 
     // Gets the entity max health
     public int getMaxHealth() {
+        int amount;
+        amount = attributes.maxHealthAttribute;
 
-        return this.maxHealth;
+        amount += (int) Modifier.calculate(this.getModifiers(), ModifierType.MAX_HEALTH);
+
+        return amount;
     }
 
+    // Gets the entity's armor
     public int getArmor() {
+        int amount = attributes.armorAttribute;
 
-        return this.armor;
+        amount += (int) Modifier.calculate(this.getModifiers(), ModifierType.ARMOR);
+
+        return amount;
     }
 
     // Gets the entity's damage
     public float getDamage() {
 
-        float amount = this.getAttributes().getBaseDamage();
+        float amount = this.attributes.baseDamageAttribute;
 
         if (this.hasHeldItem()) {
-            amount += this.getHeldItem().getBaseDamage();
+            amount += this.getHeldItem().getDamage();
         }
+
+        amount += Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
+
 
         if (this.hasSpecifiedStatus(new FrenziedStatus())) {
             amount += (amount * this.getStatusInstance(new FrenziedStatus()).getAmplifier() / 20);
@@ -520,7 +525,7 @@ public abstract class Entity extends Interactable {
 
         public void initialize() {
             if (levelAttribute == -1) {levelAttribute = 1;}
-            if (maxHealthAttribute == -1) {maxHealthAttribute = 20 * levelAttribute;}
+            if (maxHealthAttribute == -1) {maxHealthAttribute = 10 * levelAttribute;}
             if (baseDamageAttribute == -1) {baseDamageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
             if (damageTypeAttribute == null) {damageTypeAttribute = new BluntDamage();}

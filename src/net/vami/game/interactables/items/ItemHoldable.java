@@ -2,12 +2,16 @@ package net.vami.game.interactables.items;
 
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
+import net.vami.game.interactables.interactions.Modifier;
+import net.vami.game.interactables.interactions.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class ItemHoldable extends Item {
 
-    private int baseDamage;
     private DamageType damageType;
     private Attributes attributes;
 
@@ -16,19 +20,8 @@ public abstract class ItemHoldable extends Item {
         this.attributes = attributes;
         attributes.setDefaults();
 
-        baseDamage = attributes.baseDamageAttribute;
         damageType = attributes.damageTypeAttribute;
         this.setDurability(attributes.durabilityAttribute);
-    }
-
-    public void setBaseDamage(int baseDamage) {
-
-        this.baseDamage = baseDamage;
-    }
-
-    public void setDamageType(DamageType damageType) {
-
-        this.damageType = damageType;
     }
 
 
@@ -37,9 +30,16 @@ public abstract class ItemHoldable extends Item {
         return damageType;
     }
 
-    public int getBaseDamage() {
+    public int getDamage() {
+        int amount = attributes.baseDamageAttribute;
 
-        return baseDamage;
+        amount += (int) Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
+
+        return amount;
+    }
+
+    public Attributes getAttributes() {
+        return attributes;
     }
 
     @Override

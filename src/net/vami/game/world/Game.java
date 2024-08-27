@@ -19,7 +19,7 @@ public abstract class Game {
     public static final Player player = new Player(namePlayer(),
             new Entity.Attributes()
                     .level(2)
-                    .ability(new HypnosisAbility()));
+                    .ability(new RageAbility()));
 
     public static boolean endGame = false;
 
