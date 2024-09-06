@@ -274,6 +274,15 @@ public class Interactable {
         modifiers.remove(removeMod);
     }
 
+    public boolean hasModifier(String ID) {
+        for (Modifier modifier : modifiers) {
+            if (ID.equals(modifier.getID())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void hurt(Entity source, float amount, DamageType damageType) {
 

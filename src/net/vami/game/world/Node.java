@@ -156,7 +156,12 @@ public class Node {
 
         void allyTicker() {
             for (Entity ally : node.getAllies()) {
-                if (!allyEndedCheck(ally)) {
+                if (allyEndedCheck(ally)) {
+                    if (Game.endGame) {
+                        return;
+                    }
+                }
+                else {
                     ally.turn();
                 }
             }

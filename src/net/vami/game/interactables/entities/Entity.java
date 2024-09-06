@@ -83,11 +83,11 @@ public abstract class Entity extends Interactable {
         }
 
         if (this.getArmor() > 0) {
-            amount = (float) amount - this.getArmor();
+            amount = amount - this.getArmor();
         }
 
-        if (amount < 0) {
-            amount = 0;
+        if (amount <= 0) {
+            amount = 1;
         }
 
         health -= amount;
@@ -296,7 +296,7 @@ public abstract class Entity extends Interactable {
 
 
         if (this.hasSpecifiedStatus(new FrenziedStatus())) {
-            amount += (amount * this.getStatusInstance(new FrenziedStatus()).getAmplifier() / 20);
+            amount = (amount * this.getStatusInstance(new FrenziedStatus()).getAmplifier() / 20);
         }
 
         return amount;
