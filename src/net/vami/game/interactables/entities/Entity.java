@@ -54,12 +54,33 @@ public abstract class Entity extends Interactable {
         addAvailableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
         addAvailableAction(Action.RESIST);
+        addAvailableAction(Action.TAKE);
+        addAvailableAction(Action.EQUIP);
+        addAvailableAction(Action.DROP);
 
         addReceivableAction(Action.ATTACK);
         addReceivableAction(Action.ABILITY);
         addReceivableAction(Action.RESIST);
         addReceivableAction(Action.MOVEMENT);
 
+    }
+
+    // Overrides the kill in the Interactable to add entity drops baby
+    @Override
+    public void kill() {
+        ArrayList<Item> dropList = new ArrayList<>();
+        dropList.addAll(inventory);
+        dropList.addAll(equippedItems);
+        if (this.hasHeldItem()) {
+            dropList.add(heldItem);
+        }
+
+        for (Item item : dropList) {
+            item.setPosition(this.getPos());
+            System.out.printf("%s dropped %s! %n", this.getDisplayName(), item.getName());
+        }
+
+        super.kill();
     }
 
     // A "tick" of the entity
@@ -364,6 +385,7 @@ public abstract class Entity extends Interactable {
         return "[" + level + "]";
     }
 
+    // Displays status brackets next to the entity name, used in getDisplayName()
     public String statusDisplay() {
         String display = "";
         String space = ", ";
@@ -373,7 +395,9 @@ public abstract class Entity extends Interactable {
                 if (statusEffects.getLast() == statusInstance) {
                     space = "";
                 }
-                display += statusInstance.getStatus().getName() + space;
+                String statusName = statusInstance.getStatus().getName();
+                statusName = statusInstance.getStatus().isHarmful() ? TextFormatter.red(statusName) : TextFormatter.green(statusName);
+                display += statusName + space;
             }
             display = " (" + display + ")";
         }
@@ -384,10 +408,6 @@ public abstract class Entity extends Interactable {
     @Override
     public boolean receiveAttack(Interactable source) {
         if (!(source instanceof Entity entitySource)) {
-            return false;
-        }
-
-        if (!this.getPos().equals(entitySource.getPos())) {
             return false;
         }
 
@@ -434,6 +454,15 @@ public abstract class Entity extends Interactable {
         return equippedItems;
     }
 
+    public boolean hasItemEquipped(ItemEquipable item) {
+        for (ItemEquipable itemEquipable : equippedItems) {
+            if (itemEquipable == item) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Gets the max equipment slots for equipable items (ItemEquipable)
     public int getMaxEquipSlots() {
 
@@ -446,21 +475,26 @@ public abstract class Entity extends Interactable {
         this.maxEquipSlots = maxEquipSlots;
     }
 
+    public List<Item> getInventory() {
+        return inventory;
+    }
+
     // Adds an item to the inventory
     public void addInventoryItem(Item item) {
         inventory.add(item);
-        item.kill();
+        if (item.getPos() != null) {
+            item.kill();
+        }
     }
 
     // Removes an item from the inventory
-    public void removeInventoryItem(Item item) {
+    public void removeFromInventory(Item item) {
 
         inventory.remove(item);
     }
 
     // Gets the item the entity is currently holding
     public ItemHoldable getHeldItem() {
-
         return heldItem;
     }
 
@@ -478,20 +512,27 @@ public abstract class Entity extends Interactable {
 
     // Removes an item from holdable or equipable
     public boolean removeItem(Item item) {
+
+        if (inventory.contains(item)) {
+            inventory.remove(item);
+            return true;
+        }
+
         if (item instanceof ItemEquipable) {
             if (!equippedItems.contains(item)) {
                 return false;
             }
             equippedItems.remove(item);
+            return true;
         }
         else if (item instanceof ItemHoldable) {
             if (!hasHeldItem()) {
                 return false;
             }
             heldItem = null;
+            return true;
         }
-        addInventoryItem(item);
-        return true;
+        return false;
     }
 
     public Attributes getAttributes() {

@@ -1,5 +1,6 @@
 package net.vami.game.interactables.items;
 
+import net.vami.game.display.text.TextFormatter;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
@@ -23,7 +24,6 @@ public abstract class ItemHoldable extends Item {
         damageType = attributes.damageTypeAttribute;
         this.setDurability(attributes.durabilityAttribute);
     }
-
 
     public DamageType getDamageType() {
 
@@ -50,10 +50,21 @@ public abstract class ItemHoldable extends Item {
         }
 
         if (entitySource.hasHeldItem()) {
+            entitySource.getHeldItem().onUnequip(entitySource);
             entitySource.addInventoryItem(entitySource.getHeldItem());
+            System.out.printf("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
+
         }
 
-        entitySource.setHeldItem(this);
+        if (entitySource.getHeldItem() == this) {
+
+            entitySource.setHeldItem(null);
+
+        } else {
+            System.out.printf("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
+            entitySource.setHeldItem(this);
+        }
+
         return super.receiveEquip(source);
     }
 

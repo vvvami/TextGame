@@ -14,10 +14,6 @@ public class EnemyHandler {
 
     public static void Generate() {
 
-        new Werewolf("Enemy1", new Entity.Attributes().level(4)).setEnemy(true);
-        new Werewolf("Enemy2", new Entity.Attributes().level(4)).setEnemy(true);
-        new Werewolf("Enemy3", new Entity.Attributes().level(4)).setEnemy(true);
-
     }
 
 }

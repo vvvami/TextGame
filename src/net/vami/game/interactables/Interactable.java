@@ -92,6 +92,12 @@ public class Interactable {
             return false;
         }
 
+        if (!source.availableActions.contains(action)) {
+            System.out.printf("%s tries to %s %s, but nothing happens. %n",
+                    source.getName(), action.getSynonyms().stream().findAny(), this.getName());
+            return false;
+        }
+
         if (!receivableActions.contains(action)) {
             System.out.println("Nothing happens.");
             return false;
@@ -105,24 +111,7 @@ public class Interactable {
             case Action.ABILITY -> receiveAbility(source);
             case Action.SAVE -> receiveSave(source);
             case Action.RESIST -> receiveResist(source);
-            default -> false;
-        };
-    }
-
-    public boolean applyAction(Interactable target, Action action) {
-
-        if (!availableActions.contains(action)) {
-            System.out.printf("%s tries to %s %s, but nothing happens. %n",
-                    getName(), action.getSynonyms().stream().findAny(), target.getName());
-            return false;
-        }
-
-        return switch (action) {
-            case Action.ATTACK -> target.receiveAttack(this);
-            case Action.MOVEMENT -> target.receiveMovement(this);
-            case Action.TAKE -> target.receiveTake(this);
-            case Action.EQUIP -> target.receiveEquip(this);
-            case Action.ABILITY -> target.receiveAbility(this);
+            case Action.DROP -> receiveDrop(source);
             default -> false;
         };
     }
@@ -162,7 +151,7 @@ public class Interactable {
             return;
         }
 
-        if (Node.getNodeFromPosition(this.position).getInteractables().contains(this)) {
+        if (this.position != null && Node.getNodeFromPosition(this.position).getInteractables().contains(this)) {
             Node.getNodeFromPosition(this.position).removeInteractable(this);
         }
 
@@ -247,6 +236,11 @@ public class Interactable {
     }
 
     public boolean receiveResist(Interactable source) {
+
+        return false;
+    }
+
+    public boolean receiveDrop(Interactable source) {
 
         return false;
     }

@@ -13,6 +13,7 @@ public enum Action {
     EQUIP(equipSynonyms()),
     SAVE(saveSynonyms()),
     ABILITY(abilitySynonyms()),
+    DROP(dropSynonyms()),
     RESIST(resistSynonyms());
     public static Map<String, Action> synonymToAction = new HashMap<>();
     private List<String> synonyms;
@@ -103,6 +104,15 @@ public enum Action {
         synonymList.add("wear");
         synonymList.add("adorn");
         synonymList.add("hold");
+        return synonymList;
+    }
+
+    private static List<String> dropSynonyms() {
+        List<String> synonymList = new ArrayList<>();
+        synonymList.add("discard");
+        synonymList.add("drop");
+        synonymList.add("abandon");
+        synonymList.add("leave");
         return synonymList;
     }
 

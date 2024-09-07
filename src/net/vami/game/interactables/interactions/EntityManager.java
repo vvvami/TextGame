@@ -14,13 +14,6 @@ public class EntityManager {
             this.entity = entity;
         }
 
-        public DamageType outgoingDamageType() {
-            if (entity.getHeldItem().getDamageType() != null) {
-                return entity.getHeldItem().getDamageType();
-            }
-            return entity.getDamageType();
-        }
-
         public float incomingHealing() {
             return 0.0f;
         }

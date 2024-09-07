@@ -1,6 +1,7 @@
 package net.vami.game.interactables.ai;
 
 import net.vami.game.interactables.interactions.abilities.PrayAbility;
+import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.interactions.damagetypes.IceDamage;
 import net.vami.game.world.Node;
@@ -20,21 +21,12 @@ public class AllyHandler {
     }
 
     public static void Generate() {
-        new Werewolf("Friend1", new Entity.Attributes()
-                .level(5)
-                .ability(new PrayAbility())
-                .defaultDamageType(new FireDamage()));
-        new Werewolf("Friend2", new Entity.Attributes()
-                .level(5)
-                .ability(new PrayAbility())
-                .defaultDamageType(new FireDamage()));
-        new Werewolf("Friend3", new Entity.Attributes()
-                .level(5)
-                .ability(new PrayAbility())
-                .defaultDamageType(new FireDamage()));
 
-        new ExcaliburItem("Excalibur", new ItemHoldable.Attributes()
+        new ExcaliburItem("Excalibur1", new ItemHoldable.Attributes()
                 .baseDamage(10));
+        new ExcaliburItem("Excalibur2", new ItemHoldable.Attributes()
+                .baseDamage(200)
+                .damageType(new IceDamage()));
     }
 
 }

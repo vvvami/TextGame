@@ -2,6 +2,7 @@ package net.vami.game.interactables.ai;
 
 import net.vami.game.display.text.TextFormatter;
 import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Game;
 import net.vami.game.world.Node;
@@ -13,7 +14,7 @@ public class PlayerHandler {
 
     public static boolean read() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print(TextFormatter.ANSI_BLUE + "> " + TextFormatter.ANSI_RESET);
+        System.out.print(TextFormatter.blue("> "));
         String fullAction = scanner.nextLine();
         return actionInput(fullAction);
 
@@ -37,9 +38,10 @@ public class PlayerHandler {
         return switch (action) {
             case MOVEMENT -> movementSwitch(inputArr, action);
             case USE -> false;
-            case TAKE, EQUIP -> interactionSwitch(input, node, action);
+            case TAKE -> takeItemSwitch(input, node, action);
             case SAVE, RESIST -> Game.player.receiveAction(Game.player, action);
             case ATTACK, ABILITY -> combatSwitch(inputArr, node, action);
+            case DROP, EQUIP -> interactItemSwitch(input, action);
         };
     }
 
@@ -59,13 +61,42 @@ public class PlayerHandler {
         return false;
     }
 
-    private static boolean interactionSwitch(String input, Node node, Action action) {
+    private static boolean takeItemSwitch(String input, Node node, Action action) {
         Interactable target;
         input = input.substring(input.indexOf(' ') + 1);
         target = node.stringToInteractable(input);
         if (target == null) {
             return false;
         }
+        return target.receiveAction(Game.player, action);
+    }
+
+    private static boolean interactItemSwitch(String input, Action action) {
+        Item target = null;
+        input = input.substring(input.indexOf(' ') + 1);
+
+        for (Item item : Game.player.getInventory()) {
+            if (item.getName().equalsIgnoreCase(input)) {
+                target = item;
+            }
+        }
+
+        for (Item item : Game.player.getEquippedItems()) {
+            if (item.getName().equalsIgnoreCase(input)) {
+                target = item;
+            }
+        }
+
+        if (Game.player.hasHeldItem() &&
+                Game.player.getHeldItem().getName().equalsIgnoreCase(input)) {
+
+            target = Game.player.getHeldItem();
+        }
+
+        if (target == null) {
+            return false;
+        }
+
         return target.receiveAction(Game.player, action);
     }
 
