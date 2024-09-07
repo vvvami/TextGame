@@ -51,6 +51,7 @@ public abstract class Item extends Interactable {
     @Override
     public boolean receiveEquip(Interactable source) {
         Entity entitySource = (Entity) source;
+        entitySource.removeFromInventory(this);
         this.setOwner(entitySource);
         this.onEquip(entitySource);
         return true;

@@ -57,14 +57,12 @@ public abstract class ItemHoldable extends Item {
         }
 
         if (entitySource.getHeldItem() == this) {
-
             entitySource.setHeldItem(null);
-
-        } else {
-            System.out.printf("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
-            entitySource.setHeldItem(this);
+            return true;
         }
 
+        System.out.printf("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
+        entitySource.setHeldItem(this);
         return super.receiveEquip(source);
     }
 

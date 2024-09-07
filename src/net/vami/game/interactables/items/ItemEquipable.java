@@ -18,9 +18,8 @@ public abstract class ItemEquipable extends Item {
         }
 
         if (entitySource.getEquippedItems().size() >= entitySource.getMaxEquipSlots()) {
-            entitySource.addInventoryItem(this);
-            System.out.printf("%s has no room for %s, so they stashed it instead. %n",
-                    entitySource.getName(), this.getDisplayName());
+            System.out.printf("%s cannot equip more items. %n",
+                    entitySource.getName());
             return false;
         }
 
