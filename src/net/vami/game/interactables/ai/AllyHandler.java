@@ -1,13 +1,10 @@
 package net.vami.game.interactables.ai;
 
-import net.vami.game.interactables.interactions.abilities.PrayAbility;
-import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
-import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.interactions.damagetypes.IceDamage;
+import net.vami.game.interactables.items.equipables.ArthuurosEyeItem;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.entities.Werewolf;
-import net.vami.game.interactables.items.ExcaliburItem;
+import net.vami.game.interactables.items.holdables.ExcaliburItem;
 import net.vami.game.interactables.items.ItemHoldable;
 
 public class AllyHandler {
@@ -27,6 +24,7 @@ public class AllyHandler {
         new ExcaliburItem("Excalibur2", new ItemHoldable.Attributes()
                 .baseDamage(200)
                 .damageType(new IceDamage()));
+        new ArthuurosEyeItem("Eye of Arthuuros", 100);
     }
 
 }

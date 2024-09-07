@@ -23,6 +23,14 @@ public abstract class ItemEquipable extends Item {
             return false;
         }
 
+        if (entitySource.hasItemEquipped(this)) {
+            this.onUnequip(entitySource);
+            entitySource.removeItem(this);
+            entitySource.addInventoryItem(this);
+            System.out.printf("%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
+            return false;
+        }
+
         entitySource.getEquippedItems().add(this);
         System.out.printf("%s equips %s. %n", entitySource.getName(), this.getDisplayName());
         return super.receiveEquip(source);

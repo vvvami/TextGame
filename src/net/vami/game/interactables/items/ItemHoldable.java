@@ -57,7 +57,7 @@ public abstract class ItemHoldable extends Item {
         }
 
         if (entitySource.getHeldItem() == this) {
-            entitySource.setHeldItem(null);
+            entitySource.removeItem(this);
             return true;
         }
 
