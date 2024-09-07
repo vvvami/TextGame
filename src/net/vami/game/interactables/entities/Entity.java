@@ -122,14 +122,13 @@ public abstract class Entity extends Interactable {
     }
 
 
-    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status class
+    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status interface
     @Override
     public void addStatus(Status.Instance status) {
         if (isImmuneTo(status.getStatus())) {
             System.out.println(getDisplayName() + " is immune!");
             return;
         }
-
         Status temp = status.getStatus();
         status.setTarget(this);
         if (this.hasSpecifiedStatus(temp)) {
@@ -146,10 +145,11 @@ public abstract class Entity extends Interactable {
             removeStatus(temp);
         }
         else {
-            status.onApply();
             System.out.printf("%s is now %s. %n", this.getName(), temp.getName());
         }
+
         statusEffects.add(status);
+        status.onApply();
     }
 
     // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
@@ -213,7 +213,7 @@ public abstract class Entity extends Interactable {
 
 
 
-// Adds a damage type resistance to the entity
+    // Adds a damage type resistance to the entity
     public void addResistance(DamageType resistance) {
 
         resistances.add(resistance);
@@ -293,11 +293,6 @@ public abstract class Entity extends Interactable {
         }
 
         amount += Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
-
-
-        if (this.hasSpecifiedStatus(new FrenziedStatus())) {
-            amount = (amount * this.getStatusInstance(new FrenziedStatus()).getAmplifier() / 20);
-        }
 
         return amount;
     }

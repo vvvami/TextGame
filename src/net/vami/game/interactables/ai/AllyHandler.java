@@ -34,8 +34,7 @@ public class AllyHandler {
                 .defaultDamageType(new FireDamage()));
 
         new ExcaliburItem("Excalibur", new ItemHoldable.Attributes()
-                .baseDamage(1)
-                .damageType(new IceDamage()));
+                .baseDamage(10));
     }
 
 }

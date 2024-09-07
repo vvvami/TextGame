@@ -118,13 +118,13 @@ public class Node {
 
         public void preTurn() {
             itemTicker();
+            enemyTicker();
             EnemyHandler.enemyAction(node);
-            allyTicker();
         }
 
         public void turn() {
             AllyHandler.allyAction(node);
-            enemyTicker();
+            allyTicker();
         }
 
         void itemTicker() {

@@ -8,8 +8,16 @@ public class FrenziedStatus implements Status {
 
     @Override
     public void onApply(Entity target, Entity source) {
-        Modifier frenzyModifier = new Modifier("frenzy", ModifierType.DAMAGE, 10f);
-        target.addModifier(frenzyModifier);
+        if (target.hasModifier("frenzy")) {
+
+            target.removeModifier("frenzy");
+        }
+
+        target.addModifier(new Modifier(
+                "frenzy",
+                ModifierType.DAMAGE,
+                target.getStatusInstance(this).getAmplifier()));
+
         Status.super.onApply(target, source);
     }
 
