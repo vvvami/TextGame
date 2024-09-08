@@ -19,7 +19,6 @@ public abstract class Entity extends Interactable {
     // Basic entity stats
     private float health;
     private int level;
-    private Ability ability;
     private boolean enemy;
 
     private Attributes attributes;
@@ -27,7 +26,7 @@ public abstract class Entity extends Interactable {
     // DamageType weaknesses and resistances as well as the statusEffect list and the status immunities
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
-    private List<Status.Instance> statusEffects = new ArrayList<>();
+    private transient List<Status.Instance> statusEffects = new ArrayList<>();
     private List<Status> immunities = new ArrayList<>();
 
     // All item-related variables (like the inventory)
@@ -45,7 +44,6 @@ public abstract class Entity extends Interactable {
         attributes.initialize();
 
         level = attributes.levelAttribute;
-        ability = attributes.abilityAttribute;
         health = attributes.maxHealthAttribute;
 
         // By default, all entities have these actions available and receivable
@@ -95,12 +93,18 @@ public abstract class Entity extends Interactable {
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
 
-        if (weaknesses.contains(damageType)) {
-            amount = amount * 2;
+        for (DamageType damageType1 : weaknesses) {
+            if (damageType1.is(damageType)) {
+                amount = amount * 2;
+                break;
+            }
         }
 
-        if (resistances.contains(damageType)) {
-            amount = amount / 2;
+        for (DamageType damageType1 : resistances) {
+            if (damageType1.is(damageType)) {
+                amount = amount / 2;
+                break;
+            }
         }
 
         if (this.getArmor() > 0) {
@@ -222,7 +226,9 @@ public abstract class Entity extends Interactable {
 
     // Checks if the entity has ANY status
     public boolean hasStatus() {
-
+        if (statusEffects == null) {
+            statusEffects = new ArrayList<>();
+        }
         return !(this.statusEffects.isEmpty());
     }
 
@@ -237,8 +243,16 @@ public abstract class Entity extends Interactable {
     // Adds a damage type resistance to the entity
     public void addResistance(DamageType resistance) {
 
+        for (DamageType damageType : resistances) {
+            if (resistance.is(damageType)) {
+                return;
+            }
+        }
         resistances.add(resistance);
     }
+
+    public void removeResistance(DamageType resistance) {
+        resistances.removeIf(resistance::is);    }
 
     // Gets all the entity's damage type resistances
     public List<DamageType> getResistances() {
@@ -248,8 +262,16 @@ public abstract class Entity extends Interactable {
 
     // Adds a damage type weakness to the entity
     public void addWeakness(DamageType weakness) {
-
+        for (DamageType damageType : weaknesses) {
+            if (weakness.is(damageType)) {
+                return;
+            }
+        }
         weaknesses.add(weakness);
+    }
+
+    public void removeWeakness(DamageType weakness) {
+        weaknesses.removeIf(weakness::is);
     }
 
     // Gets all the entity's damage type weaknesses
@@ -258,12 +280,17 @@ public abstract class Entity extends Interactable {
         return weaknesses;
     }
 
-    public void removeImmunity(Status status) {
-        immunities.remove(status);
+    public void addImmunity(Status status) {
+        for (Status status1 : immunities) {
+            if (status1.is(status)) {
+                return;
+            }
+        }
+        immunities.add(status);
     }
 
-    public void addImmunity(Status status) {
-        immunities.add(status);
+    public void removeImmunity(Status immunity) {
+        immunities.removeIf(immunity::is);
     }
 
     public List<Status> getImmunities() {
@@ -352,7 +379,7 @@ public abstract class Entity extends Interactable {
     // Gets the entity's ability
     public Ability getAbility() {
 
-        return ability;
+        return attributes.abilityAttribute;
     }
 
     // Gets the current target of the entity
@@ -424,9 +451,9 @@ public abstract class Entity extends Interactable {
             return false;
         }
         System.out.printf("%s casts %s on %s! %n",
-                sourceEntity.getDisplayName(), ((Entity) interactable).ability.getName(), this.getDisplayName());
+                sourceEntity.getDisplayName(), ((Entity) interactable).getAbility().getName(), this.getDisplayName());
 
-        return sourceEntity.ability.useAbility(sourceEntity, this);
+        return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }
 
     @Override

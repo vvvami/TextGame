@@ -1,7 +1,9 @@
 package net.vami.game.interactables.interactions.statuses;
 
+import com.google.gson.annotations.JsonAdapter;
 import net.vami.game.interactables.entities.Entity;
 
+@JsonAdapter(StatusAdapter.class)
 public interface Status {
 
     String getName();
