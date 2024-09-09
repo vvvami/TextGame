@@ -103,8 +103,8 @@ public class Player extends Entity implements Serializable {
         String response = "";
         while (playerName.isEmpty() || (playerName.length() >= 40)) {
             switch (index) {
-                case 3 -> response = "No more, then.";
-                case 2 -> response = "Enough of this. Name another!";
+                case 3 -> response = "No more, then.%n";
+                case 2 -> response = "Enough of this. Name another!%n";
                 case 1 -> response = "That mark will not be accepted. Try someone else.%n";
                 case 0 -> response = "The gods deny that mark on the world.%nPerhaps someone else could continue on their journey?%n";
             }
