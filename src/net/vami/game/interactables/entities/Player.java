@@ -35,6 +35,11 @@ public class Player extends Entity implements Serializable {
 
     @Override
     public boolean receiveSave(Interactable source) {
+        Entity entitySource = (Entity) source;
+        if (entitySource.hasStatus()) {
+            System.out.printf("%s cannot %s while afflicted... %n", entitySource.getName(), Action.SAVE.getSynonyms().stream().findAny());
+            return false;
+        }
         Game.saveGame();
         return super.receiveSave(source);
     }

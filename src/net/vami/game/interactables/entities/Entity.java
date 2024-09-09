@@ -26,7 +26,7 @@ public abstract class Entity extends Interactable {
     // DamageType weaknesses and resistances as well as the statusEffect list and the status immunities
     private List<DamageType> weaknesses = new ArrayList<>();
     private List<DamageType> resistances = new ArrayList<>();
-    private transient List<Status.Instance> statusEffects = new ArrayList<>();
+    private List<Status.Instance> statusEffects = new ArrayList<>();
     private List<Status> immunities = new ArrayList<>();
 
     // All item-related variables (like the inventory)

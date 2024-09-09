@@ -107,6 +107,8 @@ public abstract class Game {
                 .setPrettyPrinting()
                 .create();
 
+        File saveFile = new File(Game.playerSavePath);
+
         try (FileWriter saveWriter = new FileWriter(Game.playerSavePath)) {
             gson.toJson(player, saveWriter);
         }
