@@ -9,8 +9,4 @@ public class TextGame {
         Game.initializeGame();
         Game.startGame();
     }
-
-
-    public static final String saveFileDirectory = "data/saves/";
-
 }

@@ -17,6 +17,9 @@ public abstract class Game {
 
 
     public static void startGame() {
+        if (player == null) {
+            return;
+        }
         EnemyHandler.Generate();
         AllyHandler.Generate();
 
