@@ -94,7 +94,7 @@ public class Interactable {
 
         if (!source.availableActions.contains(action)) {
             System.out.printf("%s tries to %s %s, but nothing happens. %n",
-                    source.getName(), action.getSynonyms().stream().findAny(), this.getName());
+                    source.getName(), action.getSynonyms().getFirst(), this.getName());
             return false;
         }
 
