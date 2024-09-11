@@ -18,6 +18,7 @@ public class Werewolf extends Entity {
         addResistance(new IceDamage());
         addWeakness(new FireDamage());
         addImmunity(new CharmedStatus());
+        setEnemy(true);
     }
 
     @Override

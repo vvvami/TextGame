@@ -1,31 +1,24 @@
 {
-  "health": 28.0,
-  "level": 3,
+  "health": 17.0,
+  "level": 2,
   "enemy": false,
   "attributes": {
-    "levelAttribute": 3,
-    "maxHealthAttribute": 30,
-    "baseDamageAttribute": 3.0,
-    "armorAttribute": 3,
+    "levelAttribute": 2,
+    "maxHealthAttribute": 20,
+    "baseDamageAttribute": 2.0,
+    "armorAttribute": 2,
     "damageTypeAttribute": "BluntDamage",
     "abilityAttribute": "RageAbility"
   },
   "weaknesses": [],
   "resistances": [],
-  "statusEffects": [
-    {
-      "amplifier": 3,
-      "duration": 1,
-      "target": "5682450b-7200-4e3e-9397-f92a10a14ef7",
-      "source": "5682450b-7200-4e3e-9397-f92a10a14ef7",
-      "status": "FrenziedStatus"
-    }
-  ],
+  "statusEffects": [],
   "immunities": [],
   "inventory": [],
+  "heldItem": "d252f31e-1fc3-4a54-b846-d46085ea5eca",
   "maxEquipSlots": 6,
   "equippedItems": [],
-  "ID": "5682450b-7200-4e3e-9397-f92a10a14ef7",
+  "ID": "645dfc54-ffc2-4794-be46-cd88fe8bc6d8",
   "name": "test",
   "position": {
     "x": 0,
@@ -33,27 +26,22 @@
     "z": 0
   },
   "receivableActions": [
+    "MOVEMENT",
     "ABILITY",
     "ATTACK",
-    "RESIST",
     "SAVE",
-    "MOVEMENT"
+    "RESIST"
   ],
   "availableActions": [
+    "MOVEMENT",
     "ABILITY",
-    "EQUIP",
-    "TAKE",
-    "ATTACK",
-    "RESIST",
-    "SAVE",
     "DROP",
-    "MOVEMENT"
+    "ATTACK",
+    "TAKE",
+    "SAVE",
+    "RESIST",
+    "EQUIP"
   ],
-  "modifiers": [
-    {
-      "modifierType": "DAMAGE",
-      "ID": "frenzy",
-      "value": 3.0
-    }
-  ]
+  "modifiers": [],
+  "klass": "net.vami.game.interactables.entities.Player"
 }

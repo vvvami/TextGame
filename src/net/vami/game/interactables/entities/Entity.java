@@ -65,16 +65,6 @@ public abstract class Entity extends Interactable {
 
     }
 
-    // Spawns an entity with a defined position
-    public static boolean spawn(Entity entity, Position position) {
-        if (Node.getNodeFromPosition(position) == null) {
-            return false;
-        }
-
-        entity.setPos(position);
-        return true;
-    }
-
     // Overrides the remove() in the Interactable to add entity drops baby
     @Override
     public void remove() {

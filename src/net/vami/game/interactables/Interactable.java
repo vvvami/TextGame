@@ -18,8 +18,6 @@ import java.io.*;
 import java.util.*;
 
 public class Interactable {
-    private Class klass;
-
     private final UUID ID;
     private String name;
     private Position position = null;
@@ -32,6 +30,9 @@ public class Interactable {
 
     private List<Modifier> modifiers = new ArrayList<>();
 
+    private String klass;
+
+
     public Interactable(String name) {
         ID = UUID.randomUUID();
         interactableMap.put(ID, this);
@@ -42,7 +43,18 @@ public class Interactable {
             Node.getNodeFromPosition(position).addInteractable(this);
         }
 
-        this.klass = this.getClass();
+        this.klass = this.getClass().getName();
+    }
+
+    // Spawns an interactable with a defined position
+    public static void spawn(Interactable interactable, Position position) {
+        if (position == null) {
+            position = new Position(0,0,0);
+        }
+        if (Node.getNodeFromPosition(position) == null) {
+            return;
+        }
+        interactable.setPos(position);
     }
 
 //    public static void saveInteractables(Player player) {

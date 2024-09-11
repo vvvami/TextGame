@@ -1,12 +1,14 @@
 package net.vami.game.world;
 
 import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Player;
 
+import javax.sql.ConnectionPoolDataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +67,7 @@ public abstract class Game {
         Node.initializeNodes();
         Action.registerActionSynonyms();
         player = Player.createPlayer();
+        Interactable.spawn(player, player.getPos());
     }
 
 
