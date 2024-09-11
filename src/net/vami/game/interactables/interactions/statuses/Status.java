@@ -1,7 +1,10 @@
 package net.vami.game.interactables.interactions.statuses;
 
 import com.google.gson.annotations.JsonAdapter;
+import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
+
+import java.util.UUID;
 
 @JsonAdapter(StatusAdapter.class)
 public interface Status {
@@ -32,30 +35,30 @@ public interface Status {
     class Instance {
         private int amplifier;
         private int duration;
-        private Entity target;
-        private Entity source;
+        private UUID target;
+        private UUID source;
         private Status status;
 
         public Instance(Status status, int amplifier, int duration, Entity source) {
             this.status = status;
             this.amplifier = Math.max(1, amplifier);
             this.duration = Math.max(1, duration);
-            this.source = source;
+            this.source = source.getID();
         }
 
         public void onApply() {
 
-            this.getStatus().onApply(target, source);
+            this.getStatus().onApply(getTarget(), getSource());
         }
 
         public void turn() {
-            this.getStatus().turn(target, source);
+            this.getStatus().turn(getTarget(), getSource());
             this.duration--;
         }
 
         public void onEnded() {
 
-            this.getStatus().onEnded(target, source);
+            this.getStatus().onEnded(getTarget(), getSource());
         }
 
         public Status getStatus() {
@@ -85,17 +88,17 @@ public interface Status {
 
         public Entity getSource() {
 
-            return this.source;
+            return (Entity) Interactable.getInteractableFromID(this.source);
         }
 
         public Entity getTarget() {
 
-            return this.target;
+            return (Entity) (Interactable.getInteractableFromID(this.target));
         }
 
         public void setTarget(Entity target) {
 
-            this.target = target;
+            this.target = target.getID();
         }
 
     }

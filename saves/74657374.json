@@ -1,0 +1,59 @@
+{
+  "health": 28.0,
+  "level": 3,
+  "enemy": false,
+  "attributes": {
+    "levelAttribute": 3,
+    "maxHealthAttribute": 30,
+    "baseDamageAttribute": 3.0,
+    "armorAttribute": 3,
+    "damageTypeAttribute": "BluntDamage",
+    "abilityAttribute": "RageAbility"
+  },
+  "weaknesses": [],
+  "resistances": [],
+  "statusEffects": [
+    {
+      "amplifier": 3,
+      "duration": 1,
+      "target": "5682450b-7200-4e3e-9397-f92a10a14ef7",
+      "source": "5682450b-7200-4e3e-9397-f92a10a14ef7",
+      "status": "FrenziedStatus"
+    }
+  ],
+  "immunities": [],
+  "inventory": [],
+  "maxEquipSlots": 6,
+  "equippedItems": [],
+  "ID": "5682450b-7200-4e3e-9397-f92a10a14ef7",
+  "name": "test",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "receivableActions": [
+    "ABILITY",
+    "ATTACK",
+    "RESIST",
+    "SAVE",
+    "MOVEMENT"
+  ],
+  "availableActions": [
+    "ABILITY",
+    "EQUIP",
+    "TAKE",
+    "ATTACK",
+    "RESIST",
+    "SAVE",
+    "DROP",
+    "MOVEMENT"
+  ],
+  "modifiers": [
+    {
+      "modifierType": "DAMAGE",
+      "ID": "frenzy",
+      "value": 3.0
+    }
+  ]
+}

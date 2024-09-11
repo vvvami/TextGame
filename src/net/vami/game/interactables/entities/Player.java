@@ -37,12 +37,8 @@ public class Player extends Entity implements Serializable {
 
     @Override
     public boolean receiveSave(Interactable source) {
-        Entity entitySource = (Entity) source;
-        if (entitySource.hasStatus()) {
-            System.out.printf("%s cannot %s while afflicted... %n", entitySource.getName(), Action.SAVE.getSynonyms().stream().findAny());
-            return false;
-        }
         savePlayer(this);
+//        saveInteractables(this);
         return super.receiveSave(source);
     }
 
@@ -76,7 +72,6 @@ public class Player extends Entity implements Serializable {
         Player loadedPlayer = null;
 
 
-
         if (saveFile.exists()) {
             FileReader reader = null;
             try {
@@ -103,7 +98,7 @@ public class Player extends Entity implements Serializable {
         String response = "";
         while (playerName.isEmpty() || (playerName.length() >= 40)) {
             switch (index) {
-                case 3 -> response = "No more, then.%n";
+                case 3 -> response = "No more, then...%n";
                 case 2 -> response = "Enough of this. Name another!%n";
                 case 1 -> response = "That mark will not be accepted. Try someone else.%n";
                 case 0 -> response = "The gods deny that mark on the world.%nPerhaps someone else could continue on their journey?%n";
@@ -119,7 +114,7 @@ public class Player extends Entity implements Serializable {
         Player createdPlayer = loadPlayer(playerName);
 
         if (createdPlayer == null) {
-            createdPlayer = new Player(playerName, new Attributes());
+            createdPlayer = new Player(playerName, new Attributes().level(2));
         }
 
         if (Node.getNodeFromPosition(createdPlayer.getPos()) != null) {

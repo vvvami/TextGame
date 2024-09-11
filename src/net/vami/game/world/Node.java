@@ -2,16 +2,17 @@ package net.vami.game.world;
 
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
+import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.items.ItemEquipable;
+import net.vami.game.interactables.items.equipables.ItemEquipable;
 
 import java.util.*;
 
 public class Node {
     private String description;
     private final Position position;
-    private List<Interactable> interactables = new ArrayList<>();
+    private List<UUID> interactables = new ArrayList<>();
     private static HashMap<Position, Node> nodeMap = new HashMap<>();
     private Node.Instance instance;
 
@@ -31,6 +32,9 @@ public class Node {
     }
 
     public static Node getNodeFromPosition(Position pos) {
+        if (pos == null) {
+            return null;
+        }
         return Node.nodeMap.get(pos);
     }
 
@@ -43,20 +47,24 @@ public class Node {
     }
 
     public List<Interactable> getInteractables() {
-        return interactables;
+        ArrayList<Interactable> interactableList = new ArrayList<>();
+        for (UUID interactable : interactables) {
+            interactableList.add(Interactable.getInteractableFromID(interactable));
+        }
+        return interactableList;
     }
 
     public void addInteractable(Interactable interactable) {
-        interactables.add(interactable);
+        interactables.add(interactable.getID());
     }
 
     public void removeInteractable(Interactable interactable) {
-        interactables.remove(interactable);
+        interactables.remove(interactable.getID());
     }
 
     public Interactable stringToInteractable(String name) {
-        if (!interactables.isEmpty()) {
-            for (Interactable interactable : interactables) {
+        if (!getInteractables().isEmpty()) {
+            for (Interactable interactable : getInteractables()) {
                 if (interactable == null) {
                     break;
                 }
@@ -118,13 +126,21 @@ public class Node {
 
         public void preTurn() {
             itemTicker();
-            enemyTicker();
+            if (enemyTicker()) {
+                return;
+            }
             EnemyHandler.enemyAction(node);
         }
 
         public void turn() {
+            if (allyTicker()) {
+               return;
+            }
+
+            if (Game.player.getPos().equals(node.getNodePos())) {
+                PlayerHandler.read();
+            }
             AllyHandler.allyAction(node);
-            allyTicker();
         }
 
         void itemTicker() {
@@ -142,53 +158,44 @@ public class Node {
             }
         }
 
-        void enemyTicker() {
+        boolean enemyTicker() {
+            if (entityEndedCheck()) {
+                return true;
+            }
             for (Entity enemy : node.getEnemies()) {
-                if (!enemyEndedCheck(enemy)) {
+                if (!enemy.isEnded()) {
                     enemy.turn();
                 }
-            }
-
-            for (Entity ally : node.getAllies()) {
-                allyEndedCheck(ally);
-            }
-        }
-
-        void allyTicker() {
-            for (Entity ally : node.getAllies()) {
-                if (allyEndedCheck(ally)) {
-                    if (Game.endGame) {
-                        return;
-                    }
-                }
-                else {
-                    ally.turn();
-                }
-            }
-
-            for (Entity enemy : node.getEnemies()) {
-                enemyEndedCheck(enemy);
-            }
-        }
-
-        private boolean allyEndedCheck(Entity ally) {
-            if (ally.isEnded()) {
-                System.out.println(ally.getName() + " has died!");
-                if (ally.equals(Game.player)) {
-                    System.out.println("Game Over!");
-                    Game.endGame = true;
-                }
-                ally.kill();
-                return true;
             }
             return false;
         }
 
-        private boolean enemyEndedCheck(Entity enemy) {
-            if (enemy.isEnded()) {
-                System.out.println(enemy.getName() + " has died!");
-                enemy.kill();
+        boolean allyTicker() {
+            if (entityEndedCheck()) {
                 return true;
+            }
+            for (Entity ally : node.getAllies()) {
+                if (!ally.isEnded()) {
+                   ally.turn();
+                }
+            }
+            return false;
+        }
+
+        private boolean entityEndedCheck() {
+            if (Game.endGame) {
+                return true;
+            }
+            for (Entity entity : node.getEntities()) {
+                if (entity.isEnded()) {
+                    System.out.println(entity.getName() + " has died!");
+                    if (entity.equals(Game.player)) {
+                        System.out.println("Game Over!");
+                        Game.endGame = true;
+                        return true;
+                    }
+                    entity.annihilate();
+                }
             }
             return false;
         }

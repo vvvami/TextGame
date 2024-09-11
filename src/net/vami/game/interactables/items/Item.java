@@ -3,12 +3,15 @@ import net.vami.game.display.text.TextFormatter;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
-import org.w3c.dom.Text;
+import net.vami.game.interactables.items.equipables.ItemEquipable;
+import net.vami.game.interactables.items.holdables.ItemHoldable;
+
+import java.util.UUID;
 
 public abstract class Item extends Interactable {
 
     private int durability;
-    private Entity owner;
+    private UUID owner;
 
     public Item(String name, int durability) {
         super(name);
@@ -20,12 +23,12 @@ public abstract class Item extends Interactable {
 
     public Entity getOwner() {
 
-        return owner;
+        return (Entity) Interactable.getInteractableFromID(owner);
     }
 
     public void setOwner(Entity owner) {
 
-        this.owner = owner;
+        this.owner = owner.getID();
     }
 
 
@@ -43,8 +46,8 @@ public abstract class Item extends Interactable {
     public void hurt(int amount) {
         durability -= amount;
         if (durability <= 0) {
-            owner.removeItem(this);
-            kill();
+            getOwner().removeItem(this);
+            annihilate();
         }
     }
 
@@ -82,7 +85,7 @@ public abstract class Item extends Interactable {
             this.onUnequip(sourceEntity);
         }
         sourceEntity.removeItem(this);
-        this.setPosition(sourceEntity.getPos());
+        this.setPos(sourceEntity.getPos());
         System.out.printf("%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
         return super.receiveDrop(source);
     }

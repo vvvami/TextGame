@@ -9,8 +9,10 @@ import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.*;
 import net.vami.game.interactables.items.Item;
-import net.vami.game.interactables.items.ItemEquipable;
-import net.vami.game.interactables.items.ItemHoldable;
+import net.vami.game.interactables.items.equipables.ItemEquipable;
+import net.vami.game.interactables.items.holdables.ItemHoldable;
+import net.vami.game.world.Node;
+import net.vami.game.world.Position;
 
 import java.util.*;
 
@@ -30,13 +32,13 @@ public abstract class Entity extends Interactable {
     private List<Status> immunities = new ArrayList<>();
 
     // All item-related variables (like the inventory)
-    private List<Item> inventory = new ArrayList<>();
-    private ItemHoldable heldItem;
+    private List<UUID> inventory = new ArrayList<>();
+    private UUID heldItem;
     private int maxEquipSlots = 6;
-    private List<ItemEquipable> equippedItems = new ArrayList<>(maxEquipSlots);
+    private List<UUID> equippedItems = new ArrayList<>(maxEquipSlots);
 
     // This is mostly for the AI of the entity, not necessarily used for all entities
-    private Entity target;
+    private UUID target;
 
     public Entity(String name, Attributes attributes) {
         super(name);
@@ -63,22 +65,32 @@ public abstract class Entity extends Interactable {
 
     }
 
-    // Overrides the kill in the Interactable to add entity drops baby
+    // Spawns an entity with a defined position
+    public static boolean spawn(Entity entity, Position position) {
+        if (Node.getNodeFromPosition(position) == null) {
+            return false;
+        }
+
+        entity.setPos(position);
+        return true;
+    }
+
+    // Overrides the remove() in the Interactable to add entity drops baby
     @Override
-    public void kill() {
+    public void remove() {
         ArrayList<Item> dropList = new ArrayList<>();
-        dropList.addAll(inventory);
-        dropList.addAll(equippedItems);
+        dropList.addAll(getInventory());
+        dropList.addAll(getEquippedItems());
         if (this.hasHeldItem()) {
-            dropList.add(heldItem);
+            dropList.add(getHeldItem());
         }
 
         for (Item item : dropList) {
-            item.setPosition(this.getPos());
+            item.setPos(this.getPos());
             System.out.printf("%s dropped %s! %n", this.getDisplayName(), item.getName());
         }
 
-        super.kill();
+        super.remove();
     }
 
     // A "tick" of the entity
@@ -352,7 +364,7 @@ public abstract class Entity extends Interactable {
     // Gets the entity's damage type
     public DamageType getDamageType() {
         if (hasHeldItem()) {
-            return heldItem.getDamageType();
+            return getHeldItem().getDamageType();
         }
         return attributes.getDamageType();
     }
@@ -385,19 +397,19 @@ public abstract class Entity extends Interactable {
     // Gets the current target of the entity
     public Entity getTarget() {
 
-        return this.target;
+        return (Entity) Interactable.getInteractableFromID(this.target);
     }
 
     // Sets the current target of the entity
     public void setTarget(Entity target) {
 
-        this.target = target;
+        this.target = target.getID();
     }
 
     // Checks if the entity has a target
     public boolean hasTarget() {
 
-        return target != null && !target.isEnded();
+        return getTarget() != null && !getTarget().isEnded();
     }
 
     // Gets the formatted display name of the entity
@@ -477,12 +489,15 @@ public abstract class Entity extends Interactable {
 
     // Gets all the equipped items of the entity
     public List<ItemEquipable> getEquippedItems() {
-
-        return equippedItems;
+        ArrayList<ItemEquipable> itemList = new ArrayList<>();
+        for (UUID item : equippedItems) {
+            itemList.add((ItemEquipable) Interactable.getInteractableFromID(item));
+        }
+        return itemList;
     }
 
     public boolean hasItemEquipped(ItemEquipable item) {
-        for (ItemEquipable itemEquipable : equippedItems) {
+        for (ItemEquipable itemEquipable : getEquippedItems()) {
             if (itemEquipable == item) {
                 return true;
             }
@@ -503,53 +518,57 @@ public abstract class Entity extends Interactable {
     }
 
     public List<Item> getInventory() {
-        return inventory;
+        ArrayList<Item> itemList = new ArrayList<>();
+        for (UUID item : inventory) {
+            itemList.add((Item) Interactable.getInteractableFromID(item));
+        }
+        return itemList;
     }
 
     // Adds an item to the inventory
     public void addInventoryItem(Item item) {
-        inventory.add(item);
+        inventory.add(item.getID());
         if (item.getPos() != null) {
-            item.kill();
+            item.remove();
         }
     }
 
     // Removes an item from the inventory
     public void removeFromInventory(Item item) {
 
-        inventory.remove(item);
+        inventory.remove(item.getID());
     }
 
     // Gets the item the entity is currently holding
     public ItemHoldable getHeldItem() {
-        return heldItem;
+        return (ItemHoldable) Interactable.getInteractableFromID(heldItem);
     }
 
     // Checks if the entity has an item in their hand
     public boolean hasHeldItem() {
 
-        return !(heldItem == null);
+        return !(getHeldItem() == null);
     }
 
     // Equips an item to the entity's hand.
-    public void setHeldItem(Item item) {
+    public void setHeldItem(ItemHoldable item) {
 
-        heldItem = (ItemHoldable) item;
+        heldItem = item.getID();
     }
 
     // Removes an item from holdable or equipable
     public boolean removeItem(Item item) {
 
-        if (inventory.contains(item)) {
-            inventory.remove(item);
+        if (inventory.contains(item.getID())) {
+            inventory.remove(item.getID());
             return true;
         }
 
         if (item instanceof ItemEquipable) {
-            if (!equippedItems.contains(item)) {
+            if (!equippedItems.contains(item.getID())) {
                 return false;
             }
-            equippedItems.remove(item);
+            equippedItems.remove(item.getID());
             return true;
         }
         else if (item instanceof ItemHoldable) {
@@ -622,29 +641,17 @@ public abstract class Entity extends Interactable {
             return this;
         }
 
-        public int getLevel() {
-            return levelAttribute;
-        }
+        public int getLevel() {return levelAttribute;}
 
-        public int getMaxHealth() {
-            return maxHealthAttribute;
-        }
+        public int getMaxHealth() {return maxHealthAttribute;}
 
-        public float getBaseDamage() {
-            return baseDamageAttribute;
-        }
+        public float getBaseDamage() {return baseDamageAttribute;}
 
-        public int getArmor() {
-            return armorAttribute;
-        }
+        public int getArmor() {return armorAttribute;}
 
-        public DamageType getDamageType() {
-            return damageTypeAttribute;
-        }
+        public DamageType getDamageType() {return damageTypeAttribute;}
 
-        public Ability getAbility() {
-            return abilityAttribute;
-        }
+        public Ability getAbility() {return abilityAttribute;}
 
         public Attributes copyOf(Entity entity) {
             Attributes attributes = entity.attributes;

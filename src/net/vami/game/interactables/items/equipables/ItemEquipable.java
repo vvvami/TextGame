@@ -1,7 +1,6 @@
-package net.vami.game.interactables.items;
+package net.vami.game.interactables.items.equipables;
 
-import net.vami.game.display.text.TextFormatter;
-import net.vami.game.world.Position;
+import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 

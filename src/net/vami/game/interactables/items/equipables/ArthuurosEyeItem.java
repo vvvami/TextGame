@@ -3,7 +3,6 @@ package net.vami.game.interactables.items.equipables;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
 import net.vami.game.interactables.interactions.ModifierType;
-import net.vami.game.interactables.items.ItemEquipable;
 
 public class ArthuurosEyeItem extends ItemEquipable {
     public ArthuurosEyeItem(String name, int durability) {

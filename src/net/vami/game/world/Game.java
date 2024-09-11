@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class Game {
     public static Player player = null;
     public static String playerSavePathFormat = "saves/%.json";
+    public static String interactableSavePathFormat = "saves/%_interactables.json";
     public static boolean endGame = false;
 
 
@@ -40,8 +41,6 @@ public abstract class Game {
             for (Node node : nodes) {
                 node.getInstance().preTurn();
             }
-
-            PlayerHandler.read();
 
             for (Node node : nodes) {
                 node.getInstance().turn();

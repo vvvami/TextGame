@@ -5,7 +5,7 @@ import net.vami.game.interactables.items.equipables.ArthuurosEyeItem;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.items.holdables.ExcaliburItem;
-import net.vami.game.interactables.items.ItemHoldable;
+import net.vami.game.interactables.items.holdables.ItemHoldable;
 
 public class AllyHandler {
 

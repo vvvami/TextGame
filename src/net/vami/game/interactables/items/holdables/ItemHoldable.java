@@ -1,15 +1,12 @@
-package net.vami.game.interactables.items;
+package net.vami.game.interactables.items.holdables;
 
-import net.vami.game.display.text.TextFormatter;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
 import net.vami.game.interactables.interactions.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.vami.game.interactables.items.Item;
 
 public abstract class ItemHoldable extends Item {
 
