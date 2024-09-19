@@ -21,13 +21,17 @@ public class ChaseTargetTask extends Task {
         while (true) {
             int rand = new Random().nextInt(directions.size());
             Direction randDirect = directions.get(rand);
-            initialPos = initialPos.add(randDirect.pos);
+            initialPos = initialPos.add(randDirect);
 
             if (initialDist >= initialPos.distance(source.getTarget().getPos())) {
-                break;
+                initialPos = initialPos.subtract(randDirect);
+                rand = new Random().nextInt(directions.size());
+                randDirect = directions.get(rand);
+                initialPos = initialPos.add(randDirect);
             }
             else {
-               initialPos = initialPos.subtract(randDirect.pos);
+                source.setDirection(randDirect);
+                break;
             }
         }
         return source.receiveMovement(source);

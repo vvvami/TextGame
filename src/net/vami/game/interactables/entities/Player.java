@@ -32,14 +32,9 @@ public class Player extends Entity implements Serializable {
     }
 
     @Override
-    public Brain getBrain() {
-        return null;
-    }
-
-    @Override
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
-//        saveInteractables(this);
+        saveInteractables(this);
         return super.receiveSave(source);
     }
 
@@ -117,6 +112,8 @@ public class Player extends Entity implements Serializable {
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes().level(2));
         }
+        Interactable.loadInteractables(createdPlayer.getName());
+
         return createdPlayer;
     }
 

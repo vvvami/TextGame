@@ -103,7 +103,7 @@ public class Node {
     }
 
     public static void initializeNodes() {
-        int size = 50;
+        int size = 25;
         for (int h = -size; h <= size; h++) {
             for (int j = -size; j <= size; j++) {
                 for (int i = -size; i <= size; i++) {
@@ -124,6 +124,7 @@ public class Node {
             this.node = node;
         }
 
+        // Ticks every equipped item of entities within the node as well as the enemies themselves
         public void preTurn() {
             itemTicker();
             if (enemyTicker()) {
@@ -132,6 +133,7 @@ public class Node {
             EnemyHandler.enemyAction(node);
         }
 
+        // Turn ticks every non-enemy and triggers the player input reader
         public void turn() {
             if (allyTicker()) {
                return;
@@ -143,6 +145,7 @@ public class Node {
             AllyHandler.allyAction(node);
         }
 
+        // Ticks every item
         void itemTicker() {
             List<Entity> entities = node.getEntities();
             for (Entity entity : entities) {
@@ -158,6 +161,7 @@ public class Node {
             }
         }
 
+        // Ticks every enemy
         boolean enemyTicker() {
             if (entityEndedCheck()) {
                 return true;
@@ -170,6 +174,7 @@ public class Node {
             return false;
         }
 
+        // Ticks every non-enemy
         boolean allyTicker() {
             if (entityEndedCheck()) {
                 return true;
@@ -182,6 +187,7 @@ public class Node {
             return false;
         }
 
+        // Checks for every dead entity within a node and removes them, or ends the game if it's the player that died
         private boolean entityEndedCheck() {
             if (Game.endGame) {
                 return true;
@@ -194,7 +200,9 @@ public class Node {
                         Game.endGame = true;
                         return true;
                     }
-                    entity.annihilate();
+                    // We use remove() and not annihilate()
+                    // Reason: status instances entities inflict may outlast themselves (we still need their UUID)
+                    entity.remove();
                 }
             }
             return false;

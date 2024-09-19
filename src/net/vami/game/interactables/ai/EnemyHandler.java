@@ -13,7 +13,7 @@ public class EnemyHandler {
     }
 
     public static void Generate() {
-        Entity.spawn(new Werewolf("Gang", new Entity.Attributes()), null);
+        Entity.spawn(new Werewolf("Gang", new Entity.Attributes().level(1)), null);
     }
 
 }

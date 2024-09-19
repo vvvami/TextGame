@@ -1,5 +1,7 @@
 package net.vami.game.interactables;
 import com.google.gson.*;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.reflect.TypeToken;
 import net.vami.game.interactables.entities.Player;
 import net.vami.game.interactables.interactions.*;
 import net.vami.game.world.Direction;
@@ -15,8 +17,10 @@ import net.vami.util.HexUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
+@JsonAdapter(InteractableAdapter.class)
 public class Interactable {
     private final UUID ID;
     private String name;
@@ -35,7 +39,9 @@ public class Interactable {
 
     public Interactable(String name) {
         ID = UUID.randomUUID();
-        interactableMap.put(ID, this);
+        if (!this.getClass().equals(Player.class)) {
+            interactableMap.put(ID, this);
+        }
 
         this.name = name;
 
@@ -57,50 +63,72 @@ public class Interactable {
         interactable.setPos(position);
     }
 
-//    public static void saveInteractables(Player player) {
-//        String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
-//        Gson gson = new GsonBuilder()
-//                .setPrettyPrinting()
-//                .create();
-//        JsonArray interactableArray = new JsonArray();
-//        for (Interactable interactable : interactableMap.values()) {
-//            JsonElement interactableObj = gson.toJsonTree(interactable);
-//            interactableArray.add(interactableObj);
-//        }
-//
-//        JsonObject mainObj = new JsonObject();
-//        mainObj.add("interactables", interactableArray);
-//
-//
-//        try (FileWriter saveWriter = new FileWriter(saveFilePath)) {
-//            saveWriter.write(gson.toJson(mainObj));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public static void loadInteractables(Player player) {
-//        String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
-//        File saveFile = new File(saveFilePath);
-//        Gson gson = new GsonBuilder()
-//                .setPrettyPrinting()
-//                .create();
-//
-//        JsonArray interactableArray = new JsonArray();
-//        JsonObject mainObj = new JsonObject();
-//        ArrayList<Interactable> interactableArrayList = new ArrayList<>();
-//
-//        if (saveFile.exists()) {
-//            FileReader reader = null;
-//            try {
-//                reader = new FileReader(saveFile);
-//                interactableArrayList = gson.fromJson(interactableArray, ArrayList.class);
-//
-//            } catch (FileNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
+    // Alternate version of spawn()
+    public static void spawn(Interactable interactable, int x, int y, int z) {
+        Position position = new Position(x, y, z);
+
+        if (Node.getNodeFromPosition(position) == null) {
+            return;
+        }
+        interactable.setPos(position);
+    }
+
+    public Class getKlass() {
+        try {
+            return Class.forName(klass);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveInteractables(Player player) {
+        String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+        JsonArray interactableArray = new JsonArray();
+        for (Interactable interactable : interactableMap.values()) {
+            JsonElement interactableObj = gson.toJsonTree(interactable);
+            interactableArray.add(interactableObj);
+        }
+
+        JsonObject mainObj = new JsonObject();
+        mainObj.add("interactables", interactableArray);
+
+
+        try (FileWriter saveWriter = new FileWriter(saveFilePath)) {
+            saveWriter.write(gson.toJson(mainObj));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadInteractables(String playerName) {
+        String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(playerName));
+        File saveFile = new File(saveFilePath);
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+        Type listType = new TypeToken<ArrayList<Interactable>>(){}.getType();
+        JsonArray mainArr;
+        JsonObject mainObj;
+
+        if (saveFile.exists()) {
+            FileReader reader = null;
+            try {
+                reader = new FileReader(saveFile);
+                mainObj = gson.fromJson(reader, JsonObject.class);
+                mainArr = mainObj.getAsJsonArray("interactables").getAsJsonArray();
+                ArrayList<Interactable> interactableList = gson.fromJson(mainArr, listType);
+
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
 
     public static Interactable getInteractableFromID(UUID ID) {
         return interactableMap.get(ID);
@@ -288,7 +316,7 @@ public class Interactable {
     }
 
     public boolean receiveMovement(Interactable source) {
-        Position newPos = position.add(direction.pos);
+        Position newPos = position.add(direction);
 
         if (Node.getNodeFromPosition(newPos) == null) {
             return false;

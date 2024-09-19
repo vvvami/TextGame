@@ -63,7 +63,23 @@ public final class Position {
                 this.z + position.z);
     }
 
+    public Position add(Direction direction) {
+        Position position = direction.pos;
+        return new Position(
+                this.x + position.x,
+                this.y + position.y,
+                this.z + position.z);
+    }
+
     public Position subtract(Position position) {
+        return new Position(
+                this.x - position.x,
+                this.y - position.y,
+                this.z - position.z);
+    }
+
+    public Position subtract(Direction direction) {
+        Position position = direction.pos;
         return new Position(
                 this.x - position.x,
                 this.y - position.y,

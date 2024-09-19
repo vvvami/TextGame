@@ -30,7 +30,7 @@ public abstract class ItemEquipable extends Item {
             return false;
         }
 
-        entitySource.getEquippedItems().add(this);
+        entitySource.addEquippedItem(this);
         System.out.printf("%s equips %s. %n", entitySource.getName(), this.getDisplayName());
         return super.receiveEquip(source);
     }

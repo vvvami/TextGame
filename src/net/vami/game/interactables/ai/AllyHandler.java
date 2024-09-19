@@ -24,7 +24,7 @@ public class AllyHandler {
         Item.spawn(new ExcaliburItem("Excalibur1", new ItemHoldable.Attributes()
                 .baseDamage(10)), null);
         Item.spawn(new ExcaliburItem("Excalibur2", new ItemHoldable.Attributes()
-                .baseDamage(200)
+                .baseDamage(10)
                 .damageType(new IceDamage())), null);
         Item.spawn(new ArthuurosEyeItem("Eye of Arthuuros", 100), null);
     }

@@ -35,7 +35,7 @@ public abstract class Entity extends Interactable {
     private List<UUID> inventory = new ArrayList<>();
     private UUID heldItem;
     private int maxEquipSlots = 6;
-    private List<UUID> equippedItems = new ArrayList<>(maxEquipSlots);
+    private List<UUID> equippedItems = new ArrayList<>();
 
     // This is mostly for the AI of the entity, not necessarily used for all entities
     private UUID target;
@@ -89,7 +89,9 @@ public abstract class Entity extends Interactable {
         statusTurn();
     }
 
-    public abstract Brain getBrain();
+    public Brain getBrain() {
+        return null;
+    }
 
     // Main damage function
     @Override
@@ -484,6 +486,10 @@ public abstract class Entity extends Interactable {
             itemList.add((ItemEquipable) Interactable.getInteractableFromID(item));
         }
         return itemList;
+    }
+
+    public void addEquippedItem(ItemEquipable item) {
+        equippedItems.add(item.getID());
     }
 
     public boolean hasItemEquipped(ItemEquipable item) {

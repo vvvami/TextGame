@@ -27,24 +27,13 @@ public abstract class Game {
         AllyHandler.Generate();
 
         do {
-            Node playerNode = Node.getNodeFromPosition(player.getPos());
-            Node northNode = Node.getNodeFromPosition(player.getPos().add(Direction.NORTH.pos));
-            Node southNode = Node.getNodeFromPosition(player.getPos().add(Direction.SOUTH.pos));
-            Node eastNode = Node.getNodeFromPosition(player.getPos().add(Direction.EAST.pos));
-            Node westNode = Node.getNodeFromPosition(player.getPos().add(Direction.WEST.pos));
+            ArrayList<Node> tickedNodes = globalTicker();
 
-            ArrayList<Node> nodes = new ArrayList<>();
-            nodes.add(playerNode);
-            nodes.add(northNode);
-            nodes.add(southNode);
-            nodes.add(eastNode);
-            nodes.add(westNode);
-
-            for (Node node : nodes) {
+            for (Node node : tickedNodes) {
                 node.getInstance().preTurn();
             }
 
-            for (Node node : nodes) {
+            for (Node node : tickedNodes) {
                 node.getInstance().turn();
             }
 
@@ -52,8 +41,24 @@ public abstract class Game {
 
     }
 
-    static void globalTicker() {
+    private static ArrayList<Node> globalTicker() {
+        Node playerNode = Node.getNodeFromPosition(player.getPos());
+        Node northNode = Node.getNodeFromPosition(player.getPos().add(Direction.NORTH));
+        Node southNode = Node.getNodeFromPosition(player.getPos().add(Direction.SOUTH));
+        Node eastNode = Node.getNodeFromPosition(player.getPos().add(Direction.EAST));
+        Node westNode = Node.getNodeFromPosition(player.getPos().add(Direction.WEST));
+        Node upNode = Node.getNodeFromPosition(player.getPos().add(Direction.UP));
+        Node downNode = Node.getNodeFromPosition(player.getPos().add(Direction.DOWN));
 
+        ArrayList<Node> nodes = new ArrayList<>();
+        nodes.add(playerNode);
+        nodes.add(northNode);
+        nodes.add(southNode);
+        nodes.add(eastNode);
+        nodes.add(westNode);
+        nodes.add(upNode);
+        nodes.add(downNode);
+        return nodes;
     }
 
 
