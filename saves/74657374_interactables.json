@@ -1,0 +1,120 @@
+{
+  "interactables": [
+    {
+      "klass": "net.vami.game.interactables.items.holdables.ExcaliburItem",
+      "value": {
+        "damageType": "IceDamage",
+        "attributes": {
+          "baseDamageAttribute": 10,
+          "damageTypeAttribute": "IceDamage",
+          "durabilityAttribute": 1
+        },
+        "durability": 1,
+        "ID": "a00dc7fb-48b0-43d6-9942-6435deddd658",
+        "name": "Excalibur2",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "receivableActions": [
+          "TAKE",
+          "EQUIP",
+          "DROP"
+        ],
+        "availableActions": [],
+        "modifiers": []
+      }
+    },
+    {
+      "klass": "net.vami.game.interactables.items.holdables.ExcaliburItem",
+      "value": {
+        "damageType": "FireDamage",
+        "attributes": {
+          "baseDamageAttribute": 10,
+          "damageTypeAttribute": "FireDamage",
+          "durabilityAttribute": 1
+        },
+        "durability": 1,
+        "owner": "c495bf20-c31e-4590-b989-1d5af56b137b",
+        "ID": "f19d59d8-f06d-4049-b5f3-3a01659fd5a6",
+        "name": "Excalibur1",
+        "receivableActions": [
+          "TAKE",
+          "EQUIP",
+          "DROP"
+        ],
+        "availableActions": [],
+        "modifiers": []
+      }
+    },
+    {
+      "klass": "net.vami.game.interactables.items.equipables.ArthuurosEyeItem",
+      "value": {
+        "durability": 100,
+        "ID": "bd46dcd0-9d87-4a73-8a9c-ce793ce3460f",
+        "name": "Eye of Arthuuros",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "receivableActions": [
+          "TAKE",
+          "EQUIP",
+          "DROP"
+        ],
+        "availableActions": [],
+        "modifiers": []
+      }
+    },
+    {
+      "klass": "net.vami.game.interactables.entities.Werewolf",
+      "value": {
+        "health": -13.0,
+        "level": 1,
+        "enemy": true,
+        "attributes": {
+          "levelAttribute": 1,
+          "maxHealthAttribute": 10,
+          "baseDamageAttribute": 1.0,
+          "armorAttribute": 1,
+          "damageTypeAttribute": "SharpDamage",
+          "abilityAttribute": "RageAbility"
+        },
+        "weaknesses": [
+          "FireDamage"
+        ],
+        "resistances": [
+          "IceDamage"
+        ],
+        "statusEffects": [],
+        "immunities": [
+          "CharmedStatus"
+        ],
+        "inventory": [],
+        "maxEquipSlots": 6,
+        "equippedItems": [],
+        "target": "c495bf20-c31e-4590-b989-1d5af56b137b",
+        "ID": "1bcb2eb7-4814-414d-bf2a-ecc7013fa8eb",
+        "name": "Gang",
+        "receivableActions": [
+          "ABILITY",
+          "ATTACK",
+          "RESIST",
+          "MOVEMENT"
+        ],
+        "availableActions": [
+          "ABILITY",
+          "ATTACK",
+          "TAKE",
+          "RESIST",
+          "EQUIP",
+          "MOVEMENT",
+          "DROP"
+        ],
+        "modifiers": []
+      }
+    }
+  ]
+}

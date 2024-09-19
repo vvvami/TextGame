@@ -1,4 +1,6 @@
 package net.vami.game.interactables.entities;
+import com.google.gson.annotations.JsonAdapter;
+import net.vami.game.interactables.InteractableAdapter;
 import net.vami.game.interactables.ai.*;
 import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.abilities.RageAbility;

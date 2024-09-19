@@ -4,6 +4,7 @@ import com.google.gson.*;
 import net.vami.game.interactables.entities.Player;
 import net.vami.game.interactables.interactions.abilities.Ability;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.util.ClassUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
@@ -15,21 +16,12 @@ public class DamageTypeAdapter implements JsonSerializer, JsonDeserializer {
         String simpleName = jsonElement.getAsString();
         String interfaceName = DamageType.class.getName();
         String fullName = interfaceName.substring(0, interfaceName.lastIndexOf(".") + 1) + simpleName;
-        Class klass = getObjectClass(fullName);
+        Class klass = ClassUtil.getObjectClass(fullName);
         return (DamageType) new Gson().fromJson("{}", klass);
     }
 
     @Override
     public JsonElement serialize(Object o, Type type, JsonSerializationContext jsonSerializationContext) {
         return jsonSerializationContext.serialize(o.getClass().getSimpleName());
-    }
-
-    public Class getObjectClass(String className) {
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
-            throw new JsonParseException(e.getMessage());
-        }
     }
 }

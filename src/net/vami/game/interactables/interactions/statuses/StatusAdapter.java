@@ -2,6 +2,7 @@ package net.vami.game.interactables.interactions.statuses;
 
 import com.google.gson.*;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.util.ClassUtil;
 
 import java.lang.reflect.Type;
 
@@ -12,7 +13,7 @@ public class StatusAdapter implements JsonSerializer, JsonDeserializer {
         String simpleName = jsonElement.getAsString();
         String interfaceName = Status.class.getName();
         String fullName = interfaceName.substring(0, interfaceName.lastIndexOf(".") + 1) + simpleName;
-        Class klass = getObjectClass(fullName);
+        Class klass = ClassUtil.getObjectClass(fullName);
         return (Status) new Gson().fromJson("{}", klass);
     }
 
@@ -21,12 +22,4 @@ public class StatusAdapter implements JsonSerializer, JsonDeserializer {
         return jsonSerializationContext.serialize(o.getClass().getSimpleName());
     }
 
-    public Class getObjectClass(String className) {
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
-            throw new JsonParseException(e.getMessage());
-        }
-    }
 }

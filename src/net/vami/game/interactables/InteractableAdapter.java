@@ -10,14 +10,18 @@ public class InteractableAdapter implements JsonSerializer, JsonDeserializer {
 
     @Override
     public Interactable deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-        String fullName = jsonElement.getAsString();
+        JsonObject mainObj = jsonElement.getAsJsonObject();
+        String fullName = mainObj.getAsJsonObject("klass").getAsString();
         Class klass = getObjectClass(fullName);
-        return (Interactable) new Gson().fromJson("{}", klass);
+        return jsonDeserializationContext.deserialize(mainObj.getAsJsonObject("value"), klass);
     }
 
     @Override
     public JsonElement serialize(Object o, Type type, JsonSerializationContext jsonSerializationContext) {
-        return jsonSerializationContext.serialize(o.getClass().getSimpleName());
+        JsonObject classObj = new JsonObject();
+        classObj.addProperty("klass", o.getClass().getName());
+        classObj.add("value", jsonSerializationContext.serialize(o));
+        return classObj;
     }
 
     public Class getObjectClass(String className) {

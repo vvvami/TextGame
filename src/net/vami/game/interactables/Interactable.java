@@ -13,6 +13,7 @@ import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.Status;
 import net.vami.game.interactables.interactions.statuses.CrippledStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
+import net.vami.util.ClassUtil;
 import net.vami.util.HexUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +21,7 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
-@JsonAdapter(InteractableAdapter.class)
+//@JsonAdapter(InteractableAdapter.class)
 public class Interactable {
     private final UUID ID;
     private String name;
@@ -34,14 +35,10 @@ public class Interactable {
 
     private List<Modifier> modifiers = new ArrayList<>();
 
-    private String klass;
-
 
     public Interactable(String name) {
         ID = UUID.randomUUID();
-        if (!this.getClass().equals(Player.class)) {
-            interactableMap.put(ID, this);
-        }
+        interactableMap.put(ID, this);
 
         this.name = name;
 
@@ -49,7 +46,6 @@ public class Interactable {
             Node.getNodeFromPosition(position).addInteractable(this);
         }
 
-        this.klass = this.getClass().getName();
     }
 
     // Spawns an interactable with a defined position
@@ -73,14 +69,6 @@ public class Interactable {
         interactable.setPos(position);
     }
 
-    public Class getKlass() {
-        try {
-            return Class.forName(klass);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void saveInteractables(Player player) {
         String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
         Gson gson = new GsonBuilder()
@@ -88,8 +76,10 @@ public class Interactable {
                 .create();
         JsonArray interactableArray = new JsonArray();
         for (Interactable interactable : interactableMap.values()) {
-            JsonElement interactableObj = gson.toJsonTree(interactable);
-            interactableArray.add(interactableObj);
+            if (interactable.getClass().equals(Player.class)) {
+                continue;
+            }
+            interactableArray.add(serializeInteractable(interactable, gson));
         }
 
         JsonObject mainObj = new JsonObject();
@@ -103,6 +93,20 @@ public class Interactable {
         }
     }
 
+    public static JsonElement serializeInteractable(Object o, Gson gson) {
+        JsonObject classObj = new JsonObject();
+        classObj.addProperty("klass", o.getClass().getName());
+        classObj.add("value", gson.toJsonTree(o));
+        return classObj;
+    }
+
+    public static Interactable deserializeInteractable(JsonElement jsonElement, Gson gson) throws JsonParseException {
+        JsonObject mainObj = jsonElement.getAsJsonObject();
+        String fullName = mainObj.get("klass").getAsString();
+        Class klass = ClassUtil.getObjectClass(fullName);
+        return (Interactable) gson.fromJson(mainObj.get("value"), klass);
+    }
+
     public static void loadInteractables(String playerName) {
         String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(playerName));
         File saveFile = new File(saveFilePath);
@@ -110,7 +114,6 @@ public class Interactable {
                 .setPrettyPrinting()
                 .create();
 
-        Type listType = new TypeToken<ArrayList<Interactable>>(){}.getType();
         JsonArray mainArr;
         JsonObject mainObj;
 
@@ -120,14 +123,16 @@ public class Interactable {
                 reader = new FileReader(saveFile);
                 mainObj = gson.fromJson(reader, JsonObject.class);
                 mainArr = mainObj.getAsJsonArray("interactables").getAsJsonArray();
-                ArrayList<Interactable> interactableList = gson.fromJson(mainArr, listType);
-
-
+                for (JsonElement element : mainArr) {
+                    Interactable interactable = deserializeInteractable(element, gson);
+                    interactableMap.put(interactable.ID, interactable);
+                }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-        }
 
+            Game.isNewGame = false;
+        }
     }
 
     public static Interactable getInteractableFromID(UUID ID) {

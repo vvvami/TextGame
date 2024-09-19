@@ -17,14 +17,16 @@ public abstract class Game {
     public static String playerSavePathFormat = "saves/%.json";
     public static String interactableSavePathFormat = "saves/%_interactables.json";
     public static boolean endGame = false;
-
+    public static boolean isNewGame = true;
 
     public static void startGame() {
         if (player == null) {
             return;
         }
-        EnemyHandler.Generate();
-        AllyHandler.Generate();
+        if (isNewGame) {
+            EnemyHandler.Generate();
+            AllyHandler.Generate();
+        }
 
         do {
             ArrayList<Node> tickedNodes = globalTicker();

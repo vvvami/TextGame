@@ -1,5 +1,7 @@
 package net.vami.game.interactables.entities;
+import com.google.gson.annotations.JsonAdapter;
 import net.vami.game.display.text.TextFormatter;
+import net.vami.game.interactables.InteractableAdapter;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.interactions.*;
 import net.vami.game.interactables.Interactable;

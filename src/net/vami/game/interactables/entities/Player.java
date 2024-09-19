@@ -112,6 +112,7 @@ public class Player extends Entity implements Serializable {
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes().level(2));
         }
+
         Interactable.loadInteractables(createdPlayer.getName());
 
         return createdPlayer;
