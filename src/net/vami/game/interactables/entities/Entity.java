@@ -10,6 +10,7 @@ import net.vami.game.interactables.interactions.abilities.RageAbility;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.*;
+import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
@@ -131,6 +132,10 @@ public abstract class Entity extends Interactable {
 
         // Applies status instance based on the damage type dealt
         damageType.onHit(this, source, amount);
+
+        if (hasHeldItem() && getHeldItem() instanceof BreakableItem) {
+            getHeldItem().hurt(1);
+        }
     }
 
 
@@ -378,6 +383,17 @@ public abstract class Entity extends Interactable {
     public void setEnemy(boolean enemy) {
 
         this.enemy = enemy;
+    }
+
+    public boolean isAllied(Entity entity) {
+        if (entity == null) {
+            return false;
+        }
+        if (this.isEnemy()) {
+            return entity.isEnemy();
+        } else {
+            return !entity.isEnemy();
+        }
     }
 
     // Gets the level of the entity

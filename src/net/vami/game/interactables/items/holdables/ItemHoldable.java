@@ -17,8 +17,6 @@ public abstract class ItemHoldable extends Item {
         super(name);
         this.attributes = attributes;
         attributes.setDefaults();
-
-        this.setDurability(attributes.durabilityAttribute);
     }
 
     public DamageType getDamageType() {
@@ -64,18 +62,15 @@ public abstract class ItemHoldable extends Item {
     public static class Attributes {
         int baseDamageAttribute;
         DamageType damageTypeAttribute;
-        int durabilityAttribute;
 
         public Attributes() {
             baseDamageAttribute = -1;
             damageTypeAttribute = null;
-            durabilityAttribute = -1;
         }
 
         public void setDefaults() {
             if (this.baseDamageAttribute == -1) {this.baseDamageAttribute = 1;}
             if (this.damageTypeAttribute == null) {this.damageTypeAttribute = new BluntDamage();}
-            if (this.durabilityAttribute == -1) {this.durabilityAttribute = 1;}
         }
 
         public Attributes baseDamage(int baseDamage) {
@@ -88,14 +83,8 @@ public abstract class ItemHoldable extends Item {
             return this;
         }
 
-        public Attributes durability(int durability) {
-            if (durabilityAttribute == -1) durabilityAttribute = durability;
-            return this;
-        }
-
         public Attributes copyOf(ItemHoldable itemHoldable) {
             Attributes attributes = itemHoldable.attributes;
-            this.durabilityAttribute = attributes.durabilityAttribute;
             this.damageTypeAttribute = attributes.damageTypeAttribute;
             this.baseDamageAttribute = attributes.baseDamageAttribute;
             return this;
