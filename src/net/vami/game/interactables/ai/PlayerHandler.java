@@ -39,24 +39,20 @@ public class PlayerHandler {
             case MOVEMENT -> movementSwitch(inputArr, action);
             case TAKE -> takeItemSwitch(input, node, action);
             case SAVE, RESIST -> Game.player.receiveAction(Game.player, action);
-            case ATTACK, ABILITY -> combatSwitch(inputArr, node, action);
+            case ATTACK, ABILITY -> combatSwitch(input, node, action);
             case DROP, EQUIP, USE -> interactItemSwitch(input, action);
         };
     }
 
-    private static boolean combatSwitch(String[] inputArr, Node node, Action action) {
+    private static boolean combatSwitch(String input, Node node, Action action) {
         Interactable target = null;
-        switch (inputArr.length) {
-            case 2:
-                target = node.stringToInteractable(inputArr[1]);
+        input = input.substring(input.indexOf(' ') + 1);
+        target = node.stringToInteractable(input);
 
-            case 1:
-                if (target == null) {
-                    break;
-                }
-                return target.receiveAction(Game.player, action);
-            default: break;
+        if (target != null) {
+            return target.receiveAction(Game.player, action);
         }
+
         return false;
     }
 
