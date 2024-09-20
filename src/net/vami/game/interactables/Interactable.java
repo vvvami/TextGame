@@ -138,6 +138,7 @@ public class Interactable {
                 for (JsonElement element : mainArr) {
                     Interactable interactable = deserializeInteractable(element, gson);
                     interactableMap.put(interactable.ID, interactable);
+                    interactable.setPos(interactable.position);
                 }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
