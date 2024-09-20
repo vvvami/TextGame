@@ -1,6 +1,6 @@
 package net.vami.game.interactables.interactions;
 
-import net.vami.game.TextGame;
+import net.vami.TextGame;
 
 public enum Status {
 

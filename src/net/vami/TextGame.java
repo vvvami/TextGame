@@ -1,7 +1,6 @@
-package net.vami.game;
+package net.vami;
 
 
-import net.vami.game.display.sound.Sound;
 import net.vami.game.world.Game;
 
 public class TextGame {
