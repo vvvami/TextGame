@@ -1,0 +1,47 @@
+{
+  "health": 1000.0,
+  "level": 2,
+  "enemy": false,
+  "attributes": {
+    "levelAttribute": 2,
+    "maxHealthAttribute": 20,
+    "baseDamageAttribute": 2.0,
+    "armorAttribute": 2,
+    "damageTypeAttribute": "BluntDamage",
+    "abilityAttribute": "SummonWerewolfAbility"
+  },
+  "weaknesses": [],
+  "resistances": [],
+  "statusEffects": [],
+  "immunities": [],
+  "inventory": [],
+  "heldItem": "0fcc4846-3116-4eb9-ae65-5ec8fe8d4c70",
+  "maxEquipSlots": 6,
+  "equippedItems": [],
+  "ID": "5bd0f993-a268-4259-9d73-79912365ed10",
+  "name": "test",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "receivableActions": [
+    "RESIST",
+    "SAVE",
+    "ABILITY",
+    "MOVEMENT",
+    "ATTACK"
+  ],
+  "availableActions": [
+    "EQUIP",
+    "TAKE",
+    "RESIST",
+    "DROP",
+    "SAVE",
+    "USE",
+    "ABILITY",
+    "MOVEMENT",
+    "ATTACK"
+  ],
+  "modifiers": []
+}

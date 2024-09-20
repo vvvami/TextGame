@@ -1,11 +1,9 @@
 package net.vami.game.interactables;
 import com.google.gson.*;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.reflect.TypeToken;
 import net.vami.game.interactables.entities.Player;
 import net.vami.game.interactables.interactions.*;
 import net.vami.game.world.Direction;
-import net.vami.game.world.Game;
+import net.vami.game.Game;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.game.interactables.entities.Entity;
@@ -18,7 +16,6 @@ import net.vami.util.HexUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class Interactable {

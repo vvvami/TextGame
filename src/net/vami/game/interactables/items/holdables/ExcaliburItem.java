@@ -1,5 +1,6 @@
 package net.vami.game.interactables.items.holdables;
 
+import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.items.BreakableItem;
 

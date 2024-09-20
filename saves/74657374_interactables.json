@@ -1,0 +1,121 @@
+{
+  "interactables": [
+    {
+      "klass": "net.vami.game.interactables.items.holdables.ExcaliburItem",
+      "value": {
+        "attributes": {
+          "baseDamageAttribute": 10,
+          "damageTypeAttribute": "FireDamage",
+          "durabilityAttribute": 1
+        },
+        "durability": 1,
+        "owner": "5bd0f993-a268-4259-9d73-79912365ed10",
+        "ID": "0fcc4846-3116-4eb9-ae65-5ec8fe8d4c70",
+        "name": "Excaliburn",
+        "receivableActions": [
+          "EQUIP",
+          "TAKE",
+          "DROP",
+          "USE"
+        ],
+        "availableActions": [],
+        "modifiers": []
+      }
+    },
+    {
+      "klass": "net.vami.game.interactables.items.holdables.ExcaliburItem",
+      "value": {
+        "attributes": {
+          "baseDamageAttribute": 10,
+          "damageTypeAttribute": "IceDamage",
+          "durabilityAttribute": 1
+        },
+        "durability": 1,
+        "ID": "c7a4cef5-ecd6-49c2-a6a5-b237e0998049",
+        "name": "Excalice",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "receivableActions": [
+          "EQUIP",
+          "TAKE",
+          "DROP",
+          "USE"
+        ],
+        "availableActions": [],
+        "modifiers": []
+      }
+    },
+    {
+      "klass": "net.vami.game.interactables.entities.Werewolf",
+      "value": {
+        "health": -14.0,
+        "level": 1,
+        "enemy": true,
+        "attributes": {
+          "levelAttribute": 1,
+          "maxHealthAttribute": 10,
+          "baseDamageAttribute": 1.0,
+          "armorAttribute": 1,
+          "damageTypeAttribute": "SharpDamage",
+          "abilityAttribute": "RageAbility"
+        },
+        "weaknesses": [
+          "FireDamage"
+        ],
+        "resistances": [
+          "IceDamage"
+        ],
+        "statusEffects": [],
+        "immunities": [
+          "CharmedStatus"
+        ],
+        "inventory": [],
+        "maxEquipSlots": 6,
+        "equippedItems": [],
+        "target": "5bd0f993-a268-4259-9d73-79912365ed10",
+        "ID": "87b286c5-164b-41d6-b6f7-0a962cb1bf94",
+        "name": "Gang",
+        "receivableActions": [
+          "RESIST",
+          "ABILITY",
+          "MOVEMENT",
+          "ATTACK"
+        ],
+        "availableActions": [
+          "EQUIP",
+          "TAKE",
+          "RESIST",
+          "DROP",
+          "ABILITY",
+          "MOVEMENT",
+          "ATTACK"
+        ],
+        "modifiers": []
+      }
+    },
+    {
+      "klass": "net.vami.game.interactables.items.equipables.ArthuurosEyeItem",
+      "value": {
+        "durability": 0,
+        "ID": "a811b9d2-d0e3-46ab-94b3-ed580425715b",
+        "name": "Eye of Arthuuros",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "receivableActions": [
+          "EQUIP",
+          "TAKE",
+          "DROP",
+          "USE"
+        ],
+        "availableActions": [],
+        "modifiers": []
+      }
+    }
+  ]
+}

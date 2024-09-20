@@ -2,12 +2,9 @@ package net.vami.game.interactables.entities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.interactions.patrons.Patron;
-import net.vami.game.world.Game;
-import net.vami.game.world.Node;
-import net.vami.game.world.Position;
+import net.vami.game.Game;
 import net.vami.util.HexUtil;
 
 import java.io.*;

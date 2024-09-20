@@ -4,7 +4,7 @@ import net.vami.game.display.text.TextFormatter;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
-import net.vami.game.world.Game;
+import net.vami.game.Game;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.Interactable;
 

@@ -1,4 +1,6 @@
 package net.vami.game.interactables.entities;
+import net.vami.game.Game;
+import net.vami.game.display.sound.Sound;
 import net.vami.game.display.text.TextFormatter;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.interactions.*;
@@ -115,6 +117,12 @@ public abstract class Entity extends Interactable {
 
         if (amount <= 0) {
             amount = 1;
+        }
+
+        if (damageType.getSound() == null) {
+            Game.playSound(Sound.BLUNT_DAMAGE, 65);
+        } else {
+            Game.playSound(damageType.getSound(), 65);
         }
 
         health -= amount;

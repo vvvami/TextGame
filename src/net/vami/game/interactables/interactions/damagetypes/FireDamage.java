@@ -1,5 +1,6 @@
 package net.vami.game.interactables.interactions.damagetypes;
 
+import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.statuses.BurningStatus;
 import net.vami.game.interactables.interactions.statuses.Status;
@@ -19,5 +20,10 @@ public class FireDamage implements DamageType {
     @Override
     public String getName() {
         return "Fire";
+    }
+
+    @Override
+    public Sound getSound() {
+        return Sound.FIRE_DAMAGE;
     }
 }

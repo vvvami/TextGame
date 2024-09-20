@@ -26,13 +26,13 @@ public class Werewolf extends Entity {
         Brain werewolfBrain = new Brain();
         werewolfBrain.addTask(new TargetAnyAndAttackTask(), 10);
         werewolfBrain.addTask(new ChaseTargetTask(), 6);
-        werewolfBrain.addTask(new EquipTask(), 3);
+        werewolfBrain.addTask(new TakeTask(), 3);
 
         if (this.getHealth() < (float) this.getMaxHealth() / 2) {
             werewolfBrain.addTask(new SupportAbilityTask(), 20);
             werewolfBrain.removeTask(new TargetAnyAndAttackTask());
             werewolfBrain.addTask(new TargetAndAttackTask(), 10);
-            werewolfBrain.removeTask(new EquipTask());
+            werewolfBrain.removeTask(new TakeTask());
         }
 
         return werewolfBrain;

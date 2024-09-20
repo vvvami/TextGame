@@ -1,5 +1,6 @@
 package net.vami.game.world;
 
+import net.vami.game.Game;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.ai.PlayerHandler;
