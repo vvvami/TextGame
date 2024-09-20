@@ -50,7 +50,6 @@ public abstract class ItemHoldable extends Item {
             entitySource.getHeldItem().onUnequip(entitySource);
             entitySource.addInventoryItem(entitySource.getHeldItem());
             System.out.printf("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
-
         }
 
         if (entitySource.getHeldItem() == this) {

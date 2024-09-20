@@ -556,12 +556,6 @@ public abstract class Entity extends Interactable {
 
     // Removes an item from holdable or equipable
     public boolean removeItem(Item item) {
-
-        if (inventory.contains(item.getID())) {
-            inventory.remove(item.getID());
-            return true;
-        }
-
         if (item instanceof ItemEquipable) {
             if (!equippedItems.contains(item.getID())) {
                 return false;
