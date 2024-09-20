@@ -1,7 +1,5 @@
 package net.vami.game.interactables.items.equipables;
 
-import com.google.gson.annotations.JsonAdapter;
-import net.vami.game.interactables.InteractableAdapter;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
 import net.vami.game.interactables.interactions.ModifierType;

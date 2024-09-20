@@ -21,7 +21,6 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
 
-//@JsonAdapter(InteractableAdapter.class)
 public class Interactable {
     private final UUID ID;
     private String name;

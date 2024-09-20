@@ -1,7 +1,5 @@
 package net.vami.game.interactables.entities;
-import com.google.gson.annotations.JsonAdapter;
 import net.vami.game.display.text.TextFormatter;
-import net.vami.game.interactables.InteractableAdapter;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.interactions.*;
 import net.vami.game.interactables.Interactable;
@@ -13,8 +11,6 @@ import net.vami.game.interactables.interactions.statuses.*;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
-import net.vami.game.world.Node;
-import net.vami.game.world.Position;
 
 import java.util.*;
 
