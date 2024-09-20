@@ -4,8 +4,8 @@ import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
 import net.vami.game.interactables.interactions.ModifierType;
 public class ArthuurosEyeItem extends ItemEquipable {
-    public ArthuurosEyeItem(String name, int durability) {
-        super(name, durability);
+    public ArthuurosEyeItem(String name) {
+        super(name);
     }
 
     @Override
@@ -18,5 +18,10 @@ public class ArthuurosEyeItem extends ItemEquipable {
     public boolean onUnequip(Entity owner) {
         owner.removeModifier("eyeOfArthuuros");
         return super.onUnequip(owner);
+    }
+
+    @Override
+    public boolean turn() {
+        return super.turn();
     }
 }

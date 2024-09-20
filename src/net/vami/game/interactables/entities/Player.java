@@ -20,6 +20,8 @@ public class Player extends Entity implements Serializable {
     public Player(String name, Attributes attributes) {
         super(name, attributes);
         addAvailableAction(Action.SAVE);
+        addAvailableAction(Action.USE);
+
         addReceivableAction(Action.SAVE);
 
 //        attributes.levelAttribute = patron.level();
@@ -74,9 +76,9 @@ public class Player extends Entity implements Serializable {
                 reader = new FileReader(saveFile);
                 loadedPlayer = gson.fromJson(reader, Player.class);
 
-                if (loadedPlayer.getName().equals(playerName)) {
-                    loadedPlayer = null;
-                }
+//                if (loadedPlayer.getName().equals(playerName)) {
+//                    loadedPlayer = null;
+//                }
 
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
@@ -92,12 +94,12 @@ public class Player extends Entity implements Serializable {
         String playerName = playerNameScanner.nextLine();
         int index = 0;
         String response = "";
-        while (playerName.isEmpty() || (playerName.length() >= 40)) {
+        while (playerName.isEmpty() || (playerName.length() >= 20)) {
             switch (index) {
                 case 3 -> response = "No more, then...%n";
                 case 2 -> response = "Enough of this. Name another!%n";
                 case 1 -> response = "That mark will not be accepted. Try someone else.%n";
-                case 0 -> response = "The gods deny that mark on the world.%nPerhaps someone else could continue on their journey?%n";
+                case 0 -> response = "The gods deny that mark on the world.%nPerhaps another could continue on their journey?%n";
             }
             System.out.printf(response);
             if (index == 3) {
@@ -111,6 +113,9 @@ public class Player extends Entity implements Serializable {
 
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes().level(2));
+        }
+        else {
+            Interactable.addToMap(createdPlayer);
         }
 
         Interactable.loadInteractables(createdPlayer.getName());

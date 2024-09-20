@@ -37,7 +37,7 @@ public class TextFormatter {
         }
 
         public static void healEntity(EntityInteraction interaction) {
-            String stringAmount = TextFormatter.ANSI_YELLOW + interaction.amount + TextFormatter.ANSI_RESET;
+            String stringAmount = TextFormatter.yellow(new DecimalFormat("##.##").format(interaction.amount));
             System.out.printf("%s was healed by %s for %s health! %n", interaction.target.getDisplayName(),
                     interaction.source.getDisplayName(), stringAmount);
         }

@@ -10,27 +10,25 @@ import net.vami.game.interactables.items.Item;
 
 public abstract class ItemHoldable extends Item {
 
-    private DamageType damageType;
     private Attributes attributes;
 
     public ItemHoldable(String name, Attributes attributes) {
-        super(name, 0);
+        super(name);
         this.attributes = attributes;
         attributes.setDefaults();
 
-        damageType = attributes.damageTypeAttribute;
         this.setDurability(attributes.durabilityAttribute);
     }
 
     public DamageType getDamageType() {
 
-        return damageType;
+        return attributes.damageTypeAttribute;
     }
 
-    public int getDamage() {
-        int amount = attributes.baseDamageAttribute;
+    public float getDamage() {
+        float amount = attributes.baseDamageAttribute;
 
-        amount += (int) Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
+        amount += Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
 
         return amount;
     }

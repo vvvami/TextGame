@@ -5,9 +5,9 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 
 public abstract class ItemEquipable extends Item {
-    public ItemEquipable(String name, int durability) {
+    public ItemEquipable(String name) {
 
-        super(name, durability);
+        super(name);
     }
 
     @Override

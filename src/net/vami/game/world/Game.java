@@ -67,19 +67,15 @@ public abstract class Game {
 
     public static Node getCurrentNode() {
 
-        return Node.getNodeFromPosition(gamePos());
+        return Node.getNodeFromPosition(player.getPos());
     }
 
     public static void initializeGame() {
         Node.initializeNodes();
         Action.registerActionSynonyms();
         player = Player.createPlayer();
-        Interactable.spawn(player, player.getPos());
-    }
-
-
-    public static Position gamePos() {
-        return player.getPos();
+        if (player == null) return;
+        Interactable.spawn(player);
     }
 
     public static List<Interactable> getInteractables() {

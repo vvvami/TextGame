@@ -356,7 +356,7 @@ public abstract class Entity extends Interactable {
         if (hasHeldItem()) {
             return getHeldItem().getDamageType();
         }
-        return attributes.getDamageType();
+        return attributes.damageTypeAttribute;
     }
 
 
