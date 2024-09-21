@@ -29,13 +29,9 @@ public abstract class Game {
         }
 
         do {
-            ArrayList<Node> tickedNodes = globalTicker();
 
-            for (Node node : tickedNodes) {
+            for (Node node : globalTicker()) {
                 node.getInstance().preTurn();
-            }
-
-            for (Node node : tickedNodes) {
                 node.getInstance().turn();
             }
 
