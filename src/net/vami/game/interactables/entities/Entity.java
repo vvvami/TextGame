@@ -1,7 +1,7 @@
 package net.vami.game.interactables.entities;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
-import net.vami.game.display.text.TextFormatter;
+import net.vami.util.TextUtil;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.interactions.*;
 import net.vami.game.interactables.Interactable;
@@ -129,7 +129,7 @@ public abstract class Entity extends Interactable {
 
         health -= amount;
 
-        TextFormatter.EntityInteraction.hurtEntity(new TextFormatter.EntityInteraction(this, source, amount, damageType));
+        TextUtil.EntityInteraction.hurtEntity(new TextUtil.EntityInteraction(this, source, amount, damageType));
 
         // Applies status instance based on the damage type dealt
         damageType.onHit(this, source, amount);
@@ -149,7 +149,7 @@ public abstract class Entity extends Interactable {
 
         amount = EntityManager.Stats.heal(this, source, amount);
 
-        TextFormatter.EntityInteraction.healEntity(new TextFormatter.EntityInteraction(
+        TextUtil.EntityInteraction.healEntity(new TextUtil.EntityInteraction(
                 this, source, amount));
 
         health = Math.min(this.getMaxHealth(), health + amount);
@@ -450,7 +450,7 @@ public abstract class Entity extends Interactable {
                     space = "";
                 }
                 String statusName = statusInstance.getStatus().getName();
-                statusName = statusInstance.getStatus().isHarmful() ? TextFormatter.red(statusName) : TextFormatter.green(statusName);
+                statusName = statusInstance.getStatus().isHarmful() ? TextUtil.red(statusName) : TextUtil.green(statusName);
                 display += statusName + space;
             }
             display = " (" + display + ")";
@@ -478,7 +478,7 @@ public abstract class Entity extends Interactable {
             return false;
         }
         AnsiConsole.out.printf("%s casts %s on %s! %n",
-                sourceEntity.getDisplayName(), TextFormatter.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
+                sourceEntity.getDisplayName(), TextUtil.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }

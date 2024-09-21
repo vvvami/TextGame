@@ -52,7 +52,9 @@ public class Player extends Entity implements Serializable {
                 .setPrettyPrinting()
                 .create();
         String saveFilePath = Game.playerSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
+        File saveFile = new File(saveFilePath);
         try (FileWriter saveWriter = new FileWriter(saveFilePath)) {
+            saveFile.getParentFile().mkdirs();
             gson.toJson(player, saveWriter);
         }
         catch (IOException e) {
@@ -78,6 +80,8 @@ public class Player extends Entity implements Serializable {
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            saveFile.getParentFile().mkdirs();
         }
 
         return loadedPlayer;

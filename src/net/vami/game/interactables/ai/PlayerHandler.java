@@ -1,6 +1,6 @@
 package net.vami.game.interactables.ai;
 
-import net.vami.game.display.text.TextFormatter;
+import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
@@ -15,7 +15,7 @@ public class PlayerHandler {
 
     public static boolean read() {
         Scanner scanner = new Scanner(System.in);
-        AnsiConsole.out.print(TextFormatter.blue("> "));
+        AnsiConsole.out.print(TextUtil.blue("> "));
         String fullAction = scanner.nextLine();
         return actionInput(fullAction);
 

@@ -1,5 +1,5 @@
 package net.vami.game.interactables.items;
-import net.vami.game.display.text.TextFormatter;
+import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
@@ -127,6 +127,6 @@ public class Item extends Interactable {
     }
 
     public String getDisplayName() {
-        return TextFormatter.purple(this.getName());
+        return TextUtil.purple(this.getName());
     }
 }

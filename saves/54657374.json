@@ -1,0 +1,47 @@
+{
+  "health": 20.0,
+  "level": 2,
+  "enemy": false,
+  "attributes": {
+    "levelAttribute": 2,
+    "maxHealthAttribute": 20,
+    "baseDamageAttribute": 2.0,
+    "armorAttribute": 2,
+    "damageTypeAttribute": "BluntDamage",
+    "abilityAttribute": "RageAbility"
+  },
+  "weaknesses": [],
+  "resistances": [],
+  "statusEffects": [],
+  "immunities": [],
+  "inventory": [],
+  "heldItem": "b32ced1d-3314-457a-a17c-a84a0c5c751d",
+  "maxEquipSlots": 6,
+  "equippedItems": [],
+  "ID": "d1b7a4e6-d050-48a7-afab-845ec839d0ea",
+  "name": "Test",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0
+  },
+  "receivableActions": [
+    "SAVE",
+    "ABILITY",
+    "ATTACK",
+    "MOVEMENT",
+    "RESIST"
+  ],
+  "availableActions": [
+    "SAVE",
+    "ABILITY",
+    "ATTACK",
+    "TAKE",
+    "MOVEMENT",
+    "EQUIP",
+    "DROP",
+    "RESIST",
+    "USE"
+  ],
+  "modifiers": []
+}

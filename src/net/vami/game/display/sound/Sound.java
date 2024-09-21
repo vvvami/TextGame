@@ -1,26 +1,26 @@
 package net.vami.game.display.sound;
 
+import net.vami.TextGame;
+
 import javax.sound.sampled.*;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class Sound {
-    private static final String DIRECTORY = "assets/sounds/";
-
-    private final File soundFile;
+    private static final String DIRECTORY = "/assets/sounds/";
+    private URL soundURL;
     Clip audioClip;
     FloatControl volumeControl;
     float volume;
 
     public Sound(String fileName) {
-        this.soundFile = new File(DIRECTORY + fileName + ".wav");
-
+            this.soundURL = getClass().getResource(DIRECTORY + fileName + ".wav");
     }
 
     public Sound get(int volume) {
         AudioInputStream audioStream;
         try {
-            audioStream = AudioSystem.getAudioInputStream(soundFile);
+            audioStream = AudioSystem.getAudioInputStream(soundURL);
             audioClip = AudioSystem.getClip();
             audioClip.open(audioStream);
             volumeControl = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
