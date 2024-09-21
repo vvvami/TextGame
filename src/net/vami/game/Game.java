@@ -32,6 +32,11 @@ public abstract class Game {
 
             for (Node node : globalTicker()) {
                 node.getInstance().preTurn();
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 node.getInstance().turn();
             }
 
