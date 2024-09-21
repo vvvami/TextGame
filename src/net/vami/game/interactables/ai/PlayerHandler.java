@@ -7,6 +7,7 @@ import net.vami.game.world.Direction;
 import net.vami.game.Game;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.Interactable;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class PlayerHandler {
 
     public static boolean read() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print(TextFormatter.blue("> "));
+        AnsiConsole.out.print(TextFormatter.blue("> "));
         String fullAction = scanner.nextLine();
         return actionInput(fullAction);
 

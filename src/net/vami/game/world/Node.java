@@ -7,6 +7,7 @@ import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.*;
 
@@ -195,9 +196,9 @@ public class Node {
             }
             for (Entity entity : node.getEntities()) {
                 if (entity.isEnded()) {
-                    System.out.println(entity.getName() + " has died!");
+                    AnsiConsole.out.println(entity.getName() + " has died!");
                     if (entity.equals(Game.player)) {
-                        System.out.println("Game Over!");
+                        AnsiConsole.out.println("Game Over!");
                         Game.endGame = true;
                         return true;
                     }

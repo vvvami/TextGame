@@ -13,6 +13,7 @@ import net.vami.game.interactables.interactions.statuses.CrippledStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
 import net.vami.util.ClassUtil;
 import net.vami.util.HexUtil;
+import org.fusesource.jansi.AnsiConsole;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -212,13 +213,13 @@ public class Interactable {
         }
 
         if (!source.availableActions.contains(action)) {
-            System.out.printf("%s tries to %s %s, but nothing happens. %n",
+            AnsiConsole.out.printf("%s tries to %s %s, but nothing happens. %n",
                     source.getName(), action.getSynonyms().getFirst(), this.getName());
             return false;
         }
 
         if (!receivableActions.contains(action)) {
-            System.out.println("Nothing happens.");
+            AnsiConsole.out.println("Nothing happens.");
             return false;
         }
 
@@ -343,7 +344,7 @@ public class Interactable {
         }
 
         this.setPos(newPos);
-        System.out.println(this.getName() + " has moved to position: " + this.position.toString());
+        AnsiConsole.out.println(this.getName() + " has moved to position: " + this.position.toString());
         return true;
     }
 

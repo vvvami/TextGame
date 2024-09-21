@@ -3,6 +3,8 @@ package net.vami.game.display.text;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.Status;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.text.DecimalFormat;
 
@@ -30,7 +32,7 @@ public class TextFormatter {
 
 
         public static void hurtEntity(EntityInteraction interaction) {
-            System.out.printf("%s was hit by %s for %s %s damage! %n", interaction.target.getDisplayName(),
+            AnsiConsole.out.printf("%s was hit by %s for %s %s damage! %n", interaction.target.getDisplayName(),
                     interaction.source.getDisplayName(),
                     TextFormatter.yellow(new DecimalFormat("##.##").format(interaction.amount)),
                     interaction.damageType.getName());
@@ -38,7 +40,7 @@ public class TextFormatter {
 
         public static void healEntity(EntityInteraction interaction) {
             String stringAmount = TextFormatter.yellow(new DecimalFormat("##.##").format(interaction.amount));
-            System.out.printf("%s was healed by %s for %s health! %n", interaction.target.getDisplayName(),
+            AnsiConsole.out.printf("%s was healed by %s for %s health! %n", interaction.target.getDisplayName(),
                     interaction.source.getDisplayName(), stringAmount);
         }
     }

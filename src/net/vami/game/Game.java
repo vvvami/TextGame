@@ -8,9 +8,14 @@ import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Player;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.RED;
+import static org.fusesource.jansi.Ansi.ansi;
 
 public abstract class Game {
     public static Player player = null;
@@ -74,6 +79,7 @@ public abstract class Game {
     public static void initializeGame() {
         Node.initializeNodes();
         Action.registerActionSynonyms();
+        AnsiConsole.systemInstall();
         player = Player.createPlayer();
         if (player == null) return;
         Interactable.spawn(player);

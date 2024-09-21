@@ -6,6 +6,7 @@ import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
 import net.vami.game.interactables.items.useables.UseableItem;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.UUID;
 
@@ -53,7 +54,7 @@ public class Item extends Interactable {
             getOwner().removeFromInventory(this);
             getOwner().removeItem(this);
             annihilate();
-            System.out.printf("%s has broken!%n", this.getDisplayName());
+            AnsiConsole.out.printf("%s has broken!%n", this.getDisplayName());
         }
     }
 
@@ -73,7 +74,7 @@ public class Item extends Interactable {
         if (this instanceof ItemHoldable && !entitySource.hasHeldItem()) {
             this.receiveEquip(entitySource);
         } else {
-            System.out.printf("%s takes %s. %n", entitySource.getName(), this.getDisplayName());
+            AnsiConsole.out.printf("%s takes %s. %n", entitySource.getName(), this.getDisplayName());
         }
         this.setOwner(entitySource);
         return true;
@@ -87,7 +88,7 @@ public class Item extends Interactable {
                     return true;
                 }
                 else {
-                    System.out.println(useableItem.failMessage());
+                    AnsiConsole.out.println(useableItem.failMessage());
                 }
         }
         return false;
@@ -106,7 +107,7 @@ public class Item extends Interactable {
         }
         sourceEntity.removeItem(this);
         this.setPos(sourceEntity.getPos());
-        System.out.printf("%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
+        AnsiConsole.out.printf("%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
         return super.receiveDrop(source);
     }
 

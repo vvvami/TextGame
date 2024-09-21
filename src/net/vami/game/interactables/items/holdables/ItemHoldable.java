@@ -8,6 +8,7 @@ import net.vami.game.interactables.interactions.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.Item;
+import org.fusesource.jansi.AnsiConsole;
 
 public abstract class ItemHoldable extends Item {
 
@@ -46,7 +47,7 @@ public abstract class ItemHoldable extends Item {
         if (entitySource.hasHeldItem()) {
             entitySource.getHeldItem().onUnequip(entitySource);
             entitySource.addInventoryItem(entitySource.getHeldItem());
-            System.out.printf("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
+            AnsiConsole.out.printf("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
         }
 
         if (entitySource.getHeldItem() == this) {
@@ -54,7 +55,7 @@ public abstract class ItemHoldable extends Item {
             return true;
         }
 
-        System.out.printf("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
+        AnsiConsole.out.printf("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
         entitySource.setHeldItem(this);
         return super.receiveEquip(source);
     }

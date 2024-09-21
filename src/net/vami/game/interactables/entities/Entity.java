@@ -14,6 +14,7 @@ import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.*;
 
@@ -78,7 +79,7 @@ public abstract class Entity extends Interactable {
 
         for (Item item : dropList) {
             item.setPos(this.getPos());
-            System.out.printf("%s dropped %s! %n", this.getDisplayName(), item.getName());
+            AnsiConsole.out.printf("%s dropped %s! %n", this.getDisplayName(), item.getName());
         }
 
         super.remove();
@@ -166,7 +167,7 @@ public abstract class Entity extends Interactable {
     @Override
     public void addStatus(Status.Instance status) {
         if (isImmuneTo(status.getStatus())) {
-            System.out.println(getDisplayName() + " is immune!");
+            AnsiConsole.out.println(getDisplayName() + " is immune!");
             return;
         }
         Status temp = status.getStatus();
@@ -185,7 +186,7 @@ public abstract class Entity extends Interactable {
             removeStatus(temp);
         }
         else {
-            System.out.printf("%s is now %s. %n", this.getName(), temp.getName());
+            AnsiConsole.out.printf("%s is now %s. %n", this.getName(), temp.getName());
         }
 
         statusEffects.add(status);
@@ -210,7 +211,7 @@ public abstract class Entity extends Interactable {
             for (Status.Instance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                System.out.printf("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+                AnsiConsole.out.printf("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
     }
@@ -476,7 +477,7 @@ public abstract class Entity extends Interactable {
         if (!(interactable instanceof Entity sourceEntity)) {
             return false;
         }
-        System.out.printf("%s casts %s on %s! %n",
+        AnsiConsole.out.printf("%s casts %s on %s! %n",
                 sourceEntity.getDisplayName(), TextFormatter.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
@@ -497,7 +498,7 @@ public abstract class Entity extends Interactable {
         }
 
         removeStatus(instance1.getStatus());
-        System.out.printf("%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
+        AnsiConsole.out.printf("%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
         return true;
     }
 

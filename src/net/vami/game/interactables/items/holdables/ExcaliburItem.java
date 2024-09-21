@@ -6,6 +6,7 @@ import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.useables.UseableItem;
 import net.vami.game.world.Node;
+import org.fusesource.jansi.AnsiConsole;
 
 public class ExcaliburItem extends ItemHoldable implements BreakableItem, UseableItem {
     public ExcaliburItem(String name, Attributes attributes) {
@@ -21,7 +22,7 @@ public class ExcaliburItem extends ItemHoldable implements BreakableItem, Useabl
 
     @Override
     public void onUse() {
-        System.out.printf("%s blasts their surroundings with %s! %n", this.getOwner().getName(), this.getDisplayName());
+        AnsiConsole.out.printf("%s blasts their surroundings with %s! %n", this.getOwner().getName(), this.getDisplayName());
         for (Entity entity : Node.getNodeFromPosition(this.getOwner().getPos()).getEntities()) {
             if (!(entity == this.getOwner())) {
                 entity.hurt(this.getOwner(), 10, this.getAttributes().damageTypeAttribute);

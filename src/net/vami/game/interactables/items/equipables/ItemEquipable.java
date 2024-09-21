@@ -3,6 +3,7 @@ package net.vami.game.interactables.items.equipables;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
+import org.fusesource.jansi.AnsiConsole;
 
 public abstract class ItemEquipable extends Item {
     public ItemEquipable(String name) {
@@ -17,7 +18,7 @@ public abstract class ItemEquipable extends Item {
         }
 
         if (entitySource.getEquippedItems().size() >= entitySource.getMaxEquipSlots()) {
-            System.out.printf("%s cannot equip more items. %n",
+            AnsiConsole.out.printf("%s cannot equip more items. %n",
                     entitySource.getName());
             return false;
         }
@@ -26,12 +27,12 @@ public abstract class ItemEquipable extends Item {
             this.onUnequip(entitySource);
             entitySource.removeItem(this);
             entitySource.addInventoryItem(this);
-            System.out.printf("%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
+            AnsiConsole.out.printf("%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
             return false;
         }
 
         entitySource.addEquippedItem(this);
-        System.out.printf("%s equips %s. %n", entitySource.getName(), this.getDisplayName());
+        AnsiConsole.out.printf("%s equips %s. %n", entitySource.getName(), this.getDisplayName());
         return super.receiveEquip(source);
     }
 }

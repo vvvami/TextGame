@@ -6,6 +6,7 @@ import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.util.HexUtil;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
 import java.util.Locale;
@@ -83,7 +84,7 @@ public class Player extends Entity implements Serializable {
     }
 
     public static Player createPlayer() {
-        System.out.println("Enter your name, traveler:");
+        AnsiConsole.out.println("Enter your name, traveler:");
         Scanner playerNameScanner = new Scanner(System.in);
         String playerName = playerNameScanner.nextLine();
         playerName = playerName.substring(0, 1).toUpperCase() + playerName.substring(1);
@@ -96,7 +97,7 @@ public class Player extends Entity implements Serializable {
                 case 1 -> response = "That mark will not be accepted. Try someone else.%n";
                 case 0 -> response = "The gods deny that mark on the world.%nPerhaps another could continue on their journey?%n";
             }
-            System.out.printf(response);
+            AnsiConsole.out.printf(response);
             if (index == 3) {
                 return null;
             }
