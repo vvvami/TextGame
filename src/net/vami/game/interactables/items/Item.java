@@ -1,4 +1,6 @@
 package net.vami.game.interactables.items;
+import net.vami.game.Game;
+import net.vami.game.display.sound.Sound;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.Interactable;
@@ -52,9 +54,10 @@ public class Item extends Interactable {
         durability -= amount;
         if (durability <= 0) {
             getOwner().removeFromInventory(this);
-            getOwner().removeItem(this);
+            getOwner().removeEquippedItem(this);
             annihilate();
-            AnsiConsole.out.printf("%s has broken!%n", this.getDisplayName());
+            Game.playSound(Sound.ITEM_BREAK, 65);
+            TextUtil.display("%s has broken!%n", this.getDisplayName());
         }
     }
 
@@ -63,7 +66,7 @@ public class Item extends Interactable {
         Entity entitySource = (Entity) source;
         entitySource.removeFromInventory(this);
         this.setOwner(entitySource);
-        this.onEquip(entitySource);
+        this.onEquip();
         return true;
     }
 
@@ -74,7 +77,7 @@ public class Item extends Interactable {
         if (this instanceof ItemHoldable && !entitySource.hasHeldItem()) {
             this.receiveEquip(entitySource);
         } else {
-            AnsiConsole.out.printf("%s takes %s. %n", entitySource.getName(), this.getDisplayName());
+            TextUtil.display("%s takes %s. %n", entitySource.getName(), this.getDisplayName());
         }
         this.setOwner(entitySource);
         return true;
@@ -103,20 +106,20 @@ public class Item extends Interactable {
                 (this instanceof ItemEquipable itemEquipable
                 && sourceEntity.hasItemEquipped(itemEquipable))) {
 
-            this.onUnequip(sourceEntity);
+            this.onUnequip();
         }
-        sourceEntity.removeItem(this);
+        sourceEntity.removeEquippedItem(this);
         this.setPos(sourceEntity.getPos());
-        AnsiConsole.out.printf("%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
+        TextUtil.display("%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
         return super.receiveDrop(source);
     }
 
-    public boolean onEquip(Entity owner) {
+    public boolean onEquip() {
 
         return true;
     }
 
-    public boolean onUnequip(Entity owner) {
+    public boolean onUnequip() {
 
         return true;
     }

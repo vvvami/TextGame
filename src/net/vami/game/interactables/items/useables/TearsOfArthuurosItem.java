@@ -10,7 +10,7 @@ public class TearsOfArthuurosItem extends Item implements UseableItem, Breakable
 
     @Override
     public void onUse() {
-        this.getOwner().heal(getOwner(), 10);
+        this.getOwner().heal(null, 10);
         this.hurt(1);
     }
 

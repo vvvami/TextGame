@@ -6,13 +6,14 @@ import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.util.HexUtil;
+import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
-import java.util.Locale;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Player extends Entity implements Serializable {
+public class Player extends Entity {
 
     private Patron patron;
 
@@ -30,6 +31,12 @@ public class Player extends Entity implements Serializable {
 //        attributes.damageTypeAttribute = patron.damageType();
 //        attributes.maxHealthAttribute = patron.maxHealth();
 //        this.heal(this, getMaxHealth());
+    }
+
+    @Override
+    public void remove() {
+        this.removeAllItems();
+        super.remove();
     }
 
     @Override
@@ -53,8 +60,8 @@ public class Player extends Entity implements Serializable {
                 .create();
         String saveFilePath = Game.playerSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
         File saveFile = new File(saveFilePath);
+        saveFile.getParentFile().mkdirs();
         try (FileWriter saveWriter = new FileWriter(saveFilePath)) {
-            saveFile.getParentFile().mkdirs();
             gson.toJson(player, saveWriter);
         }
         catch (IOException e) {
@@ -80,8 +87,6 @@ public class Player extends Entity implements Serializable {
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-        } else {
-            saveFile.getParentFile().mkdirs();
         }
 
         return loadedPlayer;
@@ -101,7 +106,7 @@ public class Player extends Entity implements Serializable {
                 case 1 -> response = "That mark will not be accepted. Try someone else.%n";
                 case 0 -> response = "The gods deny that mark on the world.%nPerhaps another could continue on their journey?%n";
             }
-            AnsiConsole.out.printf(response);
+            TextUtil.display(response);
             if (index == 3) {
                 return null;
             }

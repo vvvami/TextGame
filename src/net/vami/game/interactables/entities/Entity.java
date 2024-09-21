@@ -15,6 +15,7 @@ import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
 import org.fusesource.jansi.AnsiConsole;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -79,9 +80,9 @@ public abstract class Entity extends Interactable {
 
         for (Item item : dropList) {
             item.setPos(this.getPos());
-            AnsiConsole.out.printf("%s dropped %s! %n", this.getDisplayName(), item.getName());
+            TextUtil.display("%s dropped %s! %n", this.getDisplayName(), item.getName());
         }
-
+        this.statusEffects = new ArrayList<>();
         super.remove();
     }
 
@@ -98,6 +99,9 @@ public abstract class Entity extends Interactable {
     // Main damage function
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
+        if (this.isEnded()) {
+            return;
+        }
 
         for (DamageType damageType1 : weaknesses) {
             if (damageType1.is(damageType)) {
@@ -134,21 +138,27 @@ public abstract class Entity extends Interactable {
         // Applies status instance based on the damage type dealt
         damageType.onHit(this, source, amount);
 
-        if (source.hasHeldItem() && source.getHeldItem() instanceof BreakableItem) {
+        if (source != null && source.hasHeldItem() && source.getHeldItem() instanceof BreakableItem) {
             source.getHeldItem().hurt(1);
         }
-    }
 
+        if (isEnded()) {
+            TextUtil.display(this.getName() + " has died! %n");
+        }
+    }
 
     // Main healing function
     @Override
     public void heal(Entity source, float amount) {
-        if (isEnded()) {
+        if (this.isEnded()) {
             return;
         }
 
-        amount = EntityManager.Stats.heal(this, source, amount);
+        if (source != null && source.hasSpecifiedStatus(new FrenziedStatus())) {
+            amount = amount * 0.75f;
+        }
 
+        Game.playSound(Sound.HEAL, 65);
         TextUtil.EntityInteraction.healEntity(new TextUtil.EntityInteraction(
                 this, source, amount));
 
@@ -167,7 +177,7 @@ public abstract class Entity extends Interactable {
     @Override
     public void addStatus(Status.Instance status) {
         if (isImmuneTo(status.getStatus())) {
-            AnsiConsole.out.println(getDisplayName() + " is immune!");
+            TextUtil.display(getDisplayName() + " is immune!");
             return;
         }
         Status temp = status.getStatus();
@@ -186,7 +196,7 @@ public abstract class Entity extends Interactable {
             removeStatus(temp);
         }
         else {
-            AnsiConsole.out.printf("%s is now %s. %n", this.getName(), temp.getName());
+            TextUtil.display("%s is now %s. %n", this.getName(), temp.getName());
         }
 
         statusEffects.add(status);
@@ -211,7 +221,7 @@ public abstract class Entity extends Interactable {
             for (Status.Instance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                AnsiConsole.out.printf("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+                TextUtil.display("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
     }
@@ -356,6 +366,10 @@ public abstract class Entity extends Interactable {
             amount += this.getHeldItem().getDamage();
         }
 
+        for (ItemEquipable itemEquipable : getEquippedItems()) {
+            amount += Modifier.calculate(itemEquipable.getModifiers(), ModifierType.DAMAGE);
+        }
+
         amount += Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
 
         return amount;
@@ -417,7 +431,9 @@ public abstract class Entity extends Interactable {
 
     // Sets the current target of the entity
     public void setTarget(Entity target) {
-
+        if (target == null) {
+            return;
+        }
         this.target = target.getID();
     }
 
@@ -477,7 +493,7 @@ public abstract class Entity extends Interactable {
         if (!(interactable instanceof Entity sourceEntity)) {
             return false;
         }
-        AnsiConsole.out.printf("%s casts %s on %s! %n",
+        TextUtil.display("%s casts %s on %s! %n",
                 sourceEntity.getDisplayName(), TextUtil.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
@@ -498,7 +514,7 @@ public abstract class Entity extends Interactable {
         }
 
         removeStatus(instance1.getStatus());
-        AnsiConsole.out.printf("%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
+        TextUtil.display("%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
         return true;
     }
 
@@ -511,7 +527,12 @@ public abstract class Entity extends Interactable {
         return itemList;
     }
 
+    public void removeEquippedItems() {
+        equippedItems.clear();
+    }
+
     public void addEquippedItem(ItemEquipable item) {
+        item.setOwner(this);
         equippedItems.add(item.getID());
     }
 
@@ -544,6 +565,16 @@ public abstract class Entity extends Interactable {
         return itemList;
     }
 
+    public void setInventory(List<Item> newInventory) {
+        this.inventory.clear();
+
+        if (!newInventory.isEmpty()) {
+            for (Item item : newInventory) {
+                addInventoryItem(item);
+            }
+        }
+    }
+
     // Adds an item to the inventory
     public void addInventoryItem(Item item) {
         inventory.add(item.getID());
@@ -558,6 +589,12 @@ public abstract class Entity extends Interactable {
         inventory.remove(item.getID());
     }
 
+    public void removeAllItems() {
+        inventory = new ArrayList<>();
+        heldItem = null;
+        equippedItems = new ArrayList<>();
+    }
+
     // Gets the item the entity is currently holding
     public ItemHoldable getHeldItem() {
         return (ItemHoldable) Interactable.getInteractableFromID(heldItem);
@@ -570,13 +607,16 @@ public abstract class Entity extends Interactable {
     }
 
     // Equips an item to the entity's hand.
-    public void setHeldItem(ItemHoldable item) {
-
-        heldItem = item.getID();
+    public void setHeldItem(@Nullable ItemHoldable item) {
+        if (item == null) {
+            heldItem = null;
+        } else {
+            heldItem = item.getID();
+        }
     }
 
     // Removes an item from holdable or equipable
-    public boolean removeItem(Item item) {
+    public boolean removeEquippedItem(Item item) {
         if (item instanceof ItemEquipable) {
             if (!equippedItems.contains(item.getID())) {
                 return false;

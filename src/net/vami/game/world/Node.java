@@ -7,6 +7,7 @@ import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
+import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.*;
@@ -196,18 +197,16 @@ public class Node {
             }
             for (Entity entity : node.getEntities()) {
                 if (entity.isEnded()) {
-                    AnsiConsole.out.println(entity.getName() + " has died!");
                     if (entity.equals(Game.player)) {
-                        AnsiConsole.out.println("Game Over!");
+                        TextUtil.display("Game Over! %n");
                         Game.endGame = true;
-                        return true;
                     }
                     // We use remove() and not annihilate()
                     // Reason: status instances entities inflict may outlast themselves (we still need their UUID)
                     entity.remove();
                 }
             }
-            return false;
+            return Game.endGame;
         }
     }
 }

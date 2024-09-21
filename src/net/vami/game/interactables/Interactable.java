@@ -13,8 +13,10 @@ import net.vami.game.interactables.interactions.statuses.CrippledStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
 import net.vami.util.ClassUtil;
 import net.vami.util.HexUtil;
+import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.io.*;
 import java.util.*;
@@ -213,7 +215,7 @@ public class Interactable {
         }
 
         if (!source.availableActions.contains(action)) {
-            AnsiConsole.out.printf("%s tries to %s %s, but nothing happens. %n",
+            TextUtil.display("%s tries to %s %s, but nothing happens. %n",
                     source.getName(), action.getSynonyms().getFirst(), this.getName());
             return false;
         }

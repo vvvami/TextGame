@@ -21,14 +21,9 @@ public class AllyHandler {
     }
 
     public static void Generate() {
-
-        Item.spawn(new ExcaliburItem("Excaliburn", new ItemHoldable.Attributes()
+        Item.spawn(new ExcaliburItem("Excalibur", new ItemHoldable.Attributes()
                 .baseDamage(10)));
-        Item.spawn(new ExcaliburItem("Excalice", new ItemHoldable.Attributes()
-                .baseDamage(10)
-                .damageType(new IceDamage())));
-        Item.spawn(new ArthuurosEyeItem("Eye of Arthuuros"));
-        Item.spawn(new TearsOfArthuurosItem("Tears Of Arthuuros"));
+
     }
 
 }

@@ -8,6 +8,15 @@ import java.text.DecimalFormat;
 
 public class TextUtil {
 
+    public static void display(String text, Object ... args) {
+        AnsiConsole.out().printf(text, args);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static class EntityInteraction {
         Entity target;
         Entity source;
@@ -30,16 +39,35 @@ public class TextUtil {
 
 
         public static void hurtEntity(EntityInteraction interaction) {
-            AnsiConsole.out.printf("%s was hit by %s for %s %s damage! %n", interaction.target.getDisplayName(),
-                    interaction.source.getDisplayName(),
-                    TextUtil.yellow(new DecimalFormat("##.##").format(interaction.amount)),
-                    interaction.damageType.getName());
+            String displayText = "";
+
+            if (interaction.source == null) {
+                displayText = String.format("%s was hurt for %s %s damage! %n", interaction.target.getDisplayName(),
+                        yellow(new DecimalFormat("##.##").format(interaction.amount)),
+                        interaction.damageType.getName());
+            }
+            else {
+                displayText = String.format("%s was hit by %s for %s %s damage! %n", interaction.target.getDisplayName(),
+                        interaction.source.getDisplayName(),
+                        yellow(new DecimalFormat("##.##").format(interaction.amount)),
+                        interaction.damageType.getName());
+            }
+
+             display(displayText);
         }
 
         public static void healEntity(EntityInteraction interaction) {
-            String stringAmount = TextUtil.yellow(new DecimalFormat("##.##").format(interaction.amount));
-            AnsiConsole.out.printf("%s was healed by %s for %s health! %n", interaction.target.getDisplayName(),
-                    interaction.source.getDisplayName(), stringAmount);
+            String displayText = "";
+
+            if (interaction.source == null) {
+                displayText = String.format("%s was healed for %s health! %n", interaction.target.getDisplayName(),
+                        yellow(new DecimalFormat("##.##").format(interaction.amount)));
+            } else {
+                displayText = String.format("%s was healed by %s for %s health! %n", interaction.target.getDisplayName(),
+                        interaction.source.getDisplayName(),
+                        yellow(new DecimalFormat("##.##").format(interaction.amount)));
+            }
+            display(displayText);
         }
     }
 

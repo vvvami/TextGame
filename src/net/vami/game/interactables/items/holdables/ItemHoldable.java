@@ -1,6 +1,5 @@
 package net.vami.game.interactables.items.holdables;
 
-import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
@@ -8,7 +7,7 @@ import net.vami.game.interactables.interactions.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.Item;
-import org.fusesource.jansi.AnsiConsole;
+import net.vami.util.TextUtil;
 
 public abstract class ItemHoldable extends Item {
 
@@ -45,17 +44,17 @@ public abstract class ItemHoldable extends Item {
         }
 
         if (entitySource.hasHeldItem()) {
-            entitySource.getHeldItem().onUnequip(entitySource);
+            entitySource.getHeldItem().onUnequip();
             entitySource.addInventoryItem(entitySource.getHeldItem());
-            AnsiConsole.out.printf("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
+            TextUtil.display("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
         }
 
         if (entitySource.getHeldItem() == this) {
-            entitySource.removeItem(this);
+            entitySource.removeEquippedItem(this);
             return true;
         }
 
-        AnsiConsole.out.printf("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
+        TextUtil.display("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
         entitySource.setHeldItem(this);
         return super.receiveEquip(source);
     }
