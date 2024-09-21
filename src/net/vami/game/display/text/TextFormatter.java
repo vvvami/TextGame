@@ -63,6 +63,11 @@ public class TextFormatter {
         return ANSI_PURPLE + input + ANSI_RESET;
     }
 
+    public static String cyan(String input) {
+        return ANSI_CYAN + input + ANSI_RESET;
+    }
+
+
 
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BLACK = "\u001B[30m";

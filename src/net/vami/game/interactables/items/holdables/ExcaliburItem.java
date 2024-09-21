@@ -16,7 +16,7 @@ public class ExcaliburItem extends ItemHoldable implements BreakableItem, Useabl
 
     @Override
     public int maxDurability() {
-        return 100;
+        return 1;
     }
 
     @Override

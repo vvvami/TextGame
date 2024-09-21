@@ -133,8 +133,8 @@ public abstract class Entity extends Interactable {
         // Applies status instance based on the damage type dealt
         damageType.onHit(this, source, amount);
 
-        if (hasHeldItem() && getHeldItem() instanceof BreakableItem) {
-            getHeldItem().hurt(1);
+        if (source.hasHeldItem() && source.getHeldItem() instanceof BreakableItem) {
+            source.getHeldItem().hurt(1);
         }
     }
 
@@ -477,7 +477,7 @@ public abstract class Entity extends Interactable {
             return false;
         }
         System.out.printf("%s casts %s on %s! %n",
-                sourceEntity.getDisplayName(), ((Entity) interactable).getAbility().getName(), this.getDisplayName());
+                sourceEntity.getDisplayName(), TextFormatter.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }
