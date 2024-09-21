@@ -611,6 +611,7 @@ public abstract class Entity extends Interactable {
         if (item == null) {
             heldItem = null;
         } else {
+            item.setOwner(this);
             heldItem = item.getID();
         }
     }

@@ -14,8 +14,8 @@ import java.util.Scanner;
 public class PlayerHandler {
 
     public static boolean read() {
-        Scanner scanner = new Scanner(System.in);
         AnsiConsole.out.print(TextUtil.blue("> "));
+        Scanner scanner = new Scanner(System.in);
         String fullAction = scanner.nextLine();
         return actionInput(fullAction);
 
