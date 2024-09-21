@@ -8,6 +8,7 @@ import net.vami.game.Game;
 import net.vami.util.HexUtil;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Player extends Entity implements Serializable {
@@ -73,10 +74,6 @@ public class Player extends Entity implements Serializable {
                 reader = new FileReader(saveFile);
                 loadedPlayer = gson.fromJson(reader, Player.class);
 
-//                if (loadedPlayer.getName().equals(playerName)) {
-//                    loadedPlayer = null;
-//                }
-
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -89,6 +86,7 @@ public class Player extends Entity implements Serializable {
         System.out.println("Enter your name, traveler:");
         Scanner playerNameScanner = new Scanner(System.in);
         String playerName = playerNameScanner.nextLine();
+        playerName = playerName.substring(0, 1).toUpperCase() + playerName.substring(1);
         int index = 0;
         String response = "";
         while (playerName.isEmpty() || (playerName.length() >= 20)) {
