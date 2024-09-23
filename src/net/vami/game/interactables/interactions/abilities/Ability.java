@@ -10,6 +10,8 @@ public interface Ability {
 
     String getName();
 
+    boolean isSupport();
+
     default boolean is(Ability ability) {
         return this.getClass() == ability.getClass();
     }

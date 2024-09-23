@@ -3,6 +3,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.abilities.PrayAbility;
+import net.vami.game.interactables.interactions.abilities.SearchAbility;
+import net.vami.game.interactables.interactions.abilities.SummoningAbility;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.util.HexUtil;
@@ -106,7 +109,7 @@ public class Player extends Entity {
                 case 1 -> response = "That mark will not be accepted. Try someone else.%n";
                 case 0 -> response = "The gods deny that mark on the world.%nPerhaps another could continue on their journey?%n";
             }
-            TextUtil.display(response);
+            System.out.printf(response);
             if (index == 3) {
                 return null;
             }
@@ -117,7 +120,9 @@ public class Player extends Entity {
         Player createdPlayer = loadPlayer(playerName);
 
         if (createdPlayer == null) {
-            createdPlayer = new Player(playerName, new Attributes().level(2));
+            createdPlayer = new Player(playerName, new Attributes()
+                    .level(2)
+                    .ability(new PrayAbility()));
         }
         else {
             Interactable.addToMap(createdPlayer);

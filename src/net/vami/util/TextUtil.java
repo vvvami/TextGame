@@ -1,17 +1,27 @@
 package net.vami.util;
 
+import net.vami.game.Game;
+import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.items.Item;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.text.DecimalFormat;
 
 public class TextUtil {
 
-    public static void display(String text, Object ... args) {
+    public static void display(Interactable source, String text, Object ... args) {
+        if (!(source instanceof Item) && !(source.getNode() == Game.getCurrentNode())) {
+            return;
+        }
         AnsiConsole.out().printf(text, args);
+        int counter = 0;
+        for (Entity entity : source.getNode().getEntities()) {
+            counter++;
+        }
         try {
-            Thread.sleep(500);
+            Thread.sleep(500L * counter);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +63,7 @@ public class TextUtil {
                         interaction.damageType.getName());
             }
 
-             display(displayText);
+             display(interaction.target, displayText);
         }
 
         public static void healEntity(EntityInteraction interaction) {
@@ -67,7 +77,7 @@ public class TextUtil {
                         interaction.source.getDisplayName(),
                         yellow(new DecimalFormat("##.##").format(interaction.amount)));
             }
-            display(displayText);
+            display(interaction.target, displayText);
         }
     }
 

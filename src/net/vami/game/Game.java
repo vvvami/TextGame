@@ -1,6 +1,7 @@
 package net.vami.game;
 
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.SoundType;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.ai.AllyHandler;
@@ -13,9 +14,6 @@ import org.fusesource.jansi.AnsiConsole;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.fusesource.jansi.Ansi.Color.GREEN;
-import static org.fusesource.jansi.Ansi.Color.RED;
-import static org.fusesource.jansi.Ansi.ansi;
 
 public abstract class Game {
     public static Player player = null;
@@ -89,15 +87,23 @@ public abstract class Game {
         if (sound == null) {
             return;
         }
-        sound.get(volume).play();
+        sound.play(volume);
     }
 
     public static void playMusic(Sound sound, int volume) {
         if (sound == null) {
             return;
         }
-        sound.get(volume).play();
-        sound.get(volume).loop();
+
+        for (Sound sound1 : Sound.getSounds()) {
+                if (sound1.getClip() != null &&
+                        sound1.isPlaying() &&
+                        sound1.getSoundType().equals(sound.getSoundType())) {
+                    sound1.stop();
+            }
+        }
+            sound.play(volume);
+            sound.loop();
     }
 
 }

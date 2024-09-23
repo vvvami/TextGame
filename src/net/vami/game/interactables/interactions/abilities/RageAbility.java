@@ -21,4 +21,9 @@ public class RageAbility implements Ability {
         return "Rage";
     }
 
+    @Override
+    public boolean isSupport() {
+        return true;
+    }
+
 }

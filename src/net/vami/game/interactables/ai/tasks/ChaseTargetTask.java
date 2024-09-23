@@ -10,8 +10,13 @@ import java.util.Random;
 public class ChaseTargetTask extends Task {
     @Override
     public boolean taskAction(Entity source) {
-        if (!(source.hasTarget()) || source.getPos().equals(source.getTarget().getPos())) {
+        if (!(source.hasTarget()) ||
+                (source.getPos().equals(source.getTarget().getPos()))) {
             return false;
+        }
+
+        if ((source.getPos().distance(source.getTarget().getPos())) >= 2) {
+            source.setTarget(null);
         }
 
         float initialDist = source.getPos().distance(source.getTarget().getPos());

@@ -1,5 +1,7 @@
 package net.vami.game.interactables.items.equipables;
 
+import net.vami.game.Game;
+import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
@@ -18,7 +20,7 @@ public abstract class ItemEquipable extends Item {
         }
 
         if (entitySource.getEquippedItems().size() >= entitySource.getMaxEquipSlots()) {
-            TextUtil.display("%s cannot equip more items. %n",
+            TextUtil.display(this,"%s cannot equip more items. %n",
                     entitySource.getName());
             return false;
         }
@@ -27,12 +29,14 @@ public abstract class ItemEquipable extends Item {
             this.onUnequip();
             entitySource.removeEquippedItem(this);
             entitySource.addInventoryItem(this);
-            TextUtil.display("%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
+            Game.playSound(Sound.ITEM_DROP, 65);
+            TextUtil.display(this,"%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
             return false;
         }
 
         entitySource.addEquippedItem(this);
-        TextUtil.display("%s equips %s. %n", entitySource.getName(), this.getDisplayName());
+        Game.playSound(Sound.ITEM_EQUIP, 65);
+        TextUtil.display(this,"%s equips %s. %n", entitySource.getName(), this.getDisplayName());
         return super.receiveEquip(source);
     }
 }

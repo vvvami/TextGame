@@ -4,6 +4,7 @@ import net.vami.game.Game;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
+import net.vami.game.world.Node;
 
 public class TakeTask extends Task {
 
@@ -12,7 +13,7 @@ public class TakeTask extends Task {
         if (source.hasHeldItem()) {
             return false;
         }
-            for (Interactable interactable : Game.getInteractables()) {
+            for (Interactable interactable : source.getNode().getInteractables()) {
                 if (interactable instanceof ItemHoldable item) {
                     item.receiveTake(source);
                     source.getBrain().removeTask(this);

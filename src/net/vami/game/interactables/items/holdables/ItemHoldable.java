@@ -1,5 +1,7 @@
 package net.vami.game.interactables.items.holdables;
 
+import net.vami.game.Game;
+import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
@@ -25,11 +27,7 @@ public abstract class ItemHoldable extends Item {
     }
 
     public float getDamage() {
-        float amount = attributes.baseDamageAttribute;
-
-        amount += Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
-
-        return amount;
+        return attributes.baseDamageAttribute;
     }
 
     public Attributes getAttributes() {
@@ -46,21 +44,22 @@ public abstract class ItemHoldable extends Item {
         if (entitySource.hasHeldItem()) {
             entitySource.getHeldItem().onUnequip();
             entitySource.addInventoryItem(entitySource.getHeldItem());
-            TextUtil.display("%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
+            Game.playSound(Sound.ITEM_PICKUP, 65);
+            TextUtil.display(entitySource,"%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
         }
 
         if (entitySource.getHeldItem() == this) {
             entitySource.removeEquippedItem(this);
             return true;
         }
-
-        TextUtil.display("%s holds %s. %n", entitySource.getName(), this.getDisplayName());
+        Game.playSound(Sound.ITEM_EQUIP, 65);
+        TextUtil.display(entitySource,"%s holds %s. %n", entitySource.getName(), this.getDisplayName());
         entitySource.setHeldItem(this);
         return super.receiveEquip(source);
     }
 
     public static class Attributes {
-        int baseDamageAttribute;
+        float baseDamageAttribute;
         DamageType damageTypeAttribute;
 
         public Attributes() {
@@ -73,7 +72,7 @@ public abstract class ItemHoldable extends Item {
             if (this.damageTypeAttribute == null) {this.damageTypeAttribute = new BluntDamage();}
         }
 
-        public Attributes baseDamage(int baseDamage) {
+        public Attributes baseDamage(float baseDamage) {
             if (baseDamageAttribute == -1) baseDamageAttribute = baseDamage;
             return this;
         }

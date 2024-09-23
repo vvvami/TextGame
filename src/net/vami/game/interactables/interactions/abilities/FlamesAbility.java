@@ -23,4 +23,9 @@ public class FlamesAbility implements Ability {
     public String getName() {
         return "Flames";
     }
+
+    @Override
+    public boolean isSupport() {
+        return false;
+    }
 }

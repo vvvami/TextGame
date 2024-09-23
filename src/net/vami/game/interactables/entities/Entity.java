@@ -1,6 +1,7 @@
 package net.vami.game.interactables.entities;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.world.Position;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.interactions.*;
@@ -14,7 +15,6 @@ import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
-import org.fusesource.jansi.AnsiConsole;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -23,7 +23,6 @@ public abstract class Entity extends Interactable {
 
     // Basic entity stats
     private float health;
-    private int level;
     private boolean enemy;
 
     private Attributes attributes;
@@ -47,8 +46,6 @@ public abstract class Entity extends Interactable {
         super(name);
         this.attributes = attributes;
         attributes.initialize();
-
-        level = attributes.levelAttribute;
         health = attributes.maxHealthAttribute;
 
         // By default, all entities have these actions available and receivable
@@ -71,6 +68,7 @@ public abstract class Entity extends Interactable {
     // Overrides the remove() in the Interactable to add entity drops baby
     @Override
     public void remove() {
+        this.statusEffects = new ArrayList<>();
         ArrayList<Item> dropList = new ArrayList<>();
         dropList.addAll(getInventory());
         dropList.addAll(getEquippedItems());
@@ -80,16 +78,19 @@ public abstract class Entity extends Interactable {
 
         for (Item item : dropList) {
             item.setPos(this.getPos());
-            TextUtil.display("%s dropped %s! %n", this.getDisplayName(), item.getName());
+            if (item == dropList.getLast()) {
+                Game.playSound(Sound.ITEM_DROP, 65);
+            }
+            TextUtil.display(this,"%s dropped %s! %n", this.getName(), item.getName());
         }
-        this.statusEffects = new ArrayList<>();
         super.remove();
     }
 
     // A "tick" of the entity
     public void turn() {
-
-        statusTurn();
+        if (!statusEffects.isEmpty()) {
+            statusTurn();
+        }
     }
 
     public Brain getBrain() {
@@ -143,7 +144,22 @@ public abstract class Entity extends Interactable {
         }
 
         if (isEnded()) {
-            TextUtil.display(this.getName() + " has died! %n");
+            if (this.getDeathSound() != null) {
+                Game.playSound(this.getDeathSound(), 65);
+            }
+            TextUtil.display(this,this.getName() + " has died! %n");
+
+            // We use remove() and not annihilate()
+            // Reason: status instances entities inflict may outlast themselves (we still need their UUID)
+            this.remove();
+
+            if (source != null) {
+                int random = new Random().nextInt(1, Math.max(2, source.getLevel() - this.getLevel()));
+                if (random == 1) {
+                    source.addLevel(1);
+                }
+            }
+
         }
     }
 
@@ -172,12 +188,20 @@ public abstract class Entity extends Interactable {
         return health <= 0;
     }
 
+    public void addLevel(int level) {
+        this.attributes.levelAttribute += level;
+        this.attributes.initialize();
+
+        Game.playSound(Sound.HEAL, 65);
+        TextUtil.display(this, "%s grows stronger... %n", this.getName());
+    }
+
 
     // Adds a status effect. Stacks the status according to the status' parameters defined in the Status interface
     @Override
     public void addStatus(Status.Instance status) {
         if (isImmuneTo(status.getStatus())) {
-            TextUtil.display(getDisplayName() + " is immune!");
+            TextUtil.display(this,getDisplayName() + " is immune!");
             return;
         }
         Status temp = status.getStatus();
@@ -196,7 +220,7 @@ public abstract class Entity extends Interactable {
             removeStatus(temp);
         }
         else {
-            TextUtil.display("%s is now %s. %n", this.getName(), temp.getName());
+            TextUtil.display(this,"%s is now %s. %n", this.getName(), temp.getName());
         }
 
         statusEffects.add(status);
@@ -221,7 +245,7 @@ public abstract class Entity extends Interactable {
             for (Status.Instance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                TextUtil.display("%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+                TextUtil.display(this,"%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
     }
@@ -343,7 +367,7 @@ public abstract class Entity extends Interactable {
         int amount;
         amount = attributes.maxHealthAttribute;
 
-        amount += (int) Modifier.calculate(this.getModifiers(), ModifierType.MAX_HEALTH);
+        amount += (int) getModifierTotal(ModifierType.MAX_HEALTH);
 
         return amount;
     }
@@ -352,7 +376,7 @@ public abstract class Entity extends Interactable {
     public int getArmor() {
         int amount = attributes.armorAttribute;
 
-        amount += (int) Modifier.calculate(this.getModifiers(), ModifierType.ARMOR);
+        amount += (int) getModifierTotal(ModifierType.ARMOR);
 
         return amount;
     }
@@ -360,23 +384,19 @@ public abstract class Entity extends Interactable {
     // Gets the entity's damage
     public float getDamage() {
 
-        float amount = this.attributes.baseDamageAttribute;
+        float amount = this.attributes.damageAttribute;
 
         if (this.hasHeldItem()) {
             amount += this.getHeldItem().getDamage();
         }
 
-        for (ItemEquipable itemEquipable : getEquippedItems()) {
-            amount += Modifier.calculate(itemEquipable.getModifiers(), ModifierType.DAMAGE);
-        }
-
-        amount += Modifier.calculate(this.getModifiers(), ModifierType.DAMAGE);
+        amount += getModifierTotal(ModifierType.DAMAGE);
 
         return amount;
     }
 
     public void setDamage(float amount) {
-        attributes.baseDamageAttribute = amount;
+        attributes.damageAttribute = amount;
     }
 
     // Gets the entity's damage type
@@ -414,7 +434,7 @@ public abstract class Entity extends Interactable {
     // Gets the level of the entity
     public int getLevel() {
 
-        return level;
+        return attributes.levelAttribute;
     }
 
     // Gets the entity's ability
@@ -452,7 +472,7 @@ public abstract class Entity extends Interactable {
     // Formatted level display of the entity
     public String levelDisplay() {
 
-        return "[" + level + "]";
+        return "[" + attributes.levelAttribute + "]";
     }
 
     // Displays status brackets next to the entity name, used in getDisplayName()
@@ -493,7 +513,7 @@ public abstract class Entity extends Interactable {
         if (!(interactable instanceof Entity sourceEntity)) {
             return false;
         }
-        TextUtil.display("%s casts %s on %s! %n",
+        TextUtil.display(sourceEntity,"%s casts %s on %s! %n",
                 sourceEntity.getDisplayName(), TextUtil.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
@@ -514,7 +534,7 @@ public abstract class Entity extends Interactable {
         }
 
         removeStatus(instance1.getStatus());
-        TextUtil.display("%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
+        TextUtil.display(this,"%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
         return true;
     }
 
@@ -577,6 +597,7 @@ public abstract class Entity extends Interactable {
 
     // Adds an item to the inventory
     public void addInventoryItem(Item item) {
+        item.setOwner(this);
         inventory.add(item.getID());
         if (item.getPos() != null) {
             item.remove();
@@ -585,7 +606,6 @@ public abstract class Entity extends Interactable {
 
     // Removes an item from the inventory
     public void removeFromInventory(Item item) {
-
         inventory.remove(item.getID());
     }
 
@@ -635,8 +655,41 @@ public abstract class Entity extends Interactable {
         return false;
     }
 
+    @Nullable
+    public Sound getDeathSound() {
+        return null;
+    }
+
+    public float getModifierTotal(ModifierType modifierType) {
+        float amount = 0;
+
+        amount += Modifier.calculate(this.getModifiers(), modifierType);
+
+        if (this.hasHeldItem()) {
+           amount += Modifier.calculate(getHeldItem().getModifiers(), modifierType);
+        }
+
+        for (ItemEquipable itemEquipable : getEquippedItems()) {
+            amount += Modifier.calculate(itemEquipable.getModifiers(), modifierType);
+        }
+
+        return amount;
+    }
+
     public Attributes getAttributes() {
         return this.attributes;
+    }
+
+    public static Entity spawn(Entity entity, boolean enemy) {
+        entity.setEnemy(enemy);
+        Entity.spawn(entity);
+        return entity;
+    }
+
+    public static Entity spawn(Entity entity, Position position, boolean enemy) {
+        entity.setEnemy(enemy);
+        Entity.spawn(entity, position);
+        return entity;
     }
 
     // This class exists entirely because im a lazy piece of shit.
@@ -645,7 +698,7 @@ public abstract class Entity extends Interactable {
     public static class Attributes {
         int levelAttribute;
         int maxHealthAttribute;
-        float baseDamageAttribute;
+        float damageAttribute;
         int armorAttribute;
         DamageType damageTypeAttribute;
         Ability abilityAttribute;
@@ -653,7 +706,7 @@ public abstract class Entity extends Interactable {
         public Attributes() {
             this.levelAttribute = -1;
             this.maxHealthAttribute = -1;
-            this.baseDamageAttribute = -1;
+            this.damageAttribute = -1;
             this.armorAttribute = -1;
             this.damageTypeAttribute = null;
             this.abilityAttribute = null;
@@ -662,7 +715,8 @@ public abstract class Entity extends Interactable {
         public void initialize() {
             if (levelAttribute == -1) {levelAttribute = 1;}
             if (maxHealthAttribute == -1) {maxHealthAttribute = 10 * levelAttribute;}
-            if (baseDamageAttribute == -1) {baseDamageAttribute = levelAttribute;}
+            if (damageAttribute == -1) {
+                damageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
             if (damageTypeAttribute == null) {damageTypeAttribute = new BluntDamage();}
             if (abilityAttribute == null) {abilityAttribute = new RageAbility();}
@@ -678,7 +732,8 @@ public abstract class Entity extends Interactable {
             return this;
         }
         public Attributes baseDamage(float baseDamage) {
-            if (baseDamageAttribute == -1) {baseDamageAttribute = baseDamage;}
+            if (damageAttribute == -1) {
+                damageAttribute = baseDamage;}
             return this;
         }
         public Attributes armor(int armor) {
@@ -699,7 +754,7 @@ public abstract class Entity extends Interactable {
 
         public int getMaxHealth() {return maxHealthAttribute;}
 
-        public float getBaseDamage() {return baseDamageAttribute;}
+        public float getDamage() {return damageAttribute;}
 
         public int getArmor() {return armorAttribute;}
 
@@ -711,7 +766,7 @@ public abstract class Entity extends Interactable {
             Attributes attributes = entity.attributes;
             this.levelAttribute = attributes.levelAttribute;
             this.maxHealthAttribute = attributes.maxHealthAttribute;
-            this.baseDamageAttribute = attributes.baseDamageAttribute;
+            this.damageAttribute = attributes.damageAttribute;
             this.armorAttribute = attributes.armorAttribute;
             this.damageTypeAttribute = attributes.damageTypeAttribute;
             this.abilityAttribute = attributes.abilityAttribute;

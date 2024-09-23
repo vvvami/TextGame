@@ -8,7 +8,7 @@ public class AbilityOrTargetTask extends Task {
         if (!source.hasTarget()) {
             new TargetTask().taskAction(source);
         } else {
-            source.getTarget().receiveAbility(source);
+            new AbilityTask().taskAction(source);
         }
         return true;
     }

@@ -23,4 +23,9 @@ public class PrayAbility implements Ability {
     public String getName() {
         return "Pray";
     }
+
+    @Override
+    public boolean isSupport() {
+        return true;
+    }
 }

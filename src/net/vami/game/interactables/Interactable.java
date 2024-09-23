@@ -59,26 +59,17 @@ public class Interactable {
     }
 
     // Spawns the entity at its default set position. If the position is null, it will spawn it at the anchor point (0, 0, 0)
-    public static void spawn(Interactable interactable) {
+    public static Interactable spawn(Interactable interactable) {
         Position position = interactable.position;
         if (position == null) {
             position = new Position(0,0,0);
         }
 
         if (Node.getNodeFromPosition(position) == null) {
-            return;
+            return null;
         }
         interactable.setPos(position);
-    }
-
-    // Alternate version of spawn()
-    public static void spawn(Interactable interactable, int x, int y, int z) {
-        Position position = new Position(x, y, z);
-
-        if (Node.getNodeFromPosition(position) == null) {
-            return;
-        }
-        interactable.setPos(position);
+        return interactable;
     }
 
     public static void saveInteractables(Player player) {
@@ -153,7 +144,12 @@ public class Interactable {
     }
 
     public static void addToMap(Interactable interactable) {
+
         interactableMap.put(interactable.ID, interactable);
+    }
+
+    public static HashMap<UUID, Interactable> getInteractableMap() {
+        return interactableMap;
     }
 
     public boolean isEnded() {
@@ -215,7 +211,7 @@ public class Interactable {
         }
 
         if (!source.availableActions.contains(action)) {
-            TextUtil.display("%s tries to %s %s, but nothing happens. %n",
+            TextUtil.display(this,"%s tries to %s %s, but nothing happens. %n",
                     source.getName(), action.getSynonyms().getFirst(), this.getName());
             return false;
         }
@@ -346,7 +342,7 @@ public class Interactable {
         }
 
         this.setPos(newPos);
-        AnsiConsole.out.println(this.getName() + " has moved to position: " + this.position.toString());
+        TextUtil.display(this,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
         return true;
     }
 

@@ -9,7 +9,7 @@ public class AttackTask extends Task {
     @Override
     public boolean taskAction(Entity source) {
         if (!source.hasTarget()) {
-            TextUtil.display("%s attacks nothing. %n", source.getDisplayName());
+            TextUtil.display(source,"%s attacks nothing. %n", source.getDisplayName());
         }
         else {
             source.getTarget().receiveAttack(source);

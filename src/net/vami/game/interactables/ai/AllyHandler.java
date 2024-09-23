@@ -21,8 +21,7 @@ public class AllyHandler {
     }
 
     public static void Generate() {
-        Item.spawn(new ExcaliburItem("Excalibur", new ItemHoldable.Attributes()
-                .baseDamage(10)));
+
 
     }
 

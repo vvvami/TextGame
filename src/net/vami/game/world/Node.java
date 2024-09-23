@@ -174,7 +174,7 @@ public class Node {
                     enemy.turn();
                 }
             }
-            return false;
+            return entityEndedCheck();
         }
 
         // Ticks every non-enemy
@@ -187,24 +187,14 @@ public class Node {
                    ally.turn();
                 }
             }
-            return false;
+            return entityEndedCheck();
         }
 
         // Checks for every dead entity within a node and removes them, or ends the game if it's the player that died
         private boolean entityEndedCheck() {
-            if (Game.endGame) {
-                return true;
-            }
-            for (Entity entity : node.getEntities()) {
-                if (entity.isEnded()) {
-                    if (entity.equals(Game.player)) {
-                        TextUtil.display("Game Over! %n");
-                        Game.endGame = true;
-                    }
-                    // We use remove() and not annihilate()
-                    // Reason: status instances entities inflict may outlast themselves (we still need their UUID)
-                    entity.remove();
-                }
+            if (Game.player.isEnded()) {
+                TextUtil.display(Game.player,"Game Over! %n");
+                Game.endGame = true;
             }
             return Game.endGame;
         }

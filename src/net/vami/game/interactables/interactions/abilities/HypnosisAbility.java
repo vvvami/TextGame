@@ -26,4 +26,9 @@ public class HypnosisAbility implements Ability {
     public String getName() {
         return "Hypnosis";
     }
+
+    @Override
+    public boolean isSupport() {
+        return false;
+    }
 }
