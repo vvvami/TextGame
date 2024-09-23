@@ -341,7 +341,7 @@ public class Interactable {
             return false;
         }
 
-        if (!Node.getNodeFromPosition(newPos).getEntrances().contains(source.direction)) {
+        if (!Node.getNodeFromPosition(newPos).getEntrances().contains(source.direction.getOpposite())) {
             TextUtil.display(source,"It's blocked from this side. %n");
             return false;
         }

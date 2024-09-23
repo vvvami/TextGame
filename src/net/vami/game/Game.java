@@ -42,7 +42,7 @@ public abstract class Game {
 
     }
 
-    private static ArrayList<Node> globalTicker() {
+    public static ArrayList<Node> globalTicker() {
         Node playerNode = Node.getNodeFromPosition(player.getPos());
         Node northNode = Node.getNodeFromPosition(player.getPos().add(Direction.NORTH));
         Node southNode = Node.getNodeFromPosition(player.getPos().add(Direction.SOUTH));

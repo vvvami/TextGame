@@ -9,6 +9,7 @@ import net.vami.game.interactables.items.equipables.ArthuurosEyeItem;
 import net.vami.game.interactables.items.equipables.ArthuurosReapingArmband;
 import net.vami.game.interactables.items.holdables.ExcaliburItem;
 import net.vami.game.interactables.items.holdables.ItemHoldable;
+import net.vami.game.interactables.items.useables.ExplorersMapItem;
 import net.vami.game.interactables.items.useables.TearsOfArthuurosItem;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.entities.Entity;
@@ -43,12 +44,10 @@ public class EnemyHandler {
         Item.spawn(new ExcaliburItem("Excalibur", new ItemHoldable.Attributes().baseDamage(5)));
         Entity.spawn(new Wolf("Wolf1", new Entity.Attributes().maxHealth(1)), true)
                 .addEquippedItem(new ArthuurosEyeItem("Eye of Arthuuros"));
-        Entity.spawn(new Wolf("Wolf2", new Entity.Attributes().maxHealth(5)), true)
+        Entity.spawn(new Wolf("Wolf2", new Entity.Attributes().maxHealth(10)), true)
                 .addEquippedItem(new ArthuurosReapingArmband("Armband"));
         Entity.spawn(new Wolf("Wolf3", new Entity.Attributes().maxHealth(5)), true)
                 .addInventoryItem(new TearsOfArthuurosItem("Tears of Arthuuros"));
-
-
     }
 
 }

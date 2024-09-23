@@ -14,16 +14,30 @@ public enum Direction {
         this.pos = pos;
     }
 
+
+    public Direction getOpposite() {
+        return switch (this) {
+            case Direction.UP -> Direction.DOWN;
+            case Direction.DOWN -> Direction.UP;
+            case Direction.NORTH -> Direction.SOUTH;
+            case Direction.SOUTH -> Direction.NORTH;
+            case Direction.EAST -> Direction.WEST;
+            case Direction.WEST -> Direction.EAST;
+        };
+    }
+
     public static Direction getDirectionFromString(String input) {
         input = input.toLowerCase();
         return switch (input) {
             case "up", "above" -> Direction.UP;
             case "down", "below" -> Direction.DOWN;
-            case "north" -> Direction.NORTH;
-            case "south" -> Direction.SOUTH;
-            case "east" -> Direction.EAST;
-            case "west" -> Direction.WEST;
+            case "north", "forward" -> Direction.NORTH;
+            case "south", "back" -> Direction.SOUTH;
+            case "east", "right" -> Direction.EAST;
+            case "west", "left" -> Direction.WEST;
             default -> null;
         };
+
+
     }
 }

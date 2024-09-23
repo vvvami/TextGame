@@ -8,6 +8,7 @@ import net.vami.game.interactables.interactions.abilities.SearchAbility;
 import net.vami.game.interactables.interactions.abilities.SummoningAbility;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
+import net.vami.game.interactables.items.useables.ExplorersMapItem;
 import net.vami.util.HexUtil;
 import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
@@ -123,6 +124,7 @@ public class Player extends Entity {
             createdPlayer = new Player(playerName, new Attributes()
                     .level(2)
                     .ability(new PrayAbility()));
+            createdPlayer.addInventoryItem(new ExplorersMapItem("Explorer's Map"));
         }
         else {
             Interactable.addToMap(createdPlayer);
