@@ -340,7 +340,13 @@ public class Interactable {
         if (Node.getNodeFromPosition(newPos) == null) {
             return false;
         }
-        TextUtil.display(this,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
+
+        if (!Node.getNodeFromPosition(newPos).getEntrances().contains(source.direction)) {
+            TextUtil.display(source,"It's blocked from this side. %n");
+            return false;
+        }
+
+        TextUtil.display(source,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
         this.setPos(newPos);
         return true;
     }

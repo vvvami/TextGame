@@ -18,11 +18,32 @@ public class Node {
     private List<UUID> interactables = new ArrayList<>();
     private static HashMap<Position, Node> nodeMap = new HashMap<>();
     private Node.Instance instance;
+    private ArrayList<Direction> entrances = new ArrayList<>();
 
     public Node(Position position) {
         this.position = position;
         nodeMap.put(position, this);
         this.instance = new Instance(this);
+        generateEntrances();
+    }
+
+    private void generateEntrances() {
+        ArrayList<Direction> entranceList = new ArrayList<>();
+        Direction[] directions = Direction.values();
+        int entranceNum = new Random().nextInt(1, Direction.values().length);
+        for (int i = 0; i < entranceNum; i++) {
+            int rnd = new Random().nextInt(Direction.values().length);
+            if (entranceList.contains(directions[rnd])) {
+                i--;
+            } else {
+                entranceList.add(directions[rnd]);
+            }
+        }
+        entrances = entranceList;
+    }
+
+    public ArrayList<Direction> getEntrances() {
+        return entrances;
     }
 
     public Position getNodePos() {
