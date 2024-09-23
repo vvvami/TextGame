@@ -41,8 +41,12 @@ public class EnemyHandler {
 //        Entity.spawn(new Wolf("Wolf", attributes.level(attributes.getLevel() + 1)), new Position(0,0,1), true);
 //        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(0,0,-1), false);
         Item.spawn(new ExcaliburItem("Excalibur", new ItemHoldable.Attributes().baseDamage(5)));
-        Entity.spawn(new Wolf("Wolf1", new Entity.Attributes()), true);
-        Entity.spawn(new Wolf("Wolf2", new Entity.Attributes()), new Position(0,0,-1), true);
+        Entity.spawn(new Wolf("Wolf1", new Entity.Attributes().maxHealth(1)), true)
+                .addEquippedItem(new ArthuurosEyeItem("Eye of Arthuuros"));
+        Entity.spawn(new Wolf("Wolf2", new Entity.Attributes().maxHealth(5)), true)
+                .addEquippedItem(new ArthuurosReapingArmband("Armband"));
+        Entity.spawn(new Wolf("Wolf3", new Entity.Attributes().maxHealth(5)), true)
+                .addInventoryItem(new TearsOfArthuurosItem("Tears of Arthuuros"));
 
 
     }
