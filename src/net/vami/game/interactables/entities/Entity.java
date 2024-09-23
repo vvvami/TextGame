@@ -193,7 +193,6 @@ public abstract class Entity extends Interactable {
             int newLevel = this.attributes.levelAttribute + level;
             this.attributes = new Attributes().level(newLevel);
             this.attributes.initialize();
-            System.out.println("Damage: " + this.attributes.damageAttribute);
 
             Game.playSound(Sound.HEAL, 65);
             TextUtil.display(this, "%s grows stronger... %n", this.getName());
