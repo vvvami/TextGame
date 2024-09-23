@@ -29,17 +29,21 @@ public class EnemyHandler {
                 .level(2)
                 .ability(new FlamesAbility());
 
-        Item.spawn(new ExcaliburItem("Il'thena", new ItemHoldable.Attributes()
-                .baseDamage(5).damageType(new FireDamage())));
-        Item.spawn(new TearsOfArthuurosItem("Tears of Arthuuros"));
-        Item.spawn(new ArthuurosEyeItem("Eye of Arthuuros"));
-        Entity.spawn(new Wolf("N'djell", new Entity.Attributes().level(1).ability(new HypnosisAbility())), false)
-                .addInventoryItem(new TearsOfArthuurosItem("Tears of Arthuuros"));
-        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(-1,0,0), false);
-        Entity.spawn(new Wolf("Wolf", attributes), new Position(1,0,0), true);
-        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(-1,0,0), false);
-        Entity.spawn(new Wolf("Wolf", attributes.level(attributes.getLevel() + 1)), new Position(0,0,1), true);
-        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(0,0,-1), false);
+//        Item.spawn(new ExcaliburItem("Il'thena", new ItemHoldable.Attributes()
+//                .baseDamage(5).damageType(new FireDamage())));
+//        Item.spawn(new TearsOfArthuurosItem("Tears of Arthuuros"));
+//        Item.spawn(new ArthuurosEyeItem("Eye of Arthuuros"));
+//        Entity.spawn(new Wolf("N'djell", new Entity.Attributes().level(1).ability(new HypnosisAbility())), false)
+//                .addInventoryItem(new TearsOfArthuurosItem("Tears of Arthuuros"));
+//        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(-1,0,0), false);
+//        Entity.spawn(new Wolf("Wolf", attributes), new Position(1,0,0), true);
+//        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(-1,0,0), false);
+//        Entity.spawn(new Wolf("Wolf", attributes.level(attributes.getLevel() + 1)), new Position(0,0,1), true);
+//        Entity.spawn(new Wolf("Friendly Wolf", attributes.level(attributes.getLevel() + 1)), new Position(0,0,-1), false);
+        Item.spawn(new ExcaliburItem("Excalibur", new ItemHoldable.Attributes().baseDamage(5)));
+        Entity.spawn(new Wolf("Wolf1", new Entity.Attributes()), true);
+        Entity.spawn(new Wolf("Wolf2", new Entity.Attributes()), new Position(0,0,-1), true);
+
 
     }
 

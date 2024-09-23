@@ -192,8 +192,11 @@ public class Node {
 
         // Checks for every dead entity within a node and removes them, or ends the game if it's the player that died
         private boolean entityEndedCheck() {
+            if (Game.endGame) {
+                return true;
+            }
             if (Game.player.isEnded()) {
-                TextUtil.display(Game.player,"Game Over! %n");
+                TextUtil.display(null,"Game Over! %n");
                 Game.endGame = true;
             }
             return Game.endGame;

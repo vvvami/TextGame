@@ -340,9 +340,8 @@ public class Interactable {
         if (Node.getNodeFromPosition(newPos) == null) {
             return false;
         }
-
-        this.setPos(newPos);
         TextUtil.display(this,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
+        this.setPos(newPos);
         return true;
     }
 

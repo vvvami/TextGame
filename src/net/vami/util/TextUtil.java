@@ -6,24 +6,26 @@ import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.Item;
 import org.fusesource.jansi.AnsiConsole;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 
 public class TextUtil {
 
-    public static void display(Interactable source, String text, Object ... args) {
-        if (!(source instanceof Item) && !(source.getNode() == Game.getCurrentNode())) {
-            return;
-        }
-        AnsiConsole.out().printf(text, args);
-        int counter = 0;
-        for (Entity entity : source.getNode().getEntities()) {
-            counter++;
-        }
-        try {
-            Thread.sleep(500L * counter);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    public static void display(@Nullable Interactable source, String text, Object ... args) {
+        if (source == null || source instanceof Item || source.getPos().equals(Game.player.getPos())) {
+            int counter = 0;
+            AnsiConsole.out().printf(text, args);
+            if (source != null && source.getNode() != null) {
+                for (Entity entity : source.getNode().getEntities()) {
+                    counter++;
+                }
+            }
+            try {
+                Thread.sleep(250L * counter);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -77,7 +79,7 @@ public class TextUtil {
                         interaction.source.getDisplayName(),
                         yellow(new DecimalFormat("##.##").format(interaction.amount)));
             }
-            display(interaction.target, displayText);
+            display(interaction.source, displayText);
         }
     }
 

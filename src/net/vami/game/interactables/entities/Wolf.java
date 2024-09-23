@@ -34,7 +34,7 @@ public class Wolf extends Entity {
         }
 
         if (this.getHealth() < (float) this.getMaxHealth() / 2) {
-            werewolfBrain.addTask(new AbilityOrTargetTask(), 20);
+            werewolfBrain.addTask(new AbilityOrTargetTask(), 10);
             werewolfBrain.removeTask(new TargetAnyAndAttackTask());
             werewolfBrain.addTask(new TargetAndAttackTask(), 10);
             werewolfBrain.removeTask(new TakeTask());
