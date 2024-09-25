@@ -612,6 +612,7 @@ public abstract class Entity extends Interactable {
         inventory.remove(item.getID());
     }
 
+    // Helper function to remove all items on a given entity
     public void removeAllItems() {
         inventory = new ArrayList<>();
         heldItem = null;
@@ -743,7 +744,7 @@ public abstract class Entity extends Interactable {
             if (armorAttribute == -1) {armorAttribute = armor;}
             return this;
         }
-        public Attributes defaultDamageType(DamageType damageType) {
+        public Attributes damageType(DamageType damageType) {
             if (damageTypeAttribute == null) {damageTypeAttribute = damageType;}
             return this;
         }

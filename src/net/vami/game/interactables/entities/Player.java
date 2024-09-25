@@ -2,12 +2,15 @@ package net.vami.game.interactables.entities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.ai.Brain;
+import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.interactions.abilities.PrayAbility;
 import net.vami.game.interactables.interactions.abilities.SearchAbility;
 import net.vami.game.interactables.interactions.abilities.SummoningAbility;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
+import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.items.useables.ExplorersMapItem;
 import net.vami.util.HexUtil;
 import net.vami.util.TextUtil;
@@ -35,6 +38,21 @@ public class Player extends Entity {
 //        attributes.damageTypeAttribute = patron.damageType();
 //        attributes.maxHealthAttribute = patron.maxHealth();
 //        this.heal(this, getMaxHealth());
+    }
+
+    @Override
+    public Brain getBrain() {
+        Brain brain = null;
+
+        if (this.hasSpecifiedStatus(new CharmedStatus())) {
+            brain = new Brain();
+            brain.addTask(new AttackOrTargetTask(), 5);
+            brain.addTask(new AbilityOrTargetTask(), 8);
+            brain.addTask(new MoveTask(), 1);
+            brain.addTask(new TargetAnyAndAttackTask(), 10);
+        }
+
+        return brain;
     }
 
     @Override
@@ -123,7 +141,7 @@ public class Player extends Entity {
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes()
                     .level(2)
-                    .ability(new PrayAbility()));
+                    .ability(new SummoningAbility()));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Explorer's Map"));
         }
         else {

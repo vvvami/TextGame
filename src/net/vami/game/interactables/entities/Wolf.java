@@ -14,7 +14,7 @@ public class Wolf extends Entity {
     public Wolf(String name, Attributes attributes) {
         super(name, attributes
                 .level(1)
-                .defaultDamageType(new SharpDamage())
+                .damageType(new SharpDamage())
                 .ability(new RageAbility()));
 
         addResistance(new IceDamage());
