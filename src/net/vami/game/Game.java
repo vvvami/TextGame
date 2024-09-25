@@ -53,7 +53,7 @@ public abstract class Game {
             nodes.add(node);
         }
 
-        nodes.add(Node.getNodeFromPosition(player.getPos()));
+        nodes.add(getCurrentNode());
         return nodes;
     }
 

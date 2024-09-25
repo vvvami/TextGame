@@ -8,7 +8,6 @@ import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.util.TextUtil;
-import org.fusesource.jansi.AnsiConsole;
 
 import java.util.*;
 
@@ -46,7 +45,7 @@ public class Node {
         return entrances;
     }
 
-    public Position getNodePos() {
+    public Position getPos() {
 
         return position;
     }
@@ -163,7 +162,7 @@ public class Node {
                return;
             }
 
-            if (Game.player.getPos().equals(node.getNodePos())) {
+            if (Game.player.getPos().equals(node.getPos())) {
                 PlayerHandler.read();
             }
             AllyHandler.allyAction(node);
