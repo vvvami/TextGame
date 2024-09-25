@@ -9,6 +9,7 @@ import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Player;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
+import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.ArrayList;
@@ -43,22 +44,16 @@ public abstract class Game {
     }
 
     public static ArrayList<Node> globalTicker() {
-        Node playerNode = Node.getNodeFromPosition(player.getPos());
-        Node northNode = Node.getNodeFromPosition(player.getPos().add(Direction.NORTH));
-        Node southNode = Node.getNodeFromPosition(player.getPos().add(Direction.SOUTH));
-        Node eastNode = Node.getNodeFromPosition(player.getPos().add(Direction.EAST));
-        Node westNode = Node.getNodeFromPosition(player.getPos().add(Direction.WEST));
-        Node upNode = Node.getNodeFromPosition(player.getPos().add(Direction.UP));
-        Node downNode = Node.getNodeFromPosition(player.getPos().add(Direction.DOWN));
-
         ArrayList<Node> nodes = new ArrayList<>();
-        nodes.add(playerNode);
-        nodes.add(northNode);
-        nodes.add(southNode);
-        nodes.add(eastNode);
-        nodes.add(westNode);
-        nodes.add(upNode);
-        nodes.add(downNode);
+        for (Direction direction : Direction.values()) {
+            Node node = Node.getNodeFromPosition(player.getPos().add(direction));
+            if (node == null) {
+                continue;
+            }
+            nodes.add(node);
+        }
+
+        nodes.add(Node.getNodeFromPosition(player.getPos()));
         return nodes;
     }
 
