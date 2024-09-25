@@ -210,9 +210,11 @@ public class Interactable {
             return false;
         }
 
+        String targetName = this == source ? "" : " " + this.getName();
+
         if (!source.availableActions.contains(action)) {
-            TextUtil.display(this,"%s tries to %s %s, but nothing happens. %n",
-                    source.getName(), action.getSynonyms().getFirst(), this.getName());
+            TextUtil.display(this,"%s tries to %s%s, but nothing happens. %n",
+                    source.getName(), action.getSynonyms().getFirst(), targetName);
             return false;
         }
 
@@ -288,6 +290,23 @@ public class Interactable {
         return Node.getNodeFromPosition(position);
     }
 
+    public Set<Action> getAvailableActions() {
+        return availableActions;
+    }
+
+    public Set<Action> getReceivableActions() {
+        return receivableActions;
+    }
+
+    public void setAvailableActions(Set<Action> availableActions) {
+        this.availableActions = availableActions;
+    }
+
+    public void setReceivableActions(Set<Action> receivableActions) {
+        this.receivableActions = receivableActions;
+    }
+
+
     public void addReceivableAction(Action action) {
 
         receivableActions.add(action);
@@ -342,7 +361,7 @@ public class Interactable {
         }
 
         if (!Node.getNodeFromPosition(newPos).getEntrances().contains(source.direction.getOpposite())) {
-            TextUtil.display(source,"It's blocked from this side. %n");
+            TextUtil.display(source,"%s tries to move but finds their path blocked. %n", source.getName());
             return false;
         }
 

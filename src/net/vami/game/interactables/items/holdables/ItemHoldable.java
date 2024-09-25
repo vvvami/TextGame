@@ -44,7 +44,7 @@ public abstract class ItemHoldable extends Item {
         if (entitySource.hasHeldItem()) {
             entitySource.getHeldItem().onUnequip();
             entitySource.addInventoryItem(entitySource.getHeldItem());
-            Game.playSound(Sound.ITEM_PICKUP, 65);
+            Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
             TextUtil.display(entitySource,"%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
         }
 
@@ -52,7 +52,7 @@ public abstract class ItemHoldable extends Item {
             entitySource.removeEquippedItem(this);
             return true;
         }
-        Game.playSound(Sound.ITEM_EQUIP, 65);
+        Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
         TextUtil.display(entitySource,"%s holds %s. %n", entitySource.getName(), this.getDisplayName());
         entitySource.setHeldItem(this);
         return super.receiveEquip(source);

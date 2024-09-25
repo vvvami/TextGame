@@ -6,6 +6,7 @@ import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.items.equipables.ItemEquipable;
 import net.vami.util.TextUtil;
 
@@ -162,8 +163,8 @@ public class Node {
                return;
             }
 
-            if (Game.player.getPos().equals(node.getPos())) {
-                PlayerHandler.read();
+            if (Game.player.getPos().equals(node.getPos()) && !Game.player.hasSpecifiedStatus(new CharmedStatus())) {
+                    PlayerHandler.read();
             }
             AllyHandler.allyAction(node);
         }

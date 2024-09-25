@@ -79,9 +79,9 @@ public abstract class Entity extends Interactable {
         for (Item item : dropList) {
             item.setPos(this.getPos());
             if (item == dropList.getLast()) {
-                Game.playSound(Sound.ITEM_DROP, 65);
+                Game.playSound(this, Sound.ITEM_DROP, 65);
             }
-            TextUtil.display(this,"%s dropped %s! %n", this.getName(), item.getName());
+            TextUtil.display(this,"%s dropped %s! %n", this.getName(), item.getDisplayName());
         }
         super.remove();
     }
@@ -127,9 +127,9 @@ public abstract class Entity extends Interactable {
         }
 
         if (damageType.getSound() == null) {
-            Game.playSound(Sound.BLUNT_DAMAGE, 65);
+            Game.playSound(this, Sound.BLUNT_DAMAGE, 65);
         } else {
-            Game.playSound(damageType.getSound(), 65);
+            Game.playSound(this, damageType.getSound(), 65);
         }
 
         health -= amount;
@@ -145,7 +145,7 @@ public abstract class Entity extends Interactable {
 
         if (isEnded()) {
             if (this.getDeathSound() != null) {
-                Game.playSound(this.getDeathSound(), 65);
+                Game.playSound(this, this.getDeathSound(), 65);
             }
             TextUtil.display(this,this.getName() + " has died! %n");
 
@@ -174,7 +174,7 @@ public abstract class Entity extends Interactable {
             amount = amount * 0.75f;
         }
 
-        Game.playSound(Sound.HEAL, 65);
+        Game.playSound(source, Sound.HEAL, 65);
         TextUtil.EntityInteraction.healEntity(new TextUtil.EntityInteraction(
                 this, source, amount));
 
@@ -194,7 +194,7 @@ public abstract class Entity extends Interactable {
             this.attributes = new Attributes().level(newLevel);
             this.attributes.initialize();
 
-            Game.playSound(Sound.HEAL, 65);
+            Game.playSound(this, Sound.HEAL, 65);
             TextUtil.display(this, "%s grows stronger... %n", this.getName());
         }
     }

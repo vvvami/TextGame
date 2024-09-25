@@ -24,7 +24,7 @@ public class Kalakuli extends Entity {
         Brain brain = new Brain();
         brain.addTask(new MoveTask(), 1);
         if (this.hasTarget() && !this.getTarget().hasSpecifiedStatus(new CharmedStatus())) {
-            brain.addTask(new AbilityOrTargetTask(), 10);
+            brain.addTask(new AbilityOrTargetTask(), 2);
         }
         brain.addTask(new TargetAndAttackTask(), 5);
         brain.addTask(new ChaseTargetTask(), 10);

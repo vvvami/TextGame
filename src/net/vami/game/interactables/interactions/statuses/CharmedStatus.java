@@ -1,6 +1,10 @@
 package net.vami.game.interactables.interactions.statuses;
 
 import net.vami.game.interactables.entities.Entity;
+import net.vami.game.interactables.interactions.Action;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class CharmedStatus implements Status {
     @Override
@@ -31,6 +35,8 @@ public class CharmedStatus implements Status {
             }
         }
     }
+
+    Set<Action> actions = new HashSet<>();
 
     @Override
     public void onApply(Entity target, Entity source) {

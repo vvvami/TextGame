@@ -7,8 +7,10 @@ import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Player;
+import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
+import net.vami.game.world.Position;
 import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -22,6 +24,7 @@ public abstract class Game {
     public static String interactableSavePathFormat = "saves/%_interactables.json";
     public static boolean endGame = false;
     public static boolean isNewGame = true;
+    private static Position lastPlayerPos;
 
     public static void startGame() {
         if (player == null) {
@@ -39,21 +42,26 @@ public abstract class Game {
                 node.getInstance().turn();
             }
 
+            lastPlayerPos = player.getPos();
+
         } while (!endGame);
 
     }
 
     public static ArrayList<Node> globalTicker() {
+
+        Position position = player.getPos() != null ? player.getPos() : lastPlayerPos;
+
         ArrayList<Node> nodes = new ArrayList<>();
         for (Direction direction : Direction.values()) {
-            Node node = Node.getNodeFromPosition(player.getPos().add(direction));
+            Node node = Node.getNodeFromPosition(position.add(direction));
             if (node == null) {
                 continue;
             }
             nodes.add(node);
         }
 
-        nodes.add(getCurrentNode());
+        nodes.add(Node.getNodeFromPosition(position));
         return nodes;
     }
 
@@ -78,11 +86,14 @@ public abstract class Game {
         return Game.getCurrentNode().getInteractables();
     }
 
-    public static void playSound(Sound sound, int volume) {
+    public static void playSound(Interactable source, Sound sound, int volume) {
         if (sound == null) {
             return;
         }
-        sound.play(volume);
+        if (source instanceof Item ||
+                source.getNode() == Game.getCurrentNode()) {
+            sound.play(volume);
+        }
     }
 
     public static void playMusic(Sound sound, int volume) {

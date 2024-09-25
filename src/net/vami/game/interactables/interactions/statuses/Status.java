@@ -47,7 +47,6 @@ public interface Status {
         }
 
         public void onApply() {
-
             this.getStatus().onApply(getTarget(), getSource());
         }
 

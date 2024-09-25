@@ -9,14 +9,10 @@ public class SummoningAbility implements Ability {
     public boolean useAbility(Interactable source, Interactable target) {
         Entity entityTarget = (Entity) target;
         Entity entitySource = (Entity) source;
-        Wolf summon = new Wolf(source.getName() + "'s Summon", new Entity.Attributes()
+        Wolf summon = new Wolf(source.getName() + "-lae", new Entity.Attributes()
                 .level(entitySource.getLevel()));
 
-        if (entityTarget.isEnemy()) {
-            summon.setEnemy(false);
-        } else {
-            summon.setEnemy(true);
-        }
+        summon.setEnemy(!entityTarget.isEnemy());
         summon.setTarget(entityTarget);
         Entity.spawn(summon, entitySource.getPos());
 

@@ -53,10 +53,10 @@ public class Item extends Interactable {
     public void hurt(int amount) {
         durability -= amount;
         if (durability <= 0) {
+            Game.playSound(this.getOwner(), Sound.ITEM_BREAK, 65);
             getOwner().removeFromInventory(this);
             getOwner().removeEquippedItem(this);
             annihilate();
-            Game.playSound(Sound.ITEM_BREAK, 65);
             TextUtil.display(this,"%s has broken!%n", this.getDisplayName());
         }
     }
@@ -77,8 +77,8 @@ public class Item extends Interactable {
         if (this instanceof ItemHoldable && !entitySource.hasHeldItem()) {
             this.receiveEquip(entitySource);
         } else {
-            Game.playSound(Sound.ITEM_PICKUP, 65);
-            TextUtil.display(this,"%s takes %s. %n", entitySource.getName(), this.getDisplayName());
+            Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
+            TextUtil.display(this.getOwner(),"%s takes %s. %n", entitySource.getName(), this.getDisplayName());
         }
         this.setOwner(entitySource);
         return true;
@@ -111,8 +111,8 @@ public class Item extends Interactable {
         }
         sourceEntity.removeEquippedItem(this);
         this.setPos(sourceEntity.getPos());
-        Game.playSound(Sound.ITEM_DROP, 65);
-        TextUtil.display(this,"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
+        Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
+        TextUtil.display(this.getOwner(),"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
         return super.receiveDrop(source);
     }
 

@@ -29,13 +29,13 @@ public abstract class ItemEquipable extends Item {
             this.onUnequip();
             entitySource.removeEquippedItem(this);
             entitySource.addInventoryItem(this);
-            Game.playSound(Sound.ITEM_DROP, 65);
+            Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
             TextUtil.display(this,"%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
             return false;
         }
 
         entitySource.addEquippedItem(this);
-        Game.playSound(Sound.ITEM_EQUIP, 65);
+        Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
         TextUtil.display(this,"%s equips %s. %n", entitySource.getName(), this.getDisplayName());
         return super.receiveEquip(source);
     }

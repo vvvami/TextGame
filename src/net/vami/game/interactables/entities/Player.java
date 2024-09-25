@@ -142,7 +142,7 @@ public class Player extends Entity {
             createdPlayer = new Player(playerName, new Attributes()
                     .level(2)
                     .ability(new SummoningAbility()));
-            createdPlayer.addInventoryItem(new ExplorersMapItem("Explorer's Map"));
+            createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
         }
         else {
             Interactable.addToMap(createdPlayer);
