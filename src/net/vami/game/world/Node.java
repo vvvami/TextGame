@@ -163,7 +163,7 @@ public class Node {
                return;
             }
 
-            if (Game.player.getPos().equals(node.getPos()) && !Game.player.hasSpecifiedStatus(new CharmedStatus())) {
+            if (Game.player.getPos().equals(node.getPos())) {
                     PlayerHandler.read();
             }
             AllyHandler.allyAction(node);

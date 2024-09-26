@@ -1,5 +1,6 @@
 package net.vami.game.interactables.ai;
 
+import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.items.Item;
@@ -14,11 +15,13 @@ import java.util.Scanner;
 public class PlayerHandler {
 
     public static boolean read() {
+        if (Game.player.hasSpecifiedStatus(new CharmedStatus())) {
+            return false;
+        }
         AnsiConsole.out.print(TextUtil.blue("> "));
         Scanner scanner = new Scanner(System.in);
         String fullAction = scanner.nextLine();
         return actionInput(fullAction);
-
     }
 
 
