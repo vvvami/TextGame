@@ -777,6 +777,4 @@ public abstract class Entity extends Interactable {
             return this;
         }
     }
-
-
 }

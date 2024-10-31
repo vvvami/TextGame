@@ -22,7 +22,7 @@ public class TextUtil {
                 }
             }
             try {
-                Thread.sleep(250L * counter);
+                Thread.sleep(250L * Math.max(1, counter));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
