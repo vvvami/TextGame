@@ -18,6 +18,7 @@ public class Chest extends Interactable {
     public Chest(String name) {
         super(name);
         addReceivableAction(Action.TAKE);
+        addReceivableAction(Action.ATTACK);
     }
 
     @Override
@@ -26,6 +27,7 @@ public class Chest extends Interactable {
             TextUtil.display(sourceEntity, "%s opens %s.%n", sourceEntity.getName(), this.getName());
             for (UUID uuid : inventory) {
                 Item item = (Item) Interactable.getInteractableFromID(uuid);
+                Game.playSound(this, Sound.ITEM_DROP, 65);
                 sourceEntity.addInventoryItem(item);
                 TextUtil.display(sourceEntity, "%s has obtained %s! %n", sourceEntity.getName(), item.getDisplayName());
             }
@@ -34,7 +36,7 @@ public class Chest extends Interactable {
     }
 
     @Override
-    public void hurt(Entity source, float amount, DamageType damageType) {
+    public boolean receiveAttack(Interactable source) {
         ArrayList<Item> dropList = new ArrayList<>();
         for (UUID uuid : inventory) {
             Item item = (Item) Interactable.getInteractableFromID(uuid);
@@ -49,6 +51,7 @@ public class Chest extends Interactable {
             TextUtil.display(this,"%s dropped %s! %n", this.getName(), item.getDisplayName());
         }
         this.remove();
+        return true;
     }
 
     public List<UUID> getInventory() {

@@ -15,11 +15,13 @@ public class ChaseTargetTask extends Task {
             return false;
         }
 
-        if ((source.getPos().distance(source.getTarget().getPos())) >= 2) {
+        float initialDist = source.getPos().distance(source.getTarget().getPos());
+
+        if (initialDist >= 2) {
             source.setTarget(null);
+            return false;
         }
 
-        float initialDist = source.getPos().distance(source.getTarget().getPos());
         Position initialPos = source.getPos();
         List<Direction> directions = List.of(Direction.values());
 
