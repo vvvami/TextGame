@@ -1,10 +1,9 @@
-package net.vami.game.interactables.items.equipables;
+package net.vami.game.interactables.items.custom;
 
-import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Modifier;
 import net.vami.game.interactables.interactions.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BleedDamage;
-import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.items.ItemEquipable;
 
 public class ArthuurosEyeItem extends ItemEquipable {
     public ArthuurosEyeItem(String name) {

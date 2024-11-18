@@ -1,19 +1,13 @@
 package net.vami.game.interactables.interactions.patrons;
 
-import com.google.gson.Gson;
 import net.vami.game.interactables.interactions.abilities.Ability;
 import net.vami.game.interactables.interactions.abilities.RageAbility;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
 import net.vami.game.interactables.items.Item;
-import net.vami.game.interactables.items.equipables.ArthuurosEyeItem;
-import net.vami.game.interactables.items.equipables.ItemEquipable;
-import net.vami.game.interactables.items.holdables.ItemHoldable;
-import net.vami.game.interactables.items.useables.TearsOfArthuurosItem;
-import org.jetbrains.annotations.Nullable;
+import net.vami.game.interactables.items.custom.ArthuurosEyeItem;
+import net.vami.game.interactables.items.custom.TearsOfArthuurosItem;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Arthuuros implements Patron {

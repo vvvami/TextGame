@@ -1,14 +1,11 @@
-package net.vami.game.interactables.items.holdables;
+package net.vami.game.interactables.items;
 
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.Modifier;
-import net.vami.game.interactables.interactions.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
-import net.vami.game.interactables.items.Item;
 import net.vami.util.TextUtil;
 
 public abstract class ItemHoldable extends Item {

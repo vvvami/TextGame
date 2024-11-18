@@ -1,9 +1,11 @@
 package net.vami.game.interactables.ai;
 
 import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.custom.AttunementAltar;
 import net.vami.game.interactables.custom.Chest;
-import net.vami.game.interactables.items.holdables.ExcaliburItem;
-import net.vami.game.interactables.items.holdables.ItemHoldable;
+import net.vami.game.interactables.entities.Wolf;
+import net.vami.game.interactables.items.custom.ExcaliburItem;
+import net.vami.game.interactables.items.ItemHoldable;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.entities.Entity;
 
@@ -26,6 +28,8 @@ public class EnemyHandler {
 //        Entity.spawn(new Wolf("Irus", new Entity.Attributes().maxHealth(10)), true)
 //                .addEquippedItem(new ArthuurosReapingArmband("Armband"));
         Interactable.spawn(new Chest("Chest").addToInventory(excy));
+        Interactable.spawn(new AttunementAltar("Attuner"));
+
     }
 
 }

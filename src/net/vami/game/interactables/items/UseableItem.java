@@ -1,4 +1,4 @@
-package net.vami.game.interactables.items.useables;
+package net.vami.game.interactables.items;
 
 public interface UseableItem {
 

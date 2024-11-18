@@ -1,8 +1,7 @@
-package net.vami.game.interactables.items.equipables;
+package net.vami.game.interactables.items;
 
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
-import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.util.TextUtil;

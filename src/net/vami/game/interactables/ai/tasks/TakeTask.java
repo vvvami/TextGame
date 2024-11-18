@@ -1,10 +1,8 @@
 package net.vami.game.interactables.ai.tasks;
 
-import net.vami.game.Game;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.items.holdables.ItemHoldable;
-import net.vami.game.world.Node;
+import net.vami.game.interactables.items.ItemHoldable;
 
 public class TakeTask extends Task {
 

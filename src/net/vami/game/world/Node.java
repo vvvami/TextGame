@@ -6,8 +6,7 @@ import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.interactions.statuses.CharmedStatus;
-import net.vami.game.interactables.items.equipables.ItemEquipable;
+import net.vami.game.interactables.items.ItemEquipable;
 import net.vami.util.TextUtil;
 
 import java.util.*;
@@ -150,7 +149,6 @@ public class Node {
 
         // Ticks every equipped item of entities within the node as well as the enemies themselves
         public void preTurn() {
-            itemTicker();
             if (enemyTicker()) {
                 return;
             }
@@ -167,22 +165,6 @@ public class Node {
                     PlayerHandler.read();
             }
             AllyHandler.allyAction(node);
-        }
-
-        // Ticks every item
-        void itemTicker() {
-            List<Entity> entities = node.getEntities();
-            for (Entity entity : entities) {
-                List<ItemEquipable> itemEquipables = entity.getEquippedItems();
-
-                for (ItemEquipable item : itemEquipables)
-                {
-                    item.turn();
-                }
-                if (entity.getHeldItem() != null) {
-                    entity.getHeldItem().turn();
-                }
-            }
         }
 
         // Ticks every enemy

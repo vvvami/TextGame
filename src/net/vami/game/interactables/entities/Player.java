@@ -5,19 +5,15 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.Action;
-import net.vami.game.interactables.interactions.abilities.PrayAbility;
-import net.vami.game.interactables.interactions.abilities.SearchAbility;
 import net.vami.game.interactables.interactions.abilities.SummoningAbility;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
-import net.vami.game.interactables.items.useables.ExplorersMapItem;
+import net.vami.game.interactables.items.custom.ExplorersMapItem;
 import net.vami.util.HexUtil;
-import net.vami.util.TextUtil;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player extends Entity {

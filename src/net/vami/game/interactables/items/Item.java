@@ -1,13 +1,12 @@
 package net.vami.game.interactables.items;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactables.items.attunement.AttunableItem;
+import net.vami.game.interactables.items.attunement.Attunement;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.items.equipables.ItemEquipable;
-import net.vami.game.interactables.items.holdables.ItemHoldable;
-import net.vami.game.interactables.items.useables.UseableItem;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.UUID;
@@ -16,6 +15,7 @@ public class Item extends Interactable {
 
     private int durability;
     private UUID owner;
+    private Attunement attunement;
 
     public Item(String name) {
         super(name);
@@ -49,9 +49,41 @@ public class Item extends Interactable {
         this.durability = durability;
     }
 
+    public void setAttunement(Attunement attunement) {
+         if (this instanceof AttunableItem attunable
+        && attunable.canAttune() && attunement.applyCondition(this)) {
+            this.attunement = attunement;
+            this.attunement.onApply(this);
+        }
+    }
+
+    public void removeAttunement() {
+        if (this.attunement.removeCondition(this)) {
+            this.attunement.onRemove(this);
+            this.attunement = null;
+        }
+    }
+
+    public Attunement getAttunement() {
+        if (this instanceof AttunableItem attunable
+            && this.attunement != null) {
+            return this.attunement;
+        }
+        return null;
+    }
+
+    public boolean hasAttunement() {
+        return attunement != null;
+    }
+
 
     public void hurt(int amount) {
         durability -= amount;
+        if (this instanceof AttunableItem
+        && this.hasAttunement()) {
+            this.attunement.onItemHurt(this, amount);
+        }
+
         if (durability <= 0) {
             Game.playSound(this.getOwner(), Sound.ITEM_BREAK, 65);
             getOwner().removeFromInventory(this);
@@ -89,9 +121,13 @@ public class Item extends Interactable {
         if (this instanceof UseableItem useableItem) {
                 if (useableItem.useCondition()) {
                     useableItem.onUse();
+                    if (this instanceof AttunableItem
+                    && (this.hasAttunement())) {
+                        this.getAttunement().onUse(this, (Entity) source);
+                    }
                     return true;
-                }
-                else {
+
+                } else {
                     AnsiConsole.out.println(useableItem.failMessage());
                 }
         }
@@ -127,7 +163,10 @@ public class Item extends Interactable {
     }
 
     public boolean turn() {
-
+        if (this instanceof AttunableItem attunable
+        && this.hasAttunement()) {
+            this.attunement.onTurn(this);
+        }
         return true;
     }
 

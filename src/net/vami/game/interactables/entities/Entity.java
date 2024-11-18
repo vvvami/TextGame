@@ -1,6 +1,7 @@
 package net.vami.game.interactables.entities;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.world.Position;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.ai.Brain;
@@ -13,8 +14,8 @@ import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.*;
 import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.Item;
-import net.vami.game.interactables.items.equipables.ItemEquipable;
-import net.vami.game.interactables.items.holdables.ItemHoldable;
+import net.vami.game.interactables.items.ItemEquipable;
+import net.vami.game.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -91,6 +92,7 @@ public abstract class Entity extends Interactable {
         if (!statusEffects.isEmpty()) {
             statusTurn();
         }
+        itemTurn();
     }
 
     public Brain getBrain() {
@@ -100,10 +102,12 @@ public abstract class Entity extends Interactable {
     // Main damage function
     @Override
     public void hurt(Entity source, float amount, DamageType damageType) {
+        // Denies damage if the entity is already dead
         if (this.isEnded()) {
             return;
         }
 
+        // Increases damage if the damagetype is in the weaknesses arraylist
         for (DamageType damageType1 : weaknesses) {
             if (damageType1.is(damageType)) {
                 amount = amount * 2;
@@ -111,6 +115,7 @@ public abstract class Entity extends Interactable {
             }
         }
 
+        // Reduces damage if the damagetype is in the resistances arraylist
         for (DamageType damageType1 : resistances) {
             if (damageType1.is(damageType)) {
                 amount = amount / 2;
@@ -118,32 +123,49 @@ public abstract class Entity extends Interactable {
             }
         }
 
+        // Armor defense calculation
         if (this.getArmor() > 0) {
             amount = amount - this.getArmor();
         }
 
+        // The damage will always be at least 1
         if (amount <= 0) {
             amount = 1;
         }
 
+        // Play damagetype sound
         if (damageType.getSound() == null) {
             Game.playSound(this, Sound.BLUNT_DAMAGE, 65);
         } else {
             Game.playSound(this, damageType.getSound(), 65);
         }
 
+        // Reduce the target's health
         health -= amount;
 
+        // TextUtil displays the hurt message
         TextUtil.EntityInteraction.hurtEntity(new TextUtil.EntityInteraction(this, source, amount, damageType));
 
         // Applies status instance based on the damage type dealt
         damageType.onHit(this, source, amount);
 
-        if (source != null && source.hasHeldItem() && source.getHeldItem() instanceof BreakableItem) {
-            source.getHeldItem().hurt(1);
+        // Checks if the player has a held item
+        // If it's breakable, it will reduce its durability
+        // If it's attunable, it will trigger the attunement onHit()
+        if (source != null && source.hasHeldItem()) {
+            if (source.getHeldItem() instanceof BreakableItem) {
+                source.getHeldItem().hurt(1);
+            }
+
+            if (source.getHeldItem() instanceof AttunableItem
+            && source.getHeldItem().hasAttunement()) {
+                source.getHeldItem().getAttunement().onHit(source.getHeldItem(), source, this, amount, damageType);
+            }
         }
 
+        // Checks if the entity is dead
         if (isEnded()) {
+            // Plays death sound and display the death text
             if (this.getDeathSound() != null) {
                 Game.playSound(this, this.getDeathSound(), 65);
             }
@@ -153,13 +175,13 @@ public abstract class Entity extends Interactable {
             // Reason: status instances entities inflict may outlast themselves (we still need their UUID)
             this.remove();
 
+            // Temporary level up mechanic
             if (source != null) {
                 int random = new Random().nextInt(1, Math.max(2, source.getLevel() - this.getLevel()));
                 if (random == 1) {
                     source.addLevel(1);
                 }
             }
-
         }
     }
 
@@ -170,6 +192,7 @@ public abstract class Entity extends Interactable {
             return;
         }
 
+        // Frenzied reduces healing
         if (source != null && source.hasSpecifiedStatus(new FrenziedStatus())) {
             amount = amount * 0.75f;
         }
@@ -181,7 +204,7 @@ public abstract class Entity extends Interactable {
         health = Math.min(this.getMaxHealth(), health + amount);
     }
 
-    // Checks if the entity is alive
+    // Checks if the entity is dead
     @Override
     public boolean isEnded() {
 
@@ -253,9 +276,21 @@ public abstract class Entity extends Interactable {
         }
     }
 
+    // Ticks every item
+    void itemTurn() {
+            List<ItemEquipable> itemEquipables = this.getEquippedItems();
+
+            for (ItemEquipable item : itemEquipables)
+            {
+                item.turn();
+            }
+            if (this.getHeldItem() != null) {
+                this.getHeldItem().turn();
+            }
+    }
+
     // Gets the instance of a status on the entity (if it has it)
     public Status.Instance getStatusInstance(Status status) {
-
         for (Status.Instance statusInstance : statusEffects) {
             if (status.is(statusInstance.getStatus())) {
                 return statusInstance;

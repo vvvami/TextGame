@@ -3,9 +3,8 @@ package net.vami.game.interactables.interactions.patrons;
 import net.vami.game.interactables.interactions.abilities.Ability;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.Item;
-import net.vami.game.interactables.items.equipables.ItemEquipable;
-import net.vami.game.interactables.items.holdables.ItemHoldable;
-import org.jetbrains.annotations.Nullable;
+import net.vami.game.interactables.items.ItemEquipable;
+import net.vami.game.interactables.items.ItemHoldable;
 
 import java.util.ArrayList;
 

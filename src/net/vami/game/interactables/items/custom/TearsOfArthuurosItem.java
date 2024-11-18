@@ -1,7 +1,8 @@
-package net.vami.game.interactables.items.useables;
+package net.vami.game.interactables.items.custom;
 
 import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.Item;
+import net.vami.game.interactables.items.UseableItem;
 
 public class TearsOfArthuurosItem extends Item implements UseableItem, BreakableItem {
     public TearsOfArthuurosItem(String name) {
