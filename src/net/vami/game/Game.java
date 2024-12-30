@@ -1,7 +1,6 @@
 package net.vami.game;
 
 import net.vami.game.display.sound.Sound;
-import net.vami.game.display.sound.SoundType;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.ai.AllyHandler;
@@ -37,9 +36,8 @@ public abstract class Game {
 
         do {
 
-            for (Node node : globalTicker()) {
-                node.getInstance().preTurn();
-                node.getInstance().turn();
+            for (Node node : turnNodeList()) {
+                node.turn();
             }
 
             lastPlayerPos = player.getPos();
@@ -48,7 +46,8 @@ public abstract class Game {
 
     }
 
-    public static ArrayList<Node> globalTicker() {
+    // This "ticks" every node around the player
+    public static ArrayList<Node> turnNodeList() {
 
         Position position = player.getPos() != null ? player.getPos() : lastPlayerPos;
 
@@ -79,6 +78,17 @@ public abstract class Game {
         player = Player.createPlayer();
         if (player == null) return;
         Interactable.spawn(player);
+    }
+
+    public static boolean isEnded() {
+        if (Game.endGame) {
+            return true;
+        }
+        if (Game.player.isEnded()) {
+            TextUtil.display(null,"Game Over! %n");
+            Game.endGame = true;
+        }
+        return Game.endGame;
     }
 
     public static List<Interactable> getInteractables() {

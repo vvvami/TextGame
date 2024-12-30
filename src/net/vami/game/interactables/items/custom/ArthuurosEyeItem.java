@@ -12,8 +12,8 @@ public class ArthuurosEyeItem extends ItemEquipable {
     }
 
     @Override
-    public boolean turn() {
+    public void turn() {
+        super.turn();
         this.getOwner().hurt(null, 1, new BleedDamage());
-        return super.turn();
     }
 }

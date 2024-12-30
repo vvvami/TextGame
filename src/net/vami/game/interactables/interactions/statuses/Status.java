@@ -39,7 +39,7 @@ public interface Status {
         private UUID source;
         private Status status;
 
-        public Instance(Status status, int amplifier, int duration, Entity source) {
+        public Instance(Status status, int amplifier, int duration, Interactable source) {
             this.status = status;
             this.amplifier = Math.max(1, amplifier);
             this.duration = Math.max(1, duration);
@@ -95,7 +95,7 @@ public interface Status {
             return (Entity) (Interactable.getInteractableFromID(this.target));
         }
 
-        public void setTarget(Entity target) {
+        public void setTarget(Interactable target) {
 
             this.target = target.getID();
         }

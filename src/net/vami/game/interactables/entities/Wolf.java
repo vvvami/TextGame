@@ -1,5 +1,6 @@
 package net.vami.game.interactables.entities;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.*;
 import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.abilities.RageAbility;
@@ -8,6 +9,7 @@ import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.damagetypes.IceDamage;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
+import net.vami.game.interactables.interactions.statuses.FrozenStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class Wolf extends Entity {
@@ -20,7 +22,7 @@ public class Wolf extends Entity {
         addResistance(new IceDamage());
         addWeakness(new FireDamage());
         addImmunity(new CharmedStatus());
-        setEnemy(true);
+        addImmunity(new FrozenStatus());
     }
 
     @Override
@@ -44,10 +46,10 @@ public class Wolf extends Entity {
     }
 
     @Override
-    public void hurt(Entity source, float amount, DamageType damageType) {
+    public void hurt(Interactable source, float amount, DamageType damageType) {
         super.hurt(source, amount, damageType);
         if (Math.random() > 0.5) {
-            this.setTarget(source);
+            this.setTarget((Entity) source);
         }
     }
 

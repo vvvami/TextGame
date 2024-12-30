@@ -2,6 +2,7 @@ package net.vami.game.interactables;
 import com.google.gson.*;
 import net.vami.game.interactables.entities.Player;
 import net.vami.game.interactables.interactions.*;
+import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
 import net.vami.game.world.Node;
@@ -11,12 +12,9 @@ import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.Status;
 import net.vami.game.interactables.interactions.statuses.CrippledStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
-import net.vami.util.ClassUtil;
-import net.vami.util.HexUtil;
-import net.vami.util.TextUtil;
+import net.vami.util.*;
 import org.fusesource.jansi.AnsiConsole;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.io.*;
 import java.util.*;
@@ -28,6 +26,10 @@ public class Interactable {
     private String description;
     private Set<Action> receivableActions = new HashSet<>();
     private Set<Action> availableActions = new HashSet<>();
+
+    private List<Status.Instance> statusEffects = new ArrayList<>();
+    private List<Status> immunities = new ArrayList<>();
+
 //    private Interactable ended;
     private Direction direction;
     private static HashMap<UUID, Interactable> interactableMap = new HashMap<>();
@@ -47,6 +49,12 @@ public class Interactable {
 
     }
 
+    public void turn() {
+        if (!getStatuses().isEmpty()) {
+            statusTurn();
+        }
+    }
+
     // Spawns an interactable with a defined position
     public static void spawn(Interactable interactable, Position position) {
         if (position == null) {
@@ -58,11 +66,15 @@ public class Interactable {
         interactable.setPos(position);
     }
 
-    // Spawns the entity at its default set position. If the position is null, it will spawn it at the anchor point (0, 0, 0)
+    // Spawns the entity at its default set position. If the position is null, it will spawn at the player's position
     public static Interactable spawn(Interactable interactable) {
         Position position = interactable.position;
         if (position == null) {
-            position = new Position(0,0,0);
+            if (Game.player != null && Game.player.getPos() != null) {
+                position = Game.player.getPos();
+            } else {
+                position = new Position(0,0,0);
+            }
         }
 
         if (Node.getNodeFromPosition(position) == null) {
@@ -201,6 +213,10 @@ public class Interactable {
         this.name = name;
     }
 
+    public String getDisplayName() {
+        return getName();
+    }
+
     public List<Modifier> getModifiers() {
         return modifiers;
     }
@@ -233,15 +249,23 @@ public class Interactable {
             case Action.RESIST -> receiveResist(source);
             case Action.DROP -> receiveDrop(source);
             case Action.USE -> receiveUse(source);
-            default -> false;
         };
     }
 
     private boolean actionPredicate(Interactable source) {
-        Entity sourceEntity = (Entity) source;
+        if (this.getPos() == null
+                || source.getPos() == null
+                || !(this.getPos().equals(source.getPos()))) {
+
+            if (this instanceof Item item) {
+                return item.getOwner() != null;
+            }
+            else return !(this instanceof Entity);
+        }
+
 
         // can simplify this into a switch if needed in the future
-        if (sourceEntity.hasSpecifiedStatus(new CrippledStatus()) &&
+        /*if (sourceEntity.hasSpecifiedStatus(new CrippledStatus()) &&
                 (Math.random() < (double) sourceEntity.getStatusInstance(new CrippledStatus()).getAmplifier() / 10)) {
             return false;
         }
@@ -249,7 +273,7 @@ public class Interactable {
         if (sourceEntity.hasSpecifiedStatus(new FrozenStatus()) &&
                 (Math.random() < (double) sourceEntity.getStatusInstance(new FrozenStatus()).getAmplifier() / 20)) {
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -269,21 +293,27 @@ public class Interactable {
     }
 
     public void setPos(Position position) {
-        if (position == null && this.position == null) {return;}
+        if (position == null && this.position == null) {
+            return;
+        }
 
-//        if (position != null && position.equals(this.position)) {return;}
+        if (position != null && position.equals(this.position)) {return;}
 
+        // We add the interactable to the new node before we remove it from the previous one
+        Node node = Node.getNodeFromPosition(position);
+        if (node != null) {
+            node.addInteractable(this);
+        }
+
+        // Removing the interactable from the previous node
         if (this.position != null
                 && Node.getNodeFromPosition(this.position).getInteractables().contains(this)) {
 
             Node.getNodeFromPosition(this.position).removeInteractable(this);
         }
 
+        // We finally set the position
         this.position = position;
-        Node node = Node.getNodeFromPosition(this.position);
-        if (node != null) {
-            node.addInteractable(this);
-        }
     }
 
     public Node getNode() {
@@ -328,7 +358,7 @@ public class Interactable {
     }
 
 
-    public boolean receiveAttack(Interactable source) {
+    protected boolean receiveAttack(Interactable source) {
 //        Interactable ended = this.ended == null
 //                ? new InteractableEnded(name)
 //                : this.ended;
@@ -338,7 +368,7 @@ public class Interactable {
         return true;
     }
 
-    public boolean receiveAbility(Interactable source) {
+    protected boolean receiveAbility(Interactable source) {
 //        Interactable ended = this.ended == null
 //                ? new InteractableEnded(name)
 //                : this.ended;
@@ -348,22 +378,24 @@ public class Interactable {
         return true;
     }
 
-    public boolean receiveEquip(Interactable source) {
+    protected boolean receiveEquip(Interactable source) {
 
         return false;
     }
 
-    public boolean receiveMovement(Interactable source) {
+    protected boolean receiveMovement(Interactable source) {
         Position newPos = position.add(direction);
 
         if (Node.getNodeFromPosition(newPos) == null) {
             return false;
         }
 
+        /*
         if (!Node.getNodeFromPosition(newPos).getEntrances().contains(source.direction.getOpposite())) {
             TextUtil.display(source,"%s tries to move but finds their path blocked. %n", source.getName());
             return false;
         }
+        */
 
         TextUtil.display(source,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
         this.setPos(newPos);
@@ -371,33 +403,148 @@ public class Interactable {
     }
 
 
-    public boolean receiveTake(Interactable source) {
+    protected boolean receiveTake(Interactable source) {
 
         return false;
     }
 
-    public boolean receiveSave(Interactable source) {
+    protected boolean receiveSave(Interactable source) {
 
         return false;
     }
 
-    public boolean receiveResist(Interactable source) {
+    protected boolean receiveResist(Interactable source) {
 
         return false;
     }
 
-    public boolean receiveDrop(Interactable source) {
+    protected boolean receiveDrop(Interactable source) {
 
         return false;
     }
 
-    public boolean receiveUse(Interactable source) {
+    protected boolean receiveUse(Interactable source) {
 
         return false;
     }
 
-    public void addStatus(@NotNull Status.Instance status) {
+    // Adds a status effect. Stacks the status according to the status' parameters defined in the Status interface
+    public void addStatus(Status.Instance status) {
+        if (isImmuneTo(status.getStatus())) {
+            TextUtil.display(this,getDisplayName() + " is immune!");
+            return;
+        }
+        Status temp = status.getStatus();
+        status.setTarget(this);
+        if (this.hasSpecifiedStatus(temp)) {
+            Status.Instance tempInstance = this.getStatusInstance(temp);
 
+            if (temp.stacksAmplifier()) {
+                status.setAmplifier(status.getAmplifier() + tempInstance.getAmplifier());
+            }
+
+            if (temp.stacksDuration()) {
+                status.setDuration(status.getDuration() + tempInstance.getDuration());
+            }
+
+            removeStatus(temp);
+        }
+        else {
+            TextUtil.display(this,"%s is now %s. %n", this.getName(), temp.getName());
+        }
+
+        statusEffects.add(status);
+        status.onApply();
+    }
+
+    // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
+    public void removeStatus(Status status) {
+        statusEffects.removeIf(statusInstance -> statusInstance.getStatus().is(status));
+    }
+
+    // Triggered by the turn() function. Checks the entity's statuses and applies their effect accordingly.
+    private void statusTurn() {
+        if (hasStatus()) {
+            List<Status.Instance> removeList = new ArrayList<>();
+            for (Status.Instance statusInstance : statusEffects) {
+                statusInstance.turn();
+                if (statusInstance.getDuration() <= 0) {
+                    removeList.add(statusInstance);
+                }
+            }
+            for (Status.Instance statusInstance : removeList) {
+                statusInstance.onEnded();
+                removeStatus(statusInstance.getStatus());
+                TextUtil.display(this,"%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+            }
+        }
+    }
+
+    // Gets the instance of a status on the entity (if it has it)
+    public Status.Instance getStatusInstance(Status status) {
+        for (Status.Instance statusInstance : statusEffects) {
+            if (status.is(statusInstance.getStatus())) {
+                return statusInstance;
+            }
+        }
+        return null;
+    }
+
+    // Check if the entity has a specific status applied to them
+    public boolean hasSpecifiedStatus(Status status) {
+        if (hasStatus()) {
+            for (Status.Instance statusInstance : statusEffects) {
+                if (statusInstance.getStatus().is(status)) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    // Checks if the entity has ANY status
+    public boolean hasStatus() {
+        if (statusEffects == null) {
+            statusEffects = new ArrayList<>();
+        }
+        return !(this.statusEffects.isEmpty());
+    }
+
+    // Gets the list of all statuses on the entity
+    public List<Status.Instance> getStatuses() {
+
+        return statusEffects;
+    }
+
+    public void setStatuses(List<Status.Instance> statusEffects) {
+        this.statusEffects = statusEffects;
+    }
+
+    public void addImmunity(Status status) {
+        for (Status status1 : immunities) {
+            if (status1.is(status)) {
+                return;
+            }
+        }
+        immunities.add(status);
+    }
+
+    public void removeImmunity(Status immunity) {
+        immunities.removeIf(immunity::is);
+    }
+
+    public List<Status> getImmunities() {
+        return immunities;
+    }
+
+    public boolean isImmuneTo(Status status) {
+        for (Status immunity : immunities) {
+            if (immunity.is(status)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addModifier(Modifier modifier) {
@@ -429,7 +576,7 @@ public class Interactable {
     }
 
 
-    public void hurt(Entity source, float amount, DamageType damageType) {
+    public void hurt(Interactable source, float amount, DamageType damageType) {
 
     }
 

@@ -30,37 +30,40 @@ public class TextUtil {
     }
 
     public static class EntityInteraction {
-        Entity target;
-        Entity source;
+        Interactable target;
+        Interactable source;
         float amount;
         DamageType damageType;
 
-        public EntityInteraction(Entity target, Entity source, float amount, DamageType damageType) {
+        public EntityInteraction(Interactable target, Interactable source, float amount, DamageType damageType) {
             this.target = target;
             this.source = source;
             this.amount = amount;
             this.damageType = damageType;
         }
 
-        public EntityInteraction(Entity target, Entity source, float amount) {
+        public EntityInteraction(Interactable target, Interactable source, float amount) {
             this.target = target;
             this.source = source;
             this.amount = amount;
         }
 
-
-
         public static void hurtEntity(EntityInteraction interaction) {
             String displayText = "";
+            String targetDisplayName = interaction.target instanceof Entity entity
+                    ? entity.getDisplayName() : interaction.target.getName();
+
+            String sourceDisplayName = interaction.source instanceof Entity entity
+                    ? entity.getDisplayName() : interaction.source.getName();
 
             if (interaction.source == null) {
-                displayText = String.format("%s was hurt for %s %s damage! %n", interaction.target.getDisplayName(),
+                displayText = String.format("%s was hurt for %s %s damage! %n", targetDisplayName,
                         yellow(new DecimalFormat("##.##").format(interaction.amount)),
                         interaction.damageType.getName());
             }
             else {
-                displayText = String.format("%s was hit by %s for %s %s damage! %n", interaction.target.getDisplayName(),
-                        interaction.source.getDisplayName(),
+                displayText = String.format("%s was hit by %s for %s %s damage! %n", targetDisplayName,
+                        sourceDisplayName,
                         yellow(new DecimalFormat("##.##").format(interaction.amount)),
                         interaction.damageType.getName());
             }
@@ -70,13 +73,18 @@ public class TextUtil {
 
         public static void healEntity(EntityInteraction interaction) {
             String displayText = "";
+            String targetDisplayName = interaction.target instanceof Entity entity
+                    ? entity.getDisplayName() : interaction.target.getName();
+
+            String sourceDisplayName = interaction.source instanceof Entity entity
+                    ? entity.getDisplayName() : interaction.source.getName();
 
             if (interaction.source == null) {
-                displayText = String.format("%s was healed for %s health! %n", interaction.target.getDisplayName(),
+                displayText = String.format("%s was healed for %s health! %n", targetDisplayName,
                         yellow(new DecimalFormat("##.##").format(interaction.amount)));
             } else {
-                displayText = String.format("%s was healed by %s for %s health! %n", interaction.target.getDisplayName(),
-                        interaction.source.getDisplayName(),
+                displayText = String.format("%s was healed by %s for %s health! %n", targetDisplayName,
+                        sourceDisplayName,
                         yellow(new DecimalFormat("##.##").format(interaction.amount)));
             }
             display(interaction.source, displayText);

@@ -27,17 +27,13 @@ public enum Direction {
     }
 
     public static Direction getDirectionFromString(String input) {
-        input = input.toLowerCase();
-        return switch (input) {
-            case "up", "above" -> Direction.UP;
-            case "down", "below" -> Direction.DOWN;
-            case "north", "forward" -> Direction.NORTH;
-            case "south", "back" -> Direction.SOUTH;
-            case "east", "right" -> Direction.EAST;
-            case "west", "left" -> Direction.WEST;
-            default -> null;
-        };
-
-
+        for (Direction direction : Direction.values()) {
+            String directionString = direction.name();
+            if (input.equalsIgnoreCase(directionString)
+                    || input.equalsIgnoreCase(directionString + "ward")) {
+                return direction;
+            }
+        }
+        return null;
     }
 }

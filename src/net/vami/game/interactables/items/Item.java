@@ -79,8 +79,7 @@ public class Item extends Interactable {
 
     public void hurt(int amount) {
         durability -= amount;
-        if (this instanceof AttunableItem
-        && this.hasAttunement()) {
+        if (this.hasAttunement()) {
             this.attunement.onItemHurt(this, amount);
         }
 
@@ -162,12 +161,13 @@ public class Item extends Interactable {
         return true;
     }
 
-    public boolean turn() {
+    @Override
+    public void turn() {
+        super.turn();
         if (this instanceof AttunableItem attunable
         && this.hasAttunement()) {
             this.attunement.onTurn(this);
         }
-        return true;
     }
 
     public String getDisplayName() {

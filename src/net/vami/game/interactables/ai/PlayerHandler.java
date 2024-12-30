@@ -105,7 +105,7 @@ public class PlayerHandler {
             if (Game.player.getDirection() == null) {
                 return false;
             }
-            Game.player.receiveAction(Game.player, action);
+            return Game.player.receiveAction(Game.player, action);
         }
         return false;
     }

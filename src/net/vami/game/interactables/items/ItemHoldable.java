@@ -31,6 +31,10 @@ public abstract class ItemHoldable extends Item {
         return attributes;
     }
 
+    public void onHit(Interactable owner, Interactable target, DamageType damageType, float amount) {
+
+    }
+
     @Override
     public boolean receiveEquip(Interactable source) {
 

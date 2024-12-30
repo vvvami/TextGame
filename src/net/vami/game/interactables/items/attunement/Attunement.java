@@ -1,6 +1,7 @@
 package net.vami.game.interactables.items.attunement;
 
 import com.google.gson.annotations.JsonAdapter;
+import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.Item;
@@ -29,7 +30,7 @@ public interface Attunement {
     }
 
     // When the item with the attunement hits
-    default void onHit(Item item, Entity source, Entity target, float amount, DamageType damageType) {
+    default void onHit(Item item, Interactable source, Entity target, float amount, DamageType damageType) {
 
     }
 
