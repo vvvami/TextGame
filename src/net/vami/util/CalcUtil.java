@@ -6,7 +6,7 @@ import net.vami.game.interactables.interactions.damagetypes.DamageType;
 
 public class CalcUtil {
     public static float damage(Interactable source, Interactable target, float amount, DamageType damageType) {
-        float finalAmount = 0;
+        float finalAmount = amount;
 
         // Denies damage if the target is already dead
         if (target.isEnded()) {

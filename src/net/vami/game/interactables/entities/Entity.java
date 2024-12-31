@@ -165,7 +165,7 @@ public abstract class Entity extends Interactable {
 
     // Main healing function
     @Override
-    public void heal(Entity source, float amount) {
+    public void heal(Interactable source, float amount) {
         if (this.isEnded()) {
             return;
         }

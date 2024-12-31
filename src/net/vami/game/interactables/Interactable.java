@@ -580,7 +580,7 @@ public class Interactable {
 
     }
 
-    public void heal(Entity source, float amount) {
+    public void heal(Interactable source, float amount) {
 
     }
 
