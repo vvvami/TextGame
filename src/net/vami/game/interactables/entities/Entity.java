@@ -107,6 +107,9 @@ public abstract class Entity extends Interactable {
         amount = Math.max(1, amount);
         float finalAmount = CalcUtil.damage(source, this, amount, damageType);
 
+        // Denies damage if the target is already dead
+        if (finalAmount == 0) {return;}
+
         // Play damagetype sound
         if (damageType.getSound() == null) {
             Game.playSound(this, Sound.BLUNT_DAMAGE, 65);
@@ -317,6 +320,7 @@ public abstract class Entity extends Interactable {
         this.enemy = enemy;
     }
 
+
     public boolean isAllied(Entity entity) {
         if (entity == null) {
             return false;
@@ -372,6 +376,7 @@ public abstract class Entity extends Interactable {
 
         return "[" + attributes.levelAttribute + "]";
     }
+
 
     // Displays status brackets next to the entity name, used in getDisplayName()
     public String statusDisplay() {
@@ -595,12 +600,12 @@ public abstract class Entity extends Interactable {
     // It lets me dynamically change the attributes of an entity both in its class and when instantiated.
     // I kinda took "inspiration" from Minecraft for this one
     public static class Attributes {
-        int levelAttribute;
-        int maxHealthAttribute;
-        float damageAttribute;
-        int armorAttribute;
-        DamageType damageTypeAttribute;
-        Ability abilityAttribute;
+        private int levelAttribute;
+        private int maxHealthAttribute;
+        private float damageAttribute;
+        private int armorAttribute;
+        private DamageType damageTypeAttribute;
+        private Ability abilityAttribute;
 
         public Attributes() {
             this.levelAttribute = -1;
