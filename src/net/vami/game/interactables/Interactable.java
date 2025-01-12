@@ -13,7 +13,6 @@ import net.vami.game.interactables.interactions.statuses.Status;
 import net.vami.game.interactables.interactions.statuses.CrippledStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
 import net.vami.util.*;
-import org.fusesource.jansi.AnsiConsole;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;

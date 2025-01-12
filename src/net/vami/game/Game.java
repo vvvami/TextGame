@@ -16,7 +16,6 @@ import net.vami.game.world.Position;
 import net.vami.util.Input;
 import net.vami.util.InputReceiver;
 import net.vami.util.TextUtil;
-import org.fusesource.jansi.AnsiConsole;
 
 import javax.swing.*;
 import java.util.ArrayList;

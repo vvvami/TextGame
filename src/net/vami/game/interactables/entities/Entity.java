@@ -94,7 +94,7 @@ public abstract class Entity extends Interactable {
     public void turn() {
         super.turn();
         itemTurn();
-        LogUtil.Log("Entity ticked: %s, %s, %s", this.getID(), this.getDisplayName(), this);
+        LogUtil.Log("Entity ticked: %s, %s, %s", this.getID(), this.getName(), this);
     }
 
     public Brain getBrain() {

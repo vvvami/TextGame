@@ -14,7 +14,6 @@ import net.vami.game.Game;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.items.custom.ExplorersMapItem;
 import net.vami.util.*;
-import org.fusesource.jansi.AnsiConsole;
 
 import java.awt.*;
 import java.io.*;

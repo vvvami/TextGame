@@ -3,7 +3,6 @@ package net.vami.game.interactables.ai.tasks;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.util.TextUtil;
-import org.fusesource.jansi.AnsiConsole;
 
 public class AttackTask extends Task {
 

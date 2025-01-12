@@ -7,7 +7,6 @@ import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
-import org.fusesource.jansi.AnsiConsole;
 
 import java.awt.*;
 import java.util.UUID;
