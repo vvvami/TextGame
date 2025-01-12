@@ -1,7 +1,6 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/jansi-1.18.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/example-1.18.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/gson-2.11.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/error_prone_annotations-2.27.0.jar!/" />

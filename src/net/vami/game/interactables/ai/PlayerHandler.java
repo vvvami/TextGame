@@ -1,32 +1,15 @@
 package net.vami.game.interactables.ai;
 
-import net.vami.game.interactables.interactions.statuses.CharmedStatus;
-import net.vami.util.TextUtil;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.Interactable;
-import org.fusesource.jansi.AnsiConsole;
-
-import java.util.Scanner;
 
 public class PlayerHandler {
 
-    public static boolean read() {
-        if (Game.player.hasSpecifiedStatus(new CharmedStatus())) {
-            return false;
-        }
-        AnsiConsole.out.print(TextUtil.blue("> "));
-        Scanner scanner = new Scanner(System.in);
-        String fullAction = scanner.nextLine();
-        return actionInput(fullAction);
-    }
-
-
-
-    private static boolean actionInput(String input) {
+    public static boolean inputToAction(String input) {
         if (input.equalsIgnoreCase("quit")) {
             Game.endGame = true;
             return false;
@@ -49,21 +32,21 @@ public class PlayerHandler {
     }
 
     private static boolean combatSwitch(String input, Node node, Action action) {
-        Interactable target = null;
+        Interactable target;
         input = input.substring(input.indexOf(' ') + 1);
         target = node.stringToInteractable(input);
 
-        if (target != null) {
-            return target.receiveAction(Game.player, action);
+        if (target == null) {
+            return false;
         }
-
-        return false;
+        return target.receiveAction(Game.player, action);
     }
 
     private static boolean takeItemSwitch(String input, Node node, Action action) {
         Interactable target;
         input = input.substring(input.indexOf(' ') + 1);
         target = node.stringToInteractable(input);
+
         if (target == null) {
             return false;
         }

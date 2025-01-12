@@ -20,7 +20,9 @@ import net.vami.game.interactables.items.ItemEquipable;
 import net.vami.game.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public abstract class Entity extends Interactable {
 
@@ -92,7 +94,7 @@ public abstract class Entity extends Interactable {
     public void turn() {
         super.turn();
         itemTurn();
-        LogUtil.Log("Entity ticked: %s", this.getID());
+        LogUtil.Log("Entity ticked: %s, %s, %s", this.getID(), this.getDisplayName(), this);
     }
 
     public Brain getBrain() {
@@ -389,7 +391,7 @@ public abstract class Entity extends Interactable {
                     space = "";
                 }
                 String statusName = statusInstance.getStatus().getName();
-                statusName = statusInstance.getStatus().isHarmful() ? TextUtil.red(statusName) : TextUtil.green(statusName);
+                statusName = statusInstance.getStatus().isHarmful() ? TextUtil.setColor(statusName, Color.red) : TextUtil.setColor(statusName, Color.green);
                 display += statusName + space;
             }
             display = " (" + display + ")";
@@ -417,7 +419,9 @@ public abstract class Entity extends Interactable {
             return false;
         }
         TextUtil.display(sourceEntity,"%s casts %s on %s! %n",
-                sourceEntity.getDisplayName(), TextUtil.cyan(((Entity) interactable).getAbility().getName()), this.getDisplayName());
+                sourceEntity.getDisplayName(),
+                TextUtil.setColor(sourceEntity.getAbility().getName(), Color.cyan),
+                this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }

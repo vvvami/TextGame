@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public class Sound {
     private static final String DIRECTORY = "/assets/sounds/";
@@ -16,18 +16,20 @@ public class Sound {
     private static ArrayList<Sound> sounds = new ArrayList<>();
 
     public Sound(String fileName, SoundType type) {
-        soundURL = getClass().getResource(DIRECTORY + fileName + ".wav");
-        this.soundType = type;
-        sounds.add(this);
-        AudioInputStream audioStream;
-        try {
-            audioStream = AudioSystem.getAudioInputStream(soundURL);
-            audioClip = AudioSystem.getClip();
-            audioClip.open(audioStream);
-            volumeControl = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
+        if (hasAvailableAudioOutput()) {
+            soundURL = getClass().getResource(DIRECTORY + fileName + ".wav");
+            this.soundType = type;
+            sounds.add(this);
+            AudioInputStream audioStream;
+            try {
+                audioStream = AudioSystem.getAudioInputStream(soundURL);
+                audioClip = AudioSystem.getClip();
+                audioClip.open(audioStream);
+                volumeControl = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
 
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            throw new RuntimeException(e);
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -99,6 +101,27 @@ public class Sound {
 
     public boolean isPlaying() {
         return this.audioClip.isActive();
+    }
+
+    // Credit to this stackoverflow thread for the method:
+    // https://stackoverflow.com/questions/43521945/how-do-i-tell-if-the-end-user-has-a-sound-card-in-java
+    private static List<Mixer> getAvailableAudioOutputs() {
+        final ArrayList<Mixer> available = new ArrayList<>();
+        final Mixer.Info[] devices = AudioSystem.getMixerInfo();
+        final Line.Info sourceInfo = new Line.Info(SourceDataLine.class);
+        for (int i = 0; i < devices.length; ++i) {
+            final Mixer.Info mixerInfo = devices[i];
+            final Mixer mixer = AudioSystem.getMixer(mixerInfo);
+            if (mixer.isLineSupported(sourceInfo)) {
+                // the device supports output, add as suitable
+                available.add(mixer);
+            }
+        }
+        return available;
+    }
+
+    public static boolean hasAvailableAudioOutput() {
+        return !getAvailableAudioOutputs().isEmpty();
     }
 
     public static final Sound HUDDLED = new Sound("huddled", SoundType.MUSIC);

@@ -9,6 +9,7 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import org.fusesource.jansi.AnsiConsole;
 
+import java.awt.*;
 import java.util.UUID;
 
 public class Item extends Interactable {
@@ -127,7 +128,7 @@ public class Item extends Interactable {
                     return true;
 
                 } else {
-                    AnsiConsole.out.println(useableItem.failMessage());
+                    TextUtil.display(useableItem.failMessage());
                 }
         }
         return false;
@@ -171,6 +172,6 @@ public class Item extends Interactable {
     }
 
     public String getDisplayName() {
-        return TextUtil.purple(this.getName());
+        return TextUtil.setColor(this.getName(), Color.magenta);
     }
 }

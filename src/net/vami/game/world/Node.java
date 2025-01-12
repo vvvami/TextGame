@@ -3,7 +3,6 @@ package net.vami.game.world;
 import net.vami.game.Game;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
-import net.vami.game.interactables.ai.PlayerHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
 
@@ -125,27 +124,37 @@ public class Node {
         return nodeMap;
     }
 
+    // Ticks every non-enemy and triggers the player input reader
+    /* INFO: A "turn" is basically a tick. It's the switch from the player's ability to do an action to the enemy's
+       and vice versa. The order in which things tick is important so pay attention if you mess with it. */
+    public void turnNoPlayer() {
+        if (Game.isEnded()) {return;}
+        // We tick the enemy first, as they start
+        enemyTicker();
+        EnemyHandler.enemyAction(this);
 
-        // Ticks every non-enemy and triggers the player input reader
-        /* INFO: A "turn" is basically a tick. It's the switch from the player's ability to do an action to the enemy's
-           and vice versa. The order in which things tick is important so pay attention if you mess with it. */
-        public void turn() {
+        // Then comes the player and their allies
+        if (Game.isEnded()) {return;}
+        allyTicker();
+        AllyHandler.allyAction(this);
+    }
 
-            // We tick the enemy first, as they start
-            if (Game.isEnded()) {return;}
-            enemyTicker();
-            EnemyHandler.enemyAction(this);
+    public void prePlayerTurn() {
+        if (Game.isEnded()) {return;}
+        // We tick the enemy first, as they start
+        enemyTicker();
+        EnemyHandler.enemyAction(this);
 
-            // Then comes the player and their allies
-            if (Game.isEnded()) {return;}
-            allyTicker();
-            if (Game.player.getPos().equals(this.getPos())) {
-                PlayerHandler.read();
-            }
-            AllyHandler.allyAction(this);
-        }
+        // Then comes the player and their allies
+        if (Game.isEnded()) {return;}
+        allyTicker();
+    }
 
-        // Ticks every enemy
+    public void afterPlayerTurn() {
+        AllyHandler.allyAction(this);
+    }
+
+    // Ticks every enemy
         void enemyTicker() {
             if (Game.isEnded()) {
                 return;

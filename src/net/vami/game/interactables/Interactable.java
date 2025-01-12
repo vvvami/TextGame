@@ -229,13 +229,13 @@ public class Interactable {
         String targetName = this == source ? "" : " " + this.getName();
 
         if (!source.availableActions.contains(action)) {
-            TextUtil.display(this,"%s tries to %s%s, but nothing happens. %n",
+            TextUtil.display(this,"%s tries to %s %s, but nothing happens.%n",
                     source.getName(), action.getSynonyms().getFirst(), targetName);
             return false;
         }
 
         if (!receivableActions.contains(action)) {
-            AnsiConsole.out.println("Nothing happens.");
+            TextUtil.display("Nothing happens.%n");
             return false;
         }
 
