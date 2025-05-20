@@ -87,10 +87,7 @@ public abstract class Game {
         @Override
         public void receiveInput(String input) {
              Node prevPlayerNode = Game.getCurrentNode();
-             if (!PlayerHandler.inputToAction(input)) {
-                 getFrame().dispatchEvent(new WindowEvent(getFrame(), WindowEvent.WINDOW_CLOSING));
-                 return;
-             }
+             PlayerHandler.inputToAction(input);
              prevPlayerNode.afterPlayerTurn();
 
              preInput();

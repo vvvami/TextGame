@@ -423,10 +423,8 @@ public abstract class Entity extends Interactable {
         if (!(interactable instanceof Entity sourceEntity)) {
             return false;
         }
-        TextUtil.display(sourceEntity,"%s casts %s on %s! %n",
-                sourceEntity.getDisplayName(),
-                TextUtil.setColor(sourceEntity.getAbility().getName(), Color.cyan),
-                this.getDisplayName());
+
+        TextUtil.EntityInteraction.useAbility(new TextUtil.EntityInteraction(this, sourceEntity));
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }

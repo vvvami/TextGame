@@ -7,11 +7,14 @@ import net.vami.game.Game;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.Interactable;
 
+import java.awt.event.WindowEvent;
+
 
 public class PlayerHandler {
 
     public static boolean inputToAction(String input) {
         if (input.equalsIgnoreCase("quit")) {
+            Game.getFrame().dispatchEvent(new WindowEvent(Game.getFrame(), WindowEvent.WINDOW_CLOSING));
             Game.endGame = true;
             return false;
         }
@@ -37,9 +40,16 @@ public class PlayerHandler {
         input = input.substring(input.indexOf(' ') + 1);
         target = node.stringToInteractable(input);
 
-        if (target == null) {
-            return false;
+        boolean isSelfCastSpell = Game.player.getAbility().isSelfCast();
+
+        if (isSelfCastSpell) {
+            target = Game.player;
         }
+
+        if (target == null) {
+           return false;
+        }
+
         return target.receiveAction(Game.player, action);
     }
 

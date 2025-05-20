@@ -8,18 +8,25 @@ public class SearchAbility implements Ability {
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
         for (Interactable interactable : Interactable.getInteractableMap().values()) {
-            if (interactable.getPos() != null &&
-                interactable instanceof Entity entity &&
-                    entity != source) {
-                float distance = source.getPos().distance(entity.getPos());
-                if (distance <= 2) {
+
+            if (isTargetValid(source, interactable)) {
+                float distance = source.getPos().distance(interactable.getPos());
+
+                if (distance <= 3) {
                     TextUtil.display(source, "%s is %s acres away %s. %n",
-                            entity.getName(), Math.round(distance), entity.getPos().toString());
+                            interactable.getName(), Math.round(distance), interactable.getPos().toString());
                     return true;
                 }
             }
         }
+        TextUtil.display(source, "Your search finds nothing. %n");
         return false;
+    }
+
+    private boolean isTargetValid(Interactable source, Interactable target) {
+        return target.getPos() != null &&
+                target instanceof Entity entity &&
+                entity != source;
     }
 
     @Override
@@ -29,6 +36,11 @@ public class SearchAbility implements Ability {
 
     @Override
     public boolean isSupport() {
+        return true;
+    }
+
+    @Override
+    public boolean isSelfCast() {
         return true;
     }
 }

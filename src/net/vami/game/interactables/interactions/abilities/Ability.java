@@ -12,6 +12,10 @@ public interface Ability {
 
     boolean isSupport();
 
+    default boolean isSelfCast() {
+        return false;
+    }
+
     default boolean is(Ability ability) {
         return this.getClass() == ability.getClass();
     }

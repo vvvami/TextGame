@@ -66,6 +66,11 @@ public class TextUtil {
             this.amount = amount;
         }
 
+        public EntityInteraction(Interactable target, Interactable source) {
+            this.target = target;
+            this.source = source;
+        }
+
         public static void hurtEntity(EntityInteraction interaction) {
             String displayText = "";
             String targetDisplayName = interaction.target instanceof Entity entity
@@ -106,6 +111,22 @@ public class TextUtil {
                         setColor(new DecimalFormat("##.##").format(interaction.amount), Color.orange));
             }
             display(interaction.source, displayText);
+        }
+
+        public static void useAbility(EntityInteraction interaction) {
+            String displayText = "";
+            Entity source = (Entity) interaction.source;
+
+            if (interaction.target == source) {
+                displayText = "%s casts %s! %n";
+            } else {
+                displayText = "%s casts %s on %s! %n";
+            }
+
+            TextUtil.display(source, displayText,
+                    source.getDisplayName(),
+                    setColor(source.getAbility().getName(), Color.cyan),
+                    interaction.target.getDisplayName());
         }
     }
 
