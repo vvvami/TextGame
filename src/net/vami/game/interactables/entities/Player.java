@@ -1,14 +1,11 @@
 package net.vami.game.interactables.entities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.vami.game.display.panels.custom.GamePanel;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.interactions.abilities.PrayAbility;
-import net.vami.game.interactables.interactions.abilities.SummoningAbility;
-import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
@@ -17,8 +14,6 @@ import net.vami.util.*;
 
 import java.awt.*;
 import java.io.*;
-import java.text.DecimalFormat;
-import java.util.Scanner;
 
 public class Player extends Entity {
 
@@ -42,17 +37,15 @@ public class Player extends Entity {
 
     @Override
     public Brain getBrain() {
-        Brain brain = null;
-
         if (this.hasSpecifiedStatus(new CharmedStatus())) {
-            brain = new Brain();
-            brain.addTask(new AttackOrTargetTask(), 5);
-            brain.addTask(new AbilityOrTargetTask(), 8);
-            brain.addTask(new MoveTask(), 1);
-            brain.addTask(new TargetAnyAndAttackTask(), 10);
+            return new Brain()
+            .addTask(new AttackOrTargetTask(), 5)
+            .addTask(new AbilityOrTargetTask(), 8)
+            .addTask(new MoveTask(), 1)
+            .addTask(new TargetAnyAndAttackTask(), 10);
         }
 
-        return brain;
+        return null;
     }
 
     @Override
@@ -65,7 +58,8 @@ public class Player extends Entity {
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
         saveInteractables(this);
-        return super.receiveSave(source);
+        TextUtil.display("A distant bell reassures your journey will be remembered. %n", new Color(75, 200, 200));
+        return true;
     }
 
     public Patron getPatron() {
@@ -118,7 +112,7 @@ public class Player extends Entity {
         String playerName = name;
         playerName = playerName.substring(0, 1).toUpperCase() + playerName.substring(1);
 
-        if (playerName.isEmpty() || (playerName.length() >= 20)) {
+        if (playerName.isEmpty() || (playerName.length() >= 20) || !playerName.matches("[a-zA-Z]+")) {
             LogUtil.Log(LoggerType.ERROR, "Name is invalid!");
             return null;
         }
@@ -127,12 +121,10 @@ public class Player extends Entity {
 
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes()
-                    .level(100)
+                    .level(1)
                     .ability(new PrayAbility()));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
-        }
-        else {
-            Interactable.addToMap(createdPlayer);
+            TextUtil.display("Your adventure begins.%n");
         }
 
         Interactable.loadInteractables(createdPlayer.getName());

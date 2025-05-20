@@ -10,10 +10,7 @@ import net.vami.game.world.Position;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.Status;
-import net.vami.game.interactables.interactions.statuses.CrippledStatus;
-import net.vami.game.interactables.interactions.statuses.FrozenStatus;
 import net.vami.util.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.*;
@@ -42,8 +39,8 @@ public class Interactable {
 
         this.name = name;
 
-        if (Node.getNodeFromPosition(position) != null) {
-            Node.getNodeFromPosition(position).addInteractable(this);
+        if (Node.findNode(position) != null) {
+            Node.findNode(position).addInteractable(this);
         }
 
     }
@@ -59,7 +56,7 @@ public class Interactable {
         if (position == null) {
             position = new Position(0,0,0);
         }
-        if (Node.getNodeFromPosition(position) == null) {
+        if (Node.findNode(position) == null) {
             return;
         }
         interactable.setPos(position);
@@ -67,19 +64,31 @@ public class Interactable {
 
     // Spawns the entity at its default set position. If the position is null, it will spawn at the player's position
     public static Interactable spawn(Interactable interactable) {
-        Position position = interactable.position;
-        if (position == null) {
+        if (!interactableMap.containsKey(interactable.ID)) {
+            addToMap(interactable);
+        }
+
+        Position newPos = interactable.position;
+        if (newPos == null) {
             if (Game.player != null && Game.player.getPos() != null) {
-                position = Game.player.getPos();
+                newPos = Game.player.getPos();
             } else {
-                position = new Position(0,0,0);
+                newPos = new Position(0,0,0);
             }
         }
 
-        if (Node.getNodeFromPosition(position) == null) {
+        Node newNode = Node.findNode(newPos);
+
+        if (newNode == null) {
             return null;
         }
-        interactable.setPos(position);
+
+        if (!newNode.hasInteractable(interactable)) {
+            newNode.addInteractable(interactable);
+        }
+
+        interactable.setPos(newPos);
+
         return interactable;
     }
 
@@ -139,8 +148,8 @@ public class Interactable {
                 mainArr = mainObj.getAsJsonArray("interactables").getAsJsonArray();
                 for (JsonElement element : mainArr) {
                     Interactable interactable = deserializeInteractable(element, gson);
-                    interactableMap.put(interactable.ID, interactable);
-                    interactable.setPos(interactable.position);
+                    addToMap(interactable);
+                    Interactable.spawn(interactable);
                 }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
@@ -299,16 +308,16 @@ public class Interactable {
         if (position != null && position.equals(this.position)) {return;}
 
         // We add the interactable to the new node before we remove it from the previous one
-        Node node = Node.getNodeFromPosition(position);
+        Node node = Node.findNode(position);
         if (node != null) {
             node.addInteractable(this);
         }
 
         // Removing the interactable from the previous node
         if (this.position != null
-                && Node.getNodeFromPosition(this.position).getInteractables().contains(this)) {
+                && Node.findNode(this.position).getInteractables().contains(this)) {
 
-            Node.getNodeFromPosition(this.position).removeInteractable(this);
+            Node.findNode(this.position).removeInteractable(this);
         }
 
         // We finally set the position
@@ -316,7 +325,7 @@ public class Interactable {
     }
 
     public Node getNode() {
-        return Node.getNodeFromPosition(position);
+        return Node.findNode(position);
     }
 
     public Set<Action> getAvailableActions() {
@@ -385,7 +394,7 @@ public class Interactable {
     protected boolean receiveMovement(Interactable source) {
         Position newPos = position.add(direction);
 
-        if (Node.getNodeFromPosition(newPos) == null) {
+        if (Node.findNode(newPos) == null) {
             return false;
         }
 

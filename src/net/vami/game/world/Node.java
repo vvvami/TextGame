@@ -46,7 +46,7 @@ public class Node {
         return position;
     }
 
-    public static Node getNodeFromPosition(Position pos) {
+    public static Node findNode(Position pos) {
         if (pos == null) {
             return null;
         }
@@ -59,6 +59,10 @@ public class Node {
             interactableList.add(Interactable.getInteractableFromID(interactable));
         }
         return interactableList;
+    }
+
+    public boolean hasInteractable(Interactable interactable) {
+        return interactables.contains(interactable.getID());
     }
 
     public void addInteractable(Interactable interactable) {
@@ -151,6 +155,7 @@ public class Node {
     }
 
     public void afterPlayerTurn() {
+
         AllyHandler.allyAction(this);
     }
 

@@ -18,6 +18,7 @@ import net.vami.util.InputReceiver;
 import net.vami.util.TextUtil;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public abstract class Game {
 
         ArrayList<Node> nodes = new ArrayList<>();
         for (Direction direction : Direction.values()) {
-            Node node = Node.getNodeFromPosition(position.add(direction));
+            Node node = Node.findNode(position.add(direction));
             if (node == null) {
                 continue;
             }
@@ -86,7 +87,10 @@ public abstract class Game {
         @Override
         public void receiveInput(String input) {
              Node prevPlayerNode = Game.getCurrentNode();
-             PlayerHandler.inputToAction(input);
+             if (!PlayerHandler.inputToAction(input)) {
+                 getFrame().dispatchEvent(new WindowEvent(getFrame(), WindowEvent.WINDOW_CLOSING));
+                 return;
+             }
              prevPlayerNode.afterPlayerTurn();
 
              preInput();
@@ -96,7 +100,7 @@ public abstract class Game {
 
     public static Node getCurrentNode() {
 
-        return Node.getNodeFromPosition(player.getPos());
+        return Node.findNode(player.getPos());
     }
 
     private static class PlayerCreator implements InputReceiver {
@@ -109,7 +113,7 @@ public abstract class Game {
             player = Player.createPlayer(input);
             if (player != null){
                 Input.playerInput.releaseInput(this);
-                Interactable.spawn(player);
+                Player.spawn(player);
                 Game.startGame();
             }
         }

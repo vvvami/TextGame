@@ -18,7 +18,7 @@ public class ExplorersMapItem extends Item implements UseableItem {
         TextUtil.display(this.getOwner(), "You are located at %s.%n", this.getOwner().getPos().toString());
         Position position = this.getOwner().getPos();
         for (Direction direction : Direction.values()) {
-            if (Node.getNodeFromPosition(position.add(direction)) == null) {
+            if (Node.findNode(position.add(direction)) == null) {
                 continue;
             }
             /*if (Node.getNodeFromPosition(position.add(direction)).getEntrances()

@@ -10,6 +10,7 @@ public class Input {
         }
 
         receiver = inputReceiver;
+        LogUtil.Log("Input captured");
         return true;
     }
 
@@ -18,11 +19,13 @@ public class Input {
             return;
         }
         receiver = null;
+        LogUtil.Log("Input released");
     }
 
     public void setInput(String input) {
         if (receiver != null) {
             receiver.receiveInput(input);
+            LogUtil.Log("Input received");
         }
     }
 }

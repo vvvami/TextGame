@@ -114,11 +114,9 @@ public class GamePanel extends JPanel {
             textColor = TextUtil.colorMap.get(code);
             colorChanged = true;
             int codeIndex = text.indexOf(code);
-            LogUtil.Log("Code: %s, Index: %s, Color: %s", code, String.valueOf(codeIndex), TextUtil.colorMap.get(code));
             text = text.replaceFirst(code, "");
             firstHalf = text.substring(0, codeIndex);
             secondHalf = text.substring(codeIndex);
-            LogUtil.Log("First: %s, Second: %s", firstHalf, secondHalf);
         }
 
         if (textColor == null) {

@@ -7,6 +7,7 @@ import net.vami.game.Game;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.Interactable;
 
+
 public class PlayerHandler {
 
     public static boolean inputToAction(String input) {

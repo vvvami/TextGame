@@ -1,5 +1,8 @@
 package net.vami.game.interactables.items;
 
 public interface BreakableItem {
-    public int maxDurability();
+    int maxDurability();
+    default boolean damageOnHit() {
+        return true;
+    }
 }

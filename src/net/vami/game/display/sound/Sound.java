@@ -109,8 +109,7 @@ public class Sound {
         final ArrayList<Mixer> available = new ArrayList<>();
         final Mixer.Info[] devices = AudioSystem.getMixerInfo();
         final Line.Info sourceInfo = new Line.Info(SourceDataLine.class);
-        for (int i = 0; i < devices.length; ++i) {
-            final Mixer.Info mixerInfo = devices[i];
+        for (final Mixer.Info mixerInfo : devices) {
             final Mixer mixer = AudioSystem.getMixer(mixerInfo);
             if (mixer.isLineSupported(sourceInfo)) {
                 // the device supports output, add as suitable
@@ -124,10 +123,6 @@ public class Sound {
         return !getAvailableAudioOutputs().isEmpty();
     }
 
-    public static final Sound HUDDLED = new Sound("huddled", SoundType.MUSIC);
-    public static final Sound THINK = new Sound("think", SoundType.MUSIC);
-
-    public static final Sound METAL_HIT = new Sound("metal_hit", SoundType.EFFECT);
     public static final Sound SHARP_DAMAGE = new Sound("sharp_damage", SoundType.EFFECT);
     public static final Sound BLUNT_DAMAGE = new Sound("blunt_damage", SoundType.EFFECT);
     public static final Sound FIRE_DAMAGE = new Sound("fire_damage", SoundType.EFFECT);

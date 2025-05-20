@@ -65,11 +65,7 @@ public class Item extends Interactable {
     }
 
     public Attunement getAttunement() {
-        if (this instanceof AttunableItem attunable
-            && this.attunement != null) {
-            return this.attunement;
-        }
-        return null;
+        return this.attunement;
     }
 
     public boolean hasAttunement() {

@@ -17,6 +17,7 @@ public class ExcaliburItem extends ItemHoldable implements BreakableItem, Useabl
                 .baseDamage(15));
     }
 
+
     @Override
     public int maxDurability() {
         return 100;
@@ -26,10 +27,10 @@ public class ExcaliburItem extends ItemHoldable implements BreakableItem, Useabl
     public void onUse() {
         Game.playSound(this.getOwner(), this.getDamageType().getSound(), 65);
 
-        TextUtil.display(this.getOwner(),"%s blasts their surroundings with %s! %n",
+        TextUtil.display(this.getOwner(),"%s attacks their surroundings with %s! %n",
                 this.getOwner().getName(), this.getDisplayName());
 
-        for (Entity entity : Node.getNodeFromPosition(this.getOwner().getPos()).getEntities()) {
+        for (Entity entity : Node.findNode(this.getOwner().getPos()).getEntities()) {
             if (!(entity == this.getOwner())) {
                 entity.hurt(this.getOwner(), this.getDamage(), this.getDamageType());
             }

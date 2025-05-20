@@ -94,7 +94,7 @@ public abstract class Entity extends Interactable {
     public void turn() {
         super.turn();
         itemTurn();
-        LogUtil.Log("Entity ticked: %s, %s, %s", this.getID(), this.getName(), this);
+        LogUtil.Log("Entity ticked: (%s, %s, %s)", this.getName(), this.getID(), this);
     }
 
     public Brain getBrain() {
@@ -133,16 +133,21 @@ public abstract class Entity extends Interactable {
         // If it's attunable, it will trigger the attunement onHit()
         if (source instanceof Entity sourceEntity
                 && sourceEntity.hasHeldItem()) {
-            if (sourceEntity.getHeldItem() instanceof BreakableItem) {
-                sourceEntity.getHeldItem().hurt(1);
+
+            ItemHoldable heldItem = sourceEntity.getHeldItem();
+
+            if (heldItem instanceof BreakableItem breakableItem &&
+            breakableItem.damageOnHit()) {
+                heldItem.hurt(1);
             }
 
             // Item on hit effect
-            sourceEntity.getHeldItem().onHit(source, this, damageType, amount);
+            heldItem.onHit(source, this, damageType, amount);
 
-            if (sourceEntity.getHeldItem() instanceof AttunableItem
-            && sourceEntity.getHeldItem().hasAttunement()) {
-                sourceEntity.getHeldItem().getAttunement().onHit(sourceEntity.getHeldItem(), source, this, amount, damageType);
+            if (heldItem instanceof AttunableItem
+            && heldItem.hasAttunement()) {
+                heldItem.getAttunement()
+                        .onHit(sourceEntity.getHeldItem(), source, this, amount, damageType);
             }
         }
 

@@ -10,12 +10,13 @@ import java.util.Random;
 public class Brain {
     private List<Task> taskList = new ArrayList<>();
 
-    public void addTask(Task task, int priority) {
+    public Brain addTask(Task task, int priority) {
         if (priority < 1) {
             throw new RuntimeException("Task priority cannot be lower than 1!");
         }
         task.setPriority(priority);
         taskList.add(task);
+        return this;
     }
 
     public void removeTask(Task task) {
