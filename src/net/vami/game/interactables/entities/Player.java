@@ -4,8 +4,8 @@ import com.google.gson.GsonBuilder;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.*;
-import net.vami.game.interactables.interactions.Action;
 import net.vami.game.interactables.interactions.abilities.PrayAbility;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.abilities.SearchAbility;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
@@ -123,7 +123,7 @@ public class Player extends Entity {
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes()
                     .level(1)
-                    .ability(new SearchAbility()));
+                    .ability(new PrayAbility()));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
             TextUtil.display("Your adventure begins.%n");
         }

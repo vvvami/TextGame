@@ -5,7 +5,7 @@ import net.vami.game.interactables.ai.tasks.AbilityOrTargetTask;
 import net.vami.game.interactables.ai.tasks.ChaseTargetTask;
 import net.vami.game.interactables.ai.tasks.MoveTask;
 import net.vami.game.interactables.ai.tasks.TargetAndAttackTask;
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
 import net.vami.game.interactables.interactions.damagetypes.BleedDamage;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;

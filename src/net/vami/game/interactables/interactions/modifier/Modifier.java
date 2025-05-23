@@ -1,6 +1,5 @@
-package net.vami.game.interactables.interactions;
+package net.vami.game.interactables.interactions.modifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Modifier {

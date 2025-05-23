@@ -1,7 +1,7 @@
 package net.vami.game.interactables.items.custom;
 
-import net.vami.game.interactables.interactions.Modifier;
-import net.vami.game.interactables.interactions.ModifierType;
+import net.vami.game.interactables.interactions.modifier.Modifier;
+import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.items.ItemEquipable;
 
 public class ArthuurosReapingArmband extends ItemEquipable {

@@ -1,8 +1,8 @@
 package net.vami.game.interactables.interactions.statuses;
 
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.Modifier;
-import net.vami.game.interactables.interactions.ModifierType;
+import net.vami.game.interactables.interactions.modifier.Modifier;
+import net.vami.game.interactables.interactions.modifier.ModifierType;
 
 public class FrenziedStatus implements Status {
 

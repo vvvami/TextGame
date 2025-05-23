@@ -1,6 +1,6 @@
 package net.vami.game.interactables.ai;
 
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
@@ -36,13 +36,10 @@ public class PlayerHandler {
     }
 
     private static boolean combatSwitch(String input, Node node, Action action) {
-        Interactable target;
         input = input.substring(input.indexOf(' ') + 1);
-        target = node.stringToInteractable(input);
+        Interactable target = node.stringToInteractable(input);
 
-        boolean isSelfCastSpell = Game.player.getAbility().isSelfCast();
-
-        if (isSelfCastSpell) {
+        if (action == Action.ABILITY && Game.player.getAbility().isSelfCast()) {
             target = Game.player;
         }
 

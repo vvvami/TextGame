@@ -5,7 +5,9 @@ import net.vami.game.display.panels.custom.GamePanel;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.PlayerHandler;
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.entities.Entity;
+import net.vami.game.interactables.entities.Wolf;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Player;
@@ -15,10 +17,10 @@ import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 import net.vami.util.Input;
 import net.vami.util.InputReceiver;
+import net.vami.util.LogUtil;
 import net.vami.util.TextUtil;
 
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +91,6 @@ public abstract class Game {
              Node prevPlayerNode = Game.getCurrentNode();
              PlayerHandler.inputToAction(input);
              prevPlayerNode.afterPlayerTurn();
-
              preInput();
         }
     }
@@ -127,6 +128,8 @@ public abstract class Game {
 
         enablePlayerInput(true);
         playerCreator = new PlayerCreator();
+        Entity.spawn(new Wolf("Wolf", new Entity.Attributes()), true);
+        LogUtil.Log("Game initialized");
     }
 
     public static boolean isEnded() {
@@ -152,6 +155,16 @@ public abstract class Game {
 
         if (source instanceof Item ||
                 source.getNode() == Game.getCurrentNode()) {
+            sound.play(volume);
+        }
+    }
+
+    public static void playSound(Position position, Sound sound, int volume) {
+        if (!Sound.hasAvailableAudioOutput() || sound == null) {
+            return;
+        }
+
+        if (position.equals(Game.player.getPos())) {
             sound.play(volume);
         }
     }

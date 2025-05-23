@@ -1,7 +1,8 @@
 package net.vami.game.interactables;
 import com.google.gson.*;
 import net.vami.game.interactables.entities.Player;
-import net.vami.game.interactables.interactions.*;
+import net.vami.game.interactables.interactions.action.Action;
+import net.vami.game.interactables.interactions.modifier.Modifier;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
@@ -12,8 +13,10 @@ import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.Status;
 import net.vami.util.*;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class Interactable {
     private final UUID ID;
@@ -39,10 +42,6 @@ public class Interactable {
 
         this.name = name;
 
-        if (Node.findNode(position) != null) {
-            Node.findNode(position).addInteractable(this);
-        }
-
     }
 
     public void turn() {
@@ -54,9 +53,11 @@ public class Interactable {
     // Spawns an interactable with a defined position
     public static void spawn(Interactable interactable, Position position) {
         if (position == null) {
-            position = new Position(0,0,0);
+            LogUtil.Log(LoggerType.ERROR, "Cannot spawn interactable: Position is null! %s", interactable);
+            return;
         }
         if (Node.findNode(position) == null) {
+            LogUtil.Log(LoggerType.ERROR, "Cannot spawn interactable: Node does not exist at position! %s", interactable);
             return;
         }
         interactable.setPos(position);
@@ -458,7 +459,10 @@ public class Interactable {
             removeStatus(temp);
         }
         else {
-            TextUtil.display(this,"%s is now %s. %n", this.getName(), temp.getName());
+            String statusName = temp.getName();
+            statusName = temp.isHarmful() ? TextUtil.setColor(statusName, Color.red) : TextUtil.setColor(statusName, Color.green);
+            TextUtil.display(this,"%s is now %s. %n", this.getName(),
+                    statusName);
         }
 
         statusEffects.add(status);

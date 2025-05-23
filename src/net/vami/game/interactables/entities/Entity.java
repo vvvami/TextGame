@@ -1,13 +1,17 @@
 package net.vami.game.interactables.entities;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactables.interactions.action.Action;
+import net.vami.game.interactables.interactions.action.ActionFeedback;
+import net.vami.game.interactables.interactions.action.ActionFeedbackType;
+import net.vami.game.interactables.interactions.modifier.Modifier;
+import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.world.Position;
 import net.vami.util.CalcUtil;
 import net.vami.util.LogUtil;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.ai.Brain;
-import net.vami.game.interactables.interactions.*;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.abilities.Ability;
 import net.vami.game.interactables.interactions.abilities.RageAbility;
@@ -19,8 +23,10 @@ import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.ItemEquipable;
 import net.vami.game.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.Nullable;
+import org.w3c.dom.Text;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
@@ -122,8 +128,15 @@ public abstract class Entity extends Interactable {
         // Reduce the target's health
         health -= finalAmount;
 
+        String sourceName = "";
+        if (source != null) {
+            sourceName = source.getDisplayName();
+        }
+
         // TextUtil displays the hurt message
-        TextUtil.EntityInteraction.hurtEntity(new TextUtil.EntityInteraction(this, source, finalAmount, damageType));
+        ActionFeedback.HURT.printFeedback(this.getDisplayName(), sourceName,
+                TextUtil.setColor(new DecimalFormat("##.##").format(finalAmount), Color.orange),
+                damageType.getName());
 
         // Applies status instance based on the damage type dealt
         damageType.onHit(this, source, finalAmount);
@@ -185,9 +198,16 @@ public abstract class Entity extends Interactable {
             amount = amount * 0.75f;
         }
 
-        Game.playSound(source, Sound.HEAL, 65);
-        TextUtil.EntityInteraction.healEntity(new TextUtil.EntityInteraction(
-                this, source, amount));
+        Game.playSound(this.getPos(), Sound.HEAL, 65);
+
+        String sourceName = "";
+        if (source != null) {
+            sourceName = source.getDisplayName();
+        }
+
+        ActionFeedback.HEAL.printFeedback(this.getDisplayName(), sourceName,
+                TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange));
+
 
         health = Math.min(this.getMaxHealth(), health + amount);
     }
@@ -424,7 +444,9 @@ public abstract class Entity extends Interactable {
             return false;
         }
 
-        TextUtil.EntityInteraction.useAbility(new TextUtil.EntityInteraction(this, sourceEntity));
+        ActionFeedback.ABILITY.printFeedback(sourceEntity.getDisplayName(),
+                        TextUtil.setColor(sourceEntity.getAbility().getName(), Color.cyan),
+                        this.getDisplayName());
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }

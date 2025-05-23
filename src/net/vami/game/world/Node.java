@@ -5,12 +5,13 @@ import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
+import net.vami.util.LogUtil;
 
 import java.util.*;
 
 public class Node {
     private final Position position;
-    private List<UUID> interactables = new ArrayList<>();
+    private HashSet<UUID> interactables = new HashSet<>();
     private static HashMap<Position, Node> nodeMap = new HashMap<>();
 //    private ArrayList<Direction> entrances = new ArrayList<>();
 
@@ -129,7 +130,7 @@ public class Node {
     }
 
     // Ticks every non-enemy and triggers the player input reader
-    /* INFO: A "turn" is basically a tick. It's the switch from the player's ability to do an action to the enemy's
+    /** A "turn" is basically a tick. It's the switch from the player's ability to do an action to the enemy's
        and vice versa. The order in which things tick is important so pay attention if you mess with it. */
     public void turnNoPlayer() {
         if (Game.isEnded()) {return;}

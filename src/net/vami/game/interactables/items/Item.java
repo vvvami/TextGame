@@ -4,7 +4,7 @@ import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.interactables.items.attunement.Attunement;
 import net.vami.util.TextUtil;
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 

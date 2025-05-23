@@ -1,4 +1,4 @@
-package net.vami.game.interactables.interactions;
+package net.vami.game.interactables.interactions.modifier;
 
 public enum ModifierType {
     DAMAGE,

@@ -15,7 +15,7 @@ public class BlessedStatus implements Status {
 
     @Override
     public void turn(Entity target, Entity source) {
-        target.heal(source, (float) target.getStatusInstance(this).getAmplifier() / 2);
+        target.heal(null, (float) target.getStatusInstance(this).getAmplifier() / 2);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.vami.game.interactables.interactions.statuses;
 
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.action.Action;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -2,11 +2,10 @@ package net.vami.game.interactables.custom;
 
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.interactables.items.attunement.ReinforcedAttunement;
 import net.vami.util.TextUtil;
-import org.w3c.dom.Text;
 
 public class AttunementAltar extends Interactable {
     public AttunementAltar(String name) {

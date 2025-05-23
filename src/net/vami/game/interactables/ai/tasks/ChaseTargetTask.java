@@ -1,7 +1,7 @@
 package net.vami.game.interactables.ai.tasks;
 
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.Action;
+import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Position;
 
