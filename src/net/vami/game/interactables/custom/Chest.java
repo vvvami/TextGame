@@ -47,7 +47,8 @@ public class Chest extends Interactable {
             if (item == dropList.getLast()) {
                 Game.playSound(this, Sound.ITEM_DROP, 65);
             }
-            TextUtil.display(this,"%s dropped %s! %n", this.getName(), item.getDisplayName());
+            TextUtil.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
+            TextUtil.display(this,"%s dropped %s. %n", this.getName(), item.getDisplayName());
         }
         this.remove();
         return true;

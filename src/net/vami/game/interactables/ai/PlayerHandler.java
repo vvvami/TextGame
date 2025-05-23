@@ -35,9 +35,13 @@ public class PlayerHandler {
         };
     }
 
-    private static boolean combatSwitch(String input, Node node, Action action) {
+    private static Interactable getActionTarget(String input, Node node) {
         input = input.substring(input.indexOf(' ') + 1);
-        Interactable target = node.stringToInteractable(input);
+        return node.stringToInteractable(input);
+    }
+
+    private static boolean combatSwitch(String input, Node node, Action action) {
+        Interactable target = getActionTarget(input, node);
 
         if (action == Action.ABILITY && Game.player.getAbility().isSelfCast()) {
             target = Game.player;
@@ -51,9 +55,7 @@ public class PlayerHandler {
     }
 
     private static boolean takeItemSwitch(String input, Node node, Action action) {
-        Interactable target;
-        input = input.substring(input.indexOf(' ') + 1);
-        target = node.stringToInteractable(input);
+        Interactable target = getActionTarget(input, node);
 
         if (target == null) {
             return false;

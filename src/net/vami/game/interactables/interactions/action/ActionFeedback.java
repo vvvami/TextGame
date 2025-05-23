@@ -1,13 +1,10 @@
 package net.vami.game.interactables.interactions.action;
 
-import net.vami.game.interactables.Interactable;
 import net.vami.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 public class ActionFeedback {
     ArrayList<String> feedbackList = new ArrayList<>();
@@ -39,7 +36,6 @@ public class ActionFeedback {
 
     public void printFeedback(Object ... args) {
         ArrayList<Object> argsList = new ArrayList<>(Arrays.stream(args).distinct().toList());
-        if (this == HEAL) {System.out.println("Distinct list: " + argsList);}
         ActionFeedbackType feedbackType = ActionFeedbackType.NORMAL;
 
 

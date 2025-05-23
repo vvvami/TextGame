@@ -45,7 +45,7 @@ public class GamePanel extends JPanel {
 
         JScrollPane gameTextArea = new JScrollPane(gameText);
         gameTextArea.setBorder(new LineBorder(Color.white, 0));
-        gameTextArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        gameTextArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         gameTextArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         gameTextArea.setWheelScrollingEnabled(false);
 
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel {
         } else {
             write(text, parentTextColor);
         }
-        gameText.scrollRectToVisible(new Rectangle(0, gameText.getHeight(), 1, 1));
+        gameText.scrollRectToVisible(new Rectangle(0, gameText.getHeight(), 1, 10));
     }
 
     public static void setParentTextColor(Color color) {

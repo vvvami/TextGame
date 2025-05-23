@@ -20,7 +20,7 @@ public class BluntDamage implements DamageType {
 
     @Override
     public String getName() {
-        return "Blunt";
+        return "👊";
     }
 
     @Override

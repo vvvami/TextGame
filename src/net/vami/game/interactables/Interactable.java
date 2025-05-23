@@ -74,6 +74,7 @@ public class Interactable {
             if (Game.player != null && Game.player.getPos() != null) {
                 newPos = Game.player.getPos();
             } else {
+                LogUtil.Log(LoggerType.WARN, "Spawning position is null: using default (%s)", interactable);
                 newPos = new Position(0,0,0);
             }
         }
@@ -93,6 +94,7 @@ public class Interactable {
         return interactable;
     }
 
+    // Saves all interactables specific to a player
     public static void saveInteractables(Player player) {
         String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
         Gson gson = new GsonBuilder()
@@ -287,6 +289,7 @@ public class Interactable {
         return true;
     }
 
+    // You should kill yourself NOW!!
     public void annihilate() {
         this.remove();
         interactableMap.remove(this.ID);
@@ -438,35 +441,44 @@ public class Interactable {
     }
 
     // Adds a status effect. Stacks the status according to the status' parameters defined in the Status interface
-    public void addStatus(Status.Instance status) {
-        if (isImmuneTo(status.getStatus())) {
+    public void addStatus(Status.Instance instance) {
+
+        // Checks if the interactable is immune to the given status effect
+        if (isImmuneTo(instance.getStatus())) {
             TextUtil.display(this,getDisplayName() + " is immune!");
             return;
         }
-        Status temp = status.getStatus();
-        status.setTarget(this);
-        if (this.hasSpecifiedStatus(temp)) {
-            Status.Instance tempInstance = this.getStatusInstance(temp);
 
-            if (temp.stacksAmplifier()) {
-                status.setAmplifier(status.getAmplifier() + tempInstance.getAmplifier());
+        Status status = instance.getStatus();
+        instance.setTarget(this);
+
+        /* Checks if the interactable already has the status applied,
+           then stacks its duration/amplifier accordingly */
+        if (this.hasSpecifiedStatus(status)) {
+            Status.Instance tempInstance = this.getStatusInstance(status);
+
+            if (status.stacksAmplifier()) {
+                instance.setAmplifier(instance.getAmplifier() + tempInstance.getAmplifier());
             }
 
-            if (temp.stacksDuration()) {
-                status.setDuration(status.getDuration() + tempInstance.getDuration());
+            if (status.stacksDuration()) {
+                instance.setDuration(instance.getDuration() + tempInstance.getDuration());
             }
-
-            removeStatus(temp);
+            // We remove the status before reapplying it if it did exist already
+            removeStatus(status);
         }
+        // This else displays the status application message,
+        // since we know the interactable doesn't have it applied
         else {
-            String statusName = temp.getName();
-            statusName = temp.isHarmful() ? TextUtil.setColor(statusName, Color.red) : TextUtil.setColor(statusName, Color.green);
+            String statusName = status.getName();
+            statusName = status.isHarmful() ? TextUtil.setColor(statusName, Color.red) : TextUtil.setColor(statusName, Color.green);
             TextUtil.display(this,"%s is now %s. %n", this.getName(),
                     statusName);
         }
 
-        statusEffects.add(status);
-        status.onApply();
+        statusEffects.add(instance);
+        // The instance's onApply effect is called here
+        instance.onApply();
     }
 
     // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
@@ -519,6 +531,7 @@ public class Interactable {
     public boolean hasStatus() {
         if (statusEffects == null) {
             statusEffects = new ArrayList<>();
+            return false;
         }
         return !(this.statusEffects.isEmpty());
     }
@@ -570,7 +583,7 @@ public class Interactable {
 
         Modifier removeMod = modifiers.getFirst();
         for (Modifier modifier : modifiers) {
-            if (Objects.equals(modifier.getID(), ID)) {
+            if (ID.equals(modifier.getID())) {
                 removeMod = modifier;
                 break;
             }

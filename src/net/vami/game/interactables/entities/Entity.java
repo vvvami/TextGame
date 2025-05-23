@@ -3,7 +3,6 @@ import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.action.ActionFeedback;
-import net.vami.game.interactables.interactions.action.ActionFeedbackType;
 import net.vami.game.interactables.interactions.modifier.Modifier;
 import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.items.attunement.AttunableItem;
@@ -23,20 +22,22 @@ import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.ItemEquipable;
 import net.vami.game.interactables.items.ItemHoldable;
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
+/** This is the basic Entity class. It contains all the things you need for a basic entity,
+ * such as health, attributes, basic AI capabilities, an inventory and a bunch of methods. */
 public abstract class Entity extends Interactable {
 
-    // Basic entity stats
-    private float health;
+    // Basic logic
     private boolean enemy;
 
+    // Basic entity stats
     private Attributes attributes;
+    private float health;
 
     // DamageType weaknesses and resistances as well as the statusEffect list and the status immunities
     private List<DamageType> weaknesses = new ArrayList<>();
@@ -54,12 +55,12 @@ public abstract class Entity extends Interactable {
 
     public Entity(String name, Attributes attributes) {
         super(name);
-        this.attributes = attributes;
         attributes.initialize();
         health = attributes.maxHealthAttribute;
+        this.attributes = attributes;
 
-        // By default, all entities have these actions available and receivable
-        // You can remove them manually if you wish using removeAvailableAction or removeReceivableAction
+        /* By default, all entities have these actions available and receivable
+        You can remove them manually if you wish using removeAvailableAction or removeReceivableAction */
         addAvailableAction(Action.ATTACK);
         addAvailableAction(Action.ABILITY);
         addAvailableAction(Action.MOVEMENT);
@@ -128,20 +129,19 @@ public abstract class Entity extends Interactable {
         // Reduce the target's health
         health -= finalAmount;
 
+        // Game displays the hurt message
         String sourceName = "";
         if (source != null) {
             sourceName = source.getDisplayName();
         }
-
-        // TextUtil displays the hurt message
         ActionFeedback.HURT.printFeedback(this.getDisplayName(), sourceName,
                 TextUtil.setColor(new DecimalFormat("##.##").format(finalAmount), Color.orange),
                 damageType.getName());
 
-        // Applies status instance based on the damage type dealt
+        // Applies a status instance based on the damage type dealt
         damageType.onHit(this, source, finalAmount);
 
-        // Checks if the source is an entity has a held item
+        // Checks if the source is an entity and has a held item
         // If it's breakable, it will reduce its durability
         // If it's attunable, it will trigger the attunement onHit()
         if (source instanceof Entity sourceEntity
@@ -173,7 +173,7 @@ public abstract class Entity extends Interactable {
             TextUtil.display(this,this.getName() + " has died! %n");
 
             // We use remove() and not annihilate()
-            // Reason: status instances entities inflict may outlast themselves (we still need their UUID)
+            // Reason: status instances may last longer than the entity that inflicted them (we still need their UUID)
             this.remove();
 
             // Temporary level up mechanic
@@ -200,15 +200,15 @@ public abstract class Entity extends Interactable {
 
         Game.playSound(this.getPos(), Sound.HEAL, 65);
 
+        // We display the healing message
         String sourceName = "";
         if (source != null) {
             sourceName = source.getDisplayName();
         }
-
         ActionFeedback.HEAL.printFeedback(this.getDisplayName(), sourceName,
                 TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange));
 
-
+        // We add the healing to the entity, capping out at its maximum health
         health = Math.min(this.getMaxHealth(), health + amount);
     }
 
@@ -219,10 +219,14 @@ public abstract class Entity extends Interactable {
         return health <= 0;
     }
 
+    // Adds a level to the entity, and half resets their attributes for the level increase to take effect
     public void addLevel(int level) {
         if (!isEnded()) {
             int newLevel = this.attributes.levelAttribute + level;
-            this.attributes = new Attributes().level(newLevel);
+            this.attributes = new Attributes()
+                    .level(newLevel)
+                    .damageType(this.attributes.damageTypeAttribute)
+                    .ability(this.attributes.abilityAttribute);
             this.attributes.initialize();
 
             Game.playSound(this, Sound.HEAL, 65);
@@ -230,7 +234,7 @@ public abstract class Entity extends Interactable {
         }
     }
 
-    // Ticks every item
+    // Ticks every item that's either equipped or held
     void itemTurn() {
             List<ItemEquipable> itemEquipables = this.getEquippedItems();
 

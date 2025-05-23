@@ -125,7 +125,7 @@ public class Player extends Entity {
                     .level(1)
                     .ability(new PrayAbility()));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
-            TextUtil.display("Your adventure begins.%n");
+            TextUtil.display("Your adventure begins. %n");
         }
 
         Interactable.loadInteractables(createdPlayer.getName());

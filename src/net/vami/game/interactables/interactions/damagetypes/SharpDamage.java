@@ -18,7 +18,7 @@ public class SharpDamage implements DamageType {
 
     @Override
     public String getName() {
-        return "Sharp";
+        return "🗡️";
     }
 
     @Override

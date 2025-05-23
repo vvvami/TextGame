@@ -9,34 +9,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="stuff">
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedbackType.java" afterDir="false" />
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="new ActionFeedback system, yay">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/TextGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/TextGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panels/custom/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panels/custom/GamePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/InteractableEnded.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/InteractableEnded.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/PlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AttackTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AttackTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/ChaseTargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/ChaseTargetTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/MoveTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/MoveTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/AttunementAltar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/AttunementAltar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/Chest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/Chest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Kalakuli.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Kalakuli.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/Modifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/modifier/Modifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/ModifierType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/modifier/ModifierType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/BlessedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/BlessedStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/FrenziedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/FrenziedStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosEyeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosEyeItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmband.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmband.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/BleedDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/BleedDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/BluntDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/BluntDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/FireDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/FireDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/IceDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/IceDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/SharpDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/SharpDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/KnivesOfQalath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/KnivesOfQalath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/util/LoggerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/LoggerType.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,26 +84,26 @@
     <option name="flattenModules" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.TextGame.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vami/Desktop/TextGame/src/assets&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.TextGame.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/vami/Desktop/TextGame/src/assets",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "ml.llm.AIAssistantPromptsLibrary"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\vami\Desktop\TextGame\src\assets" />
@@ -187,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747755248359</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="new ActionFeedback system, yay">
+      <option name="closed" value="true" />
+      <created>1747997784858</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1747997784858</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -197,18 +197,10 @@
     <MESSAGE value="fixes" />
     <MESSAGE value="i finally fixed that shitass fucking bug with interactables not spawning upon loading a save &#10;&#10;Thank Fuck" />
     <MESSAGE value="stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="stuff" />
+    <MESSAGE value="new ActionFeedback system, yay" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/vami/game/interactables/ai/PlayerHandler.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="Game.isNewGame" />

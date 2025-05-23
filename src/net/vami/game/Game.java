@@ -128,7 +128,6 @@ public abstract class Game {
 
         enablePlayerInput(true);
         playerCreator = new PlayerCreator();
-        Entity.spawn(new Wolf("Wolf", new Entity.Attributes()), true);
         LogUtil.Log("Game initialized");
     }
 

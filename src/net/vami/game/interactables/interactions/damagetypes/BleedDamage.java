@@ -5,7 +5,7 @@ import net.vami.game.display.sound.Sound;
 public class BleedDamage implements DamageType {
     @Override
     public String getName() {
-        return "Bleed";
+        return "🩸";
     }
 
     @Override

@@ -9,6 +9,8 @@ import net.vami.util.LogUtil;
 
 import java.util.*;
 
+/** Each position has a node (provided one is generated) which can hold interactables.
+ * It is the 'physical space' of the game. */
 public class Node {
     private final Position position;
     private HashSet<UUID> interactables = new HashSet<>();

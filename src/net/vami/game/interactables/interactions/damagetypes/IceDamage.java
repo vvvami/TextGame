@@ -20,7 +20,7 @@ public class IceDamage implements DamageType {
 
     @Override
     public String getName() {
-        return "Ice";
+        return "❄️";
     }
 
     @Override

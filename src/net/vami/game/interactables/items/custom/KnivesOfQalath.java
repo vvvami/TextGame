@@ -37,4 +37,10 @@ public class KnivesOfQalath extends ItemHoldable implements BreakableItem, Attun
     public void onUse() {
 
     }
+
+    @Override
+    public boolean onEquip() {
+        doubleHit = false;
+        return super.onEquip();
+    }
 }

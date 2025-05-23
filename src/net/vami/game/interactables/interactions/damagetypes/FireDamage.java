@@ -20,7 +20,7 @@ public class FireDamage implements DamageType {
 
     @Override
     public String getName() {
-        return "Fire";
+        return "🔥";
     }
 
     @Override
