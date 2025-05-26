@@ -22,6 +22,7 @@ public class Item extends Interactable {
         if (this instanceof BreakableItem breakableItem) {
             this.durability = breakableItem.maxDurability();
         }
+
         this.addReceivableAction(Action.TAKE);
         this.addReceivableAction(Action.EQUIP);
         this.addReceivableAction(Action.DROP);
@@ -50,18 +51,32 @@ public class Item extends Interactable {
     }
 
     public void setAttunement(Attunement attunement) {
-         if (this instanceof AttunableItem attunable
-        && attunable.canAttune() && attunement.applyCondition(this)) {
-            this.attunement = attunement;
-            this.attunement.onApply(this);
+        if (!(this instanceof AttunableItem attunable)) {
+            TextUtil.display(this, "%s cannot hold the power of attunement. %n", this.getDisplayName());
+            return;
         }
+
+        if (!attunable.canAttune()) {
+            TextUtil.display(this,"%s cannot be attuned. %n", this.getDisplayName());
+            return;
+        }
+
+        if (!attunement.applyCondition(this)) {
+            TextUtil.display(this,"%s cannot grasp the reality of \"%s\". %n",
+                    this.getDisplayName(), attunement.getName());
+            return;
+        }
+
+        this.attunement = attunement;
+        this.attunement.onApply(this);
     }
 
     public void removeAttunement() {
-        if (this.attunement.removeCondition(this)) {
-            this.attunement.onRemove(this);
-            this.attunement = null;
+        if (!this.attunement.removeCondition(this)) {
+            TextUtil.display(this,"\"%2$s\" refuses to leave %1$s. %n", this.getDisplayName(), this.attunement.getName());
         }
+        this.attunement.onRemove(this);
+        this.attunement = null;
     }
 
     public Attunement getAttunement() {

@@ -21,7 +21,7 @@ public class AttunementAltar extends Interactable {
             sourceEntity.getHeldItem().setAttunement(new ReinforcedAttunement());
             TextUtil.display(source, "%s has attuned %s with \"%s\"! %n",
                     sourceEntity.getDisplayName(), sourceEntity.getHeldItem().getDisplayName(),
-                    sourceEntity.getHeldItem().getAttunement().name());
+                    sourceEntity.getHeldItem().getAttunement().getName());
             return true;
         }
         return false;

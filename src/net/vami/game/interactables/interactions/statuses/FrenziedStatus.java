@@ -5,6 +5,7 @@ import net.vami.game.interactables.interactions.modifier.Modifier;
 import net.vami.game.interactables.interactions.modifier.ModifierType;
 
 public class FrenziedStatus implements Status {
+    public static final FrenziedStatus get = new FrenziedStatus();
 
     @Override
     public void onApply(Entity target, Entity source) {

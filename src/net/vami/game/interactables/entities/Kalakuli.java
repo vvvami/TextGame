@@ -14,8 +14,8 @@ public class Kalakuli extends Entity {
     public Kalakuli(String name, Attributes attributes) {
         super(name, attributes
                 .level(5)
-                .damageType(new BleedDamage())
-                .ability(new HypnosisAbility()));
+                .damageType(BleedDamage.get)
+                .ability(HypnosisAbility.get));
         removeAvailableAction(Action.TAKE);
     }
 
@@ -23,7 +23,7 @@ public class Kalakuli extends Entity {
     public Brain getBrain() {
         Brain brain = new Brain();
         brain.addTask(new MoveTask(), 1);
-        if (this.hasTarget() && !this.getTarget().hasSpecifiedStatus(new CharmedStatus())) {
+        if (this.hasTarget() && !this.getTarget().hasSpecifiedStatus(CharmedStatus.get)) {
             brain.addTask(new AbilityOrTargetTask(), 2);
         }
         brain.addTask(new TargetAndAttackTask(), 5);

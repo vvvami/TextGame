@@ -15,7 +15,7 @@ public class KnivesOfQalath extends ItemHoldable implements BreakableItem, Attun
     public KnivesOfQalath(String name, Attributes attributes) {
         super(name, attributes
                 .baseDamage(5)
-                .damageType(new SharpDamage()));
+                .damageType(SharpDamage.get));
     }
 
     @Override

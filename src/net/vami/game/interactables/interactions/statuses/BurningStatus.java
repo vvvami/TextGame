@@ -5,6 +5,8 @@ import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 
 public class BurningStatus implements Status {
 
+    public static final BurningStatus get = new BurningStatus();
+
     @Override
     public String getName() {
         return "Burning";

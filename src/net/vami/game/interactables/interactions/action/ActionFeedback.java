@@ -1,5 +1,8 @@
 package net.vami.game.interactables.interactions.action;
 
+import net.vami.game.Game;
+import net.vami.game.interactables.Interactable;
+import net.vami.game.world.Node;
 import net.vami.util.TextUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,13 +34,13 @@ public class ActionFeedback {
     }
 
     public void printFeedback(@NotNull ActionFeedbackType type, Object ... args) {
-        TextUtil.display(feedbackList.get(type.ordinal()), args);
+        Interactable source = Node.findNode(Game.player.getPos()).stringToInteractable((String) Arrays.stream(args).toList().get(1));
+        TextUtil.display(source, feedbackList.get(type.ordinal()), args);
     }
 
     public void printFeedback(Object ... args) {
         ArrayList<Object> argsList = new ArrayList<>(Arrays.stream(args).distinct().toList());
         ActionFeedbackType feedbackType = ActionFeedbackType.NORMAL;
-
 
         if (argsList.contains(null) || argsList.contains("")) {
             argsList.remove("");

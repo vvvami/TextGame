@@ -7,12 +7,13 @@ import net.vami.game.interactables.interactions.statuses.Status;
 import net.vami.game.interactables.interactions.statuses.WoundedStatus;
 
 public class SharpDamage implements DamageType {
+    public static final SharpDamage get = new SharpDamage();
 
     @Override
     public void onHit(Interactable target, Interactable source, float amount) {
             if (amount * Math.random() > 1) {
                 new Status.Instance(
-                        new WoundedStatus(), (int) amount, (int) amount, source);
+                        WoundedStatus.get, (int) amount, (int) amount, source);
             }
     }
 

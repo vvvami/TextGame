@@ -1,6 +1,7 @@
 package net.vami.game.interactables.interactions.statuses;
 
 public class CrippledStatus implements Status {
+    public static final CrippledStatus get = new CrippledStatus();
 
     @Override
     public String getName() {

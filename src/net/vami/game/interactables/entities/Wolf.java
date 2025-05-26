@@ -16,13 +16,13 @@ public class Wolf extends Entity {
     public Wolf(String name, Attributes attributes) {
         super(name, attributes
                 .level(1)
-                .damageType(new SharpDamage())
-                .ability(new RageAbility()));
+                .damageType(SharpDamage.get)
+                .ability(RageAbility.get));
 
         addResistance(new IceDamage());
-        addWeakness(new FireDamage());
-        addImmunity(new CharmedStatus());
-        addImmunity(new FrozenStatus());
+        addWeakness(FireDamage.get);
+        addImmunity(CharmedStatus.get);
+        addImmunity(FrozenStatus.get);
     }
 
     @Override

@@ -38,12 +38,12 @@ public class Arthuuros implements Patron {
 
     @Override
     public DamageType damageType() {
-        return new SharpDamage();
+        return SharpDamage.get;
     }
 
     @Override
     public Ability ability() {
-        return new RageAbility();
+        return RageAbility.get;
     }
 
     @Override

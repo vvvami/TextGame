@@ -38,7 +38,7 @@ public class Player extends Entity {
 
     @Override
     public Brain getBrain() {
-        if (this.hasSpecifiedStatus(new CharmedStatus())) {
+        if (this.hasSpecifiedStatus(CharmedStatus.get)) {
             return new Brain()
             .addTask(new AttackOrTargetTask(), 5)
             .addTask(new AbilityOrTargetTask(), 8)
@@ -59,7 +59,7 @@ public class Player extends Entity {
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
         saveInteractables(this);
-        TextUtil.display("A distant bell reassures your journey will be remembered. %n", new Color(75, 200, 200));
+        TextUtil.display("The Goddess still loves you.%nGood luck, %s.", Color.yellow, this.getDisplayName());
         return true;
     }
 
@@ -123,7 +123,7 @@ public class Player extends Entity {
         if (createdPlayer == null) {
             createdPlayer = new Player(playerName, new Attributes()
                     .level(1)
-                    .ability(new PrayAbility()));
+                    .ability(PrayAbility.get));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
             TextUtil.display("Your adventure begins. %n");
         }

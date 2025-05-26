@@ -5,6 +5,8 @@ import net.vami.game.interactables.entities.Entity;
 import net.vami.util.TextUtil;
 
 public class SearchAbility implements Ability {
+    public static final SearchAbility get = new SearchAbility();
+
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
         for (Interactable interactable : Interactable.getInteractableMap().values()) {

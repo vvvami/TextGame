@@ -70,7 +70,7 @@ public abstract class ItemHoldable extends Item {
 
         public void setDefaults() {
             if (this.baseDamageAttribute == -1) {this.baseDamageAttribute = 1;}
-            if (this.damageTypeAttribute == null) {this.damageTypeAttribute = new BluntDamage();}
+            if (this.damageTypeAttribute == null) {this.damageTypeAttribute = BluntDamage.get;}
         }
 
         public Attributes baseDamage(float baseDamage) {

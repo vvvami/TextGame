@@ -8,15 +8,15 @@ import net.vami.game.interactables.items.Item;
 
 @JsonAdapter(AttunementAdapter.class)
 public interface Attunement {
-    String name();
-    boolean curse();
+    String getName();
+    boolean isCurse();
 
     default boolean applyCondition(Item item) {
         return true;
     }
 
     default boolean removeCondition(Item item) {
-        return !curse();
+        return !isCurse();
     }
 
     // When the attunement is applied

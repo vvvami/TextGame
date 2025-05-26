@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CharmedStatus implements Status {
+    public static final CharmedStatus get = new CharmedStatus();
+
     @Override
     public String getName() {
         return "Charmed";

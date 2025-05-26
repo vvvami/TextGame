@@ -7,13 +7,14 @@ import net.vami.game.interactables.interactions.statuses.BurningStatus;
 import net.vami.game.interactables.interactions.statuses.Status;
 
 public class FireDamage implements DamageType {
+    public static final FireDamage get = new FireDamage();
 
     @Override
     public void onHit(Interactable target, Interactable source, float amount) {
-        if (!target.hasSpecifiedStatus(new BurningStatus())) {
+        if (!target.hasSpecifiedStatus(BurningStatus.get)) {
             if (amount * Math.random() > 1) {
                 new Status.Instance(
-                        new BurningStatus(), (int) amount / 2, (int) amount, source);
+                        BurningStatus.get, (int) amount / 2, (int) amount, source);
             }
         }
     }

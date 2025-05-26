@@ -8,12 +8,14 @@ import net.vami.game.interactables.interactions.statuses.Status;
 
 public class BluntDamage implements DamageType {
 
+    public static final BluntDamage get = new BluntDamage();
+
     @Override
     public void onHit(Interactable target, Interactable source, float amount) {
-        if (!target.hasSpecifiedStatus(new CrippledStatus())) {
+        if (!target.hasSpecifiedStatus(CrippledStatus.get)) {
             if (amount * Math.random() > 1) {
                 new Status.Instance(
-                        new CrippledStatus(), (int) amount / 2, (int) amount, source);
+                        CrippledStatus.get, (int) amount / 2, (int) amount, source);
             }
         }
     }

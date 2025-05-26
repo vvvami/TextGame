@@ -8,13 +8,15 @@ import net.vami.game.interactables.interactions.statuses.BurningStatus;
 
 public class FlamesAbility implements Ability {
 
+    public static final FlamesAbility get = new FlamesAbility();
+
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
 
         if (source instanceof Entity sourceEntity) {
-            target.hurt(sourceEntity, sourceEntity.getLevel(), new FireDamage());
+            target.hurt(sourceEntity, sourceEntity.getLevel(), FireDamage.get);
             target.addStatus(new Status.Instance(
-                    new BurningStatus(), ((Entity) source).getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
+                    BurningStatus.get, sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;
     }

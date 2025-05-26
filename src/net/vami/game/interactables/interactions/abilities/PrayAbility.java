@@ -6,6 +6,7 @@ import net.vami.game.interactables.interactions.statuses.Status;
 import net.vami.game.interactables.interactions.statuses.BlessedStatus;
 
 public class PrayAbility implements Ability {
+    public static final PrayAbility get = new PrayAbility();
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
@@ -14,7 +15,7 @@ public class PrayAbility implements Ability {
 
             targetEntity.heal(sourceEntity, sourceEntity.getLevel() * 1.5f);
             targetEntity.addStatus(new Status.Instance
-                    (new BlessedStatus(), sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
+                    (BlessedStatus.get, sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;
     }

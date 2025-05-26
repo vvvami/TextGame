@@ -52,6 +52,12 @@ public class Interactable {
 
     // Spawns an interactable with a defined position
     public static void spawn(Interactable interactable, Position position) {
+        if (interactable instanceof Entity entity
+                && entity.isEnded()) {
+            LogUtil.Log(LoggerType.ERROR, "Cannot spawn dead entity: %s", interactable.getDisplayName());
+            return;
+        }
+
         if (position == null) {
             LogUtil.Log(LoggerType.ERROR, "Cannot spawn interactable: Position is null! %s", interactable);
             return;
@@ -64,9 +70,15 @@ public class Interactable {
     }
 
     // Spawns the entity at its default set position. If the position is null, it will spawn at the player's position
-    public static Interactable spawn(Interactable interactable) {
+    public static void spawn(Interactable interactable) {
         if (!interactableMap.containsKey(interactable.ID)) {
             addToMap(interactable);
+        }
+
+        if (interactable instanceof Entity entity
+                && entity.isEnded()) {
+            LogUtil.Log(LoggerType.ERROR, "Cannot spawn dead entity: %s", interactable.getDisplayName());
+            return;
         }
 
         Position newPos = interactable.position;
@@ -82,7 +94,7 @@ public class Interactable {
         Node newNode = Node.findNode(newPos);
 
         if (newNode == null) {
-            return null;
+            return;
         }
 
         if (!newNode.hasInteractable(interactable)) {
@@ -91,7 +103,6 @@ public class Interactable {
 
         interactable.setPos(newPos);
 
-        return interactable;
     }
 
     // Saves all interactables specific to a player

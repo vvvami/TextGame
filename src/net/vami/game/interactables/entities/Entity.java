@@ -101,7 +101,7 @@ public abstract class Entity extends Interactable {
     public void turn() {
         super.turn();
         itemTurn();
-        LogUtil.Log("Entity ticked: (%s, %s, %s)", this.getName(), this.getID(), this);
+        LogUtil.Log("Entity ticked: (%s [%s], %s, %s)", this.getName(), this.getPos().toString(), this.getID(), this);
     }
 
     public Brain getBrain() {
@@ -193,7 +193,7 @@ public abstract class Entity extends Interactable {
             return;
         }
 
-        // Frenzied reduces healing
+        // Frenzied reduces outgoing healing
         if (source != null && source.hasSpecifiedStatus(new FrenziedStatus())) {
             amount = amount * 0.75f;
         }
@@ -617,16 +617,13 @@ public abstract class Entity extends Interactable {
         return this.attributes;
     }
 
-    public static Entity spawn(Entity entity, boolean enemy) {
-        entity.setEnemy(enemy);
-        Entity.spawn(entity);
-        return entity;
+    public static void spawn(Entity entity, boolean enemy) {
+        Entity.spawn(entity, entity.getPos(), enemy);
     }
 
-    public static Entity spawn(Entity entity, Position position, boolean enemy) {
+    public static void spawn(Entity entity, Position position, boolean enemy) {
         entity.setEnemy(enemy);
-        Entity.spawn(entity, position);
-        return entity;
+        Interactable.spawn(entity, position);
     }
 
     // This class exists entirely because im a lazy piece of shit.
@@ -655,8 +652,8 @@ public abstract class Entity extends Interactable {
             if (damageAttribute == -1) {
                 damageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
-            if (damageTypeAttribute == null) {damageTypeAttribute = new BluntDamage();}
-            if (abilityAttribute == null) {abilityAttribute = new RageAbility();}
+            if (damageTypeAttribute == null) {damageTypeAttribute = BluntDamage.get;}
+            if (abilityAttribute == null) {abilityAttribute = RageAbility.get;}
         }
 
 

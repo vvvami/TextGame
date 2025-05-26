@@ -4,7 +4,7 @@ import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.IceDamage;
 
 public class FrozenStatus implements Status {
-
+    public static final FrozenStatus get = new FrozenStatus();
 
     @Override
     public String getName() {
