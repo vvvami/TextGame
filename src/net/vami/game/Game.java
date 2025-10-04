@@ -5,12 +5,10 @@ import net.vami.game.display.panels.custom.GamePanel;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.PlayerHandler;
-import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.entities.Wolf;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
-import net.vami.game.interactables.entities.Player;
+import net.vami.game.interactables.entities.PlayerEntity;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
@@ -27,7 +25,7 @@ import java.util.List;
 
 public abstract class Game {
 
-    public static Player player = null;
+    public static PlayerEntity player = null;
     private static Position lastPlayerPos;
 
     public static String playerSavePathFormat = "saves/%.json";
@@ -108,10 +106,10 @@ public abstract class Game {
         }
         @Override
         public void receiveInput(String input) {
-            player = Player.createPlayer(input);
+            player = PlayerEntity.createPlayer(input);
             if (player != null){
                 Input.playerInput.releaseInput(this);
-                Player.spawn(player);
+                PlayerEntity.spawn(player);
                 Game.startGame();
             }
         }

@@ -12,7 +12,7 @@ public class RageAbility implements Ability {
     public boolean useAbility(Interactable source, Interactable target) {
         if (source instanceof Entity sourceEntity) {
             target.addStatus(new Status.Instance(
-                    FrenziedStatus.get, sourceEntity.getLevel(), sourceEntity.getLevel(), sourceEntity));
+                    FrenziedStatus.get, sourceEntity.getLevel(), sourceEntity.getLevel() + 1, sourceEntity));
         }
         return true;
     }

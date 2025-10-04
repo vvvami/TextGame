@@ -6,7 +6,7 @@ import net.vami.game.interactables.entities.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttackOrTargetTask extends Task {
+public class AttackOrTargetTask extends TargetTask {
 
     @Override
     public boolean taskAction(Entity source) {

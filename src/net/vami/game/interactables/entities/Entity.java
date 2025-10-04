@@ -1,6 +1,8 @@
 package net.vami.game.interactables.entities;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactables.ai.EntityMood;
+import net.vami.game.interactables.ai.EntityRating;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.action.ActionFeedback;
 import net.vami.game.interactables.interactions.modifier.Modifier;
@@ -9,6 +11,7 @@ import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.world.Position;
 import net.vami.util.CalcUtil;
 import net.vami.util.LogUtil;
+import net.vami.util.LoggerType;
 import net.vami.util.TextUtil;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.Interactable;
@@ -32,9 +35,6 @@ import java.util.List;
  * such as health, attributes, basic AI capabilities, an inventory and a bunch of methods. */
 public abstract class Entity extends Interactable {
 
-    // Basic logic
-    private boolean enemy;
-
     // Basic entity stats
     private Attributes attributes;
     private float health;
@@ -49,6 +49,8 @@ public abstract class Entity extends Interactable {
     private UUID heldItem;
     private int maxEquipSlots = 6;
     private List<UUID> equippedItems = new ArrayList<>();
+
+    private HashMap<UUID, EntityRating> moodRatings = new HashMap<>();
 
     // This is mostly for the AI of the entity, not necessarily used for all entities
     private UUID target;
@@ -102,6 +104,19 @@ public abstract class Entity extends Interactable {
         super.turn();
         itemTurn();
         LogUtil.Log("Entity ticked: (%s [%s], %s, %s)", this.getName(), this.getPos().toString(), this.getID(), this);
+    }
+
+    @Override
+    public void setPos(Position position) {
+        super.setPos(position);
+
+        if (this.isEnded()) {
+            return;
+        }
+
+        for (Interactable ia : this.getNode().getInteractables()) {
+            createInteractableRating(ia);
+        }
     }
 
     public Brain getBrain() {
@@ -338,31 +353,6 @@ public abstract class Entity extends Interactable {
         return attributes.damageTypeAttribute;
     }
 
-
-    // Checks of the entity is an enemy (against the player)
-    public boolean isEnemy() {
-
-        return enemy;
-    }
-
-    // Sets the entity to an enemy
-    public void setEnemy(boolean enemy) {
-
-        this.enemy = enemy;
-    }
-
-
-    public boolean isAllied(Entity entity) {
-        if (entity == null) {
-            return false;
-        }
-        if (this.isEnemy()) {
-            return entity.isEnemy();
-        } else {
-            return !entity.isEnemy();
-        }
-    }
-
     // Gets the level of the entity
     public int getLevel() {
 
@@ -439,6 +429,9 @@ public abstract class Entity extends Interactable {
         DamageType type = entitySource.getDamageType();
 
         hurt(entitySource, damage, type);
+
+        changeRating(source, -1f * (damage / this.getMaxHealth()));
+
         return true;
     }
 
@@ -457,22 +450,122 @@ public abstract class Entity extends Interactable {
 
     @Override
     public boolean receiveResist(Interactable source) {
-        Status.Instance instance1 = null;
+        Status.Instance resInstance = null;
         for (Status.Instance instance : getStatuses()) {
-            if (new Random().nextInt(instance.getAmplifier() + 1) == 1) {
-                instance1 = instance;
+            if (instance.getStatus().isHarmful() &&
+                    new Random().nextInt(instance.getAmplifier() + 1) == 1) {
+
+                resInstance = instance;
                 break;
             }
         }
 
-        if (instance1 == null) {
+        if (resInstance == null) {
             return false;
         }
 
-        removeStatus(instance1.getStatus());
-        TextUtil.display(this,"%s resisted and lost %s. %n", source.getName(), instance1.getStatus().getName());
+        removeStatus(resInstance.getStatus());
+        TextUtil.display(this,"%s resisted and lost %s. %n", source.getName(), resInstance.getStatus().getName());
         return true;
     }
+
+    public HashMap<UUID, EntityRating> getMoodRatings() {
+        return moodRatings;
+    }
+
+    public void setMoodRatings(HashMap<UUID, EntityRating> moodRatings) {
+        this.moodRatings = moodRatings;
+    }
+
+    public void setRating(Interactable ia, float amount) {
+        UUID targetID = ia.getID();
+        if (!moodRatings.containsKey(targetID)) {
+            createMoodRating(ia, amount);
+        }
+
+        moodRatings.get(targetID).setRating(amount);
+    }
+
+    public void setMood(Interactable ia, EntityMood mood) {
+        UUID targetID = ia.getID();
+        if (!moodRatings.containsKey(targetID)) {
+            createMoodRating(ia, mood.get());
+        }
+
+        moodRatings.get(targetID).setMood(mood);
+    }
+
+    public void changeRating(Interactable ia, float amount) {
+        UUID targetID = ia.getID();
+        if (!moodRatings.containsKey(targetID)) {
+            createInteractableRating(ia);
+        }
+
+        moodRatings.get(targetID).changeRating(amount);
+        LogUtil.Log(LoggerType.INFO,
+                "%s rating and mood on [%s]: %nMood = %s, Rating = %s",
+                this.getName(), ia.getName(),
+                moodRatings.get(targetID).getMood(),
+                moodRatings.get(targetID).getRating());
+    }
+
+    public double getMoodRating(Interactable ia) {
+        return moodRatings.get(ia.getID()).getRating();
+    }
+
+    public EntityMood getMood(Interactable ia) {
+        if (!moodRatings.containsKey(ia.getID())) {
+            createInteractableRating(ia, 0f);
+        }
+        return moodRatings.get(ia.getID()).getMood();
+    }
+
+    public EntityRating getEntityRating(Interactable ia) {
+        return moodRatings.get(ia.getID());
+    }
+
+    public void removeMoodRating(Interactable ia) {
+        moodRatings.remove(ia.getID());
+    }
+
+    public void clearMoodRatings() {
+        moodRatings.clear();
+    }
+
+    public void createMoodRating(Interactable ia, float amount) {
+        UUID targetID = ia.getID();
+        if (moodRatings.containsKey(targetID)) {
+            return;
+        }
+
+        EntityRating rating = new EntityRating(amount);
+        moodRatings.put(targetID, rating);
+    }
+
+    public void createInteractableRating(Interactable ia, float rating) {
+        createMoodRating(ia, rating);
+    }
+
+    public void createInteractableRating(Interactable ia) {
+        createMoodRating(ia, 0f);
+    }
+
+
+    public boolean isHostileTo(Interactable ia) {
+
+        return getMood(ia) == EntityMood.HOSTILE;
+    }
+
+    public boolean isNeutralTo(Interactable ia) {
+
+        return getMood(ia) == EntityMood.NEUTRAL;
+    }
+
+    public boolean isFriendlyTo(Interactable ia) {
+
+        return getMood(ia) == EntityMood.FRIENDLY;
+    }
+
 
     // Gets all the equipped items of the entity
     public List<ItemEquipable> getEquippedItems() {
@@ -574,22 +667,19 @@ public abstract class Entity extends Interactable {
     }
 
     // Removes an item from holdable or equipable
-    public boolean removeEquippedItem(Item item) {
+    public void removeEquippedItem(Item item) {
         if (item instanceof ItemEquipable) {
             if (!equippedItems.contains(item.getID())) {
-                return false;
+                return;
             }
             equippedItems.remove(item.getID());
-            return true;
         }
         else if (item instanceof ItemHoldable) {
             if (!hasHeldItem()) {
-                return false;
+                return;
             }
             heldItem = null;
-            return true;
         }
-        return false;
     }
 
     @Nullable
@@ -617,12 +707,15 @@ public abstract class Entity extends Interactable {
         return this.attributes;
     }
 
-    public static void spawn(Entity entity, boolean enemy) {
-        Entity.spawn(entity, entity.getPos(), enemy);
+    public static void spawn(Entity entity) {
+        Position pos = entity.getPos();
+        if (pos == null) {
+            pos = new Position(0,0,0);
+        }
+        Entity.spawn(entity, pos);
     }
 
-    public static void spawn(Entity entity, Position position, boolean enemy) {
-        entity.setEnemy(enemy);
+    public static void spawn(Entity entity, Position position) {
         Interactable.spawn(entity, position);
     }
 

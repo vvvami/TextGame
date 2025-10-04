@@ -2,7 +2,7 @@ package net.vami.game.interactables.ai.tasks;
 
 import net.vami.game.interactables.entities.Entity;
 
-public class TargetAnyAndAttackTask extends Task {
+public class TargetAnyAndAttackTask extends TargetTask {
     @Override
     public boolean taskAction(Entity source) {
         new TargetTask().taskAction(source);

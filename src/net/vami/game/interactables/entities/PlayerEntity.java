@@ -4,9 +4,9 @@ import com.google.gson.GsonBuilder;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.*;
+import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
 import net.vami.game.interactables.interactions.abilities.PrayAbility;
 import net.vami.game.interactables.interactions.action.Action;
-import net.vami.game.interactables.interactions.abilities.SearchAbility;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
@@ -16,11 +16,11 @@ import net.vami.util.*;
 import java.awt.*;
 import java.io.*;
 
-public class Player extends Entity {
+public class PlayerEntity extends Entity {
 
     private Patron patron;
 
-    public Player(String name, Attributes attributes) {
+    public PlayerEntity(String name, Attributes attributes) {
         super(name, attributes);
         addAvailableAction(Action.SAVE);
         addAvailableAction(Action.USE);
@@ -71,7 +71,7 @@ public class Player extends Entity {
         this.patron = patron;
     }
 
-    public static void savePlayer(Player player) {
+    public static void savePlayer(PlayerEntity player) {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
@@ -86,20 +86,20 @@ public class Player extends Entity {
         }
     }
 
-    public static Player loadPlayer(String playerName) {
+    public static PlayerEntity loadPlayer(String playerName) {
         String saveFilePath = Game.playerSavePathFormat.replace("%", HexUtil.toHex(playerName));
         File saveFile = new File(saveFilePath);
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
-        Player loadedPlayer = null;
+        PlayerEntity loadedPlayer = null;
 
 
         if (saveFile.exists()) {
             FileReader reader = null;
             try {
                 reader = new FileReader(saveFile);
-                loadedPlayer = gson.fromJson(reader, Player.class);
+                loadedPlayer = gson.fromJson(reader, PlayerEntity.class);
 
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
@@ -109,7 +109,7 @@ public class Player extends Entity {
         return loadedPlayer;
     }
 
-    public static Player createPlayer(String name) {
+    public static PlayerEntity createPlayer(String name) {
         String playerName = name;
         playerName = playerName.substring(0, 1).toUpperCase() + playerName.substring(1);
 
@@ -118,12 +118,12 @@ public class Player extends Entity {
             return null;
         }
 
-        Player createdPlayer = loadPlayer(playerName);
+        PlayerEntity createdPlayer = loadPlayer(playerName);
 
         if (createdPlayer == null) {
-            createdPlayer = new Player(playerName, new Attributes()
+            createdPlayer = new PlayerEntity(playerName, new Attributes()
                     .level(1)
-                    .ability(PrayAbility.get));
+                    .ability(HypnosisAbility.get));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
             TextUtil.display("Your adventure begins. %n");
         }

@@ -10,8 +10,8 @@ import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
 import net.vami.game.interactables.interactions.damagetypes.BleedDamage;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 
-public class Kalakuli extends Entity {
-    public Kalakuli(String name, Attributes attributes) {
+public class KalakuliEntity extends Entity {
+    public KalakuliEntity(String name, Attributes attributes) {
         super(name, attributes
                 .level(5)
                 .damageType(BleedDamage.get)

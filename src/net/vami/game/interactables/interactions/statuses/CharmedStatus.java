@@ -1,13 +1,11 @@
 package net.vami.game.interactables.interactions.statuses;
 
+import net.vami.game.interactables.ai.EntityMood;
 import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.action.Action;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class CharmedStatus implements Status {
     public static final CharmedStatus get = new CharmedStatus();
+    private EntityMood prevMood;
 
     @Override
     public String getName() {
@@ -31,25 +29,18 @@ public class CharmedStatus implements Status {
 
     @Override
     public void turn(Entity target, Entity source) {
-        if (target.getTarget() != null) {
-            if (target.getTarget().isEnemy() == source.isEnemy()) {
-                target.setTarget(null);
-            }
-        }
+        target.setMood(source, EntityMood.FRIENDLY);
     }
-
-    Set<Action> actions = new HashSet<>();
 
     @Override
     public void onApply(Entity target, Entity source) {
-
-        target.setEnemy(source.isEnemy());
-        target.setTarget(null);
+        prevMood = target.getMood(source);
+        target.setMood(source, EntityMood.FRIENDLY);
     }
 
     @Override
     public void onEnded(Entity target, Entity source) {
-
-        target.setEnemy(!source.isEnemy());
+        target.setMood(source, prevMood);
+        target.changeRating(source, -0.2f);
     }
 }

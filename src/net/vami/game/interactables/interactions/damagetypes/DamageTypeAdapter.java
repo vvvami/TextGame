@@ -1,12 +1,9 @@
 package net.vami.game.world;
 
 import com.google.gson.*;
-import net.vami.game.interactables.entities.Player;
-import net.vami.game.interactables.interactions.abilities.Ability;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.util.ClassUtil;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 public class DamageTypeAdapter implements JsonSerializer, JsonDeserializer {

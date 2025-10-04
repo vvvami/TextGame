@@ -12,8 +12,8 @@ import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
 import org.jetbrains.annotations.Nullable;
 
-public class Wolf extends Entity {
-    public Wolf(String name, Attributes attributes) {
+public class WolfEntity extends Entity {
+    public WolfEntity(String name, Attributes attributes) {
         super(name, attributes
                 .level(1)
                 .damageType(SharpDamage.get)
@@ -51,6 +51,18 @@ public class Wolf extends Entity {
         if (Math.random() > 0.5) {
             this.setTarget((Entity) source);
         }
+    }
+
+    @Override
+    public void createInteractableRating(Interactable interactable, float rating) {
+        if (interactable instanceof WolfEntity) {
+            rating = EntityMood.FRIENDLY.get();
+
+        } else if (interactable instanceof PlayerEntity) {
+            rating = EntityMood.NEUTRAL.get();
+        }
+
+        createMoodRating(interactable, rating);
     }
 
     @Override

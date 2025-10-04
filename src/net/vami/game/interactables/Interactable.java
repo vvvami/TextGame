@@ -1,6 +1,6 @@
 package net.vami.game.interactables;
 import com.google.gson.*;
-import net.vami.game.interactables.entities.Player;
+import net.vami.game.interactables.entities.PlayerEntity;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.modifier.Modifier;
 import net.vami.game.interactables.items.Item;
@@ -106,14 +106,14 @@ public class Interactable {
     }
 
     // Saves all interactables specific to a player
-    public static void saveInteractables(Player player) {
+    public static void saveInteractables(PlayerEntity player) {
         String saveFilePath = Game.interactableSavePathFormat.replace("%", HexUtil.toHex(player.getName()));
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
         JsonArray interactableArray = new JsonArray();
         for (Interactable interactable : interactableMap.values()) {
-            if (interactable.getClass().equals(Player.class)) {
+            if (interactable.getClass().equals(PlayerEntity.class)) {
                 continue;
             }
             interactableArray.add(serializeInteractable(interactable, gson));
@@ -456,9 +456,13 @@ public class Interactable {
 
         // Checks if the interactable is immune to the given status effect
         if (isImmuneTo(instance.getStatus())) {
-            TextUtil.display(this,getDisplayName() + " is immune!");
+            TextUtil.display(this,getDisplayName() + " is immune! %n");
             return;
         }
+
+        if (instance.getAmplifier() == 0) {return;}
+
+        if (instance.getDuration() == 0) {return;}
 
         Status status = instance.getStatus();
         instance.setTarget(this);

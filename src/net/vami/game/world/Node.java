@@ -5,7 +5,6 @@ import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
-import net.vami.util.LogUtil;
 
 import java.util.*;
 
@@ -90,26 +89,6 @@ public class Node {
         return null;
     }
 
-    public List<Entity> getEnemies() {
-        List<Entity> enemies = new ArrayList<>();
-        for (Entity entity : this.getEntities()) {
-            if (entity.isEnemy()) {
-                enemies.add(entity);
-            }
-        }
-        return enemies;
-    }
-
-    public List<Entity> getAllies() {
-        List<Entity> allies = new ArrayList<>();
-        for (Entity entity : this.getEntities()) {
-            if (!entity.isEnemy()) {
-                allies.add(entity);
-            }
-        }
-        return allies;
-    }
-
     public List<Entity> getEntities() {
         return ((this.getInteractables().stream()
                 .filter(interactable -> interactable instanceof Entity)
@@ -137,7 +116,7 @@ public class Node {
     public void turnNoPlayer() {
         if (Game.isEnded()) {return;}
         // We tick the enemy first, as they start
-        enemyTicker();
+        nonAllyTicker();
         EnemyHandler.enemyAction(this);
 
         // Then comes the player and their allies
@@ -149,7 +128,7 @@ public class Node {
     public void prePlayerTurn() {
         if (Game.isEnded()) {return;}
         // We tick the enemy first, as they start
-        enemyTicker();
+        nonAllyTicker();
         EnemyHandler.enemyAction(this);
 
         // Then comes the player and their allies
@@ -163,12 +142,13 @@ public class Node {
     }
 
     // Ticks every enemy
-        void enemyTicker() {
+        void nonAllyTicker() {
             if (Game.isEnded()) {
                 return;
             }
-            for (Entity enemy : this.getEnemies()) {
-                if (!enemy.isEnded()) {
+            for (Entity enemy : this.getEntities()) {
+                if (!enemy.isEnded()
+                        && !enemy.isFriendlyTo(Game.player)) {
                     enemy.turn();
                 }
             }
@@ -179,8 +159,9 @@ public class Node {
             if (Game.isEnded()) {
                 return;
             }
-            for (Entity ally : this.getAllies()) {
-                if (!ally.isEnded()) {
+            for (Entity ally : this.getEntities()) {
+                if (!ally.isEnded()
+                        && ally.isFriendlyTo(Game.player)) {
                    ally.turn();
                 }
             }
