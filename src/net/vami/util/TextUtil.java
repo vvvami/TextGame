@@ -27,7 +27,6 @@ public class TextUtil {
     public static void display(@Nullable Interactable source, Color color, String text, Object ... args) {
         if (source == null || source instanceof Item || source.getPos().equals(Game.player.getPos())) {
             int counter = 0;
-
             GamePanel.setParentTextColor(color);
             Game.getDisplay().display(String.format(text, args), color);
 
