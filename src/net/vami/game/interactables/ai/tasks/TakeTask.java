@@ -15,9 +15,9 @@ public class TakeTask extends Task {
                 if (interactable instanceof ItemHoldable item) {
                     item.receiveTake(source);
                     source.getBrain().removeTask(this);
-                    break;
+                    return true;
                 }
             }
-            return true;
+            return false;
     }
 }

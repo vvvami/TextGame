@@ -103,6 +103,10 @@ public abstract class Entity extends Interactable {
         super.turn();
         itemTurn();
 
+        for (Interactable ia : this.getNode().getInteractables()) {
+            this.createInteractableRating(ia);
+        }
+
         if (hasTarget()
                     && !getTarget().getPos().equals(this.getPos())
                     && this.isNeutralTo(getTarget())) {
@@ -117,13 +121,9 @@ public abstract class Entity extends Interactable {
     public void setPos(Position position) {
         super.setPos(position);
 
-        if (this.isEnded()) {
-            return;
-        }
-
-        for (Interactable ia : this.getNode().getInteractables()) {
-            createInteractableRating(ia);
-        }
+//        if (this.isEnded()) {
+//            return;
+//        }
     }
 
     public Brain getBrain() {
@@ -390,7 +390,7 @@ public abstract class Entity extends Interactable {
     // Checks if the entity has a target
     public boolean hasTarget() {
 
-        return getTarget() != null && !getTarget().isEnded();
+        return !(getTarget() == null || getTarget().isEnded());
     }
 
     // Gets the formatted display name of the entity
@@ -438,7 +438,7 @@ public abstract class Entity extends Interactable {
 
         hurt(entitySource, damage, type);
 
-        if (getMoodScore(entitySource) <= 0) {
+        if (getMood(entitySource) == EntityMood.NEUTRAL) {
             setTarget(entitySource);
         }
 
@@ -521,7 +521,7 @@ public abstract class Entity extends Interactable {
 
     public EntityRating getEntityRating(Interactable ia) {
         if (!entityRatings.containsKey(ia.getID())) {
-            createInteractableRating(ia);
+            this.createInteractableRating(ia);
         }
 
         return entityRatings.get(ia.getID());

@@ -1,6 +1,8 @@
 package net.vami.game.interactables.ai.tasks;
 
 import net.vami.game.interactables.entities.Entity;
+import net.vami.util.LogUtil;
+import net.vami.util.LoggerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +12,15 @@ public class TargetTask extends Task {
 
     @Override
     public boolean taskAction(Entity source) {
+        if (source.hasTarget()) {
+            return false;
+        }
+
         List<Entity> targetList = new ArrayList<>();
 
         for (Entity target : source.getNode().getEntities()) {
+            if (target == source) {continue;}
+
             if (source.isHostileTo(target)) {
                 targetList.add(target);
             }
@@ -21,6 +29,8 @@ public class TargetTask extends Task {
             return false;
         }
         source.setTarget(targetList.get(new Random().nextInt(targetList.size())));
+        LogUtil.Log(LoggerType.DEBUG,
+                "Selected target: %s", source.getTarget().getName());
         return true;
     }
 }

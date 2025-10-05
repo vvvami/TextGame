@@ -5,7 +5,7 @@ public class CrippledStatus implements Status {
 
     @Override
     public String getName() {
-        return "Crippled";
+        return "CRPL";
     }
 
     @Override

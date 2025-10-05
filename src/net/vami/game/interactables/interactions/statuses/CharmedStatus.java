@@ -9,7 +9,7 @@ public class CharmedStatus implements Status {
 
     @Override
     public String getName() {
-        return "Charmed";
+        return "CHM";
     }
 
     @Override
@@ -36,6 +36,7 @@ public class CharmedStatus implements Status {
     public void onApply(Entity target, Entity source) {
         prevMood = target.getMood(source);
         target.setMood(source, EntityMood.FRIENDLY);
+        target.setTarget(null);
     }
 
     @Override

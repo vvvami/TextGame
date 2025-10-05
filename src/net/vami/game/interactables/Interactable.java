@@ -517,7 +517,7 @@ public class Interactable {
             for (Status.Instance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                TextUtil.display(this,"%s is no longer %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+                TextUtil.display(this,"%s is no longer affected by %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
     }

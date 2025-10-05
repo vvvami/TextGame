@@ -122,7 +122,7 @@ public class PlayerEntity extends Entity {
 
         if (createdPlayer == null) {
             createdPlayer = new PlayerEntity(playerName, new Attributes()
-                    .level(1)
+                    .level(5)
                     .ability(HypnosisAbility.get));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
             TextUtil.display("Your adventure begins. %n");

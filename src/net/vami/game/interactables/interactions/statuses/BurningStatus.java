@@ -9,7 +9,7 @@ public class BurningStatus implements Status {
 
     @Override
     public String getName() {
-        return "Burning";
+        return "BRN";
     }
 
     @Override

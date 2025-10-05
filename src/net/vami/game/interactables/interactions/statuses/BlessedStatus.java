@@ -21,7 +21,7 @@ public class BlessedStatus implements Status {
 
     @Override
     public String getName() {
-        return "Blessed";
+        return "BLSD";
     }
 
     @Override

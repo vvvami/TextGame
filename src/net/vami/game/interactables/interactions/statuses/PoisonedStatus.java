@@ -5,7 +5,7 @@ public class PoisonedStatus implements Status {
 
     @Override
     public String getName() {
-        return "Poisoned";
+        return "PSN";
     }
 
     @Override

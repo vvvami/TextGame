@@ -8,7 +8,7 @@ public class WoundedStatus implements Status {
 
     @Override
     public String getName() {
-        return "Wounded";
+        return "WND";
     }
 
     @Override

@@ -8,9 +8,7 @@ public class TargetAndAttackTask extends TargetTask {
     public boolean taskAction(Entity source) {
         if (!source.hasTarget()) {
             super.taskAction(source);
-            return false;
         }
-
         new AttackTask().taskAction(source);
         return true;
     }

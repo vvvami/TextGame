@@ -11,7 +11,7 @@ public class AttackOrTargetTask extends TargetTask {
     @Override
     public boolean taskAction(Entity source) {
         if (!source.hasTarget()) {
-            new TargetTask().taskAction(source);
+            super.taskAction(source);
         }
         else {
             source.getTarget().receiveAttack(source);

@@ -5,10 +5,10 @@ import net.vami.game.interactables.entities.Entity;
 public class TargetAnyAndAttackTask extends TargetTask {
     @Override
     public boolean taskAction(Entity source) {
-        new TargetTask().taskAction(source);
-        if (source.hasTarget()) {
-            new AttackTask().taskAction(source);
+        if (!source.hasTarget()) {
+            super.taskAction(source);
         }
+        new AttackTask().taskAction(source);
         return true;
     }
 }

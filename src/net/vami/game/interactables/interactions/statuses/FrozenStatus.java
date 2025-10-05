@@ -8,7 +8,7 @@ public class FrozenStatus implements Status {
 
     @Override
     public String getName() {
-        return "Frozen";
+        return "FRZN";
     }
 
     @Override

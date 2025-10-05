@@ -10,6 +10,7 @@ import net.vami.game.interactables.interactions.damagetypes.IceDamage;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
+import net.vami.game.interactables.items.custom.KnivesOfQalath;
 import org.jetbrains.annotations.Nullable;
 
 public class WolfEntity extends Entity {
@@ -21,7 +22,6 @@ public class WolfEntity extends Entity {
 
         addResistance(new IceDamage());
         addWeakness(FireDamage.get);
-        addImmunity(CharmedStatus.get);
         addImmunity(FrozenStatus.get);
     }
 
@@ -46,12 +46,13 @@ public class WolfEntity extends Entity {
     }
 
     @Override
-    public void createInteractableRating(Interactable interactable, float rating) {
+    public void createInteractableRating(Interactable interactable) {
+        float rating = 0f;
         if (interactable instanceof WolfEntity) {
             rating = EntityMood.FRIENDLY.get();
 
         } else if (interactable instanceof PlayerEntity) {
-            rating = EntityMood.NEUTRAL.get();
+            rating = EntityMood.HOSTILE.get();
         }
 
         createMoodRating(interactable, rating);

@@ -30,7 +30,7 @@ public class FrenziedStatus implements Status {
     }
 
     @Override
-    public String getName() {return "Frenzied";}
+    public String getName() {return "FRNZ";}
 
     @Override
     public boolean stacksAmplifier() {return true;}

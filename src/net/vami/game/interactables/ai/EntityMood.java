@@ -5,14 +5,14 @@ public enum EntityMood {
     NEUTRAL(0),
     HOSTILE(-1);
 
-    private float rating;
+    private final float score;
 
-    EntityMood(float rating) {
+    EntityMood(float score) {
 
-        this.rating = rating;
+        this.score = score;
     }
 
     public float get() {
-        return this.rating;
+        return this.score;
     }
 }
