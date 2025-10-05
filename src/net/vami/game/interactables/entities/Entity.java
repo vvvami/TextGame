@@ -546,11 +546,14 @@ public abstract class Entity extends Interactable {
     }
 
     public void createInteractableRating(Interactable ia, float rating) {
+        if (ia == this) {
+            createMoodRating(ia, 1);
+        }
         createMoodRating(ia, rating);
     }
 
     public void createInteractableRating(Interactable ia) {
-        createMoodRating(ia, 0f);
+        createMoodRating(ia, 0);
     }
 
 

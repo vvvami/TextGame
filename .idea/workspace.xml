@@ -9,16 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)">
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/PoisonDamage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/PoisonedStatus.java" afterDir="false" />
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EntityRating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EntityRating.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/SupportAbilityTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/SupportAbilityTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/util/CalcUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/CalcUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +214,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759619154839</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;">
+      <option name="closed" value="true" />
+      <created>1759674165468</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1759674165468</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,7 +247,8 @@
     <MESSAGE value="performance improvements and some cleanup" />
     <MESSAGE value="start of target stuff" />
     <MESSAGE value="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)" />
-    <option name="LAST_COMMIT_MESSAGE" value="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)" />
+    <MESSAGE value="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
