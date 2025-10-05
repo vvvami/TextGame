@@ -50,7 +50,7 @@ public abstract class Entity extends Interactable {
     private int maxEquipSlots = 6;
     private List<UUID> equippedItems = new ArrayList<>();
 
-    private HashMap<UUID, EntityRating> moodRatings = new HashMap<>();
+    private HashMap<UUID, EntityRating> entityRatings = new HashMap<>();
 
     // This is mostly for the AI of the entity, not necessarily used for all entities
     private UUID target;
@@ -75,7 +75,6 @@ public abstract class Entity extends Interactable {
         addReceivableAction(Action.ABILITY);
         addReceivableAction(Action.RESIST);
         addReceivableAction(Action.MOVEMENT);
-
     }
 
     // Overrides the remove() in the Interactable to add entity drops baby
@@ -103,6 +102,14 @@ public abstract class Entity extends Interactable {
     public void turn() {
         super.turn();
         itemTurn();
+
+        if (hasTarget()
+                    && !getTarget().getPos().equals(this.getPos())
+                    && this.isNeutralTo(getTarget())) {
+
+                setTarget(null);
+        }
+
         LogUtil.Log("Entity ticked: (%s [%s], %s, %s)", this.getName(), this.getPos().toString(), this.getID(), this);
     }
 
@@ -374,6 +381,7 @@ public abstract class Entity extends Interactable {
     // Sets the current target of the entity
     public void setTarget(Entity target) {
         if (target == null) {
+            this.target = null;
             return;
         }
         this.target = target.getID();
@@ -430,6 +438,10 @@ public abstract class Entity extends Interactable {
 
         hurt(entitySource, damage, type);
 
+        if (getMoodScore(entitySource) <= 0) {
+            setTarget(entitySource);
+        }
+
         changeRating(source, -1f * (damage / this.getMaxHealth()));
 
         return true;
@@ -469,77 +481,68 @@ public abstract class Entity extends Interactable {
         return true;
     }
 
-    public HashMap<UUID, EntityRating> getMoodRatings() {
-        return moodRatings;
+    // Entity Rating
+
+    public HashMap<UUID, EntityRating> getEntityRatings() {
+        return entityRatings;
     }
 
-    public void setMoodRatings(HashMap<UUID, EntityRating> moodRatings) {
-        this.moodRatings = moodRatings;
+    public void setEntityRatings(HashMap<UUID, EntityRating> entityRatings) {
+        this.entityRatings = entityRatings;
     }
 
-    public void setRating(Interactable ia, float amount) {
-        UUID targetID = ia.getID();
-        if (!moodRatings.containsKey(targetID)) {
-            createMoodRating(ia, amount);
-        }
-
-        moodRatings.get(targetID).setRating(amount);
+    public void setMoodScore(Interactable ia, float amount) {
+        getEntityRating(ia).setScore(amount);
     }
 
     public void setMood(Interactable ia, EntityMood mood) {
-        UUID targetID = ia.getID();
-        if (!moodRatings.containsKey(targetID)) {
-            createMoodRating(ia, mood.get());
-        }
-
-        moodRatings.get(targetID).setMood(mood);
+        getEntityRating(ia).setMood(mood);
     }
 
     public void changeRating(Interactable ia, float amount) {
         UUID targetID = ia.getID();
-        if (!moodRatings.containsKey(targetID)) {
-            createInteractableRating(ia);
-        }
 
-        moodRatings.get(targetID).changeRating(amount);
+        getEntityRating(ia).changeScore(amount);
+
         LogUtil.Log(LoggerType.INFO,
                 "%s rating and mood on [%s]: %nMood = %s, Rating = %s",
                 this.getName(), ia.getName(),
-                moodRatings.get(targetID).getMood(),
-                moodRatings.get(targetID).getRating());
+                entityRatings.get(targetID).getMood(),
+                entityRatings.get(targetID).getScore());
     }
 
-    public double getMoodRating(Interactable ia) {
-        return moodRatings.get(ia.getID()).getRating();
+    public double getMoodScore(Interactable ia) {
+        return getEntityRating(ia).getScore();
     }
 
     public EntityMood getMood(Interactable ia) {
-        if (!moodRatings.containsKey(ia.getID())) {
-            createInteractableRating(ia, 0f);
-        }
-        return moodRatings.get(ia.getID()).getMood();
+        return getEntityRating(ia).getMood();
     }
 
     public EntityRating getEntityRating(Interactable ia) {
-        return moodRatings.get(ia.getID());
+        if (!entityRatings.containsKey(ia.getID())) {
+            createInteractableRating(ia);
+        }
+
+        return entityRatings.get(ia.getID());
     }
 
-    public void removeMoodRating(Interactable ia) {
-        moodRatings.remove(ia.getID());
+    public void removeEntityRating(Interactable ia) {
+        entityRatings.remove(ia.getID());
     }
 
-    public void clearMoodRatings() {
-        moodRatings.clear();
+    public void clearEntityRatings() {
+        entityRatings.clear();
     }
 
     public void createMoodRating(Interactable ia, float amount) {
         UUID targetID = ia.getID();
-        if (moodRatings.containsKey(targetID)) {
+        if (entityRatings.containsKey(targetID)) {
             return;
         }
 
         EntityRating rating = new EntityRating(amount);
-        moodRatings.put(targetID, rating);
+        entityRatings.put(targetID, rating);
     }
 
     public void createInteractableRating(Interactable ia, float rating) {
@@ -565,6 +568,7 @@ public abstract class Entity extends Interactable {
 
         return getMood(ia) == EntityMood.FRIENDLY;
     }
+
 
 
     // Gets all the equipped items of the entity

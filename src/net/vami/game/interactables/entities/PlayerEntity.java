@@ -59,7 +59,7 @@ public class PlayerEntity extends Entity {
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
         saveInteractables(this);
-        TextUtil.display("The Goddess still loves you.%nGood luck, %s.", Color.yellow, this.getDisplayName());
+        TextUtil.display("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this.getDisplayName());
         return true;
     }
 

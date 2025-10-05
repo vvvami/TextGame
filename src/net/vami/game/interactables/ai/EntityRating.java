@@ -2,15 +2,15 @@ package net.vami.game.interactables.ai;
 
 public class EntityRating {
     private EntityMood mood;
-    private float rating;
+    private float score;
 
-    public EntityRating(EntityMood mood, float rating) {
+    public EntityRating(EntityMood mood, float score) {
         this.mood = mood;
-        this.rating = rating;
+        this.score = score;
     }
 
-    public EntityRating(float rating) {
-        this.rating = rating;
+    public EntityRating(float score) {
+        this.score = score;
         updateMood();
     }
 
@@ -18,23 +18,23 @@ public class EntityRating {
         return mood;
     }
 
-    public float getRating() {
-        return rating;
+    public float getScore() {
+        return score;
     }
 
     public void setMood(EntityMood mood) {
         this.mood = mood;
     }
 
-    public void setRating(float amount) {
-        rating = amount;
+    public void setScore(float amount) {
+        score = amount;
         updateMood();
     }
 
     // Automatically updates the mood based on the rating change given
-    public void changeRating(float amount) {
-        rating += amount;
-        rating = Math.min(Math.max(rating, EntityMood.HOSTILE.get()),
+    public void changeScore(float amount) {
+        score += amount;
+        score = Math.min(Math.max(score, EntityMood.HOSTILE.get()),
                 EntityMood.FRIENDLY.get());
         updateMood();
     }
@@ -46,20 +46,20 @@ public class EntityRating {
     // EntityMood.MOOD.get() should always reflect the current thresholds
     // It should match up here with the switch/case
     private void updateMood() {
-        byte roundedRating = (byte) Math.round(rating);
+        byte roundedScore = (byte) Math.round(score);
 
         if (mood == null) {mood = EntityMood.NEUTRAL;}
 
         switch (mood) {
             case FRIENDLY:
-                if (rating <= 0) {mood = EntityMood.NEUTRAL;}
+                if (score <= 0) {mood = EntityMood.NEUTRAL;}
 
             case HOSTILE:
-                if (rating >= 0) {mood = EntityMood.NEUTRAL;}
+                if (score >= 0) {mood = EntityMood.NEUTRAL;}
 
             case NEUTRAL:
-                if (roundedRating == 1) {mood = EntityMood.FRIENDLY;}
-                else if (roundedRating == -1) {mood = EntityMood.HOSTILE;}
+                if (roundedScore == 1) {mood = EntityMood.FRIENDLY;}
+                else if (roundedScore == -1) {mood = EntityMood.HOSTILE;}
         }
     }
 }

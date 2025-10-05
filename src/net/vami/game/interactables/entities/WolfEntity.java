@@ -46,14 +46,6 @@ public class WolfEntity extends Entity {
     }
 
     @Override
-    public void hurt(Interactable source, float amount, DamageType damageType) {
-        super.hurt(source, amount, damageType);
-        if (Math.random() > 0.5) {
-            this.setTarget((Entity) source);
-        }
-    }
-
-    @Override
     public void createInteractableRating(Interactable interactable, float rating) {
         if (interactable instanceof WolfEntity) {
             rating = EntityMood.FRIENDLY.get();

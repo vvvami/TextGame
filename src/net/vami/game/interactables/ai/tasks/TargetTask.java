@@ -17,6 +17,9 @@ public class TargetTask extends Task {
                 targetList.add(target);
             }
         }
+        if (targetList.isEmpty()) {
+            return false;
+        }
         source.setTarget(targetList.get(new Random().nextInt(targetList.size())));
         return true;
     }

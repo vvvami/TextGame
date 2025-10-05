@@ -3,6 +3,7 @@ package net.vami.util;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.interactions.statuses.PoisonedStatus;
 
 public class CalcUtil {
     public static float damage(Interactable source, Interactable target, float amount, DamageType damageType) {
@@ -30,13 +31,15 @@ public class CalcUtil {
                 }
             }
 
+            if (source.hasSpecifiedStatus(PoisonedStatus.get)) {
+                finalAmount *= 0.75f;
+            }
+
             // Armor defense calculation
             if (targetEntity.getArmor() > 0) {
                 finalAmount = Math.max(1, finalAmount - targetEntity.getArmor());
             }
         }
-
-
 
         return finalAmount;
     }

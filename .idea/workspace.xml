@@ -9,29 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="start of target stuff">
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EntityMood.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EntityRating.java" afterDir="false" />
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)">
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/PoisonDamage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/PoisonedStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/TextGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/TextGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/Target.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AttackOrTargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AttackOrTargetTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/SupportAbilityTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/SupportAbilityTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetAnyAndAttackTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetAnyAndAttackTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EntityRating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EntityRating.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Kalakuli.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/KalakuliEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/AbilityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/AbilityAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/RageAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/RageAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/SummoningAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/SummoningAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/DamageTypeAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/damagetypes/DamageTypeAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/util/CalcUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/CalcUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,8 +64,11 @@
     <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Java/jdk-22/lib/src.zip!/java.desktop/java/awt/Window.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Java/jdk-22/lib/src.zip!/java.desktop/javax/swing/SpringLayout.java" root0="SKIP_INSPECTION" />
   </component>
+  <component name="NamedScopeManager">
+    <scope name="Rights" pattern="src:*..*||lib:*..*" />
+  </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;7765d0ff&quot;,
@@ -102,6 +92,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "create.test.in.the.same.root": "true",
     "git-widget-placeholder": "ai-revamp",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/vami/Desktop/TextGame/src/assets",
@@ -109,7 +100,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Language Defaults"
+    "settings.editor.selected.configurable": "copyright.profiles"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -219,7 +210,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759596918567</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)">
+      <option name="closed" value="true" />
+      <created>1759619154839</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1759619154839</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,7 +242,8 @@
     <MESSAGE value="stuff" />
     <MESSAGE value="performance improvements and some cleanup" />
     <MESSAGE value="start of target stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="start of target stuff" />
+    <MESSAGE value="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)" />
+    <option name="LAST_COMMIT_MESSAGE" value="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
