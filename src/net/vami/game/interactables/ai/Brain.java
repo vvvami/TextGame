@@ -4,17 +4,22 @@ import net.vami.game.interactables.ai.tasks.Task;
 import net.vami.game.interactables.entities.Entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class Brain {
     private List<Task> taskList = new ArrayList<>();
 
+    // Adds a task to the brain.
+    // If the task already exists in the brain,
+    // it will replace the previous with the new one.
     public Brain addTask(Task task, int priority) {
         if (priority < 1) {
             throw new RuntimeException("Task priority cannot be lower than 1!");
         }
         task.setPriority(priority);
+        taskList.removeIf(task1 -> task1.equals(task));
         taskList.add(task);
         return this;
     }
@@ -32,10 +37,10 @@ public class Brain {
         }
     }
 
-    public Task getTask(Task task1) {
-        for (Task task2 : taskList) {
-            if (task1.getClass() == task2.getClass()) {
-                return task2;
+    public Task getTask(Task task) {
+        for (Task task1 : taskList) {
+            if (task.equals(task1)) {
+                return task1;
             }
         }
         return null;

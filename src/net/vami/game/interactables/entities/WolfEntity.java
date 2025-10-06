@@ -31,9 +31,7 @@ public class WolfEntity extends Entity {
         werewolfBrain.addTask(new TargetAnyAndAttackTask(), 10);
         werewolfBrain.addTask(new ChaseTargetTask(), 6);
         werewolfBrain.addTask(new TakeTask(), 3);
-        if (!this.hasTarget()) {
-            werewolfBrain.addTask(new MoveTask(), 1);
-        }
+        werewolfBrain.addTask(new MoveTask(), 1);
 
         if (this.getHealth() < (float) this.getMaxHealth() / 2) {
             werewolfBrain.addTask(new AbilityOrTargetTask(), 10);
