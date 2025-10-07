@@ -36,7 +36,7 @@ public class CharmedStatus implements Status {
     @Override
     public void turn(Entity target, Entity source) {
         target.setMood(source, EntityMood.FRIENDLY);
-        target.getBrain().addTask(new SupportAbilityTask(), 100);
+        target.addTask(new SupportAbilityTask(), 100);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CharmedStatus implements Status {
     public void onEnded(Entity target, Entity source) {
         target.setMood(source, prevMood);
         if (prevTask != null) {
-            target.getBrain().addTask(prevTask, prevTask.getPriority());
+            target.addTask(prevTask, prevTask.getPriority());
         }
         target.changeRating(source, -0.2f);
     }

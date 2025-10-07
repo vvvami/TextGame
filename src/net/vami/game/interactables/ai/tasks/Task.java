@@ -1,5 +1,6 @@
 package net.vami.game.interactables.ai.tasks;
 
+import com.google.gson.annotations.JsonAdapter;
 import net.vami.game.interactables.entities.Entity;
 
 public abstract class Task {

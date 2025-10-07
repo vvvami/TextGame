@@ -26,21 +26,22 @@ public class WolfEntity extends Entity {
     }
 
     @Override
-    public Brain getBrain() {
-        Brain werewolfBrain = new Brain();
-        werewolfBrain.addTask(new TargetAnyAndAttackTask(), 10);
-        werewolfBrain.addTask(new ChaseTargetTask(), 6);
-        werewolfBrain.addTask(new TakeTask(), 3);
-        werewolfBrain.addTask(new MoveTask(), 1);
+    public void initializeBrain() {
+        addTask(new TargetAnyAndAttackTask(), 10);
+        addTask(new ChaseTargetTask(), 6);
+        addTask(new TakeTask(), 3);
+        addTask(new MoveTask(), 1);
+    }
 
+    @Override
+    public void hurt(Interactable source, float amount, DamageType damageType) {
+        super.hurt(source, amount, damageType);
         if (this.getHealth() < (float) this.getMaxHealth() / 2) {
-            werewolfBrain.addTask(new AbilityOrTargetTask(), 10);
-            werewolfBrain.removeTask(new TargetAnyAndAttackTask());
-            werewolfBrain.addTask(new TargetAndAttackTask(), 10);
-            werewolfBrain.removeTask(new TakeTask());
+            addTask(new AbilityOrTargetTask(), 10);
+            removeTask(new TargetAnyAndAttackTask());
+            addTask(new TargetAndAttackTask(), 10);
+            removeTask(new TakeTask());
         }
-
-        return werewolfBrain;
     }
 
     @Override

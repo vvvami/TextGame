@@ -1,5 +1,7 @@
 package net.vami.game.interactables;
 import com.google.gson.*;
+import net.vami.game.interactables.ai.Brain;
+import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.PlayerEntity;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.modifier.Modifier;
@@ -60,12 +62,6 @@ public class Interactable {
             return;
         }
 
-        if (position == null) {
-            LogUtil.Log(LoggerType.ERROR,
-                    "Cannot spawn interactable: Position is null! %s",
-                    interactable);
-            return;
-        }
         Node nodeNew = Node.findNode(position);
         if (nodeNew == null) {
             LogUtil.Log(LoggerType.ERROR,
@@ -82,6 +78,11 @@ public class Interactable {
             addToMap(interactable);
         }
 
+        if (interactable instanceof Entity entity) {
+            entity.setBrain(new Brain());
+            entity.initializeBrain();
+        }
+
         interactable.setPos(position);
     }
 
@@ -96,15 +97,6 @@ public class Interactable {
         }
 
         Position newPos = interactable.position;
-        if (newPos == null) {
-            if (Game.player != null && Game.player.getPos() != null) {
-                newPos = Game.player.getPos();
-            } else {
-                LogUtil.Log(LoggerType.WARN,
-                        "Interactable position is null: using default (%s)", interactable);
-                newPos = new Position(0,0,0);
-            }
-        }
         spawn(interactable, newPos);
     }
 

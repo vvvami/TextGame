@@ -17,17 +17,23 @@ public class KalakuliEntity extends Entity {
                 .damageType(BleedDamage.get)
                 .ability(HypnosisAbility.get));
         removeAvailableAction(Action.TAKE);
+
     }
 
     @Override
-    public Brain getBrain() {
-        Brain brain = new Brain();
-        brain.addTask(new MoveTask(), 1);
+    public void initializeBrain() {
+        addTask(new MoveTask(), 1);
+        addTask(new TargetAndAttackTask(), 5);
+        addTask(new ChaseTargetTask(), 10);
+    }
+
+    @Override
+    public void turn() {
+        super.turn();
         if (this.hasTarget() && !this.getTarget().hasSpecifiedStatus(CharmedStatus.get)) {
-            brain.addTask(new AbilityOrTargetTask(), 2);
+            addTask(new AbilityOrTargetTask(), 2);
+        } else {
+            removeTask(new AbilityOrTargetTask());
         }
-        brain.addTask(new TargetAndAttackTask(), 5);
-        brain.addTask(new ChaseTargetTask(), 10);
-        return brain;
     }
 }

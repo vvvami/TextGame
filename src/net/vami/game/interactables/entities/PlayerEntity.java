@@ -5,11 +5,9 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
-import net.vami.game.interactables.interactions.abilities.PrayAbility;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.patrons.Patron;
 import net.vami.game.Game;
-import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.items.custom.ExplorersMapItem;
 import net.vami.util.*;
 
@@ -37,22 +35,14 @@ public class PlayerEntity extends Entity {
     }
 
     @Override
-    public Brain getBrain() {
-        if (this.hasSpecifiedStatus(CharmedStatus.get)) {
-            return new Brain()
-            .addTask(new AttackOrTargetTask(), 5)
-            .addTask(new AbilityOrTargetTask(), 8)
-            .addTask(new MoveTask(), 1)
-            .addTask(new TargetAnyAndAttackTask(), 10);
-        }
-
-        return null;
-    }
-
-    @Override
     public void remove() {
         this.removeAllItems();
         super.remove();
+    }
+
+    @Override
+    public void initializeBrain() {
+
     }
 
     @Override

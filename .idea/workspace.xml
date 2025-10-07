@@ -9,10 +9,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="fixed targeting issue and issue with initial entityrating application using the createInteractableRating() method">
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/IdleTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TaskAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/Brain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/Brain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetAnyAndAttackTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetAnyAndAttackTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/KalakuliEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/KalakuliEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" afterDir="false" />
     </list>
@@ -78,28 +85,28 @@
     <option name="flattenModules" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.TextGame.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ai-revamp&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vami/Desktop/TextGame/src/assets&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;copyright.profiles&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.TextGame.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "create.test.in.the.same.root": "true",
+    "git-widget-placeholder": "ai-revamp",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/vami/Desktop/TextGame/src/assets",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "copyright.profiles"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\vami\Desktop\TextGame\src\assets" />
@@ -107,6 +114,9 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vami\Desktop\TextGame\src\assets" />
       <recent name="C:\Users\vami\Desktop\TextGame\src" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.vami.game.interactables.interactions.statuses" />
     </key>
   </component>
   <component name="RunManager">
@@ -239,7 +249,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759697565270</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixed targeting tasks, charmedstatus still doesn't work">
+      <option name="closed" value="true" />
+      <created>1759744977442</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1759744977442</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -267,7 +285,8 @@
     <MESSAGE value="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;" />
     <MESSAGE value="fixed ai issues + interactable spawning issues" />
     <MESSAGE value="fixed targeting issue and issue with initial entityrating application using the createInteractableRating() method" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed targeting issue and issue with initial entityrating application using the createInteractableRating() method" />
+    <MESSAGE value="fixed targeting tasks, charmedstatus still doesn't work" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed targeting tasks, charmedstatus still doesn't work" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

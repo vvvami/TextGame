@@ -3,6 +3,7 @@ import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.ai.EntityMood;
 import net.vami.game.interactables.ai.EntityRating;
+import net.vami.game.interactables.ai.tasks.*;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.action.ActionFeedback;
 import net.vami.game.interactables.interactions.modifier.Modifier;
@@ -47,13 +48,14 @@ public abstract class Entity extends Interactable {
     // All item-related variables (like the inventory)
     private List<UUID> inventory = new ArrayList<>();
     private UUID heldItem;
-    private int maxEquipSlots = 6;
+    private transient int maxEquipSlots = 6;
     private List<UUID> equippedItems = new ArrayList<>();
 
     private HashMap<UUID, EntityRating> entityRatings = new HashMap<>();
 
     // This is mostly for the AI of the entity, not necessarily used for all entities
     private UUID target;
+    private transient Brain brain;
 
     public Entity(String name, Attributes attributes) {
         super(name);
@@ -114,7 +116,7 @@ public abstract class Entity extends Interactable {
                 setTarget(null);
         }
 
-        LogUtil.Log("Entity ticked: (%s [%s], %s, %s)", this.getName(), this.getPos().toString(), this.getID(), this);
+        LogUtil.Log("Entity ticked: [%s %s, %s, %s]", this.getName(), this.getPos().toString(), this.getID(), this);
     }
 
     @Override
@@ -126,8 +128,23 @@ public abstract class Entity extends Interactable {
 //        }
     }
 
-    public Brain getBrain() {
-        return null;
+    // Brain-related things
+    public final Brain getBrain() {
+        return this.brain;
+    }
+
+    public void setBrain(Brain brain) {
+        this.brain = brain;
+    }
+
+    public abstract void initializeBrain();
+
+    public void addTask(Task task, int priority) {
+        this.brain.addTask(task, priority);
+    }
+
+    public void removeTask(Task task) {
+        this.brain.removeTask(task);
     }
 
     // Main damage function
@@ -712,18 +729,6 @@ public abstract class Entity extends Interactable {
 
     public Attributes getAttributes() {
         return this.attributes;
-    }
-
-    public static void spawn(Entity entity) {
-        Position pos = entity.getPos();
-        if (pos == null) {
-            pos = new Position(0,0,0);
-        }
-        Entity.spawn(entity, pos);
-    }
-
-    public static void spawn(Entity entity, Position position) {
-        Interactable.spawn(entity, position);
     }
 
     // This class exists entirely because im a lazy piece of shit.
