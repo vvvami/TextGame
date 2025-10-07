@@ -225,7 +225,7 @@ public abstract class Entity extends Interactable {
             if (source instanceof Entity entity) {
                 int random = new Random().nextInt(1, Math.max(2, entity.getLevel() - this.getLevel()));
                 if (random == 1) {
-                    entity.addLevel(1);
+                    entity.setLevel(100);
                 }
             }
         }
@@ -281,8 +281,10 @@ public abstract class Entity extends Interactable {
 
     public void setLevel(int level) {
         if (!isEnded()) {
-            this.attributes = attributes
-                    .level(level);
+            this.attributes = new Attributes()
+                    .level(level)
+                    .damageType(this.attributes.damageTypeAttribute)
+                    .ability(this.attributes.abilityAttribute);
             this.attributes.initialize();
         }
     }

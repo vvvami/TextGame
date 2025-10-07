@@ -3,6 +3,7 @@ package net.vami.game.interactables.interactions.statuses;
 import com.google.gson.annotations.JsonAdapter;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
+import net.vami.util.TextUtil;
 
 import java.util.UUID;
 
@@ -59,6 +60,12 @@ public interface Status {
         }
 
         public void turn() {
+            Interactable interactable = Interactable.getInteractableFromID(target);
+            if (interactable.isImmuneTo(this.getStatus())) {
+                TextUtil.display(interactable, "%s's immunity negates %s."
+                ,interactable.getDisplayName(), this.getStatus().getName());
+                return;
+            }
             this.getStatus().turn(this.getTarget(), this.getSource());
             this.duration--;
         }

@@ -96,6 +96,9 @@ public class Interactable {
         }
 
         Position newPos = interactable.position;
+        if (newPos == null && interactable instanceof Entity) {
+            newPos = new Position(0,0,0);
+        }
         spawnInteractable(interactable, newPos);
     }
 

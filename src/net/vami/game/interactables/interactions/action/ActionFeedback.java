@@ -34,7 +34,7 @@ public class ActionFeedback {
     }
 
     public void printFeedback(@NotNull ActionFeedbackType type, Object ... args) {
-        Interactable source = Node.findNode(Game.player.getPos()).stringToInteractable((String) Arrays.stream(args).toList().get(1));
+        Interactable source = Node.findNode(Game.player.getPos()).stringToInteractable((String) Arrays.stream(args).toList().getFirst());
         TextUtil.display(source, feedbackList.get(type.ordinal()), args);
     }
 

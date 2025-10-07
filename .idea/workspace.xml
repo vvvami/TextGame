@@ -9,18 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="fixed issues with dynamic AI by giving every entity a brain variable&#10;- added new methods to Entity class to change Brain dynamically&#10;- deleted Entity spawn methods (redundant)&#10;- made Interactable spawn method check for instanceof Entity and intialize Brain&#10;- all entities now require initializeBrain() method for starter AI&#10;&#10;*Brain and tasks are not saved in save file, meaning task changes need to be applied per turn if you want them to continue to affect entities even after loading a save again.">
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="some touch-ups and improvements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/Brain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/Brain.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/HypnosisAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/HypnosisAbility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/SummoningAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/SummoningAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759864473884</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="some touch-ups and improvements">
+      <option name="closed" value="true" />
+      <created>1759866473414</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1759866473414</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -294,7 +298,8 @@
     <MESSAGE value="fixed targeting issue and issue with initial entityrating application using the createInteractableRating() method" />
     <MESSAGE value="fixed targeting tasks, charmedstatus still doesn't work" />
     <MESSAGE value="fixed issues with dynamic AI by giving every entity a brain variable&#10;- added new methods to Entity class to change Brain dynamically&#10;- deleted Entity spawn methods (redundant)&#10;- made Interactable spawn method check for instanceof Entity and intialize Brain&#10;- all entities now require initializeBrain() method for starter AI&#10;&#10;*Brain and tasks are not saved in save file, meaning task changes need to be applied per turn if you want them to continue to affect entities even after loading a save again." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed issues with dynamic AI by giving every entity a brain variable&#10;- added new methods to Entity class to change Brain dynamically&#10;- deleted Entity spawn methods (redundant)&#10;- made Interactable spawn method check for instanceof Entity and intialize Brain&#10;- all entities now require initializeBrain() method for starter AI&#10;&#10;*Brain and tasks are not saved in save file, meaning task changes need to be applied per turn if you want them to continue to affect entities even after loading a save again." />
+    <MESSAGE value="some touch-ups and improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="some touch-ups and improvements" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
