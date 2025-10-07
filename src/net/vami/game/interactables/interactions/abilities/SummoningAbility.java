@@ -17,7 +17,7 @@ public class SummoningAbility implements Ability {
                 .level(entitySource.getLevel()));
 
         summon.setMood(source, EntityMood.FRIENDLY);
-        Entity.spawn(summon, entitySource.getPos());
+        Entity.spawnInteractable(summon, entitySource.getPos());
 
         return true;
     }

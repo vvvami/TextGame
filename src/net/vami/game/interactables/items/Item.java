@@ -98,7 +98,7 @@ public class Item extends Interactable {
             Game.playSound(this.getOwner(), Sound.ITEM_BREAK, 65);
             getOwner().removeFromInventory(this);
             getOwner().removeEquippedItem(this);
-            annihilate();
+            erase();
             TextUtil.display(this,"%s has broken!%n", this.getDisplayName());
         }
     }

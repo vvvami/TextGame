@@ -68,6 +68,7 @@ public class Brain {
         }
     }
 
+    // Helper method for selectTask()
     private Task chooseTask() {
         List<Integer> priorityList = taskList.stream().map(Task::getPriority).toList();
         int totalPriority = priorityList.stream().reduce(0, Integer::sum);

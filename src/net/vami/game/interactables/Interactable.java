@@ -1,7 +1,6 @@
 package net.vami.game.interactables;
 import com.google.gson.*;
 import net.vami.game.interactables.ai.Brain;
-import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.PlayerEntity;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.modifier.Modifier;
@@ -53,11 +52,10 @@ public class Interactable {
     }
 
     // Spawns an interactable with a defined position
-    public static void spawn(Interactable interactable, Position position) {
-        if (interactable instanceof Entity entity
-                && entity.isEnded()) {
+    public static void spawnInteractable(Interactable interactable, Position position) {
+        if (interactable.isEnded()) {
             LogUtil.Log(LoggerType.ERROR,
-                    "Cannot spawn dead entity: %s",
+                    "Cannot spawn ended interactable: %s",
                     interactable.getDisplayName());
             return;
         }
@@ -84,20 +82,21 @@ public class Interactable {
         }
 
         interactable.setPos(position);
+        interactable.onSpawn();
     }
 
     // Spawns the entity at its default set position. If the position is null, it will spawn at the player's position
-    public static void spawn(Interactable interactable) {
+    public static void spawnInteractable(Interactable interactable) {
         if (interactable instanceof Entity entity
                 && entity.isEnded()) {
             LogUtil.Log(LoggerType.ERROR,
-                    "Cannot spawn dead entity: %s",
+                    "Cannot spawn dead interactable: %s",
                     interactable.getDisplayName());
             return;
         }
 
         Position newPos = interactable.position;
-        spawn(interactable, newPos);
+        spawnInteractable(interactable, newPos);
     }
 
     // Saves all interactables specific to a player
@@ -124,6 +123,11 @@ public class Interactable {
             throw new RuntimeException(e);
         }
     }
+
+    public void onSpawn() {
+
+    }
+
 
     public static JsonElement serializeInteractable(Object o, Gson gson) {
         JsonObject classObj = new JsonObject();
@@ -158,7 +162,7 @@ public class Interactable {
                 for (JsonElement element : mainArr) {
                     Interactable interactable = deserializeInteractable(element, gson);
                     addToMap(interactable);
-                    Interactable.spawn(interactable);
+                    Interactable.spawnInteractable(interactable);
                 }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
@@ -296,7 +300,7 @@ public class Interactable {
     }
 
     // You should kill yourself NOW!!
-    public void annihilate() {
+    public void erase() {
         this.remove();
         interactableMap.remove(this.ID);
     }
@@ -455,6 +459,8 @@ public class Interactable {
             return;
         }
 
+        if (!instance.canApply()) {return;}
+
         if (instance.getAmplifier() == 0) {return;}
 
         if (instance.getDuration() == 0) {return;}
@@ -554,6 +560,10 @@ public class Interactable {
 
     public void setStatuses(List<Status.Instance> statusEffects) {
         this.statusEffects = statusEffects;
+    }
+
+    public void clearStatuses() {
+        this.statusEffects.clear();
     }
 
     public void addImmunity(Status status) {

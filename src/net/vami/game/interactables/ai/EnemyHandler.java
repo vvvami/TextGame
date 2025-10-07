@@ -26,14 +26,14 @@ public class EnemyHandler {
     public static void Generate() {
 
         ItemHoldable excalibur = new ExcaliburItem("Excalibur", new ItemHoldable.Attributes().baseDamage(5));
-        Interactable.spawn(new KnivesOfQalath("Knives", new ItemHoldable.Attributes()));
-        Interactable.spawn(new WolfEntity("Wolf", new Entity.Attributes()));
+        Interactable.spawnInteractable(new KnivesOfQalath("Knives", new ItemHoldable.Attributes()));
+        Interactable.spawnInteractable(new WolfEntity("Wolf", new Entity.Attributes()));
 //        Entity.spawn(new Wolf("Dagtha'ad", new Entity.Attributes().maxHealth(10)), true)
 //                .addEquippedItem(new ArthuurosEyeItem("Eye of Arthuuros"));
 //        Entity.spawn(new Wolf("Irus", new Entity.Attributes().maxHealth(10)), true)
 //                .addEquippedItem(new ArthuurosReapingArmband("Armband"));
-        Interactable.spawn(new Chest("Chest").addToInventory(excalibur));
-        Interactable.spawn(new AttunementAltar("Attuner"));
+        Interactable.spawnInteractable(new Chest("Chest").addToInventory(excalibur));
+        Interactable.spawnInteractable(new AttunementAltar("Attuner"));
 
     }
 

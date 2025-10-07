@@ -14,6 +14,10 @@ public interface Status {
     boolean stacksDuration();
     boolean isHarmful();
 
+    default boolean canApply(Entity target, Entity source) {
+        return true;
+    }
+
     default void turn(Entity target, Entity source) {
 
     }
@@ -46,12 +50,16 @@ public interface Status {
             this.source = source.getID();
         }
 
+        public boolean canApply() {
+            return this.getStatus().canApply(this.getTarget(), this.getSource());
+        }
+
         public void onApply() {
-            this.getStatus().onApply(getTarget(), getSource());
+            this.getStatus().onApply(this.getTarget(), this.getSource());
         }
 
         public void turn() {
-            this.getStatus().turn(getTarget(), getSource());
+            this.getStatus().turn(this.getTarget(), this.getSource());
             this.duration--;
         }
 

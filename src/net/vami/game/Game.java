@@ -109,7 +109,7 @@ public abstract class Game {
             player = PlayerEntity.createPlayer(input);
             if (player != null){
                 Input.playerInput.releaseInput(this);
-                PlayerEntity.spawn(player);
+                PlayerEntity.spawnInteractable(player);
                 LogUtil.Log("Player pos: %s", player.getPos());
                 Game.startGame();
             }

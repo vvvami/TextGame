@@ -82,13 +82,15 @@ public abstract class Entity extends Interactable {
     // Overrides the remove() in the Interactable to add entity drops baby
     @Override
     public void remove() {
-        setStatuses(new ArrayList<>());
+        clearStatuses();
         ArrayList<Item> dropList = new ArrayList<>();
         dropList.addAll(getInventory());
         dropList.addAll(getEquippedItems());
         if (this.hasHeldItem()) {
             dropList.add(getHeldItem());
         }
+
+        removeAllItems();
 
         for (Item item : dropList) {
             item.setPos(this.getPos());
@@ -145,6 +147,10 @@ public abstract class Entity extends Interactable {
 
     public void removeTask(Task task) {
         this.brain.removeTask(task);
+    }
+
+    public Task getTask(Task task) {
+        return this.brain.getTask(task);
     }
 
     // Main damage function
@@ -270,6 +276,14 @@ public abstract class Entity extends Interactable {
 
             Game.playSound(this, Sound.HEAL, 65);
             TextUtil.display(this, "%s grows stronger... %n", this.getName());
+        }
+    }
+
+    public void setLevel(int level) {
+        if (!isEnded()) {
+            this.attributes = attributes
+                    .level(level);
+            this.attributes.initialize();
         }
     }
 

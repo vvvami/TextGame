@@ -34,6 +34,11 @@ public class CharmedStatus implements Status {
     }
 
     @Override
+    public boolean canApply(Entity target, Entity source) {
+        return target != source;
+    }
+
+    @Override
     public void turn(Entity target, Entity source) {
         target.setMood(source, EntityMood.FRIENDLY);
         target.addTask(new SupportAbilityTask(), 100);
@@ -44,7 +49,7 @@ public class CharmedStatus implements Status {
         prevMood = target.getMood(source);
         target.setMood(source, EntityMood.FRIENDLY);
         target.setTarget(null);
-        prevTask = target.getBrain().getTask(new SupportAbilityTask());
+        prevTask = target.getTask(new SupportAbilityTask());
     }
 
     @Override
