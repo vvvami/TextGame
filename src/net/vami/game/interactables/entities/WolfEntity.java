@@ -8,9 +8,7 @@ import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.damagetypes.IceDamage;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
-import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
-import net.vami.game.interactables.items.custom.KnivesOfQalath;
 import org.jetbrains.annotations.Nullable;
 
 public class WolfEntity extends Entity {
@@ -29,8 +27,9 @@ public class WolfEntity extends Entity {
     public void initializeBrain() {
         addTask(new TargetAnyAndAttackTask(), 10);
         addTask(new ChaseTargetTask(), 6);
-        addTask(new TakeTask(), 3);
-        addTask(new MoveTask(), 1);
+        addTask(new TakeTask(), 5);
+        addTask(new WanderTask(), 3);
+        addTask(new IdleTask(), 1);
     }
 
     @Override

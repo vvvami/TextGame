@@ -7,6 +7,7 @@ public class AbilityOrTargetTask extends TargetTask {
     public boolean taskAction(Entity source) {
         if (!source.hasTarget()) {
             super.taskAction(source);
+            return source.hasTarget();
         } else {
             new AbilityTask().taskAction(source);
         }

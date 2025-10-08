@@ -1,9 +1,8 @@
 package net.vami.game.interactables.entities;
 
-import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.AbilityOrTargetTask;
 import net.vami.game.interactables.ai.tasks.ChaseTargetTask;
-import net.vami.game.interactables.ai.tasks.MoveTask;
+import net.vami.game.interactables.ai.tasks.WanderTask;
 import net.vami.game.interactables.ai.tasks.TargetAndAttackTask;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
@@ -22,7 +21,7 @@ public class KalakuliEntity extends Entity {
 
     @Override
     public void initializeBrain() {
-        addTask(new MoveTask(), 1);
+        addTask(new WanderTask(), 1);
         addTask(new TargetAndAttackTask(), 5);
         addTask(new ChaseTargetTask(), 10);
     }

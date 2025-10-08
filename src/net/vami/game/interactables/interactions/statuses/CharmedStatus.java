@@ -11,7 +11,6 @@ import java.awt.*;
 public class CharmedStatus implements Status {
     public static final CharmedStatus get = new CharmedStatus();
     private EntityMood prevMood;
-    private Task prevTask;
 
     @Override
     public String getName() {
@@ -41,7 +40,6 @@ public class CharmedStatus implements Status {
     @Override
     public void turn(Entity target, Entity source) {
         target.setMood(source, EntityMood.FRIENDLY);
-        target.addTask(new SupportAbilityTask(), 100);
     }
 
     @Override
@@ -49,15 +47,11 @@ public class CharmedStatus implements Status {
         prevMood = target.getMood(source);
         target.setMood(source, EntityMood.FRIENDLY);
         target.setTarget(null);
-        prevTask = target.getTask(new SupportAbilityTask());
     }
 
     @Override
     public void onEnded(Entity target, Entity source) {
         target.setMood(source, prevMood);
-        if (prevTask != null) {
-            target.addTask(prevTask, prevTask.getPriority());
-        }
         target.changeRating(source, -0.2f);
     }
 }

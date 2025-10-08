@@ -7,9 +7,11 @@ import net.vami.game.world.Direction;
 import java.util.List;
 import java.util.Random;
 
-public class MoveTask extends Task {
+public class WanderTask extends Task {
     @Override
     public boolean taskAction(Entity source) {
+        if (source.hasTarget()) return false;
+
         List<Direction> directions = List.of(Direction.values());
         int rand = new Random().nextInt(directions.size());
         source.setDirection(directions.get(rand));

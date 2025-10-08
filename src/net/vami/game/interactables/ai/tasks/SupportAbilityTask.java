@@ -12,7 +12,7 @@ public class SupportAbilityTask extends Task {
         Entity target = null;
         List<Entity> targetList = new ArrayList<>();
         for (Entity targ : source.getNode().getEntities()) {
-            if (source.isFriendlyTo(targ)) {
+            if (source.isFriendlyTo(targ) && source != targ) {
                 targetList.add(targ);
             }
         }
@@ -20,7 +20,6 @@ public class SupportAbilityTask extends Task {
         if (targetList.isEmpty()) return false;
 
         target = targetList.get(new Random().nextInt(targetList.size()));
-        target.receiveAbility(source);
-        return true;
+        return target.receiveAbility(source);
     }
 }
