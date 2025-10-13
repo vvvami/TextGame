@@ -9,13 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="more fixes&#10;&#10;some issues:&#10;*wolf was attacking me from another node&#10;*wolf moved a node again and again after not finding. didn't test idle yet but ill see what i can do">
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AbilityOrTargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AbilityOrTargetTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/MoveTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/WanderTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/SupportAbilityTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/SupportAbilityTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/KalakuliEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/KalakuliEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/WolfEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/WanderTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/WanderTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -276,7 +273,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759868209954</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source">
+      <option name="closed" value="true" />
+      <created>1759950083593</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1759950083593</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -308,7 +313,8 @@
     <MESSAGE value="fixed issues with dynamic AI by giving every entity a brain variable&#10;- added new methods to Entity class to change Brain dynamically&#10;- deleted Entity spawn methods (redundant)&#10;- made Interactable spawn method check for instanceof Entity and intialize Brain&#10;- all entities now require initializeBrain() method for starter AI&#10;&#10;*Brain and tasks are not saved in save file, meaning task changes need to be applied per turn if you want them to continue to affect entities even after loading a save again." />
     <MESSAGE value="some touch-ups and improvements" />
     <MESSAGE value="more fixes&#10;&#10;some issues:&#10;*wolf was attacking me from another node&#10;*wolf moved a node again and again after not finding. didn't test idle yet but ill see what i can do" />
-    <option name="LAST_COMMIT_MESSAGE" value="more fixes&#10;&#10;some issues:&#10;*wolf was attacking me from another node&#10;*wolf moved a node again and again after not finding. didn't test idle yet but ill see what i can do" />
+    <MESSAGE value="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

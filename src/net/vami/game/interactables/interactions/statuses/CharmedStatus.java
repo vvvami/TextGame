@@ -10,7 +10,6 @@ import java.awt.*;
 
 public class CharmedStatus implements Status {
     public static final CharmedStatus get = new CharmedStatus();
-    private EntityMood prevMood;
 
     @Override
     public String getName() {
@@ -38,20 +37,12 @@ public class CharmedStatus implements Status {
     }
 
     @Override
-    public void turn(Entity target, Entity source) {
-        target.setMood(source, EntityMood.FRIENDLY);
-    }
-
-    @Override
     public void onApply(Entity target, Entity source) {
-        prevMood = target.getMood(source);
-        target.setMood(source, EntityMood.FRIENDLY);
         target.setTarget(null);
     }
 
     @Override
     public void onEnded(Entity target, Entity source) {
-        target.setMood(source, prevMood);
         target.changeRating(source, -0.2f);
     }
 }
