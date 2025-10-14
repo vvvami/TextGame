@@ -10,7 +10,7 @@ import java.util.Random;
 public class WanderTask extends Task {
     @Override
     public boolean taskAction(Entity source) {
-        if (!source.hasTarget()) return false;
+        if (source.hasTarget()) return false;
 
         List<Direction> directions = List.of(Direction.values());
         int rand = new Random().nextInt(directions.size());

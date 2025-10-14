@@ -1,13 +1,15 @@
 package net.vami.game.interactables.items.custom;
 
+import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
+import net.vami.game.interactables.interactions.modifier.Modifier;
+import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.items.ItemHoldable;
 import net.vami.game.interactables.items.UseableItem;
 import net.vami.util.TextUtil;
 
 public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
-    private boolean isThrown = false;
 
     public SpearOfNiraenItem(String name, Attributes attributes) {
         super(name, attributes
@@ -16,7 +18,7 @@ public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
     }
 
     public SpearOfNiraenItem(Attributes attributes) {
-        this("Spear of Niraen", attributes);
+        this("Spear", attributes);
     }
 
     public SpearOfNiraenItem() {
@@ -25,16 +27,11 @@ public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
 
     @Override
     public void onUse() {
-        if (isThrown) {
-
-        } else {
-            isThrown = true;
-            TextUtil.display("%s has thrown %s!");
+            TextUtil.display("%s has thrown %s at %s! %n",
+                    this.getOwner().getName(),
+                    this.getDisplayName(),
+                    this.getOwner().getTarget().getName());
+            this.getOwner().getTarget().hurt(this.getOwner(), 10f, this.getDamageType());
+            this.receiveDrop(this.getOwner());
         }
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Spear of Niraen";
-    }
 }

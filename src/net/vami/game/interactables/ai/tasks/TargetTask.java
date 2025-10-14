@@ -34,7 +34,7 @@ public class TargetTask extends Task {
         if (targetList.isEmpty()) {
             return false;
         }
-        source.setTarget(targetList.get(new Random().nextInt(targetList.size())));
+        source.setTarget(targetList.getFirst());
         LogUtil.Log(LoggerType.DEBUG,
                 "Selected target: %s", source.getTarget().getName());
         return true;

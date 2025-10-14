@@ -1,6 +1,7 @@
 package net.vami.game.interactables.items;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.interactables.items.attunement.Attunement;
 import net.vami.util.TextUtil;

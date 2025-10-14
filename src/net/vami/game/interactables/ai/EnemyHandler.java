@@ -8,8 +8,10 @@ import net.vami.game.interactables.entities.WolfEntity;
 import net.vami.game.interactables.items.custom.ExcaliburItem;
 import net.vami.game.interactables.items.ItemHoldable;
 import net.vami.game.interactables.items.custom.KnivesOfQalath;
+import net.vami.game.interactables.items.custom.SpearOfNiraenItem;
 import net.vami.game.world.Node;
 import net.vami.game.interactables.entities.Entity;
+import net.vami.game.world.Position;
 
 public class EnemyHandler {
 
@@ -27,6 +29,7 @@ public class EnemyHandler {
 
         ItemHoldable excalibur = new ExcaliburItem();
         Interactable.spawnInteractable(new KnivesOfQalath());
+        Interactable.spawnInteractable(new SpearOfNiraenItem(), new Position(0,0,0));
         Interactable.spawnInteractable(new WolfEntity("Wolf1", new Entity.Attributes()));
         Interactable.spawnInteractable(new WolfEntity("Wolf2", new Entity.Attributes()));
         Interactable.spawnInteractable(new WolfEntity("Wolf3", new Entity.Attributes()));

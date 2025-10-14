@@ -279,7 +279,7 @@ public abstract class Entity extends Interactable {
             this.attributes.initialize();
 
             Game.playSound(this, Sound.HEAL, 65);
-            TextUtil.display(this, "%s grows stronger... %n", this.getName());
+            TextUtil.display(this, Color.gray, "%s grows stronger... %n", this.getName());
         }
     }
 

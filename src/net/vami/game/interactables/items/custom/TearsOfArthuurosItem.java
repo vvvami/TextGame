@@ -6,12 +6,7 @@ import net.vami.game.interactables.items.UseableItem;
 
 public class TearsOfArthuurosItem extends Item implements UseableItem, BreakableItem {
     public TearsOfArthuurosItem() {
-        super();
-    }
-
-    @Override
-    public String getName() {
-        return "Tears of Arthuuros";
+        super("Tears of Arthuuros");
     }
 
     @Override
