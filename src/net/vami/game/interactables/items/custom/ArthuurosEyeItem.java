@@ -11,6 +11,10 @@ public class ArthuurosEyeItem extends ItemEquipable {
         this.addModifier(new Modifier("eyeOfArthuuros", ModifierType.DAMAGE, 5));
     }
 
+    public ArthuurosEyeItem() {
+        this("Eye of Arthuuros");
+    }
+
     @Override
     public void turn() {
         super.turn();

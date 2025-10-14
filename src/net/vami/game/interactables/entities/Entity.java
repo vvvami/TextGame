@@ -79,6 +79,10 @@ public abstract class Entity extends Interactable {
         addReceivableAction(Action.MOVEMENT);
     }
 
+    public Entity(Attributes attributes) {
+        this(null, attributes);
+    }
+
     // Overrides the remove() in the Interactable to add entity drops baby
     @Override
     public void remove() {
@@ -225,7 +229,7 @@ public abstract class Entity extends Interactable {
             if (source instanceof Entity entity) {
                 int random = new Random().nextInt(1, Math.max(2, entity.getLevel() - this.getLevel()));
                 if (random == 1) {
-                    entity.setLevel(100);
+                    entity.addLevel(1);
                 }
             }
         }

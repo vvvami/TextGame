@@ -10,9 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/SpearOfNiraenItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmband.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmbandItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/patrons/Arthuuros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/patrons/Arthuuros.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemEquipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemEquipable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemHoldable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemHoldable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosEyeItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosEyeItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmbandItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmbandItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExcaliburItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExcaliburItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExplorersMapItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExplorersMapItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/KnivesOfQalath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/KnivesOfQalath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/SpearOfNiraenItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/SpearOfNiraenItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/TearsOfArthuurosItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/TearsOfArthuurosItem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +48,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="ai-revamp" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -76,28 +88,28 @@
     <option name="flattenModules" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.TextGame.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ai-revamp&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vami/Desktop/TextGame/src/assets&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.TextGame.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "create.test.in.the.same.root": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/vami/Desktop/TextGame/src/assets",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\vami\Desktop\TextGame\src\assets" />

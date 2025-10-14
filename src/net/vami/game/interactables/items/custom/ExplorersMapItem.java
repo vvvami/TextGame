@@ -13,6 +13,10 @@ public class ExplorersMapItem extends Item implements UseableItem {
         super(name);
     }
 
+    public ExplorersMapItem() {
+        this("Map");
+    }
+
     @Override
     public void onUse() {
         TextUtil.display(this.getOwner(), "You are located at %s.%n", this.getOwner().getPos().toString());

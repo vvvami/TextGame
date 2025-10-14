@@ -18,6 +18,14 @@ public abstract class ItemHoldable extends Item {
         attributes.setDefaults();
     }
 
+    public ItemHoldable(Attributes attributes) {
+        this(null, attributes);
+    }
+
+    public ItemHoldable() {
+        this(new Attributes());
+    }
+
     public DamageType getDamageType() {
 
         return attributes.damageTypeAttribute;

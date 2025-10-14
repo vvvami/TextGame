@@ -29,6 +29,10 @@ public class Item extends Interactable {
         this.addReceivableAction(Action.USE);
     }
 
+    public Item() {
+        this(null);
+    }
+
     public Entity getOwner() {
 
         return (Entity) Interactable.getInteractableFromID(owner);

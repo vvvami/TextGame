@@ -49,8 +49,8 @@ public class Arthuuros implements Patron {
     @Override
     public ArrayList<Item> defaultItems() {
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new TearsOfArthuurosItem("Tears of Arthuuros"));
-        items.add(new ArthuurosEyeItem("Eye of Arthuuros"));
+        items.add(new TearsOfArthuurosItem());
+        items.add(new ArthuurosEyeItem());
         return items;
     }
 }

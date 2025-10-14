@@ -18,6 +18,14 @@ public class KnivesOfQalath extends ItemHoldable implements BreakableItem, Attun
                 .damageType(SharpDamage.get));
     }
 
+    public KnivesOfQalath(Attributes attributes) {
+        this("Knives of Qalath", attributes);
+    }
+
+    public KnivesOfQalath() {
+        this(new Attributes());
+    }
+
     @Override
     public void onHit(Interactable owner, Interactable target, DamageType damageType, float amount) {
         if (doubleHit) {

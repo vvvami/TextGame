@@ -11,4 +11,8 @@ public class ArthuurosReapingArmbandItem extends ItemEquipable {
         this.addModifier(new Modifier("reapingArmband_damage", ModifierType.DAMAGE, 5));
 
     }
+
+    public ArthuurosReapingArmbandItem() {
+        this("Arthuuros' Reaping Armband");
+    }
 }

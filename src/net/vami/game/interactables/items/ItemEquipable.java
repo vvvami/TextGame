@@ -8,8 +8,11 @@ import net.vami.util.TextUtil;
 
 public abstract class ItemEquipable extends Item {
     public ItemEquipable(String name) {
-
         super(name);
+    }
+
+    public ItemEquipable() {
+        this(null);
     }
 
     @Override

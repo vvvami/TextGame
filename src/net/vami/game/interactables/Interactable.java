@@ -45,6 +45,10 @@ public class Interactable {
 
     }
 
+    public Interactable() {
+        this(null);
+    }
+
     public void turn() {
         if (!getStatuses().isEmpty()) {
             statusTurn();

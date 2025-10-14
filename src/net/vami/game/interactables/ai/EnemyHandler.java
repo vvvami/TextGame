@@ -25,8 +25,8 @@ public class EnemyHandler {
 
     public static void Generate() {
 
-        ItemHoldable excalibur = new ExcaliburItem("Excalibur", new ItemHoldable.Attributes().baseDamage(5));
-        Interactable.spawnInteractable(new KnivesOfQalath("Knives", new ItemHoldable.Attributes()));
+        ItemHoldable excalibur = new ExcaliburItem();
+        Interactable.spawnInteractable(new KnivesOfQalath());
         Interactable.spawnInteractable(new WolfEntity("Wolf1", new Entity.Attributes()));
         Interactable.spawnInteractable(new WolfEntity("Wolf2", new Entity.Attributes()));
         Interactable.spawnInteractable(new WolfEntity("Wolf3", new Entity.Attributes()));

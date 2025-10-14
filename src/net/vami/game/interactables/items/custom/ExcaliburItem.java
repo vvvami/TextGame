@@ -13,10 +13,17 @@ import net.vami.util.TextUtil;
 public class ExcaliburItem extends ItemHoldable implements BreakableItem, UseableItem, AttunableItem {
     public ExcaliburItem(String name, Attributes attributes) {
         super(name, attributes
-                .damageType(new FireDamage())
+                .damageType(FireDamage.get)
                 .baseDamage(15));
     }
 
+    public ExcaliburItem(Attributes attributes) {
+        this("Excalibur", attributes);
+    }
+
+    public ExcaliburItem() {
+        this(new Attributes());
+    }
 
     @Override
     public int maxDurability() {
