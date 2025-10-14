@@ -9,11 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source">
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/SpearOfNiraenItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/TargetTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/WanderTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/WanderTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/CharmedStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmband.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ArthuurosReapingArmbandItem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759950083593</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="* charmed now simply contrasts targeting to opposite (attacks friendlies, helps hostiles)&#10;* fixed WanderTask">
+      <option name="closed" value="true" />
+      <created>1760336122588</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1760336122588</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -314,7 +321,8 @@
     <MESSAGE value="some touch-ups and improvements" />
     <MESSAGE value="more fixes&#10;&#10;some issues:&#10;*wolf was attacking me from another node&#10;*wolf moved a node again and again after not finding. didn't test idle yet but ill see what i can do" />
     <MESSAGE value="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed some tasks&#10;&#10;*charmed status is inherently flawed because it needs to override hostility for every entity besides the sourceentity and every other entity charmed by the source" />
+    <MESSAGE value="* charmed now simply contrasts targeting to opposite (attacks friendlies, helps hostiles)&#10;* fixed WanderTask" />
+    <option name="LAST_COMMIT_MESSAGE" value="* charmed now simply contrasts targeting to opposite (attacks friendlies, helps hostiles)&#10;* fixed WanderTask" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
