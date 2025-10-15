@@ -1,5 +1,6 @@
 package net.vami.game;
 
+import net.vami.TextGame;
 import net.vami.game.display.panels.GameFrame;
 import net.vami.game.display.panels.custom.GamePanel;
 import net.vami.game.display.sound.Sound;
@@ -17,8 +18,10 @@ import net.vami.util.Input;
 import net.vami.util.InputReceiver;
 import net.vami.util.LogUtil;
 import net.vami.util.TextUtil;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +90,9 @@ public abstract class Game {
         @Override
         public void receiveInput(String input) {
              Node prevPlayerNode = Game.getCurrentNode();
+
+             if (prevPlayerNode == null) {return;}
+
              PlayerHandler.inputToAction(input);
              prevPlayerNode.afterPlayerTurn();
              preInput();
@@ -101,7 +107,7 @@ public abstract class Game {
 
     private static class PlayerCreator implements InputReceiver {
         protected PlayerCreator() {
-            TextUtil.display((Interactable) null, "Enter your name, traveler: %n");
+            Game.display("Enter your name, traveler: %n");
             Input.playerInput.captureInput(this);
         }
         @Override
@@ -135,7 +141,7 @@ public abstract class Game {
             return true;
         }
         if (Game.player.isEnded()) {
-            TextUtil.display((Interactable) null,"Game Over! %n");
+            Game.display("Game Over! %n");
             Game.endGame = true;
         }
         return Game.endGame;
@@ -147,40 +153,32 @@ public abstract class Game {
     }
 
     public static void playSound(Interactable source, Sound sound, int volume) {
-        if (!Sound.hasAvailableAudioOutput() || sound == null) {
-            return;
-        }
-
-        if (source instanceof Item ||
-                source.getNode() == Game.getCurrentNode()) {
-            sound.play(volume);
-        }
+        playSound(source.getPos(), sound, volume);
     }
 
     public static void playSound(Position position, Sound sound, int volume) {
-        if (!Sound.hasAvailableAudioOutput() || sound == null) {
-            return;
-        }
-
-        if (position.equals(Game.player.getPos())) {
-            sound.play(volume);
-        }
+        sound.playSound(position, volume);
     }
 
     public static void playMusic(Sound sound, int volume) {
-        if (!Sound.hasAvailableAudioOutput() || sound == null) {
-            return;
-        }
+        sound.playMusic(volume);
+    }
 
-        for (Sound sound1 : Sound.getSounds()) {
-                if (sound1.getClip() != null &&
-                        sound1.isPlaying() &&
-                        sound1.getSoundType().equals(sound.getSoundType())) {
-                    sound1.stop();
-            }
-        }
-            sound.play(volume);
-            sound.loop();
+    public static void display(Interactable source, Color color, String text, Object ... args) {
+        TextUtil.display(source, color, text, args);
+    }
+
+    public static void display(Interactable source, String text, Object ... args) {
+        display(source, TextUtil.defaultTextColor, text, args);
+    }
+
+    public static void display(String text, Color color, Object ... args) {
+        display(null, color, text, args);
+
+    }
+
+    public static void display(String text, Object ... args) {
+        display(text, TextUtil.defaultTextColor, args);
     }
 
     public static GamePanel getDisplay() {

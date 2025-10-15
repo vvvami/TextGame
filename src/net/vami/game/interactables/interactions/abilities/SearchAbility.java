@@ -1,5 +1,6 @@
 package net.vami.game.interactables.interactions.abilities;
 
+import net.vami.game.Game;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.util.TextUtil;
@@ -15,13 +16,13 @@ public class SearchAbility implements Ability {
                 float distance = source.getPos().distance(interactable.getPos());
 
                 if (distance <= 3) {
-                    TextUtil.display(source, "%s is %s acres away %s. %n",
+                    Game.display(source, "%s is %s acres away %s. %n",
                             interactable.getName(), Math.round(distance), interactable.getPos().toString());
                     return true;
                 }
             }
         }
-        TextUtil.display(source, "Your search finds nothing. %n");
+        Game.display(source, "Your search finds nothing. %n");
         return false;
     }
 

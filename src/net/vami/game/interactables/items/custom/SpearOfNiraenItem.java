@@ -1,5 +1,6 @@
 package net.vami.game.interactables.items.custom;
 
+import net.vami.game.Game;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
@@ -9,8 +10,10 @@ import net.vami.game.interactables.items.ItemHoldable;
 import net.vami.game.interactables.items.UseableItem;
 import net.vami.util.TextUtil;
 
-public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
+import java.util.UUID;
 
+public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
+    private UUID owner;
     public SpearOfNiraenItem(String name, Attributes attributes) {
         super(name, attributes
                 .baseDamage(5)
@@ -27,11 +30,12 @@ public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
 
     @Override
     public void onUse() {
-            TextUtil.display("%s has thrown %s at %s! %n",
+            Game.display(this.getOwner(), "%s has thrown %s at %s! %n",
                     this.getOwner().getName(),
                     this.getDisplayName(),
                     this.getOwner().getTarget().getName());
             this.getOwner().getTarget().hurt(this.getOwner(), 10f, this.getDamageType());
+            owner = this.getOwner().getID();
             this.receiveDrop(this.getOwner());
         }
 }

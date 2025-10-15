@@ -101,7 +101,7 @@ public abstract class Entity extends Interactable {
             if (item == dropList.getLast()) {
                 Game.playSound(this, Sound.ITEM_DROP, 65);
             }
-            TextUtil.display(this,"%s dropped %s! %n", this.getName(), item.getDisplayName());
+            Game.display(this,"%s dropped %s! %n", this.getName(), item.getDisplayName());
         }
         super.remove();
     }
@@ -219,7 +219,7 @@ public abstract class Entity extends Interactable {
             if (this.getDeathSound() != null) {
                 Game.playSound(this, this.getDeathSound(), 65);
             }
-            TextUtil.display(this,this.getName() + " has died! %n");
+            Game.display(this,this.getName() + " has died! %n");
 
             // We use remove() and not annihilate()
             // Reason: status instances may last longer than the entity that inflicted them (we still need their UUID)
@@ -279,7 +279,7 @@ public abstract class Entity extends Interactable {
             this.attributes.initialize();
 
             Game.playSound(this, Sound.HEAL, 65);
-            TextUtil.display(this, Color.gray, "%s grows stronger... %n", this.getName());
+            Game.display(this, Color.gray, "%s grows stronger... %n", this.getName());
         }
     }
 
@@ -514,7 +514,7 @@ public abstract class Entity extends Interactable {
         }
 
         removeStatus(resInstance.getStatus());
-        TextUtil.display(this,"%s resisted and lost %s. %n", source.getName(), resInstance.getStatus().getName());
+        Game.display(this,"%s resisted and lost %s. %n", source.getName(), resInstance.getStatus().getName());
         return true;
     }
 

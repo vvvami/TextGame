@@ -151,7 +151,7 @@ public class GamePanel extends JPanel {
             }
             playerTextInputArea.setText("");
             LogUtil.Log(playerTextInput);
-            TextUtil.display("> %s%n", TextUtil.defaultTextColor, playerTextInput);
+            Game.display("> %s%n", TextUtil.defaultTextColor, playerTextInput);
 
             Input.playerInput.setInput(playerTextInput);
         }

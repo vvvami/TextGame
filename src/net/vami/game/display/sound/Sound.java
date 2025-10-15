@@ -1,5 +1,10 @@
 package net.vami.game.display.sound;
 
+import net.vami.game.Game;
+import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.items.Item;
+import net.vami.game.world.Position;
+
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
@@ -135,5 +140,41 @@ public class Sound {
     public static final Sound ITEM_EQUIP = new Sound("item_equip", SoundType.EFFECT);
     public static final Sound WEREWOLF_DEATH = new Sound("wolf_death", SoundType.EFFECT);
 
+    public void playSound(Interactable source, int volume) {
+        if (!Sound.hasAvailableAudioOutput()) {
+            return;
+        }
+
+        if (source instanceof Item ||
+                source.getNode() == Game.getCurrentNode()) {
+            this.play(volume);
+        }
+    }
+
+    public void playSound(Position position, int volume) {
+        if (!Sound.hasAvailableAudioOutput()) {
+            return;
+        }
+
+        if (position.equals(Game.player.getPos())) {
+            this.play(volume);
+        }
+    }
+
+    public void playMusic(int volume) {
+        if (!Sound.hasAvailableAudioOutput()) {
+            return;
+        }
+
+        for (Sound sound1 : Sound.getSounds()) {
+            if (sound1.getClip() != null &&
+                    sound1.isPlaying() &&
+                    sound1.getSoundType().equals(this.getSoundType())) {
+                sound1.stop();
+            }
+        }
+        this.play(volume);
+        this.loop();
+    }
 }
 

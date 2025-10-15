@@ -34,7 +34,7 @@ public class ExcaliburItem extends ItemHoldable implements BreakableItem, Useabl
     public void onUse() {
         Game.playSound(this.getOwner(), this.getDamageType().getSound(), 65);
 
-        TextUtil.display(this.getOwner(),"%s attacks their surroundings with %s! %n",
+        Game.display(this.getOwner(),"%s attacks their surroundings with %s! %n",
                 this.getOwner().getName(), this.getDisplayName());
 
         for (Entity entity : Node.findNode(this.getOwner().getPos()).getEntities()) {

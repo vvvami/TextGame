@@ -49,7 +49,7 @@ public class PlayerEntity extends Entity {
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
         saveInteractables(this);
-        TextUtil.display("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this.getDisplayName());
+        Game.display("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this.getDisplayName());
         return true;
     }
 
@@ -115,7 +115,7 @@ public class PlayerEntity extends Entity {
                     .level(5)
                     .ability(HypnosisAbility.get));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
-            TextUtil.display("Your adventure begins. %n");
+            Game.display("Your adventure begins. %n");
         }
 
         Interactable.loadInteractables(createdPlayer.getName());

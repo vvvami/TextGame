@@ -22,7 +22,7 @@ public abstract class ItemEquipable extends Item {
         }
 
         if (entitySource.getEquippedItems().size() >= entitySource.getMaxEquipSlots()) {
-            TextUtil.display(this,"%s cannot equip more items. %n",
+            Game.display(this,"%s cannot equip more items. %n",
                     entitySource.getName());
             return false;
         }
@@ -32,13 +32,13 @@ public abstract class ItemEquipable extends Item {
             entitySource.removeEquippedItem(this);
             entitySource.addInventoryItem(this);
             Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
-            TextUtil.display(this,"%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
+            Game.display(this,"%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
             return false;
         }
 
         entitySource.addEquippedItem(this);
         Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
-        TextUtil.display(this,"%s equips %s. %n", entitySource.getName(), this.getDisplayName());
+        Game.display(this,"%s equips %s. %n", entitySource.getName(), this.getDisplayName());
         return super.receiveEquip(source);
     }
 }

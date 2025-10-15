@@ -257,13 +257,13 @@ public class Interactable {
         String targetName = this == source ? "" : " " + this.getName();
 
         if (!source.availableActions.contains(action)) {
-            TextUtil.display(this,"%s tries to %s %s, but nothing happens.%n",
+            Game.display(this,"%s tries to %s %s, but nothing happens.%n",
                     source.getName(), action.getSynonyms().getFirst(), targetName);
             return false;
         }
 
         if (!receivableActions.contains(action)) {
-            TextUtil.display("Nothing happens.%n");
+            Game.display("Nothing happens.%n");
             return false;
         }
 
@@ -426,7 +426,7 @@ public class Interactable {
         }
         */
 
-        TextUtil.display(source,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
+        Game.display(source,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
         this.setPos(newPos);
         return true;
     }
@@ -462,7 +462,7 @@ public class Interactable {
 
         // Checks if the interactable is immune to the given status effect
         if (isImmuneTo(instance.getStatus())) {
-            TextUtil.display(this,getDisplayName() + " is immune! %n");
+            Game.display(this,getDisplayName() + " is immune! %n");
             return;
         }
 
@@ -495,7 +495,7 @@ public class Interactable {
         else {
             String statusName = status.getName();
             statusName = status.isHarmful() ? TextUtil.setColor(statusName, Color.red) : TextUtil.setColor(statusName, Color.green);
-            TextUtil.display(this,"%s is now %s. %n", this.getName(),
+            Game.display(this,"%s is now %s. %n", this.getName(),
                     statusName);
         }
 
@@ -522,7 +522,7 @@ public class Interactable {
             for (Status.Instance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                TextUtil.display(this,"%s is no longer affected by %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+                Game.display(this,"%s is no longer affected by %s. %n", getDisplayName(), statusInstance.getStatus().getName());
             }
         }
     }

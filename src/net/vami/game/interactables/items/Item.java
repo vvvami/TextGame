@@ -40,7 +40,10 @@ public class Item extends Interactable {
     }
 
     public void setOwner(Entity owner) {
-
+        if (owner == null) {
+            this.owner = null;
+            return;
+        }
         this.owner = owner.getID();
     }
 
@@ -57,17 +60,17 @@ public class Item extends Interactable {
 
     public void setAttunement(Attunement attunement) {
         if (!(this instanceof AttunableItem attunable)) {
-            TextUtil.display(this, "%s cannot hold the power of attunement. %n", this.getDisplayName());
+            Game.display(this, "%s cannot hold the power of attunement. %n", this.getDisplayName());
             return;
         }
 
         if (!attunable.canAttune()) {
-            TextUtil.display(this,"%s cannot be attuned. %n", this.getDisplayName());
+            Game.display(this,"%s cannot be attuned. %n", this.getDisplayName());
             return;
         }
 
         if (!attunement.applyCondition(this)) {
-            TextUtil.display(this,"%s cannot grasp the reality of \"%s\". %n",
+            Game.display(this,"%s cannot grasp the reality of \"%s\". %n",
                     this.getDisplayName(), attunement.getName());
             return;
         }
@@ -78,7 +81,7 @@ public class Item extends Interactable {
 
     public void removeAttunement() {
         if (!this.attunement.removeCondition(this)) {
-            TextUtil.display(this,"\"%2$s\" refuses to leave %1$s. %n", this.getDisplayName(), this.attunement.getName());
+            Game.display(this,"\"%2$s\" refuses to leave %1$s. %n", this.getDisplayName(), this.attunement.getName());
         }
         this.attunement.onRemove(this);
         this.attunement = null;
@@ -104,7 +107,7 @@ public class Item extends Interactable {
             getOwner().removeFromInventory(this);
             getOwner().removeEquippedItem(this);
             erase();
-            TextUtil.display(this,"%s has broken!%n", this.getDisplayName());
+            Game.display(this,"%s has broken!%n", this.getDisplayName());
         }
     }
 
@@ -125,7 +128,7 @@ public class Item extends Interactable {
             this.receiveEquip(entitySource);
         } else {
             Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
-            TextUtil.display(this.getOwner(),"%s takes %s. %n", entitySource.getName(), this.getDisplayName());
+            Game.display(this.getOwner(),"%s takes %s. %n", entitySource.getName(), this.getDisplayName());
         }
         this.setOwner(entitySource);
         return true;
@@ -143,7 +146,7 @@ public class Item extends Interactable {
                     return true;
 
                 } else {
-                    TextUtil.display(useableItem.failMessage());
+                    Game.display(useableItem.failMessage());
                 }
         }
         return false;
@@ -161,9 +164,10 @@ public class Item extends Interactable {
             this.onUnequip();
         }
         sourceEntity.removeEquippedItem(this);
+        this.setOwner(null);
         this.setPos(sourceEntity.getPos());
         Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
-        TextUtil.display(this.getOwner(),"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
+        Game.display(this.getOwner(),"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
         return super.receiveDrop(source);
     }
 

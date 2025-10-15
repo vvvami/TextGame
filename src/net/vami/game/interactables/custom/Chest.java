@@ -23,12 +23,12 @@ public class Chest extends Interactable {
     @Override
     public boolean receiveTake(Interactable source) {
         if (source instanceof Entity sourceEntity) {
-            TextUtil.display(sourceEntity, "%s opens %s.%n", sourceEntity.getName(), this.getName());
+            Game.display(sourceEntity, "%s opens %s.%n", sourceEntity.getName(), this.getName());
             for (UUID uuid : inventory) {
                 Item item = (Item) Interactable.getInteractableFromID(uuid);
                 Game.playSound(this, Sound.ITEM_DROP, 65);
                 sourceEntity.addInventoryItem(item);
-                TextUtil.display(sourceEntity, "%s has obtained %s! %n", sourceEntity.getName(), item.getDisplayName());
+                Game.display(sourceEntity, "%s has obtained %s! %n", sourceEntity.getName(), item.getDisplayName());
             }
         }
         return super.receiveTake(source);
@@ -47,8 +47,8 @@ public class Chest extends Interactable {
             if (item == dropList.getLast()) {
                 Game.playSound(this, Sound.ITEM_DROP, 65);
             }
-            TextUtil.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
-            TextUtil.display(this,"%s dropped %s. %n", this.getName(), item.getDisplayName());
+            Game.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
+            Game.display(this,"%s dropped %s. %n", this.getName(), item.getDisplayName());
         }
         this.remove();
         return true;

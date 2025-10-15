@@ -1,5 +1,6 @@
 package net.vami.game.interactables.ai.tasks;
 
+import net.vami.game.Game;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.util.TextUtil;
 
@@ -10,7 +11,7 @@ public class AbilityTask extends Task {
             new SupportAbilityTask().taskAction(source);
         } else {
             if (!source.hasTarget()) {
-                TextUtil.display(source,"%s tries to cast a spell, but fails. %n", source.getDisplayName());
+                Game.display(source,"%s tries to cast a spell, but fails. %n", source.getDisplayName());
             } else {
                 source.getTarget().receiveAbility(source);
             }
