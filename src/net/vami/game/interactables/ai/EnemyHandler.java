@@ -31,8 +31,8 @@ public class EnemyHandler {
         Interactable.spawnInteractable(new KnivesOfQalath());
         Interactable.spawnInteractable(new SpearOfNiraenItem(), new Position(0,0,0));
         Interactable.spawnInteractable(new WolfEntity("Wolf1", new Entity.Attributes()));
-        Interactable.spawnInteractable(new WolfEntity("Wolf2", new Entity.Attributes()));
-        Interactable.spawnInteractable(new WolfEntity("Wolf3", new Entity.Attributes()));
+//        Interactable.spawnInteractable(new WolfEntity("Wolf2", new Entity.Attributes()));
+//        Interactable.spawnInteractable(new WolfEntity("Wolf3", new Entity.Attributes()));
 
 //        Entity.spawn(new Wolf("Dagtha'ad", new Entity.Attributes().maxHealth(10)), true)
 //                .addEquippedItem(new ArthuurosEyeItem("Eye of Arthuuros"));

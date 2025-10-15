@@ -5,6 +5,7 @@ import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.Interactable;
+import net.vami.game.interactables.items.Item;
 
 import java.util.*;
 
@@ -134,6 +135,9 @@ public class Node {
         // Then comes the player and their allies
         if (Game.isEnded()) {return;}
         allyTicker();
+
+        // We will tick items last
+        itemTicker();
     }
 
     public void afterPlayerTurn() {
@@ -165,5 +169,17 @@ public class Node {
                    ally.turn();
                 }
             }
+    }
+
+    void itemTicker() {
+        if (Game.isEnded()) {
+            return;
+        }
+        for (Interactable interactable : this.getInteractables()) {
+            if (interactable instanceof Item item
+                && item.getOwner() == null) {
+                item.turn();
+            }
+        }
     }
 }

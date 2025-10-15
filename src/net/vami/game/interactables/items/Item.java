@@ -166,8 +166,8 @@ public class Item extends Interactable {
         sourceEntity.removeEquippedItem(this);
         this.setOwner(null);
         this.setPos(sourceEntity.getPos());
-        Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
-        Game.display(this.getOwner(),"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
+        Game.playSound(sourceEntity, Sound.ITEM_DROP, 65);
+        Game.display(sourceEntity,"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
         return super.receiveDrop(source);
     }
 

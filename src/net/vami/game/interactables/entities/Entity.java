@@ -220,13 +220,14 @@ public abstract class Entity extends Interactable {
                 Game.playSound(this, this.getDeathSound(), 65);
             }
             Game.display(this,this.getName() + " has died! %n");
-
             // We use remove() and not annihilate()
             // Reason: status instances may last longer than the entity that inflicted them (we still need their UUID)
             this.remove();
 
-            // Temporary level up mechanic
+            // Remove targeting + temporary level up mechanic
             if (source instanceof Entity entity) {
+                entity.setTarget(null);
+
                 int random = new Random().nextInt(1, Math.max(2, entity.getLevel() - this.getLevel()));
                 if (random == 1) {
                     entity.addLevel(1);

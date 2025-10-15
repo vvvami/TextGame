@@ -9,29 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="some more small changes">
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="some optimization to the workspace, including:&#10;- sound methods are now in the sound class, the Game class merely calls upon those methods&#10;- display methods are now present within the Game class, granting more clearly named access">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/TextGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/TextGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panels/custom/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panels/custom/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AbilityTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AbilityTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AttackTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/tasks/AttackTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/AttunementAltar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/AttunementAltar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/Chest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/custom/Chest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/ai/EnemyHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/entities/PlayerEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/SearchAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/abilities/SearchAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/action/ActionFeedback.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/interactions/statuses/Status.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemEquipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemEquipable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemHoldable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/ItemHoldable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/attunement/GluttonAttunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/attunement/GluttonAttunement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExcaliburItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExcaliburItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExplorersMapItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/ExplorersMapItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/SpearOfNiraenItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactables/items/custom/SpearOfNiraenItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -323,7 +307,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760465122219</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="some optimization to the workspace, including:&#10;- sound methods are now in the sound class, the Game class merely calls upon those methods&#10;- display methods are now present within the Game class, granting more clearly named access">
+      <option name="closed" value="true" />
+      <created>1760556585063</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1760556585063</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,7 +351,8 @@
     <MESSAGE value="* charmed now simply contrasts targeting to opposite (attacks friendlies, helps hostiles)&#10;* fixed WanderTask" />
     <MESSAGE value="added more constructor methods to ease the instantiation of new items, entities and more" />
     <MESSAGE value="some more small changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="some more small changes" />
+    <MESSAGE value="some optimization to the workspace, including:&#10;- sound methods are now in the sound class, the Game class merely calls upon those methods&#10;- display methods are now present within the Game class, granting more clearly named access" />
+    <option name="LAST_COMMIT_MESSAGE" value="some optimization to the workspace, including:&#10;- sound methods are now in the sound class, the Game class merely calls upon those methods&#10;- display methods are now present within the Game class, granting more clearly named access" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

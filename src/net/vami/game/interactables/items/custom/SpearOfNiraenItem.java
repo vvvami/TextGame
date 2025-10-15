@@ -2,18 +2,15 @@ package net.vami.game.interactables.items.custom;
 
 import net.vami.game.Game;
 import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
-import net.vami.game.interactables.interactions.modifier.Modifier;
-import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.items.ItemHoldable;
 import net.vami.game.interactables.items.UseableItem;
-import net.vami.util.TextUtil;
 
 import java.util.UUID;
 
 public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
-    private UUID owner;
+    private transient Entity tempOwner;
     public SpearOfNiraenItem(String name, Attributes attributes) {
         super(name, attributes
                 .baseDamage(5)
@@ -21,11 +18,35 @@ public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
     }
 
     public SpearOfNiraenItem(Attributes attributes) {
-        this("Spear", attributes);
+        this("Spear of Niraen", attributes);
     }
 
     public SpearOfNiraenItem() {
         this(new Attributes());
+    }
+
+    @Override
+    public boolean useCondition() {
+        return (this.getOwner().hasTarget() && !this.getOwner().getTarget().isEnded());
+    }
+
+    @Override
+    public String failMessage() {
+        return String.format("%s has no target.%n", this.getDisplayName());
+    }
+
+    @Override
+    public void turn() {
+        if (this.getOwner() == null) {
+            if (tempOwner != null) {
+                Game.display(this.tempOwner, "%s returns to the hand of %s. %n",
+                        this.getDisplayName(),
+                        this.tempOwner.getName());
+                this.receiveTake(tempOwner);
+            }
+        } else {
+            super.turn();
+        }
     }
 
     @Override
@@ -35,7 +56,7 @@ public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
                     this.getDisplayName(),
                     this.getOwner().getTarget().getName());
             this.getOwner().getTarget().hurt(this.getOwner(), 10f, this.getDamageType());
-            owner = this.getOwner().getID();
+            tempOwner = this.getOwner();
             this.receiveDrop(this.getOwner());
         }
 }
