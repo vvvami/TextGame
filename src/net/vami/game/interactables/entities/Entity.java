@@ -166,14 +166,12 @@ public abstract class Entity extends Interactable {
         float finalAmount = CalcUtil.damage(source, this, amount, damageType);
 
         // Denies damage if the target is already dead
-        if (finalAmount == 0) {return;}
+        if (finalAmount == 0) return;
 
         // Play damagetype sound
-        if (damageType.getSound() == null) {
-            Game.playSound(this, Sound.BLUNT_DAMAGE, 65);
-        } else {
-            Game.playSound(this, damageType.getSound(), 65);
-        }
+        Game.playSound(this,
+                damageType.getSound() == null ? Sound.BLUNT_DAMAGE : damageType.getSound(), 65);
+
 
         // Reduce the target's health
         health -= finalAmount;
@@ -187,7 +185,7 @@ public abstract class Entity extends Interactable {
                 TextUtil.setColor(new DecimalFormat("##.##").format(finalAmount), Color.orange),
                 damageType.getName());
 
-        // Applies a status instance based on the damage type dealt
+        // DamageType on hit method is called
         damageType.onHit(this, source, finalAmount);
 
         // Checks if the source is an entity and has a held item

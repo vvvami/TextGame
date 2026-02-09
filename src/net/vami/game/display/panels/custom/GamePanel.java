@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class GamePanel extends JPanel {
     Container mainContainer;
-    Font mainFont = new Font("VCR OSD Mono", Font.PLAIN, 40);
+    Font mainFont = new Font("Voces", Font.PLAIN, 40);
     SpringLayout mainLayout;
     JTextPane gameText;
     JTextField playerTextInputArea;
@@ -45,9 +45,9 @@ public class GamePanel extends JPanel {
 
         JScrollPane gameTextArea = new JScrollPane(gameText);
         gameTextArea.setBorder(new LineBorder(Color.white, 0));
-        gameTextArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        gameTextArea.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         gameTextArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        gameTextArea.setWheelScrollingEnabled(false);
+        gameTextArea.setWheelScrollingEnabled(true);
 
 
         // Player text input
@@ -60,6 +60,7 @@ public class GamePanel extends JPanel {
         playerTextInputArea.setCaretColor(Color.white);
         playerTextInputArea.setSelectionColor(Color.white);
         playerTextInputArea.setEditable(false);
+        gameText.setComponentZOrder(playerTextInputArea, 0);
 
         // Action instantiation
         enterAction = new enterAction();
@@ -78,7 +79,7 @@ public class GamePanel extends JPanel {
         mainContainer.setLayout(mainLayout);
 
         mainLayout.putConstraint(SpringLayout.NORTH, gameTextArea, 0, SpringLayout.NORTH, mainContainer);
-        mainLayout.putConstraint(SpringLayout.SOUTH, playerTextInputArea, -10, SpringLayout.SOUTH, mainContainer);
+        mainLayout.putConstraint(SpringLayout.SOUTH, playerTextInputArea, -15, SpringLayout.SOUTH, mainContainer);
         mainLayout.putConstraint(SpringLayout.SOUTH, gameTextArea, 10, SpringLayout.NORTH, playerTextInputArea);
 
 
