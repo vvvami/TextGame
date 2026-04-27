@@ -4,6 +4,7 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.PoisonedStatus;
+import net.vami.game.interactables.interactions.statuses.Statuses;
 
 public class CalcUtil {
     public static float damage(Interactable source, Interactable target, float amount, DamageType damageType) {
@@ -31,7 +32,7 @@ public class CalcUtil {
                 }
             }
 
-            if (source.hasSpecifiedStatus(PoisonedStatus.get)) {
+            if (source.hasSpecifiedStatus(Statuses.POISONED)) {
                 finalAmount *= 0.75f;
             }
 

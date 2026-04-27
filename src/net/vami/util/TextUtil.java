@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class TextUtil {
 
     public static final Color defaultTextColor = Color.white;
-    public static BiMap<String, Color> colorMap = new BiMap<>();
+    public static final BiMap<String, Color> colorMap = new BiMap<>();
     public static final String code = "&";
 
     public static void display(Interactable source, String text, Object ... args) {
@@ -25,15 +25,12 @@ public class TextUtil {
     }
 
     public static void display(@Nullable Interactable source, Color color, String text, Object ... args) {
-        if (source == null || source instanceof Item || source.getPos().equals(Game.player.getPos())) {
-            int counter = 0;
+        if (source == null
+                || source instanceof Item
+                || source.getPos().equals(Game.player.getPos())) {
+
             GamePanel.setParentTextColor(color);
             Game.getDisplay().display(String.format(text, args), color);
-
-            if (source != null && source.getNode() != null) {
-                counter = source.getNode().getEntities().size();
-            }
-
         }
     }
 

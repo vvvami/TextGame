@@ -6,6 +6,7 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.util.TextUtil;
 
 public abstract class ItemHoldable extends Item {
@@ -78,7 +79,7 @@ public abstract class ItemHoldable extends Item {
 
         public void setDefaults() {
             if (this.baseDamageAttribute == -1) {this.baseDamageAttribute = 1;}
-            if (this.damageTypeAttribute == null) {this.damageTypeAttribute = BluntDamage.get;}
+            if (this.damageTypeAttribute == null) {this.damageTypeAttribute = DamageTypes.BLUNT;}
         }
 
         public Attributes baseDamage(float baseDamage) {
@@ -88,6 +89,16 @@ public abstract class ItemHoldable extends Item {
 
         public Attributes damageType(DamageType damageType) {
             if (damageTypeAttribute == null) damageTypeAttribute = damageType;
+            return this;
+        }
+
+        public Attributes setDamage(float damage) {
+            baseDamageAttribute = damage;
+            return this;
+        }
+
+        public Attributes setDamageType(DamageType damageType) {
+            damageTypeAttribute = damageType;
             return this;
         }
 

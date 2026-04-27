@@ -1,8 +1,10 @@
 package net.vami.game.interactables.interactions.patrons;
 
+import net.vami.game.interactables.interactions.abilities.Abilities;
 import net.vami.game.interactables.interactions.abilities.Ability;
 import net.vami.game.interactables.interactions.abilities.RageAbility;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
 import net.vami.game.interactables.items.Item;
 import net.vami.game.interactables.items.custom.ArthuurosEyeItem;
@@ -38,12 +40,12 @@ public class Arthuuros implements Patron {
 
     @Override
     public DamageType damageType() {
-        return SharpDamage.get;
+        return DamageTypes.SHARP;
     }
 
     @Override
     public Ability ability() {
-        return RageAbility.get;
+        return Abilities.RAGE;
     }
 
     @Override

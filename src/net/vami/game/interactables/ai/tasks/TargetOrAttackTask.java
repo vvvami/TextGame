@@ -6,7 +6,7 @@ public class TargetOrAttackTask extends TargetTask {
     @Override
     public boolean taskAction(Entity source) {
         if (source.hasTarget()) {
-            new AttackTask().taskAction(source);
+            Tasks.ATTACK.taskAction(source);
         } else {
             super.taskAction(source);
         }

@@ -9,7 +9,6 @@ import net.vami.util.TextUtil;
 import java.awt.*;
 
 public class CharmedStatus implements Status {
-    public static final CharmedStatus get = new CharmedStatus();
 
     @Override
     public String getName() {

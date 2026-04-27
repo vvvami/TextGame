@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.ai.tasks.*;
+import net.vami.game.interactables.interactions.abilities.Abilities;
 import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.patrons.Patron;
@@ -113,7 +114,7 @@ public class PlayerEntity extends Entity {
         if (createdPlayer == null) {
             createdPlayer = new PlayerEntity(playerName, new Attributes()
                     .level(5)
-                    .ability(HypnosisAbility.get));
+                    .ability(Abilities.HYPNOSIS));
             createdPlayer.addInventoryItem(new ExplorersMapItem("Map"));
             Game.display("Your adventure begins. %n");
         }

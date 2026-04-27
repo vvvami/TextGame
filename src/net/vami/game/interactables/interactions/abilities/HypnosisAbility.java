@@ -4,10 +4,9 @@ import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
 import net.vami.game.interactables.interactions.statuses.Status;
+import net.vami.game.interactables.interactions.statuses.Statuses;
 
 public class HypnosisAbility implements Ability {
-
-    public static final HypnosisAbility get = new HypnosisAbility();
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
@@ -15,12 +14,12 @@ public class HypnosisAbility implements Ability {
             return false;
         }
 
-        if (targetEntity.hasSpecifiedStatus(CharmedStatus.get)) {
+        if (targetEntity.hasSpecifiedStatus(Statuses.CHARMED)) {
             return false;
         }
 
         targetEntity.addStatus(new Status.Instance(
-                CharmedStatus.get, 1, sourceEntity.getLevel(), sourceEntity));
+                Statuses.CHARMED, 1, sourceEntity.getLevel(), sourceEntity));
 
         return true;
     }

@@ -1,7 +1,6 @@
 package net.vami.game.interactables.items;
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
-import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.items.attunement.AttunableItem;
 import net.vami.game.interactables.items.attunement.Attunement;
 import net.vami.util.TextUtil;
@@ -104,7 +103,7 @@ public class Item extends Interactable {
 
         if (durability <= 0) {
             Game.playSound(this.getOwner(), Sound.ITEM_BREAK, 65);
-            getOwner().removeFromInventory(this);
+            getOwner().removeInventoryItem(this);
             getOwner().removeEquippedItem(this);
             erase();
             Game.display(this,"%s has broken!%n", this.getDisplayName());
@@ -114,7 +113,7 @@ public class Item extends Interactable {
     @Override
     public boolean receiveEquip(Interactable source) {
         Entity entitySource = (Entity) source;
-        entitySource.removeFromInventory(this);
+        entitySource.removeInventoryItem(this);
         this.setOwner(entitySource);
         this.onEquip();
         return true;

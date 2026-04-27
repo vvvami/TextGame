@@ -8,7 +8,7 @@ public class AbilityTask extends Task {
     @Override
     public boolean taskAction(Entity source) {
         if (source.getAbility().isSupport()) {
-            new SupportAbilityTask().taskAction(source);
+            Tasks.SUPPORT_ABILITY.taskAction(source);
         } else {
             if (!source.hasTarget()) {
                 Game.display(source,"%s tries to cast a spell, but fails. %n", source.getDisplayName());

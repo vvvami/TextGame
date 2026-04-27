@@ -141,7 +141,7 @@ public class Node {
     }
 
     public void afterPlayerTurn() {
-
+        // after the player is finished, the allies take their turn
         AllyHandler.allyAction(this);
     }
 

@@ -100,7 +100,7 @@ public class Interactable {
         }
 
         Position newPos = interactable.position;
-        if (newPos == null && interactable instanceof Entity) {
+        if (newPos == null) {
             newPos = new Position(0,0,0);
         }
         spawnInteractable(interactable, newPos);
@@ -311,6 +311,7 @@ public class Interactable {
         this.remove();
         interactableMap.remove(this.ID);
     }
+
 
     public void remove() {
         this.setPos(null);

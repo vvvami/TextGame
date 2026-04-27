@@ -3,43 +3,39 @@ import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.ai.*;
 import net.vami.game.interactables.ai.tasks.*;
+import net.vami.game.interactables.interactions.abilities.Abilities;
 import net.vami.game.interactables.interactions.abilities.RageAbility;
-import net.vami.game.interactables.interactions.damagetypes.FireDamage;
-import net.vami.game.interactables.interactions.damagetypes.DamageType;
-import net.vami.game.interactables.interactions.damagetypes.IceDamage;
-import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
+import net.vami.game.interactables.interactions.damagetypes.*;
 import net.vami.game.interactables.interactions.statuses.FrozenStatus;
+import net.vami.game.interactables.interactions.statuses.Statuses;
 import org.jetbrains.annotations.Nullable;
 
 public class WolfEntity extends Entity {
     public WolfEntity(String name, Attributes attributes) {
         super(name, attributes
                 .level(1)
-                .damageType(SharpDamage.get)
-                .ability(RageAbility.get));
+                .damageType(DamageTypes.SHARP)
+                .ability(Abilities.RAGE));
 
-        addResistance(new IceDamage());
-        addWeakness(FireDamage.get);
-        addImmunity(FrozenStatus.get);
+        addResistance(DamageTypes.ICE);
+        addWeakness(DamageTypes.FIRE);
+        addImmunity(Statuses.FROZEN);
     }
 
     @Override
     public void initializeBrain() {
-        addTask(new TargetAnyAndAttackTask(), 10);
-        addTask(new ChaseTargetTask(), 6);
-        addTask(new TakeTask(), 5);
-        addTask(new WanderTask(), 3);
-        addTask(new IdleTask(), 1);
+        addTask(Tasks.TARGET_ANY_AND_ATTACK, 10);
+        addTask(Tasks.TAKE, 5);
     }
 
     @Override
     public void hurt(Interactable source, float amount, DamageType damageType) {
         super.hurt(source, amount, damageType);
         if (this.getHealth() < (float) this.getMaxHealth() / 2) {
-            addTask(new AbilityOrTargetTask(), 10);
-            removeTask(new TargetAnyAndAttackTask());
-            addTask(new TargetAndAttackTask(), 10);
-            removeTask(new TakeTask());
+            addTask(Tasks.ABILITY_OR_TARGET, 10);
+            removeTask(Tasks.TARGET_ANY_AND_ATTACK);
+            addTask(Tasks.TARGET_AND_ATTACK, 10);
+            removeTask(Tasks.TAKE);
         }
     }
 

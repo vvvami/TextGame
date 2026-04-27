@@ -1,38 +1,38 @@
 package net.vami.game.interactables.entities;
 
 import net.vami.game.interactables.ai.tasks.AbilityOrTargetTask;
-import net.vami.game.interactables.ai.tasks.ChaseTargetTask;
-import net.vami.game.interactables.ai.tasks.WanderTask;
 import net.vami.game.interactables.ai.tasks.TargetAndAttackTask;
+import net.vami.game.interactables.ai.tasks.Tasks;
+import net.vami.game.interactables.interactions.abilities.Abilities;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.abilities.HypnosisAbility;
 import net.vami.game.interactables.interactions.damagetypes.BleedDamage;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
+import net.vami.game.interactables.interactions.statuses.Statuses;
 
 public class KalakuliEntity extends Entity {
     public KalakuliEntity(String name, Attributes attributes) {
         super(name, attributes
                 .level(5)
-                .damageType(BleedDamage.get)
-                .ability(HypnosisAbility.get));
+                .damageType(DamageTypes.BLEED)
+                .ability(Abilities.HYPNOSIS));
         removeAvailableAction(Action.TAKE);
 
     }
 
     @Override
     public void initializeBrain() {
-        addTask(new WanderTask(), 1);
-        addTask(new TargetAndAttackTask(), 5);
-        addTask(new ChaseTargetTask(), 10);
+        addTask(Tasks.TARGET_AND_ATTACK, 5);
     }
 
     @Override
     public void turn() {
         super.turn();
-        if (this.hasTarget() && !this.getTarget().hasSpecifiedStatus(CharmedStatus.get)) {
-            addTask(new AbilityOrTargetTask(), 2);
+        if (this.hasTarget() && !this.getTarget().hasSpecifiedStatus(Statuses.CHARMED)) {
+            addTask(Tasks.ABILITY_OR_TARGET, 2);
         } else {
-            removeTask(new AbilityOrTargetTask());
+            removeTask(Tasks.ABILITY_OR_TARGET);
         }
     }
 }

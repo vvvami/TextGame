@@ -12,7 +12,7 @@ public class TargetAndAttackTask extends TargetTask {
                 return false;
             }
         }
-        new AttackTask().taskAction(source);
+        Tasks.ATTACK.taskAction(source);
         return true;
     }
 }

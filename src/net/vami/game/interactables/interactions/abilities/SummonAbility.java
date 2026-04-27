@@ -5,8 +5,7 @@ import net.vami.game.interactables.ai.EntityMood;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.entities.WolfEntity;
 
-public class SummoningAbility implements Ability {
-    public static final SummoningAbility get = new SummoningAbility();
+public class SummonAbility implements Ability {
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {

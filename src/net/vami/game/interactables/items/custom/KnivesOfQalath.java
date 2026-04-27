@@ -3,6 +3,7 @@ package net.vami.game.interactables.items.custom;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.game.interactables.interactions.damagetypes.SharpDamage;
 import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.ItemHoldable;
@@ -15,7 +16,7 @@ public class KnivesOfQalath extends ItemHoldable implements BreakableItem, Attun
     public KnivesOfQalath(String name, Attributes attributes) {
         super(name, attributes
                 .baseDamage(5)
-                .damageType(SharpDamage.get));
+                .damageType(DamageTypes.SHARP));
     }
 
     public KnivesOfQalath(Attributes attributes) {

@@ -1,5 +1,6 @@
 package net.vami.game.interactables.items.custom;
 
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.game.interactables.interactions.modifier.Modifier;
 import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.interactions.damagetypes.BleedDamage;
@@ -18,6 +19,6 @@ public class ArthuurosEyeItem extends ItemEquipable {
     @Override
     public void turn() {
         super.turn();
-        this.getOwner().hurt(null, 1, BleedDamage.get);
+        this.getOwner().hurt(null, 1, DamageTypes.BLEED);
     }
 }

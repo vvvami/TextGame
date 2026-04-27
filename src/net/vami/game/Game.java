@@ -1,6 +1,5 @@
 package net.vami.game;
 
-import net.vami.TextGame;
 import net.vami.game.display.panels.GameFrame;
 import net.vami.game.display.panels.custom.GamePanel;
 import net.vami.game.display.sound.Sound;
@@ -10,7 +9,6 @@ import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.ai.AllyHandler;
 import net.vami.game.interactables.ai.EnemyHandler;
 import net.vami.game.interactables.entities.PlayerEntity;
-import net.vami.game.interactables.items.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
@@ -18,7 +16,6 @@ import net.vami.util.Input;
 import net.vami.util.InputReceiver;
 import net.vami.util.LogUtil;
 import net.vami.util.TextUtil;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,8 +68,6 @@ public abstract class Game {
     }
 
     public static class InputProvider implements InputReceiver {
-//        private Semaphore inputAvailable = new Semaphore(0);
-//        private Queue<String> inputList = new ConcurrentLinkedQueue<>();
 
         protected InputProvider() {
             Input.playerInput.captureInput(this);
@@ -101,7 +96,6 @@ public abstract class Game {
 
 
     public static Node getCurrentNode() {
-
         return Node.findNode(player.getPos());
     }
 

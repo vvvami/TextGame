@@ -4,8 +4,10 @@ import net.vami.game.display.sound.Sound;
 import net.vami.game.interactables.ai.EntityMood;
 import net.vami.game.interactables.ai.EntityRating;
 import net.vami.game.interactables.ai.tasks.*;
+import net.vami.game.interactables.interactions.abilities.Abilities;
 import net.vami.game.interactables.interactions.action.Action;
 import net.vami.game.interactables.interactions.action.ActionFeedback;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.game.interactables.interactions.modifier.Modifier;
 import net.vami.game.interactables.interactions.modifier.ModifierType;
 import net.vami.game.interactables.items.attunement.AttunableItem;
@@ -17,8 +19,6 @@ import net.vami.util.TextUtil;
 import net.vami.game.interactables.ai.Brain;
 import net.vami.game.interactables.Interactable;
 import net.vami.game.interactables.interactions.abilities.Ability;
-import net.vami.game.interactables.interactions.abilities.RageAbility;
-import net.vami.game.interactables.interactions.damagetypes.BluntDamage;
 import net.vami.game.interactables.interactions.damagetypes.DamageType;
 import net.vami.game.interactables.interactions.statuses.*;
 import net.vami.game.interactables.items.BreakableItem;
@@ -228,7 +228,7 @@ public abstract class Entity extends Interactable {
 
                 int random = new Random().nextInt(1, Math.max(2, entity.getLevel() - this.getLevel()));
                 if (random == 1) {
-                    entity.addLevel(1);
+//                    entity.addLevel(1);
                 }
             }
         }
@@ -292,19 +292,6 @@ public abstract class Entity extends Interactable {
         }
     }
 
-    // Ticks every item that's either equipped or held
-    void itemTurn() {
-            List<ItemEquipable> itemEquipables = this.getEquippedItems();
-
-            for (ItemEquipable item : itemEquipables)
-            {
-                item.turn();
-            }
-            if (this.getHeldItem() != null) {
-                this.getHeldItem().turn();
-            }
-    }
-
     // Adds a damage type resistance to the entity
     public void addResistance(DamageType resistance) {
 
@@ -352,11 +339,11 @@ public abstract class Entity extends Interactable {
     }
 
     // Gets the entity max health
-    public int getMaxHealth() {
-        int amount;
+    public float getMaxHealth() {
+        float amount;
         amount = attributes.maxHealthAttribute;
 
-        amount += (int) getModifierTotal(ModifierType.MAX_HEALTH);
+        amount += getModifierTotal(ModifierType.MAX_HEALTH);
 
         return amount;
     }
@@ -608,7 +595,20 @@ public abstract class Entity extends Interactable {
         return getMood(ia) == EntityMood.FRIENDLY;
     }
 
+    // ------------------ITEMS-------------------
 
+    // Ticks every item that's either equipped or held
+    void itemTurn() {
+        List<ItemEquipable> itemEquipables = this.getEquippedItems();
+
+        for (ItemEquipable item : itemEquipables)
+        {
+            item.turn();
+        }
+        if (this.getHeldItem() != null) {
+            this.getHeldItem().turn();
+        }
+    }
 
     // Gets all the equipped items of the entity
     public List<ItemEquipable> getEquippedItems() {
@@ -617,6 +617,10 @@ public abstract class Entity extends Interactable {
             itemList.add((ItemEquipable) Interactable.getInteractableFromID(item));
         }
         return itemList;
+    }
+
+    public void removeEquippedItem(ItemEquipable item) {
+        equippedItems.remove(item.getID());
     }
 
     public void removeEquippedItems() {
@@ -677,7 +681,7 @@ public abstract class Entity extends Interactable {
     }
 
     // Removes an item from the inventory
-    public void removeFromInventory(Item item) {
+    public void removeInventoryItem(Item item) {
         inventory.remove(item.getID());
     }
 
@@ -755,7 +759,7 @@ public abstract class Entity extends Interactable {
     // I kinda took "inspiration" from Minecraft for this one
     public static class Attributes {
         private int levelAttribute;
-        private int maxHealthAttribute;
+        private float maxHealthAttribute;
         private float damageAttribute;
         private int armorAttribute;
         private DamageType damageTypeAttribute;
@@ -776,8 +780,8 @@ public abstract class Entity extends Interactable {
             if (damageAttribute == -1) {
                 damageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
-            if (damageTypeAttribute == null) {damageTypeAttribute = BluntDamage.get;}
-            if (abilityAttribute == null) {abilityAttribute = RageAbility.get;}
+            if (damageTypeAttribute == null) {damageTypeAttribute = DamageTypes.BLUNT;}
+            if (abilityAttribute == null) {abilityAttribute = Abilities.RAGE;}
         }
 
 
@@ -810,7 +814,7 @@ public abstract class Entity extends Interactable {
 
         public int getLevel() {return levelAttribute;}
 
-        public int getMaxHealth() {return maxHealthAttribute;}
+        public float getMaxHealth() {return maxHealthAttribute;}
 
         public float getDamage() {return damageAttribute;}
 

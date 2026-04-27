@@ -2,6 +2,7 @@ package net.vami.game.interactables.items.custom;
 
 import net.vami.game.Game;
 import net.vami.game.interactables.entities.Entity;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 import net.vami.game.interactables.interactions.damagetypes.FireDamage;
 import net.vami.game.interactables.items.BreakableItem;
 import net.vami.game.interactables.items.ItemHoldable;
@@ -13,7 +14,7 @@ import net.vami.util.TextUtil;
 public class ExcaliburItem extends ItemHoldable implements BreakableItem, UseableItem, AttunableItem {
     public ExcaliburItem(String name, Attributes attributes) {
         super(name, attributes
-                .damageType(FireDamage.get)
+                .damageType(DamageTypes.FIRE)
                 .baseDamage(15));
     }
 

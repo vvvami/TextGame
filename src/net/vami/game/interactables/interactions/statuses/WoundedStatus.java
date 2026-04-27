@@ -2,9 +2,9 @@ package net.vami.game.interactables.interactions.statuses;
 
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.damagetypes.BleedDamage;
+import net.vami.game.interactables.interactions.damagetypes.DamageTypes;
 
 public class WoundedStatus implements Status {
-    public static final WoundedStatus get = new WoundedStatus();
 
     @Override
     public String getName() {
@@ -28,6 +28,6 @@ public class WoundedStatus implements Status {
 
     @Override
     public void turn(Entity target, Entity source) {
-        target.hurt(source, target.getStatusInstance(this).getAmplifier(), BleedDamage.get);
+        target.hurt(source, target.getStatusInstance(this).getAmplifier(), DamageTypes.BLEED);
     }
 }

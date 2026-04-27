@@ -2,6 +2,7 @@ package net.vami.game.interactables.ai.tasks;
 
 import net.vami.game.interactables.entities.Entity;
 import net.vami.game.interactables.interactions.statuses.CharmedStatus;
+import net.vami.game.interactables.interactions.statuses.Statuses;
 import net.vami.util.LogUtil;
 import net.vami.util.LoggerType;
 
@@ -23,7 +24,7 @@ public class TargetTask extends Task {
             if (target == source) {continue;}
 
             boolean shouldTarget = source.isHostileTo(target);
-            if (source.hasSpecifiedStatus(CharmedStatus.get)) {
+            if (source.hasSpecifiedStatus(Statuses.CHARMED)) {
                 shouldTarget = !shouldTarget;
             }
 
