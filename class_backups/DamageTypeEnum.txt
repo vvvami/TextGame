@@ -1,4 +1,4 @@
-package net.vami.game.interactables.interactions.damagetypes;
+package net.vami.game.interactable.interaction.damagetypes;
 
 public enum DamageType {
 

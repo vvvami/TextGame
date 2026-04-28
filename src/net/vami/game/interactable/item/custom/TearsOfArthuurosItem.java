@@ -1,0 +1,32 @@
+package net.vami.game.interactable.item.custom;
+
+import net.vami.game.interactable.item.BreakableItem;
+import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.UseableItem;
+
+public class TearsOfArthuurosItem extends Item implements UseableItem, BreakableItem {
+    public TearsOfArthuurosItem() {
+        super("Tears of Arthuuros");
+    }
+
+    @Override
+    public void onUse() {
+        this.getOwner().heal(null, 10);
+        this.hurt(1);
+    }
+
+    @Override
+    public boolean useCondition() {
+        return this.getOwner().getHealth() < this.getOwner().getAttributes().getMaxHealth();
+    }
+
+    @Override
+    public String failMessage() {
+        return this.getOwner().getName() + " has no more health to restore.";
+    }
+
+    @Override
+    public int maxDurability() {
+        return 1;
+    }
+}

@@ -1,8 +1,8 @@
 package net.vami.game.display.sound;
 
 import net.vami.game.Game;
-import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.items.Item;
+import net.vami.game.interactable.Interactable;
+import net.vami.game.interactable.item.Item;
 import net.vami.game.world.Position;
 
 import javax.sound.sampled.*;

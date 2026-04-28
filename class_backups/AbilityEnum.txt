@@ -1,6 +1,6 @@
-package net.vami.game.interactables.interactions;
-import net.vami.game.interactables.*;
-import net.vami.game.interactables.entities.Entity;
+package net.vami.game.interactable.interaction;
+import net.vami.game.interactable.*;
+import net.vami.game.interactable.entity.Entity;
 
 public enum Ability {
     NONE("None"),

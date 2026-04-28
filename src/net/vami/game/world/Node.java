@@ -1,11 +1,13 @@
 package net.vami.game.world;
 
 import net.vami.game.Game;
-import net.vami.game.interactables.ai.AllyHandler;
-import net.vami.game.interactables.ai.EnemyHandler;
-import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.items.Item;
+import net.vami.game.interactable.ai.AllyHandler;
+import net.vami.game.interactable.ai.EnemyHandler;
+import net.vami.game.interactable.entity.Entity;
+import net.vami.game.interactable.Interactable;
+import net.vami.game.interactable.item.Item;
+import net.vami.game.world.room.Room;
+import net.vami.game.world.room.Rooms;
 
 import java.util.*;
 
@@ -15,12 +17,15 @@ public class Node {
     private final Position position;
     private HashSet<UUID> interactables = new HashSet<>();
     private static HashMap<Position, Node> nodeMap = new HashMap<>();
+    private Room room;
+
 //    private ArrayList<Direction> entrances = new ArrayList<>();
 
     public Node(Position position) {
         this.position = position;
         nodeMap.put(position, this);
 //        generateEntrances();
+        room = generateRoom();
     }
 
     /*
@@ -97,13 +102,17 @@ public class Node {
     }
 
     public static void initializeNodes() {
-        int size = 25;
+        int size = 10;
         for (int h = -size; h <= size; h++) {
             for (int j = -size; j <= size; j++) {
                 for (int i = -size; i <= size; i++) {
                     new Node(new Position(i, h, j));
                 }
             }
+        }
+
+        for (Node node : Node.nodeMap.values()) {
+            node.initializeRoom();
         }
     }
 
@@ -181,5 +190,32 @@ public class Node {
                 item.turn();
             }
         }
+    }
+
+    public Room generateRoom() {
+        int rnd = new Random().nextInt(1, 10);
+
+        if (rnd == 1) {
+            return Rooms.ATTUNER;
+        } else if (rnd == 2) {
+            return Rooms.CHEST;
+        }
+        return Rooms.BASIC_ENEMY;
+    }
+
+    public void setRoom(Room room) {
+        for (Interactable interactable : this.getInteractables()) {
+            if (interactable == null) continue;
+            interactable.erase();
+        }
+        this.room = room;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void initializeRoom() {
+        this.room.init(this);
     }
 }

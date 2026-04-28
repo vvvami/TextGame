@@ -1,14 +1,14 @@
 package net.vami.game;
 
-import net.vami.game.display.panels.GameFrame;
-import net.vami.game.display.panels.custom.GamePanel;
+import net.vami.game.display.panel.GameFrame;
+import net.vami.game.display.panel.custom.GamePanel;
 import net.vami.game.display.sound.Sound;
-import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.ai.PlayerHandler;
-import net.vami.game.interactables.interactions.action.Action;
-import net.vami.game.interactables.ai.AllyHandler;
-import net.vami.game.interactables.ai.EnemyHandler;
-import net.vami.game.interactables.entities.PlayerEntity;
+import net.vami.game.interactable.Interactable;
+import net.vami.game.interactable.ai.PlayerHandler;
+import net.vami.game.interactable.interaction.action.Action;
+import net.vami.game.interactable.ai.AllyHandler;
+import net.vami.game.interactable.ai.EnemyHandler;
+import net.vami.game.interactable.entity.PlayerEntity;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
@@ -41,10 +41,6 @@ public abstract class Game {
     public static void startGame() {
         if (player == null) {
             return;
-        }
-        if (isNewGame) {
-            EnemyHandler.Generate();
-            AllyHandler.Generate();
         }
 
         inputProvider = new InputProvider();
@@ -122,6 +118,7 @@ public abstract class Game {
         frame = new GameFrame();
 
         Node.initializeNodes();
+
         TextUtil.registerColorMap();
         Action.registerActionSynonyms();
 

@@ -1,18 +1,12 @@
 package net.vami.util;
 
 import net.vami.game.Game;
-import net.vami.game.display.panels.custom.GamePanel;
-import net.vami.game.interactables.Interactable;
-import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.damagetypes.DamageType;
-import net.vami.game.interactables.items.Item;
+import net.vami.game.display.panel.custom.GamePanel;
+import net.vami.game.interactable.Interactable;
+import net.vami.game.interactable.item.Item;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class TextUtil {
 

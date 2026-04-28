@@ -1,7 +1,7 @@
-package net.vami.game.interactables.interactions;
+package net.vami.game.interactable.interaction;
 
-import net.vami.game.interactables.entities.Entity;
-import net.vami.game.interactables.interactions.statuses.Status;
+import net.vami.game.interactable.entity.Entity;
+import net.vami.game.interactable.interaction.statuses.Status;
 
 public class StatusInstance {
     private int amplifier;
