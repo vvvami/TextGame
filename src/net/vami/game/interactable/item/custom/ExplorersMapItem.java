@@ -3,12 +3,12 @@ package net.vami.game.interactable.item.custom;
 import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.item.Item;
-import net.vami.game.interactable.item.UseableItem;
+import net.vami.game.interactable.item.ItemUseable;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
 
-public class ExplorersMapItem extends Item implements UseableItem {
+public class ExplorersMapItem extends Item implements ItemUseable {
     public ExplorersMapItem(String name) {
         super(name);
     }

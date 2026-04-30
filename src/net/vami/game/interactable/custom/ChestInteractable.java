@@ -70,7 +70,7 @@ public class ChestInteractable extends Interactable {
     public ChestInteractable roll(LootPool pool, int rolls) {
         if (rolls <= 0) return this;
         for (int i = 0; i < rolls; i++) {
-            addItem(pool.pick());
+            addItem(pool.choose());
         }
         return this;
     }

@@ -3,6 +3,7 @@ import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactable.item.attunement.AttunableItem;
 import net.vami.game.interactable.item.attunement.Attunement;
+import net.vami.game.interactable.loot.Rollable;
 import net.vami.util.TextUtil;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.Interactable;
@@ -11,7 +12,7 @@ import net.vami.game.interactable.entity.Entity;
 import java.awt.*;
 import java.util.UUID;
 
-public class Item extends Interactable {
+public class Item extends Interactable implements Rollable {
 
     private int durability;
     private UUID owner;
@@ -19,8 +20,8 @@ public class Item extends Interactable {
 
     public Item(String name) {
         super(name);
-        if (this instanceof BreakableItem breakableItem) {
-            this.durability = breakableItem.maxDurability();
+        if (this instanceof ItemBreakable itemBreakable) {
+            this.durability = itemBreakable.maxDurability();
         }
 
         this.addReceivableAction(Action.TAKE);
@@ -30,7 +31,7 @@ public class Item extends Interactable {
     }
 
     public Item() {
-        this(null);
+        this("Item");
     }
 
     public Entity getOwner() {
@@ -135,9 +136,9 @@ public class Item extends Interactable {
 
     @Override
     public boolean receiveUse(Interactable source) {
-        if (this instanceof UseableItem useableItem) {
-                if (useableItem.useCondition()) {
-                    useableItem.onUse();
+        if (this instanceof ItemUseable itemUseable) {
+                if (itemUseable.useCondition()) {
+                    itemUseable.onUse();
                     if (this instanceof AttunableItem
                     && (this.hasAttunement())) {
                         this.getAttunement().onUse(this, (Entity) source);
@@ -145,7 +146,7 @@ public class Item extends Interactable {
                     return true;
 
                 } else {
-                    Game.display(useableItem.failMessage());
+                    Game.display(itemUseable.failMessage());
                 }
         }
         return false;

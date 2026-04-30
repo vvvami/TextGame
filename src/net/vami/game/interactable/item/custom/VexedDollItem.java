@@ -2,9 +2,9 @@ package net.vami.game.interactable.item.custom;
 
 import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.game.interactable.item.Item;
-import net.vami.game.interactable.item.UseableItem;
+import net.vami.game.interactable.item.ItemUseable;
 
-public class VexedDollItem extends Item implements UseableItem {
+public class VexedDollItem extends Item implements ItemUseable {
     private transient Status status;
 
     @Override

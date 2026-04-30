@@ -4,9 +4,9 @@ import net.vami.game.Game;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.ItemHoldable;
-import net.vami.game.interactable.item.UseableItem;
+import net.vami.game.interactable.item.ItemUseable;
 
-public class SpearOfNiraenItem extends ItemHoldable implements UseableItem {
+public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable {
     public SpearOfNiraenItem(String name, Attributes attributes) {
         super(name, attributes
                 .baseDamage(2)

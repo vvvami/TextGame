@@ -21,7 +21,7 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.abilities.Ability;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.statuses.*;
-import net.vami.game.interactable.item.BreakableItem;
+import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemEquipable;
 import net.vami.game.interactable.item.ItemHoldable;
@@ -196,8 +196,8 @@ public abstract class Entity extends Interactable {
 
             ItemHoldable heldItem = sourceEntity.getHeldItem();
 
-            if (heldItem instanceof BreakableItem breakableItem &&
-            breakableItem.damageOnHit()) {
+            if (heldItem instanceof ItemBreakable itemBreakable &&
+            itemBreakable.damageOnHit()) {
                 heldItem.hurt(1);
             }
 

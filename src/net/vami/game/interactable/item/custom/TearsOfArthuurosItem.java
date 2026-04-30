@@ -1,10 +1,10 @@
 package net.vami.game.interactable.item.custom;
 
-import net.vami.game.interactable.item.BreakableItem;
+import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.Item;
-import net.vami.game.interactable.item.UseableItem;
+import net.vami.game.interactable.item.ItemUseable;
 
-public class TearsOfArthuurosItem extends Item implements UseableItem, BreakableItem {
+public class TearsOfArthuurosItem extends Item implements ItemUseable, ItemBreakable {
     public TearsOfArthuurosItem() {
         super("Tears of Arthuuros");
     }

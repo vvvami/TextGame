@@ -3,12 +3,12 @@ package net.vami.game.interactable.item.custom;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
-import net.vami.game.interactable.item.BreakableItem;
+import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.ItemHoldable;
-import net.vami.game.interactable.item.UseableItem;
+import net.vami.game.interactable.item.ItemUseable;
 import net.vami.game.interactable.item.attunement.AttunableItem;
 
-public class KnivesOfQalathItem extends ItemHoldable implements BreakableItem, AttunableItem, UseableItem {
+public class KnivesOfQalathItem extends ItemHoldable implements ItemBreakable, AttunableItem, ItemUseable {
     private transient boolean doubleHit;
 
     public KnivesOfQalathItem(String name, Attributes attributes) {

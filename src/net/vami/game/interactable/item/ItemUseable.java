@@ -1,6 +1,6 @@
 package net.vami.game.interactable.item;
 
-public interface UseableItem {
+public interface ItemUseable {
 
     default boolean useCondition() {
         return true;

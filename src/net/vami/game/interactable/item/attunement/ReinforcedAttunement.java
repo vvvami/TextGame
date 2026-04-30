@@ -1,6 +1,6 @@
 package net.vami.game.interactable.item.attunement;
 
-import net.vami.game.interactable.item.BreakableItem;
+import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.Item;
 
 public class ReinforcedAttunement implements Attunement {
@@ -23,6 +23,6 @@ public class ReinforcedAttunement implements Attunement {
 
     @Override
     public boolean applyCondition(Item item) {
-        return item instanceof BreakableItem;
+        return item instanceof ItemBreakable;
     }
 }

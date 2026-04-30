@@ -3,13 +3,13 @@ package net.vami.game.interactable.item.custom;
 import net.vami.game.Game;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
-import net.vami.game.interactable.item.BreakableItem;
+import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.ItemHoldable;
-import net.vami.game.interactable.item.UseableItem;
+import net.vami.game.interactable.item.ItemUseable;
 import net.vami.game.interactable.item.attunement.AttunableItem;
 import net.vami.game.world.Node;
 
-public class AmaralItem extends ItemHoldable implements BreakableItem, UseableItem, AttunableItem {
+public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseable, AttunableItem {
     public AmaralItem(String name, Attributes attributes) {
         super(name, attributes
                 .damageType(DamageTypes.FIRE)
