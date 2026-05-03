@@ -7,4 +7,5 @@ public final class Abilities {
     public static final RageAbility RAGE = new RageAbility();
     public static final SearchAbility SEARCH = new SearchAbility();
     public static final SummonAbility SUMMON = new SummonAbility();
+    public static final SanctifyAbility SANCTIFY = new SanctifyAbility();
 }

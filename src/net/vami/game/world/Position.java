@@ -86,11 +86,10 @@ public final class Position {
                 this.z - position.z);
     }
 
-    public float distance(Position position) {
-        return (float) Math.sqrt(
-                ((position.x - this.x) ^ 2) +
-                ((position.y - this.y) ^ 2) +
-                ((position.z - this.z) ^ 2));
+    public int distance(Position position) {
+        return Math.abs(position.x - this.x)
+                + Math.abs(position.y - this.y)
+                + Math.abs(position.z - this.z);
     }
 
     @Override

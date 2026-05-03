@@ -163,6 +163,7 @@ public class Node {
                 if (!enemy.isEnded()
                         && !enemy.isFriendlyTo(Game.player)) {
                     enemy.turn();
+                    Game.setEnemyContext(enemy);
                 }
             }
         }
@@ -193,12 +194,16 @@ public class Node {
     }
 
     public Room generateRoom() {
-        int rnd = new Random().nextInt(1, 10);
+        if (this.position.equals(new Position(0,0,0))) return Rooms.STARTER;
+
+        int rnd = new Random().nextInt(1, 12);
 
         if (rnd == 1) {
             return Rooms.ATTUNER;
-        } else if (rnd == 2) {
+        } else if (rnd == 2 || rnd == 3) {
             return Rooms.CHEST;
+        } else if (rnd == 4) {
+            return Rooms.MINIBOSS;
         }
         return Rooms.BASIC_ENEMY;
     }

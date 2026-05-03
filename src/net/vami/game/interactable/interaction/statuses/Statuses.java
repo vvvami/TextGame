@@ -9,5 +9,7 @@ public final class Statuses {
     public static final FrozenStatus FROZEN = new FrozenStatus();
     public static final PoisonedStatus POISONED = new PoisonedStatus();
     public static final WoundedStatus WOUNDED = new WoundedStatus();
+    public static final ArmoredStatus ARMORED = new ArmoredStatus();
+
 
 }

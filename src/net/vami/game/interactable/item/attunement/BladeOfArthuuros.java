@@ -11,6 +11,14 @@ public class BladeOfArthuuros extends ItemHoldable implements AttunableItem {
         super(name, attributes);
     }
 
+    public BladeOfArthuuros(Attributes attributes) {
+        this("Blade of Arthuuros", attributes);
+    }
+
+    public BladeOfArthuuros() {
+        this(new Attributes());
+    }
+
     @Override
     public void onHit(Interactable owner, Interactable target, DamageType damageType, float amount) {
         target.addStatus(new Status.Instance(Statuses.BURNING, 1, 2, owner));

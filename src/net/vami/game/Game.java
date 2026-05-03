@@ -6,9 +6,8 @@ import net.vami.game.display.sound.Sound;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.ai.PlayerHandler;
 import net.vami.game.interactable.interaction.action.Action;
-import net.vami.game.interactable.ai.AllyHandler;
-import net.vami.game.interactable.ai.EnemyHandler;
 import net.vami.game.interactable.entity.PlayerEntity;
+import net.vami.game.interactable.item.Item;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
@@ -26,10 +25,12 @@ import java.util.List;
 public abstract class Game {
 
     public static PlayerEntity player = null;
-    private static Position lastPlayerPos;
+    private static Interactable enemyContext;
+    private static Item itemContext;
 
-    public static String playerSavePathFormat = "saves/%.json";
-    public static String interactableSavePathFormat = "saves/%_interactables.json";
+
+    public static final String playerSavePathFormat = "saves/%.json";
+    public static final String interactableSavePathFormat = "saves/%_interactables.json";
 
     public static boolean endGame = false;
     public static boolean isNewGame = true;
@@ -49,7 +50,7 @@ public abstract class Game {
     // This "ticks" every node around the player
     public static ArrayList<Node> getSurroundingNodes() {
 
-        Position position = player.getPos() != null ? player.getPos() : lastPlayerPos;
+        Position position = player.getPos();
 
         ArrayList<Node> nodes = new ArrayList<>();
         for (Direction direction : Direction.values()) {
@@ -68,25 +69,27 @@ public abstract class Game {
         protected InputProvider() {
             Input.playerInput.captureInput(this);
             preInput();
-
         }
 
         private void preInput() {
-            for (Node node : getSurroundingNodes()) {
-                node.turnNoPlayer();
-            }
+//            for (Node node : getSurroundingNodes()) {
+//                node.turnNoPlayer();
+//            }
             Game.getCurrentNode().prePlayerTurn();
         }
 
         @Override
         public void receiveInput(String input) {
-             Node prevPlayerNode = Game.getCurrentNode();
+            Node prevPlayerNode = Game.getCurrentNode();
 
-             if (prevPlayerNode == null) {return;}
+            if (prevPlayerNode == null) {
+                return;
+            }
 
-             PlayerHandler.inputToAction(input);
-             prevPlayerNode.afterPlayerTurn();
-             preInput();
+            input = input.stripLeading();
+            PlayerHandler.inputToAction(input);
+            prevPlayerNode.afterPlayerTurn();
+            preInput();
         }
     }
 
@@ -102,11 +105,11 @@ public abstract class Game {
         }
         @Override
         public void receiveInput(String input) {
+            input = input.stripLeading();
             player = PlayerEntity.createPlayer(input);
             if (player != null){
                 Input.playerInput.releaseInput(this);
                 PlayerEntity.spawnInteractable(player);
-                LogUtil.Log("Player pos: %s", player.getPos());
                 Game.startGame();
             }
         }
@@ -183,5 +186,22 @@ public abstract class Game {
     public static void enablePlayerInput(boolean enable) {
         frame.getPanel().getPlayerInput().setEditable(enable);
     }
+
+    public static void setEnemyContext(Interactable interactable) {
+        enemyContext = interactable;
+    }
+
+    public static Interactable getEnemyContext() {
+        return enemyContext;
+    }
+
+    public static void setItemContext(Item item) {
+        itemContext = item;
+    }
+
+    public static Item getItemContext() {
+        return itemContext;
+    }
+
 
 }

@@ -232,6 +232,7 @@ public abstract class Entity extends Interactable {
 
                 int random = new Random().nextInt(1, Math.max(2, entity.getLevel() - this.getLevel()));
                 if (random == 1) {
+                    entity.setHealth(entity.getMaxHealth());
                     entity.addLevel(1);
                 }
             }
@@ -340,6 +341,10 @@ public abstract class Entity extends Interactable {
     public float getHealth() {
 
         return this.health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
     }
 
     // Gets the entity max health
@@ -780,7 +785,7 @@ public abstract class Entity extends Interactable {
 
         public void initialize() {
             if (levelAttribute == -1) {levelAttribute = 1;}
-            if (maxHealthAttribute == -1) {maxHealthAttribute = 10 * levelAttribute;}
+            if (maxHealthAttribute == -1) {maxHealthAttribute = 5 * levelAttribute;}
             if (damageAttribute == -1) {
                 damageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}

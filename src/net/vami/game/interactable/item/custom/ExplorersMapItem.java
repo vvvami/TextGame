@@ -18,9 +18,9 @@ public class ExplorersMapItem extends Item implements ItemUseable {
     }
 
     @Override
-    public void onUse() {
-        Game.display(this.getOwner(), "You are located at %s.%n", this.getOwner().getPos().toString());
-        Position position = this.getOwner().getPos();
+    public void onUse(Interactable source) {
+        Game.display(source, "You are located at %s.%n", source.getPos().toString());
+        Position position = source.getPos();
         for (Direction direction : Direction.values()) {
             if (Node.findNode(position.add(direction)) == null) {
                 continue;

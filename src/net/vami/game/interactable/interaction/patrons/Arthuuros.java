@@ -16,27 +16,27 @@ public class Arthuuros implements Patron {
 
     @Override
     public int level() {
-        return 2;
+        return 1;
     }
 
     @Override
     public int maxHealth() {
-        return 3;
+        return 10;
     }
 
     @Override
     public int armor() {
-        return 2;
+        return 1;
     }
 
     @Override
     public int baseDamage() {
-        return 5;
+        return 1;
     }
 
     @Override
     public DamageType damageType() {
-        return DamageTypes.FIRE;
+        return DamageTypes.BLUNT;
     }
 
     @Override

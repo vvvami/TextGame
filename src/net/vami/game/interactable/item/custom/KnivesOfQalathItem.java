@@ -41,7 +41,7 @@ public class KnivesOfQalathItem extends ItemHoldable implements ItemBreakable, A
     }
 
     @Override
-    public void onUse() {
+    public void onUse(Interactable source) {
 
     }
 

@@ -138,7 +138,7 @@ public class Item extends Interactable implements Rollable {
     public boolean receiveUse(Interactable source) {
         if (this instanceof ItemUseable itemUseable) {
                 if (itemUseable.useCondition()) {
-                    itemUseable.onUse();
+                    itemUseable.onUse(source);
                     if (this instanceof AttunableItem
                     && (this.hasAttunement())) {
                         this.getAttunement().onUse(this, (Entity) source);
@@ -168,6 +168,7 @@ public class Item extends Interactable implements Rollable {
         this.setPos(sourceEntity.getPos());
         Game.playSound(sourceEntity, Sound.ITEM_DROP, 65);
         Game.display(sourceEntity,"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
+        Game.setItemContext(this);
         return super.receiveDrop(source);
     }
 

@@ -1,6 +1,7 @@
 package net.vami.game.interactable.item.custom;
 
 import net.vami.game.Game;
+import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.ItemHoldable;
@@ -32,20 +33,20 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable {
     }
 
     @Override
-    public void onUse() {
-        Entity tempOwner = this.getOwner();
-        Entity tempTarget = tempOwner.getTarget();
+    public void onUse(Interactable source) {
+        Entity sourceEntity = (Entity) source;
+        Entity tempTarget = sourceEntity.getTarget();
 
-        Game.display(tempOwner, "%s has thrown %s at %s! %n",
-                    tempOwner.getName(),
+        Game.display(sourceEntity, "%s has thrown %s at %s! %n",
+                    sourceEntity.getName(),
                     this.getDisplayName(),
                     tempTarget.getName());
 
-        tempOwner.removeInventoryItem(this);
+        sourceEntity.removeInventoryItem(this);
         tempTarget.addItem(this);
         tempTarget.hurt(
-                tempOwner,
-                    this.getDamage() + tempOwner.getDamage(),
+                sourceEntity,
+                    this.getDamage() + sourceEntity.getDamage(),
                     this.getDamageType());
 
         this.getAttributes().setDamage(this.getDamage() + 1);

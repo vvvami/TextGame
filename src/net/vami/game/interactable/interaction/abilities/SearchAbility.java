@@ -3,19 +3,25 @@ package net.vami.game.interactable.interaction.abilities;
 import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
+import net.vami.game.world.Position;
 
-public class SearchAbility implements Ability {
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class SearchAbility extends Ability {
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
+        List<Interactable> list = Interactable.getInteractableMap().values().stream().toList();
         for (Interactable interactable : Interactable.getInteractableMap().values()) {
 
             if (isTargetValid(source, interactable)) {
-                float distance = source.getPos().distance(interactable.getPos());
+                int distance = source.getPos().distance(interactable.getPos());
 
                 if (distance <= 3) {
-                    Game.display(source, "%s is %s acres away %s. %n",
-                            interactable.getName(), Math.round(distance), interactable.getPos().toString());
+                    Game.display(source, "You are alerted to the presence of [%s] at %s%n",
+                            interactable.getName(), interactable.getPos().toString());
+                    ((Entity) source).setTarget((Entity) target);
                     return true;
                 }
             }

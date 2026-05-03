@@ -42,14 +42,15 @@ public class ChestInteractable extends Interactable {
             dropList.add(item);
         }
 
+        Game.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
         for (Item item : dropList) {
-            item.setPos(this.getPos());
-            if (item == dropList.getLast()) {
-                Game.playSound(this, Sound.ITEM_DROP, 65);
-            }
-            Game.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
-            Game.display(this,"%s dropped %s. %n", this.getName(), item.getDisplayName());
+
+//            if (item == dropList.getLast()) {
+//                Game.playSound(this, Sound.ITEM_DROP, 65);
+//            }
+            item.receiveDrop(source);
         }
+
         this.remove();
         return true;
     }

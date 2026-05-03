@@ -1,6 +1,7 @@
 package net.vami.game.interactable.item.custom;
 
 import net.vami.game.Game;
+import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.ItemBreakable;
@@ -30,15 +31,15 @@ public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseab
     }
 
     @Override
-    public void onUse() {
-        Game.playSound(this.getOwner(), this.getDamageType().getSound(), 65);
+    public void onUse(Interactable source) {
+        Game.playSound(source, this.getDamageType().getSound(), 65);
 
-        Game.display(this.getOwner(),"%s attacks their surroundings with %s! %n",
-                this.getOwner().getName(), this.getDisplayName());
+        Game.display(source,"%s attacks their surroundings with %s! %n",
+                source.getName(), this.getDisplayName());
 
-        for (Entity entity : Node.findNode(this.getOwner().getPos()).getEntities()) {
-            if (!(entity == this.getOwner())) {
-                entity.hurt(this.getOwner(), this.getDamage(), this.getDamageType());
+        for (Entity entity : Node.findNode(source.getPos()).getEntities()) {
+            if (!(entity == source)) {
+                entity.hurt(source, this.getDamage(), this.getDamageType());
             }
         }
         this.hurt(5);

@@ -15,6 +15,11 @@ public interface Status {
     boolean stacksDuration();
     boolean isHarmful();
 
+
+    default boolean isPersistent() {
+        return false;
+    }
+
     default boolean canApply(Entity target, Entity source) {
         return true;
     }
@@ -42,13 +47,30 @@ public interface Status {
         private int duration;
         private UUID target;
         private UUID source;
-        private Status status;
+        private final Status status;
 
         public Instance(Status status, int amplifier, int duration, Interactable source) {
             this.status = status;
             this.amplifier = Math.max(1, amplifier);
             this.duration = Math.max(1, duration);
             this.source = source.getID();
+        }
+
+        public Instance(Status status, int amplifier, int duration) {
+            this.status = status;
+            this.amplifier = Math.max(1, amplifier);
+            this.duration = Math.max(1, duration);
+        }
+
+        public Instance(Status status, int amplifier, Interactable source) {
+            this.status = status;
+            this.amplifier = Math.max(1, amplifier);
+            this.source = source.getID();
+        }
+
+        public Instance(Status status, int amplifier) {
+            this.status = status;
+            this.amplifier = Math.max(1, amplifier);
         }
 
         public boolean canApply() {
@@ -67,6 +89,9 @@ public interface Status {
                 return;
             }
             this.getStatus().turn(this.getTarget(), this.getSource());
+
+            if (this.getStatus().isPersistent()) return;
+
             this.duration--;
         }
 

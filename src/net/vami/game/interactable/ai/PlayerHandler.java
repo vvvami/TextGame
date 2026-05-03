@@ -48,7 +48,11 @@ public class PlayerHandler {
         }
 
         if (target == null) {
-           return false;
+            if (Game.getEnemyContext() == null) {
+                return false;
+            }
+           target = Game.getEnemyContext();
+           Game.setEnemyContext(null);
         }
 
         return target.receiveAction(Game.player, action);
@@ -56,10 +60,14 @@ public class PlayerHandler {
 
     private static boolean takeItemSwitch(String input, Node node, Action action) {
         Interactable target = getActionTarget(input, node);
-
         if (target == null) {
-            return false;
+            if (Game.getItemContext() == null) {
+                return false;
+            }
+            target = Game.getItemContext();
+            Game.setItemContext(null);
         }
+
         return target.receiveAction(Game.player, action);
     }
 
@@ -86,7 +94,11 @@ public class PlayerHandler {
         }
 
         if (target == null) {
-            return false;
+            if (Game.getItemContext() == null) {
+                return false;
+            }
+            target = Game.getItemContext();
+            Game.setItemContext(null);
         }
 
         return target.receiveAction(Game.player, action);

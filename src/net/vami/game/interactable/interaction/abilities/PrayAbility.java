@@ -5,7 +5,7 @@ import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 
-public class PrayAbility implements Ability {
+public class PrayAbility extends Ability {
 
     @Override
     public boolean useAbility(Interactable source, Interactable target) {

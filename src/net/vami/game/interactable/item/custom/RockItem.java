@@ -12,8 +12,8 @@ public class RockItem extends Item implements ItemUseable {
     }
 
     @Override
-    public void onUse() {
-        Entity owner = getOwner();
+    public void onUse(Interactable source) {
+        Entity owner = (Entity) source;
         if (owner.hasTarget()) {
             Interactable interactable = owner.getTarget();
             interactable.hurt(owner, owner.getDamage(), DamageTypes.BLUNT);

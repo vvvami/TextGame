@@ -31,7 +31,7 @@ public class CalcUtil {
                 }
             }
 
-            if (source.hasSpecifiedStatus(Statuses.POISONED)) {
+            if (source != null && source.hasSpecifiedStatus(Statuses.POISONED)) {
                 finalAmount *= 0.75f;
             }
 

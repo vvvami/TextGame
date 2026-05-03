@@ -9,7 +9,7 @@ import net.vami.game.interactable.interaction.statuses.Statuses;
 public class KalakuliEntity extends Entity {
     public KalakuliEntity(String name, Attributes attributes) {
         super(name, attributes
-                .level(5)
+                .level(2)
                 .damageType(DamageTypes.BLEED)
                 .ability(Abilities.HYPNOSIS));
         removeAvailableAction(Action.TAKE);

@@ -1,5 +1,6 @@
 package net.vami.game.interactable.item.custom;
 
+import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemUseable;
@@ -10,8 +11,8 @@ public class TearsOfArthuurosItem extends Item implements ItemUseable, ItemBreak
     }
 
     @Override
-    public void onUse() {
-        this.getOwner().heal(null, 10);
+    public void onUse(Interactable source) {
+        source.heal(null, 10);
         this.hurt(1);
     }
 

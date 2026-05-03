@@ -145,6 +145,7 @@ public class GamePanel extends JPanel {
             if (playerTextInput.isBlank()) {
                 return;
             }
+            playerTextInput = playerTextInput.stripLeading();
             playerTextInputArea.setText("");
             LogUtil.Log(playerTextInput);
             Game.display("> %s%n", TextUtil.defaultTextColor, playerTextInput);

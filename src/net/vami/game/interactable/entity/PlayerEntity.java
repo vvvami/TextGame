@@ -13,7 +13,6 @@ import java.awt.*;
 import java.io.*;
 
 public class PlayerEntity extends Entity {
-
     private Patron patron;
 
     public PlayerEntity(String name, Attributes attributes) {
@@ -84,7 +83,7 @@ public class PlayerEntity extends Entity {
 
 
         if (saveFile.exists()) {
-            FileReader reader = null;
+            FileReader reader;
             try {
                 reader = new FileReader(saveFile);
                 loadedPlayer = gson.fromJson(reader, PlayerEntity.class);
@@ -99,9 +98,9 @@ public class PlayerEntity extends Entity {
 
     public static PlayerEntity createPlayer(String name) {
         String playerName = name;
-        playerName = playerName.substring(0, 1).toUpperCase() + playerName.substring(1);
+        playerName = capitalize(playerName);
 
-        if (playerName.isEmpty() || (playerName.length() >= 20) || !playerName.matches("[a-zA-Z]+")) {
+        if (isInvalidName(playerName)) {
             LogUtil.Log(LoggerType.ERROR, "Name is invalid!");
             return null;
         }
@@ -110,15 +109,25 @@ public class PlayerEntity extends Entity {
 
         if (createdPlayer == null) {
             createdPlayer = new PlayerEntity(playerName, new Attributes()
-                    .level(5)
-                    .ability(Abilities.HYPNOSIS));
+                    .level(1)
+                    .ability(Abilities.SANCTIFY));
+
             createdPlayer.addItem(new ExplorersMapItem("Map"));
+
             Game.display("Your adventure begins. %n");
         }
 
         Interactable.loadInteractables(createdPlayer.getName());
 
         return createdPlayer;
+    }
+
+    private static String capitalize(String string) {
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
+    }
+
+    private static boolean isInvalidName(String playerName) {
+        return (playerName.isEmpty() || (playerName.length() >= 20) || !playerName.matches("[a-zA-Z]+"));
     }
 
 }

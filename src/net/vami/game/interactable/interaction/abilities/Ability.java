@@ -3,20 +3,32 @@ package net.vami.game.interactable.interaction.abilities;
 import com.google.gson.annotations.JsonAdapter;
 import net.vami.game.interactable.Interactable;
 
+import java.util.ArrayList;
+
 @JsonAdapter(AbilityAdapter.class)
-public interface Ability {
+public abstract class Ability {
+    private static ArrayList<Ability> abilities = new ArrayList<>();
 
-    boolean useAbility(Interactable source, Interactable target);
+    public Ability() {
+        abilities.add(this);
+    }
 
-    String getName();
+    abstract public boolean useAbility(Interactable source, Interactable target);
 
-    boolean isSupport();
+    abstract public String getName();
 
-    default boolean isSelfCast() {
+    abstract public boolean isSupport();
+
+    public boolean isSelfCast() {
         return false;
     }
 
-    default boolean is(Ability ability) {
-        return this.getClass() == ability.getClass();
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj) || obj.getClass() == this.getClass();
+    }
+
+    public static ArrayList<Ability> registry() {
+        return abilities;
     }
 }
