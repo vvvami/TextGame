@@ -252,6 +252,8 @@ public abstract class Entity extends Interactable {
             amount = amount * 0.75f;
         }
 
+        amount += getModifierTotal(ModifierType.HEALING);
+
         Game.playSound(this.getPos(), Sound.HEAL, 65);
 
         // We display the healing message

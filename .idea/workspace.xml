@@ -9,47 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="improvements">
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemInstance.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Items.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/VunnToothNecklaceItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/PlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/TakeTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/TakeTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/ChestInteractable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/ChestInteractable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/PlayerEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/patrons/Arthuuros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/patrons/Arthuuros.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemEquipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemEquipable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemHoldable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemHoldable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemUseable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemUseable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/Attunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/Attunement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/BladeOfArthuuros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/BladeOfArthuurosItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/GluttonAttunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/GluttonAttunement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/ReinforcedAttunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/ReinforcedAttunement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/AmaralItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/AmaralItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ArthuurosReapingArmbandItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ArthuurosReapingArmbandItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/BerserkSerumItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/BerserkSerumItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/CleansingSerumItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/CleansingSerumItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ExplorersMapItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ExplorersMapItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/EyeOfArthuurosItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/EyeOfArthuurosItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/HolySerumItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/HolySerumItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/KnivesOfQalathItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/KnivesOfQalathItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/RockItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/RockItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/SpearOfNiraenItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/SpearOfNiraenItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/TearsOfArthuurosItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/TearsOfArthuurosItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ThickskinSerum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ThickskinSerumItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/VexedDollItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/VexedDollItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/loot/LootPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/loot/LootPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/loot/Pools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/loot/Pools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/world/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/world/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/world/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" afterDir="false" />
-    </list>
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="improvements" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -130,7 +90,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "attributes-revamp",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/vami/Desktop/TextGame/src/net/vami/game/world/room",
     "project.structure.last.edited": "Artifacts",

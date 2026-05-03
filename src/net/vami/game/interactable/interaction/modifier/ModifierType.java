@@ -4,5 +4,6 @@ public enum ModifierType {
     DAMAGE,
     MAX_HEALTH,
     ARMOR,
-    DURABILITY
+    DURABILITY,
+    HEALING
 }
