@@ -12,184 +12,19 @@ import net.vami.game.interactable.entity.Entity;
 import java.awt.*;
 import java.util.UUID;
 
-public class Item extends Interactable implements Rollable {
+public class Item implements Rollable {
 
-    private int durability;
-    private UUID owner;
-    private Attunement attunement;
+    private String name;
 
     public Item(String name) {
-        super(name);
-        if (this instanceof ItemBreakable itemBreakable) {
-            this.durability = itemBreakable.maxDurability();
-        }
-
-        this.addReceivableAction(Action.TAKE);
-        this.addReceivableAction(Action.EQUIP);
-        this.addReceivableAction(Action.DROP);
-        this.addReceivableAction(Action.USE);
+        this.name = name;
     }
 
     public Item() {
         this("Item");
     }
 
-    public Entity getOwner() {
 
-        return (Entity) Interactable.getInteractableFromID(owner);
-    }
-
-    public void setOwner(Entity owner) {
-        if (owner == null) {
-            this.owner = null;
-            return;
-        }
-        this.owner = owner.getID();
-    }
-
-
-    public int getDurability() {
-
-        return durability;
-    }
-
-    public void setDurability(int durability) {
-
-        this.durability = durability;
-    }
-
-    public void setAttunement(Attunement attunement) {
-        if (!(this instanceof AttunableItem attunable)) {
-            Game.display(this, "%s cannot hold the power of attunement. %n", this.getDisplayName());
-            return;
-        }
-
-        if (!attunable.canAttune()) {
-            Game.display(this,"%s cannot be attuned. %n", this.getDisplayName());
-            return;
-        }
-
-        if (!attunement.applyCondition(this)) {
-            Game.display(this,"%s cannot grasp the reality of \"%s\". %n",
-                    this.getDisplayName(), attunement.getName());
-            return;
-        }
-
-        this.attunement = attunement;
-        this.attunement.onApply(this);
-    }
-
-    public void removeAttunement() {
-        if (!this.attunement.removeCondition(this)) {
-            Game.display(this,"\"%2$s\" refuses to leave %1$s. %n", this.getDisplayName(), this.attunement.getName());
-        }
-        this.attunement.onRemove(this);
-        this.attunement = null;
-    }
-
-    public Attunement getAttunement() {
-        return this.attunement;
-    }
-
-    public boolean hasAttunement() {
-        return attunement != null;
-    }
-
-
-    public void hurt(int amount) {
-        durability -= amount;
-        if (this.hasAttunement()) {
-            this.attunement.onItemHurt(this, amount);
-        }
-
-        if (durability <= 0) {
-            Game.playSound(this.getOwner(), Sound.ITEM_BREAK, 65);
-            getOwner().removeInventoryItem(this);
-            getOwner().removeEquippedItem(this);
-            erase();
-            Game.display(this,"%s has broken!%n", this.getDisplayName());
-        }
-    }
-
-    @Override
-    public boolean receiveEquip(Interactable source) {
-        Entity entitySource = (Entity) source;
-        entitySource.removeInventoryItem(this);
-        this.setOwner(entitySource);
-        this.onEquip();
-        return true;
-    }
-
-    @Override
-    public boolean receiveTake(Interactable source) {
-        Entity entitySource = (Entity) source;
-        entitySource.addItem(this);
-        if (this instanceof ItemHoldable && !entitySource.hasHeldItem()) {
-            this.receiveEquip(entitySource);
-        } else {
-            Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
-            Game.display(this.getOwner(),"%s takes %s. %n", entitySource.getName(), this.getDisplayName());
-        }
-        this.setOwner(entitySource);
-        return true;
-    }
-
-    @Override
-    public boolean receiveUse(Interactable source) {
-        if (this instanceof ItemUseable itemUseable) {
-                if (itemUseable.useCondition()) {
-                    itemUseable.onUse(source);
-                    if (this instanceof AttunableItem
-                    && (this.hasAttunement())) {
-                        this.getAttunement().onUse(this, (Entity) source);
-                    }
-                    return true;
-
-                } else {
-                    Game.display(itemUseable.failMessage());
-                }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean receiveDrop(Interactable source) {
-        Entity sourceEntity = (Entity) source;
-        if ((this instanceof ItemHoldable
-                && this == sourceEntity.getHeldItem())
-                ||
-                (this instanceof ItemEquipable itemEquipable
-                && sourceEntity.hasItemEquipped(itemEquipable))) {
-
-            this.onUnequip();
-        }
-        sourceEntity.removeEquippedItem(this);
-        this.setOwner(null);
-        this.setPos(sourceEntity.getPos());
-        Game.playSound(sourceEntity, Sound.ITEM_DROP, 65);
-        Game.display(sourceEntity,"%s has dropped %s. %n", sourceEntity.getDisplayName(), this.getDisplayName());
-        Game.setItemContext(this);
-        return super.receiveDrop(source);
-    }
-
-    public boolean onEquip() {
-
-        return true;
-    }
-
-    public boolean onUnequip() {
-
-        return true;
-    }
-
-    @Override
-    public void turn() {
-        super.turn();
-        if (this instanceof AttunableItem attunable
-        && this.hasAttunement()) {
-            this.attunement.onTurn(this);
-        }
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -198,5 +33,21 @@ public class Item extends Interactable implements Rollable {
 
     public String getDisplayName() {
         return TextUtil.setColor(this.getName(), Color.magenta);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void turn(ItemInstance item) {
+
+    }
+
+    public ItemInstance create() {
+        return new ItemInstance(this);
     }
 }

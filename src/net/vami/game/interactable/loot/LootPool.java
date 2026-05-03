@@ -1,6 +1,7 @@
 package net.vami.game.interactable.loot;
 
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 
 import java.util.*;
 

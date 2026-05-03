@@ -5,16 +5,17 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 
 public class VexedDollItem extends Item implements ItemUseable {
     private transient Status status;
 
     @Override
-    public boolean useCondition() {
-        if (this.getOwner().getTarget() == null) {return false;}
+    public boolean useCondition(ItemInstance item) {
+        if (item.getOwner().getTarget() == null) {return false;}
 
-        for (Status.Instance instance : this.getOwner().getTarget().getStatuses()) {
+        for (Status.Instance instance : item.getOwner().getTarget().getStatuses()) {
             if (!instance.getStatus().isHarmful()) {
                 status = instance.getStatus();
                 return true;
@@ -24,7 +25,7 @@ public class VexedDollItem extends Item implements ItemUseable {
     }
 
     @Override
-    public void onUse(Interactable source) {
+    public void onUse(Interactable source, ItemInstance instance) {
         Entity sourceEntity = (Entity) source;
         sourceEntity.getTarget().removeStatus(status);
 
@@ -32,7 +33,7 @@ public class VexedDollItem extends Item implements ItemUseable {
     }
 
     @Override
-    public String failMessage() {
+    public String failMessage(ItemInstance item) {
         return "The doll does nothing.";
     }
 }

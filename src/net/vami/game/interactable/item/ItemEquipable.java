@@ -10,34 +10,11 @@ public abstract class ItemEquipable extends Item {
         super(name);
     }
 
-    public ItemEquipable() {
-        this(null);
+    public boolean onEquip(ItemInstance item) {
+        return true;
     }
 
-    @Override
-    public boolean receiveEquip(Interactable source) {
-        if (!(source instanceof Entity entitySource)) {
-            return false;
-        }
-
-        if (entitySource.getEquippedItems().size() >= entitySource.getMaxEquipSlots()) {
-            Game.display(this,"%s cannot equip more items. %n",
-                    entitySource.getName());
-            return false;
-        }
-
-        if (entitySource.hasItemEquipped(this)) {
-            this.onUnequip();
-            entitySource.removeEquippedItem(this);
-            entitySource.addItem(this);
-            Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
-            Game.display(this,"%s stashes %s. %n", entitySource.getName(), this.getDisplayName());
-            return false;
-        }
-
-        entitySource.addEquippedItem(this);
-        Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
-        Game.display(this,"%s equips %s. %n", entitySource.getName(), this.getDisplayName());
-        return super.receiveEquip(source);
+    public boolean onUnequip(ItemInstance item) {
+        return true;
     }
 }

@@ -2,6 +2,7 @@ package net.vami.game.interactable.ai;
 
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
 import net.vami.game.world.Node;
@@ -72,16 +73,16 @@ public class PlayerHandler {
     }
 
     private static boolean interactItemSwitch(String input, Action action) {
-        Item target = null;
+        ItemInstance target = null;
         input = input.substring(input.indexOf(' ') + 1);
 
-        for (Item item : Game.player.getInventory()) {
+        for (ItemInstance item : Game.player.getInventory()) {
             if (item.getName().equalsIgnoreCase(input)) {
                 target = item;
             }
         }
 
-        for (Item item : Game.player.getEquippedItems()) {
+        for (ItemInstance item : Game.player.getEquippedItems()) {
             if (item.getName().equalsIgnoreCase(input)) {
                 target = item;
             }

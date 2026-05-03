@@ -5,6 +5,7 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.ItemHoldable;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 
 public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable {
@@ -23,17 +24,17 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable {
     }
 
     @Override
-    public boolean useCondition() {
-        return (this.getOwner().hasTarget() && !this.getOwner().getTarget().isEnded());
+    public boolean useCondition(ItemInstance item) {
+        return (item.getOwner().hasTarget() && !item.getOwner().getTarget().isEnded());
     }
 
     @Override
-    public String failMessage() {
+    public String failMessage(ItemInstance item) {
         return String.format("%s has no target.%n", this.getDisplayName());
     }
 
     @Override
-    public void onUse(Interactable source) {
+    public void onUse(Interactable source, ItemInstance item) {
         Entity sourceEntity = (Entity) source;
         Entity tempTarget = sourceEntity.getTarget();
 
@@ -42,8 +43,8 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable {
                     this.getDisplayName(),
                     tempTarget.getName());
 
-        sourceEntity.removeInventoryItem(this);
-        tempTarget.addItem(this);
+        sourceEntity.removeInventoryItem(item);
+        tempTarget.addItem(item);
         tempTarget.hurt(
                 sourceEntity,
                     this.getDamage() + sourceEntity.getDamage(),

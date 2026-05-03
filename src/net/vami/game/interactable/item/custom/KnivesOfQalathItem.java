@@ -5,6 +5,7 @@ import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.ItemHoldable;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 import net.vami.game.interactable.item.attunement.AttunableItem;
 
@@ -40,14 +41,15 @@ public class KnivesOfQalathItem extends ItemHoldable implements ItemBreakable, A
         return 1450;
     }
 
-    @Override
-    public void onUse(Interactable source) {
 
+    @Override
+    public boolean onEquip(ItemInstance item) {
+        doubleHit = false;
+        return super.onEquip(item);
     }
 
     @Override
-    public boolean onEquip() {
-        doubleHit = false;
-        return super.onEquip();
+    public void onUse(Interactable source, ItemInstance item) {
+
     }
 }

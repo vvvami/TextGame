@@ -5,8 +5,7 @@ import net.vami.game.interactable.interaction.abilities.Abilities;
 import net.vami.game.interactable.interaction.abilities.Ability;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
-import net.vami.game.interactable.item.custom.EyeOfArthuurosItem;
-import net.vami.game.interactable.item.custom.TearsOfArthuurosItem;
+import net.vami.game.interactable.item.Items;
 
 public class Arthuuros implements Patron {
     @Override
@@ -46,7 +45,7 @@ public class Arthuuros implements Patron {
 
     @Override
     public void init(PlayerEntity player) {
-        player.addItem(new TearsOfArthuurosItem());
-        player.addItem(new EyeOfArthuurosItem());
+        player.addItem(Items.TEARS_OF_ARTHUUROS.create());
+        player.addItem(Items.EYE_OF_ARTHUUROS.create());
     }
 }

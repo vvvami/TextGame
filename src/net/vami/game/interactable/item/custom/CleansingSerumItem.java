@@ -5,6 +5,7 @@ import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemBreakable;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 
 public class CleansingSerumItem extends Item implements ItemUseable, ItemBreakable {
@@ -14,9 +15,9 @@ public class CleansingSerumItem extends Item implements ItemUseable, ItemBreakab
     }
 
     @Override
-    public void onUse(Interactable source) {
+    public void onUse(Interactable source, ItemInstance item) {
         source.clearStatuses();
-        this.hurt(1);
+        item.hurt(1);
     }
 
     @Override

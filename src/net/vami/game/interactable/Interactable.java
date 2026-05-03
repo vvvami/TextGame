@@ -5,6 +5,7 @@ import net.vami.game.interactable.entity.PlayerEntity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.interaction.modifier.Modifier;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
 import net.vami.game.world.Node;
@@ -289,7 +290,7 @@ public class Interactable {
                 || source.getPos() == null
                 || !(this.getPos().equals(source.getPos()))) {
 
-            if (this instanceof Item item) {
+            if (this instanceof ItemInstance item) {
                 return item.getOwner() != null;
             }
             else return !(this instanceof Entity);

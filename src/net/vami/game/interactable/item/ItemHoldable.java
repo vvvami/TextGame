@@ -42,28 +42,12 @@ public abstract class ItemHoldable extends Item {
 
     }
 
-    @Override
-    public boolean receiveEquip(Interactable source) {
+    public boolean onEquip(ItemInstance item) {
+        return true;
+    }
 
-        if (!(source instanceof Entity entitySource)) {
-            return false;
-        }
-
-        if (entitySource.hasHeldItem()) {
-            entitySource.getHeldItem().onUnequip();
-            entitySource.addItem(entitySource.getHeldItem());
-            Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
-            Game.display(entitySource,"%s stashes %s. %n", entitySource.getName(), entitySource.getHeldItem().getDisplayName());
-        }
-
-        if (entitySource.getHeldItem() == this) {
-            entitySource.removeEquippedItem(this);
-            return true;
-        }
-        Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
-        Game.display(entitySource,"%s holds %s. %n", entitySource.getName(), this.getDisplayName());
-        entitySource.setHeldItem(this);
-        return super.receiveEquip(source);
+    public boolean onUnequip(ItemInstance item) {
+        return true;
     }
 
     public static class Attributes {

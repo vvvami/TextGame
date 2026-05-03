@@ -6,6 +6,7 @@ import net.vami.game.interactable.ai.EnemyHandler;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.room.Room;
 import net.vami.game.world.room.Rooms;
 
@@ -186,7 +187,7 @@ public class Node {
             return;
         }
         for (Interactable interactable : this.getInteractables()) {
-            if (interactable instanceof Item item
+            if (interactable instanceof ItemInstance item
                 && item.getOwner() == null) {
                 item.turn();
             }
@@ -194,7 +195,7 @@ public class Node {
     }
 
     public Room generateRoom() {
-        if (this.position.equals(new Position(0,0,0))) return Rooms.STARTER;
+        if (this.position.equals(0,0,0)) return Rooms.STARTER;
 
         int rnd = new Random().nextInt(1, 12);
 

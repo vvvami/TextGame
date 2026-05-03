@@ -6,6 +6,7 @@ import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.ItemHoldable;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 import net.vami.game.interactable.item.attunement.AttunableItem;
 import net.vami.game.world.Node;
@@ -31,7 +32,7 @@ public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseab
     }
 
     @Override
-    public void onUse(Interactable source) {
+    public void onUse(Interactable source, ItemInstance item) {
         Game.playSound(source, this.getDamageType().getSound(), 65);
 
         Game.display(source,"%s attacks their surroundings with %s! %n",
@@ -42,7 +43,7 @@ public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseab
                 entity.hurt(source, this.getDamage(), this.getDamageType());
             }
         }
-        this.hurt(5);
+        item.hurt(5);
     }
 
 }

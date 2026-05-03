@@ -6,6 +6,7 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.loot.LootPool;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ChestInteractable extends Interactable {
         if (source instanceof Entity sourceEntity) {
             Game.display(sourceEntity, "%s opens %s.%n", sourceEntity.getName(), this.getName());
             for (UUID uuid : inventory) {
-                Item item = (Item) Interactable.getInteractableFromID(uuid);
+                ItemInstance item = (ItemInstance) Interactable.getInteractableFromID(uuid);
                 Game.playSound(this, Sound.ITEM_DROP, 65);
                 sourceEntity.addItem(item);
                 Game.display(sourceEntity, "%s has obtained %s! %n", sourceEntity.getName(), item.getDisplayName());
@@ -36,14 +37,14 @@ public class ChestInteractable extends Interactable {
 
     @Override
     public boolean receiveAttack(Interactable source) {
-        ArrayList<Item> dropList = new ArrayList<>();
+        ArrayList<ItemInstance> dropList = new ArrayList<>();
         for (UUID uuid : inventory) {
-            Item item = (Item) Interactable.getInteractableFromID(uuid);
+            ItemInstance item = (ItemInstance) Interactable.getInteractableFromID(uuid);
             dropList.add(item);
         }
 
         Game.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
-        for (Item item : dropList) {
+        for (ItemInstance item : dropList) {
 
 //            if (item == dropList.getLast()) {
 //                Game.playSound(this, Sound.ITEM_DROP, 65);
@@ -63,7 +64,7 @@ public class ChestInteractable extends Interactable {
         this.inventory = inventory;
     }
 
-    public ChestInteractable addItem(Item item) {
+    public ChestInteractable addItem(ItemInstance item) {
         inventory.add(item.getID());
         return this;
     }
@@ -71,7 +72,7 @@ public class ChestInteractable extends Interactable {
     public ChestInteractable roll(LootPool pool, int rolls) {
         if (rolls <= 0) return this;
         for (int i = 0; i < rolls; i++) {
-            addItem(pool.choose());
+            addItem(pool.choose().create());
         }
         return this;
     }

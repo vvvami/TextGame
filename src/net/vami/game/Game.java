@@ -8,6 +8,7 @@ import net.vami.game.interactable.ai.PlayerHandler;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.entity.PlayerEntity;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
 import net.vami.game.world.Position;
@@ -26,7 +27,7 @@ public abstract class Game {
 
     public static PlayerEntity player = null;
     private static Interactable enemyContext;
-    private static Item itemContext;
+    private static ItemInstance itemContext;
 
 
     public static final String playerSavePathFormat = "saves/%.json";
@@ -195,11 +196,11 @@ public abstract class Game {
         return enemyContext;
     }
 
-    public static void setItemContext(Item item) {
+    public static void setItemContext(ItemInstance item) {
         itemContext = item;
     }
 
-    public static Item getItemContext() {
+    public static ItemInstance getItemContext() {
         return itemContext;
     }
 

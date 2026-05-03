@@ -6,6 +6,7 @@ import net.vami.game.interactable.interaction.abilities.Abilities;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.interaction.patrons.Patron;
 import net.vami.game.Game;
+import net.vami.game.interactable.item.Items;
 import net.vami.game.interactable.item.custom.ExplorersMapItem;
 import net.vami.util.*;
 
@@ -112,7 +113,7 @@ public class PlayerEntity extends Entity {
                     .level(1)
                     .ability(Abilities.SANCTIFY));
 
-            createdPlayer.addItem(new ExplorersMapItem("Map"));
+            createdPlayer.addItem(Items.EXPLORERS_MAP.create());
 
             Game.display("Your adventure begins. %n");
         }

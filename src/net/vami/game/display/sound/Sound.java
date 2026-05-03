@@ -3,6 +3,7 @@ package net.vami.game.display.sound;
 import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Position;
 
 import javax.sound.sampled.*;
@@ -145,7 +146,7 @@ public class Sound {
             return;
         }
 
-        if (source instanceof Item ||
+        if (source instanceof ItemInstance ||
                 source.getNode() == Game.getCurrentNode()) {
             this.play(volume);
         }

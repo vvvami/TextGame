@@ -2,6 +2,7 @@ package net.vami.game.interactable.item.attunement;
 
 import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 
 public class ReinforcedAttunement implements Attunement {
 
@@ -16,13 +17,13 @@ public class ReinforcedAttunement implements Attunement {
     }
 
     @Override
-    public void onItemHurt(Item item, int amount) {
+    public void onItemHurt(ItemInstance item, int amount) {
         item.setDurability(item.getDurability() +
                 (int) Math.floor((double) amount / 2));
     }
 
     @Override
-    public boolean applyCondition(Item item) {
+    public boolean applyCondition(ItemInstance item) {
         return item instanceof ItemBreakable;
     }
 }

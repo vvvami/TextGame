@@ -4,6 +4,7 @@ import net.vami.game.Game;
 import net.vami.game.display.panel.custom.GamePanel;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -20,7 +21,7 @@ public class TextUtil {
 
     public static void display(@Nullable Interactable source, Color color, String text, Object ... args) {
         if (source == null
-                || source instanceof Item
+                || source instanceof ItemInstance
                 || source.getPos().equals(Game.player.getPos())) {
 
             GamePanel.setParentTextColor(color);

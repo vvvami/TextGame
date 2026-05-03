@@ -3,6 +3,7 @@ package net.vami.game.interactable.item.custom;
 import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 import net.vami.game.world.Direction;
 import net.vami.game.world.Node;
@@ -18,7 +19,7 @@ public class ExplorersMapItem extends Item implements ItemUseable {
     }
 
     @Override
-    public void onUse(Interactable source) {
+    public void onUse(Interactable source, ItemInstance item) {
         Game.display(source, "You are located at %s.%n", source.getPos().toString());
         Position position = source.getPos();
         for (Direction direction : Direction.values()) {

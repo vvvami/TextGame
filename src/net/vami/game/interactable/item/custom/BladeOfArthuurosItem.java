@@ -1,21 +1,22 @@
-package net.vami.game.interactable.item.attunement;
+package net.vami.game.interactable.item.custom;
 
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 import net.vami.game.interactable.item.ItemHoldable;
+import net.vami.game.interactable.item.attunement.AttunableItem;
 
-public class BladeOfArthuuros extends ItemHoldable implements AttunableItem {
-    public BladeOfArthuuros(String name, Attributes attributes) {
+public class BladeOfArthuurosItem extends ItemHoldable implements AttunableItem {
+    public BladeOfArthuurosItem(String name, Attributes attributes) {
         super(name, attributes);
     }
 
-    public BladeOfArthuuros(Attributes attributes) {
+    public BladeOfArthuurosItem(Attributes attributes) {
         this("Blade of Arthuuros", attributes);
     }
 
-    public BladeOfArthuuros() {
+    public BladeOfArthuurosItem() {
         this(new Attributes());
     }
 
