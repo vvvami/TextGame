@@ -247,12 +247,12 @@ public abstract class Entity extends Interactable {
             return;
         }
 
+        amount += getModifierTotal(ModifierType.HEALING);
+
         // Frenzied reduces outgoing healing
         if (source != null && source.hasSpecifiedStatus(Statuses.FRENZIED)) {
             amount = amount * 0.75f;
         }
-
-        amount += getModifierTotal(ModifierType.HEALING);
 
         Game.playSound(this.getPos(), Sound.HEAL, 65);
 
