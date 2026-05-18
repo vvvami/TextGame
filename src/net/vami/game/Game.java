@@ -180,7 +180,7 @@ public abstract class Game {
         return frame.getPanel();
     }
 
-    public static JFrame getFrame() {
+    public static GameFrame getFrame() {
         return frame;
     }
 

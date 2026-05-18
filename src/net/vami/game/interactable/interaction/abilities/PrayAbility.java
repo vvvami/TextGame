@@ -12,9 +12,13 @@ public class PrayAbility extends Ability {
         if (target instanceof Entity targetEntity
         && source instanceof Entity sourceEntity) {
 
-            targetEntity.heal(sourceEntity, sourceEntity.getLevel() * 1.5f);
+            targetEntity.heal(sourceEntity, sourceEntity.getLevel());
+
             targetEntity.addStatus(new Status.Instance
-                    (Statuses.BLESSED, sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
+                    (Statuses.BLESSED,
+                            Math.max(1 ,sourceEntity.getLevel() / 2),
+                            Math.max(1 ,sourceEntity.getLevel() / 2),
+                            sourceEntity));
         }
         return true;
     }

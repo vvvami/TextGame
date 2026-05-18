@@ -1,12 +1,17 @@
 package net.vami.game.display.panel;
 
 import net.vami.game.display.panel.custom.GamePanel;
+import net.vami.game.display.panel.custom.HoverPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameFrame extends JFrame {
     GamePanel gamePanel;
+    HoverPanel hoverPanel;
+    public static final String FONT = "Voces";
 
     public GameFrame() {
 
@@ -26,6 +31,13 @@ public class GameFrame extends JFrame {
         this.setIconImage(gameIcon.getImage());
 
         gamePanel = new GamePanel(this);
+        gamePanel.setOpaque(true);
+
+        hoverPanel = new HoverPanel();
+
+        this.setContentPane(gamePanel);
+        this.setGlassPane(hoverPanel);
+        hoverPanel.setVisible(true);
 
         this.pack();
         this.setVisible(true);
@@ -36,6 +48,10 @@ public class GameFrame extends JFrame {
         return gamePanel;
     }
 
+    public HoverPanel getHoverPanel() { return hoverPanel; }
 
+    public void setHoverPoint(int x, int y) {
+        hoverPanel.setBounds(x, y, hoverPanel.getWidth(), hoverPanel.getHeight());
+    }
 
 }

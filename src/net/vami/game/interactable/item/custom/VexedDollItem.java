@@ -11,6 +11,10 @@ import net.vami.game.interactable.item.ItemUseable;
 public class VexedDollItem extends Item implements ItemUseable {
     private transient Status status;
 
+    public VexedDollItem() {
+        super("Vexed Doll");
+    }
+
     @Override
     public boolean useCondition(ItemInstance item) {
         if (item.getOwner().getTarget() == null) {return false;}

@@ -242,7 +242,7 @@ public class ItemInstance extends Interactable {
     public void turn() {
         super.turn();
         this.get().turn(this);
-        if (this instanceof AttunableItem
+        if (this.get() instanceof AttunableItem
                 && this.hasAttunement()) {
             this.attunement.onTurn(this);
         }

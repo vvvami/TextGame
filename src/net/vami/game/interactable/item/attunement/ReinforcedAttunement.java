@@ -4,7 +4,7 @@ import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
 
-public class ReinforcedAttunement implements Attunement {
+public class ReinforcedAttunement extends Attunement {
 
     @Override
     public String getName() {

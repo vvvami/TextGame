@@ -38,16 +38,16 @@ public class WolfEntity extends Entity {
     }
 
     @Override
-    public void createInteractableRating(Interactable interactable) {
+    public void createInteractableRating(Interactable ia) {
         float rating = 0f;
-        if (interactable instanceof WolfEntity) {
+        if (ia instanceof WolfEntity) {
             rating = EntityMood.FRIENDLY.get();
 
-        } else if (interactable instanceof PlayerEntity) {
+        } else if (ia instanceof PlayerEntity) {
             rating = EntityMood.HOSTILE.get();
         }
 
-        createMoodRating(interactable, rating);
+        createMoodRating(ia, rating);
     }
 
     @Override

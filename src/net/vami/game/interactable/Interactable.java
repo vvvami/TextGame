@@ -1,5 +1,7 @@
 package net.vami.game.interactable;
 import com.google.gson.*;
+import net.vami.game.display.panel.HoverComponent;
+import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.ai.Brain;
 import net.vami.game.interactable.entity.PlayerEntity;
 import net.vami.game.interactable.interaction.action.Action;
@@ -20,7 +22,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-public class Interactable {
+public class Interactable implements Hoverable{
     private final UUID ID;
     private String name;
     private Position position = null;
@@ -247,7 +249,10 @@ public class Interactable {
     }
 
     public String getDisplayName() {
-        return getName();
+        String name = getName();
+        if (!TextUtil.isHoverable(name))
+            name = TextUtil.setHoverable(name);
+        return name;
     }
 
     public List<Modifier> getModifiers() {
@@ -500,7 +505,7 @@ public class Interactable {
         // since we know the interactable doesn't have it applied
         else {
             String statusName = status.getName();
-            statusName = status.isHarmful() ? TextUtil.setColor(statusName, Color.red) : TextUtil.setColor(statusName, Color.green);
+            statusName = TextUtil.setColor(statusName, status.getColor());
             Game.display(this,"%s is now %s. %n", this.getName(),
                     statusName);
         }
@@ -528,7 +533,10 @@ public class Interactable {
             for (Status.Instance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                Game.display(this,"%s is no longer affected by %s. %n", getDisplayName(), statusInstance.getStatus().getName());
+                Game.display(this,"%s is no longer affected by %s. %n",
+                        getDisplayName(),
+                        TextUtil.setColor(statusInstance.getStatus().getName(),
+                                statusInstance.getStatus().getColor()));
             }
         }
     }
@@ -642,4 +650,11 @@ public class Interactable {
 
     }
 
+    @Override
+    public HoverInfo getHoverInfo() {
+        return new HoverInfo(
+                getDisplayName().replace("@", ""),
+                "Stuff"
+        );
+    }
 }

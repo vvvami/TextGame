@@ -6,47 +6,48 @@ import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
+import net.vami.game.interactable.loot.Rollable;
 
 @JsonAdapter(AttunementAdapter.class)
-public interface Attunement {
-    String getName();
-    boolean isCurse();
+public abstract class Attunement implements Rollable {
+    public abstract String getName();
+    public abstract boolean isCurse();
 
-    default boolean applyCondition(ItemInstance item) {
+    public boolean applyCondition(ItemInstance item) {
         return true;
     }
 
-    default boolean removeCondition(ItemInstance item) {
+    public boolean removeCondition(ItemInstance item) {
         return !isCurse();
     }
 
     // When the attunement is applied
-    default void onApply(ItemInstance item) {
+    public void onApply(ItemInstance item) {
 
     }
 
     // When the attunement is removed
-    default void onRemove(ItemInstance item) {
+    public void onRemove(ItemInstance item) {
 
     }
 
     // When the item with the attunement hits
-    default void onHit(ItemInstance item, Interactable source, Entity target, float amount, DamageType damageType) {
+    public void onHit(ItemInstance item, Interactable source, Entity target, float amount, DamageType damageType) {
 
     }
 
     // On item turn
-    default void onTurn(ItemInstance item) {
+    public void onTurn(ItemInstance item) {
 
     }
 
     // When the item loses durability
-    default void onItemHurt(ItemInstance item, int amount) {
+    public void onItemHurt(ItemInstance item, int amount) {
 
     }
 
     // If the item is of UseableItem, this will be triggered on use
-    default void onUse(ItemInstance item, Entity source) {
+    public void onUse(ItemInstance item, Entity source) {
 
     }
 }

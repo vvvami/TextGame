@@ -18,7 +18,9 @@ public class EyeOfArthuurosItem extends ItemEquipable {
     @Override
     public void turn(ItemInstance item) {
         super.turn(item);
-        item.getOwner().hurt(null, 1, DamageTypes.BLEED);
+        if (item.getOwner() != null) {
+            item.getOwner().hurt(null, 1, DamageTypes.BLEED);
+        }
     }
 
     @Override

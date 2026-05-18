@@ -5,6 +5,7 @@ import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 
+import java.awt.*;
 import java.util.UUID;
 
 @JsonAdapter(StatusAdapter.class)
@@ -40,6 +41,13 @@ public interface Status {
     default boolean is(Status status) {
 
         return this.getClass() == status.getClass();
+    }
+
+    default Color getColor() {
+        if (this.isHarmful()) {
+            return Color.red;
+        }
+        return Color.green;
     }
 
     class Instance {

@@ -45,7 +45,6 @@ public class Arthuuros implements Patron {
 
     @Override
     public void init(PlayerEntity player) {
-        player.addItem(Items.TEARS_OF_ARTHUUROS.create());
-        player.addItem(Items.EYE_OF_ARTHUUROS.create());
+        player.addEquippedItem(Items.VUNN_TOOTH_NECKLACE.create());
     }
 }

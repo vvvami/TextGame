@@ -5,7 +5,10 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.item.attunement.AttunableItem;
+import net.vami.game.interactable.item.attunement.Attunement;
+import net.vami.game.interactable.item.attunement.Attunements;
 import net.vami.game.interactable.item.attunement.ReinforcedAttunement;
+import net.vami.game.interactable.loot.Pools;
 
 public class AttunementAltarInteractable extends Interactable {
     public AttunementAltarInteractable(String name) {
@@ -17,8 +20,8 @@ public class AttunementAltarInteractable extends Interactable {
     public boolean receiveAttack(Interactable source) {
         if (source instanceof Entity sourceEntity
         && sourceEntity.hasHeldItem()
-        && sourceEntity.getHeldItem() instanceof AttunableItem) {
-            sourceEntity.getHeldItem().setAttunement(new ReinforcedAttunement());
+        && sourceEntity.getHeldItem().get() instanceof AttunableItem) {
+            sourceEntity.getHeldItem().setAttunement((Attunement) Pools.ALTAR_ATTUNEMENTS.choose());
             Game.display(source, "%s has attuned %s with \"%s\"! %n",
                     sourceEntity.getDisplayName(), sourceEntity.getHeldItem().getDisplayName(),
                     sourceEntity.getHeldItem().getAttunement().getName());

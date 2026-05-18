@@ -7,7 +7,7 @@ import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
 
-public class GluttonAttunement implements Attunement {
+public class GluttonAttunement extends Attunement {
     @Override
     public String getName() {
         return "Glutton";

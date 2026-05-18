@@ -41,6 +41,11 @@ public class PlayerHandler {
         return node.stringToInteractable(input);
     }
 
+    private static boolean isTargeting(String input) {
+        input = input.substring(input.indexOf(' ') + 1);
+        return !input.isBlank();
+    }
+
     private static boolean combatSwitch(String input, Node node, Action action) {
         Interactable target = getActionTarget(input, node);
 
@@ -48,7 +53,7 @@ public class PlayerHandler {
             target = Game.player;
         }
 
-        if (target == null) {
+        if (target == null && isTargeting(input)) {
             if (Game.getEnemyContext() == null) {
                 return false;
             }

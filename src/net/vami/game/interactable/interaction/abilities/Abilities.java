@@ -8,4 +8,5 @@ public final class Abilities {
     public static final SearchAbility SEARCH = new SearchAbility();
     public static final SummonAbility SUMMON = new SummonAbility();
     public static final SanctifyAbility SANCTIFY = new SanctifyAbility();
+    public static final ArthuurosAbility ARTHUUROS = new ArthuurosAbility();
 }

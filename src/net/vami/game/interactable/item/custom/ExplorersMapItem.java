@@ -20,7 +20,7 @@ public class ExplorersMapItem extends Item implements ItemUseable {
 
     @Override
     public void onUse(Interactable source, ItemInstance item) {
-        Game.display(source, "You are located at %s.%n", source.getPos().toString());
+        Game.display(source, "%s is located at %s.%n", source.getDisplayName(), source.getPos().toString());
         Position position = source.getPos();
         for (Direction direction : Direction.values()) {
             if (Node.findNode(position.add(direction)) == null) {

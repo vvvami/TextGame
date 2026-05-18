@@ -2,6 +2,8 @@ package net.vami.game.interactable.entity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.vami.game.interactable.Interactable;
+import net.vami.game.interactable.ai.EntityMood;
+import net.vami.game.interactable.ai.EntityRating;
 import net.vami.game.interactable.interaction.abilities.Abilities;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.interaction.patrons.Patron;
@@ -111,7 +113,7 @@ public class PlayerEntity extends Entity {
         if (createdPlayer == null) {
             createdPlayer = new PlayerEntity(playerName, new Attributes()
                     .level(1)
-                    .ability(Abilities.SANCTIFY));
+                    .ability(Abilities.PRAY));
 
             createdPlayer.addItem(Items.EXPLORERS_MAP.create());
 
@@ -131,4 +133,12 @@ public class PlayerEntity extends Entity {
         return (playerName.isEmpty() || (playerName.length() >= 20) || !playerName.matches("[a-zA-Z]+"));
     }
 
+    @Override
+    public void createInteractableRating(Interactable ia) {
+        float rating = 0f;
+        if (ia instanceof PlayerEntity) {
+            rating = EntityMood.FRIENDLY.get();
+        }
+        createMoodRating(ia, rating);
+    }
 }

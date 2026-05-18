@@ -43,7 +43,7 @@ public class ChestInteractable extends Interactable {
             dropList.add(item);
         }
 
-        Game.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName());
+        Game.display(this,"%s was cracked open by %s! %n", this.getName(), source.getDisplayName(), source);
         for (ItemInstance item : dropList) {
 
 //            if (item == dropList.getLast()) {
@@ -72,7 +72,7 @@ public class ChestInteractable extends Interactable {
     public ChestInteractable roll(LootPool pool, int rolls) {
         if (rolls <= 0) return this;
         for (int i = 0; i < rolls; i++) {
-            addItem(pool.choose().create());
+            addItem(((Item) pool.choose()).create());
         }
         return this;
     }

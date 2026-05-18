@@ -1,6 +1,9 @@
 package net.vami.game.interactable.entity;
 import net.vami.game.Game;
+import net.vami.game.display.panel.HoverComponent;
+import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.ai.EntityMood;
 import net.vami.game.interactable.ai.EntityRating;
 import net.vami.game.interactable.ai.tasks.*;
@@ -12,7 +15,6 @@ import net.vami.game.interactable.interaction.modifier.Modifier;
 import net.vami.game.interactable.interaction.modifier.ModifierType;
 import net.vami.game.interactable.item.*;
 import net.vami.game.interactable.item.attunement.AttunableItem;
-import net.vami.game.interactable.item.custom.VunnToothNecklaceItem;
 import net.vami.game.world.Position;
 import net.vami.util.CalcUtil;
 import net.vami.util.LogUtil;
@@ -32,7 +34,7 @@ import java.util.List;
 
 /** This is the basic Entity class. It contains all the things you need for a basic entity,
  * such as health, attributes, basic AI capabilities, an inventory and a bunch of methods. */
-public abstract class Entity extends Interactable {
+public abstract class Entity extends Interactable implements Hoverable {
 
     // Basic entity stats
     private Attributes attributes;
@@ -254,15 +256,18 @@ public abstract class Entity extends Interactable {
             amount = amount * 0.75f;
         }
 
-        Game.playSound(this.getPos(), Sound.HEAL, 65);
 
         // We display the healing message
         String sourceName = "";
         if (source != null) {
             sourceName = source.getDisplayName();
         }
-        ActionFeedback.HEAL.printFeedback(this.getDisplayName(), sourceName,
-                TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange));
+        if (health < getMaxHealth()) {
+            Game.playSound(this.getPos(), Sound.HEAL, 65);
+            ActionFeedback.HEAL.printFeedback(this.getDisplayName(), sourceName,
+                    TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange));
+
+        }
 
         // We add the healing to the entity, capping out at its maximum health
         health = Math.min(this.getMaxHealth(), health + amount);
@@ -431,8 +436,17 @@ public abstract class Entity extends Interactable {
     // Gets the formatted display name of the entity
     @Override
     public String getDisplayName() {
+        return super.getDisplayName() + statusDisplay();
+    }
 
-        return getName() + statusDisplay();
+    @Override
+    public HoverInfo getHoverInfo() {
+        return new HoverInfo(getDisplayName().replace("@", ""),
+                HoverComponent.HEALTH.get() + getHealth()+"/"+getMaxHealth() + "\n"
+                        + HoverComponent.ARMOR.get() + getArmor() + "\n"
+                        + HoverComponent.DAMAGE.get() + getDamage() + "\n"
+                        + HoverComponent.LEVEL.get() + getLevel() + "\n"
+                        + (getHeldItem() != null ? HoverComponent.HELD_ITEM.get() + getHeldItem().getDisplayName() : ""));
     }
 
     // Formatted level display of the entity
@@ -603,7 +617,6 @@ public abstract class Entity extends Interactable {
     }
 
     public boolean isFriendlyTo(Interactable ia) {
-
         return getMood(ia) == EntityMood.FRIENDLY;
     }
 
@@ -671,6 +684,14 @@ public abstract class Entity extends Interactable {
         for (UUID item : inventory) {
             itemList.add((ItemInstance) Interactable.getInteractableFromID(item));
         }
+        return itemList;
+    }
+
+    public List<ItemInstance> getItems() {
+        ArrayList<ItemInstance> itemList = new ArrayList<>();
+        itemList.addAll(getInventory());
+        itemList.addAll(getEquippedItems());
+        itemList.add(getHeldItem());
         return itemList;
     }
 

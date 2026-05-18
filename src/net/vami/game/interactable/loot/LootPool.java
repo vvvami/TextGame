@@ -11,7 +11,7 @@ public class LootPool implements Rollable {
 
     public LootPool() {}
 
-    public Item choose() {
+    public Rollable choose() {
         List<Integer> chanceList = pool.values().stream().toList();
         int totalChance = chanceList.stream().reduce(0, Integer::sum);
 
@@ -23,7 +23,7 @@ public class LootPool implements Rollable {
             if (rnd < acc) {
                 List<Rollable> items = pool.keySet().stream().toList();
                 Rollable rollable = items.get(i);
-                Item item = null;
+                Rollable item = null;
 
                 if (rollable instanceof LootPool lootPool) {
                     item = lootPool.choose();
@@ -52,13 +52,7 @@ public class LootPool implements Rollable {
         return pool;
     }
 
-    public ArrayList<Item> getItems() {
-        ArrayList<Item> items = new ArrayList<>();
-        for (Rollable rollable : pool.keySet()) {
-            if (rollable instanceof Item item) {
-                items.add(item);
-            }
-        }
-        return items;
+    public ArrayList<Rollable> getContent() {
+        return new ArrayList<>(pool.keySet());
     }
 }

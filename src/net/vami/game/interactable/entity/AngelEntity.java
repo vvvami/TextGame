@@ -38,7 +38,17 @@ public class AngelEntity extends Entity {
     @Override
     public void initializeBrain() {
         addTask(Tasks.TARGET_ANY_AND_ATTACK, 20);
-        addTask(Tasks.SELF_ABILITY, 5);
+        addTask(Tasks.SELF_ABILITY, 1);
+    }
+
+    @Override
+    public void turn() {
+        super.turn();
+        if (getHealth() <= getMaxHealth() / 2) {
+            this.getBrain().getTask(Tasks.TARGET_ANY_AND_ATTACK).setPriority(1);
+        } else {
+            this.getBrain().getTask(Tasks.TARGET_ANY_AND_ATTACK).setPriority(20);
+        }
     }
 
     @Override
