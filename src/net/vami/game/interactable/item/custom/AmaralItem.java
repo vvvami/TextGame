@@ -8,10 +8,10 @@ import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.ItemHoldable;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
-import net.vami.game.interactable.item.attunement.AttunableItem;
+import net.vami.game.interactable.item.attunement.ItemAttunable;
 import net.vami.game.world.Node;
 
-public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseable, AttunableItem {
+public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseable, ItemAttunable {
     public AmaralItem(String name, Attributes attributes) {
         super(name, attributes
                 .damageType(DamageTypes.FIRE)
@@ -36,7 +36,7 @@ public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseab
         Game.playSound(source, this.getDamageType().getSound(), 65);
 
         Game.display(source,"%s attacks their surroundings with %s! %n",
-                source.getName(), this.getDisplayName());
+                source, this);
 
         for (Entity entity : Node.findNode(source.getPos()).getEntities()) {
             if (!(entity == source)) {

@@ -4,6 +4,7 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 import net.vami.game.interactable.item.ItemHoldable;
 
@@ -24,7 +25,7 @@ public class PoisonedDaggerItem extends ItemHoldable {
 
     @Override
     public void onHit(Interactable owner, Interactable target, DamageType damageType, float amount) {
-        target.addStatus(new Status.Instance(
+        target.addStatus(new StatusInstance(
                 Statuses.POISONED,
                 1,
                 1,

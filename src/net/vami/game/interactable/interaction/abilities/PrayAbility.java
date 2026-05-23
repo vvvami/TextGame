@@ -3,6 +3,7 @@ package net.vami.game.interactable.interaction.abilities;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 
 public class PrayAbility extends Ability {
@@ -14,7 +15,7 @@ public class PrayAbility extends Ability {
 
             targetEntity.heal(sourceEntity, sourceEntity.getLevel());
 
-            targetEntity.addStatus(new Status.Instance
+            targetEntity.addStatus(new StatusInstance
                     (Statuses.BLESSED,
                             Math.max(1 ,sourceEntity.getLevel() / 2),
                             Math.max(1 ,sourceEntity.getLevel() / 2),

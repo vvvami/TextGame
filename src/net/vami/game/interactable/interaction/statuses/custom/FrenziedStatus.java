@@ -1,10 +1,11 @@
-package net.vami.game.interactable.interaction.statuses;
+package net.vami.game.interactable.interaction.statuses.custom;
 
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.modifier.Modifier;
 import net.vami.game.interactable.interaction.modifier.ModifierType;
+import net.vami.game.interactable.interaction.statuses.Status;
 
-public class FrenziedStatus implements Status {
+public class FrenziedStatus extends Status {
 
     @Override
     public void onApply(Entity target, Entity source) {
@@ -18,14 +19,14 @@ public class FrenziedStatus implements Status {
                 ModifierType.DAMAGE,
                 target.getStatusInstance(this).getAmplifier()));
 
-        Status.super.onApply(target, source);
+        super.onApply(target, source);
     }
 
     @Override
     public void onEnded(Entity target, Entity source) {
         target.removeModifier("frenzy");
 
-        Status.super.onEnded(target, source);
+        super.onEnded(target, source);
     }
 
     @Override

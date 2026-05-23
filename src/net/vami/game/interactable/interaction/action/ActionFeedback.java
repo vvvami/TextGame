@@ -34,7 +34,7 @@ public class ActionFeedback {
     }
 
     public void printFeedback(@NotNull ActionFeedbackType type, Object ... args) {
-        Interactable source = Node.findNode(Game.player.getPos()).stringToInteractable((String) Arrays.stream(args).toList().getFirst());
+        Interactable source = Node.findNode(Game.player.getPos()).stringToInteractable(((Interactable) Arrays.stream(args).toList().getFirst()).getName());
         Game.display(source, feedbackList.get(type.ordinal()), args);
     }
 
@@ -54,7 +54,7 @@ public class ActionFeedback {
     }
 
     public static final ActionFeedback HURT = new ActionFeedback(4)
-            .addFeedbackOption(ActionFeedbackType.NORMAL, "%1$s was hit by %2$s for %3$s %4$s damage! %n")
+            .addFeedbackOption(ActionFeedbackType.NORMAL, "%s was hit by %s for %s %s damage! %n")
             .addFeedbackOption(ActionFeedbackType.SELF, "%s hit themselves for %s %s damage! %n")
             .addFeedbackOption(ActionFeedbackType.GENERIC, "%s was hurt for %s %s damage! %n");
 

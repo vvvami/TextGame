@@ -1,9 +1,10 @@
-package net.vami.game.interactable.interaction.statuses;
+package net.vami.game.interactable.interaction.statuses.custom;
 
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.IceDamage;
+import net.vami.game.interactable.interaction.statuses.Status;
 
-public class FrozenStatus implements Status {
+public class FrozenStatus extends Status {
 
     @Override
     public String getName() {

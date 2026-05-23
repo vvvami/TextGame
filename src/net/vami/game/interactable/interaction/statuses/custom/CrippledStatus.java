@@ -1,20 +1,22 @@
-package net.vami.game.interactable.interaction.statuses;
+package net.vami.game.interactable.interaction.statuses.custom;
 
-public class PoisonedStatus implements Status {
+import net.vami.game.interactable.interaction.statuses.Status;
+
+public class CrippledStatus extends Status {
 
     @Override
     public String getName() {
-        return "PSN";
+        return "CRPL";
     }
 
     @Override
     public boolean stacksAmplifier() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean stacksDuration() {
-        return true;
+        return false;
     }
 
     @Override

@@ -157,6 +157,11 @@ public class Sound {
             return;
         }
 
+        if (position == null) {
+            this.play(volume);
+            return;
+        }
+
         if (position.equals(Game.player.getPos())) {
             this.play(volume);
         }

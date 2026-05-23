@@ -14,7 +14,7 @@ import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.interaction.modifier.Modifier;
 import net.vami.game.interactable.interaction.modifier.ModifierType;
 import net.vami.game.interactable.item.*;
-import net.vami.game.interactable.item.attunement.AttunableItem;
+import net.vami.game.interactable.item.attunement.ItemAttunable;
 import net.vami.game.world.Position;
 import net.vami.util.CalcUtil;
 import net.vami.util.LogUtil;
@@ -122,7 +122,7 @@ public abstract class Entity extends Interactable implements Hoverable {
                 setTarget(null);
         }
 
-        LogUtil.Log("Entity ticked: [%s %s, %s, %s]", this.getName(), this.getPos().toString(), this.getID(), this);
+        LogUtil.log("Entity ticked: [%s %s, %s, %s]", this.getName(), this.getPos().toString(), this.getID(), this);
     }
 
     @Override
@@ -179,14 +179,9 @@ public abstract class Entity extends Interactable implements Hoverable {
         // Reduce the target's health
         health -= finalAmount;
 
-        // Game displays the hurt message
-        String sourceName = "";
-        if (source != null) {
-            sourceName = source.getDisplayName();
-        }
-        ActionFeedback.HURT.printFeedback(this.getDisplayName(), sourceName,
+        ActionFeedback.HURT.printFeedback(this, source,
                 TextUtil.setColor(new DecimalFormat("##.##").format(finalAmount), Color.orange),
-                damageType.getName());
+                damageType);
 
         // DamageType on hit method is called
         damageType.onHit(this, source, finalAmount);
@@ -207,7 +202,7 @@ public abstract class Entity extends Interactable implements Hoverable {
             // Item on hit effect
             ((ItemHoldable) heldItem.get()).onHit(source, this, damageType, amount);
 
-            if (heldItem instanceof AttunableItem
+            if (heldItem instanceof ItemAttunable
             && heldItem.hasAttunement()) {
                 heldItem.getAttunement()
                         .onHit(sourceEntity.getHeldItem(), source, this, amount, damageType);
@@ -224,7 +219,7 @@ public abstract class Entity extends Interactable implements Hoverable {
             if (this.getDeathSound() != null) {
                 Game.playSound(this, this.getDeathSound(), 65);
             }
-            Game.display(this,this.getName() + " has died! %n");
+            Game.display(this,"%s has died! %n", this);
             // We use remove() and not annihilate()
             // Reason: status instances may last longer than the entity that inflicted them (we still need their UUID)
             this.remove();
@@ -256,15 +251,9 @@ public abstract class Entity extends Interactable implements Hoverable {
             amount = amount * 0.75f;
         }
 
-
-        // We display the healing message
-        String sourceName = "";
-        if (source != null) {
-            sourceName = source.getDisplayName();
-        }
         if (health < getMaxHealth()) {
             Game.playSound(this.getPos(), Sound.HEAL, 65);
-            ActionFeedback.HEAL.printFeedback(this.getDisplayName(), sourceName,
+            ActionFeedback.HEAL.printFeedback(this, source,
                     TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange));
 
         }
@@ -309,7 +298,7 @@ public abstract class Entity extends Interactable implements Hoverable {
     public void addResistance(DamageType resistance) {
 
         for (DamageType damageType : resistances) {
-            if (resistance.is(damageType)) {
+            if (resistance.equals(damageType)) {
                 return;
             }
         }
@@ -317,7 +306,7 @@ public abstract class Entity extends Interactable implements Hoverable {
     }
 
     public void removeResistance(DamageType resistance) {
-        resistances.removeIf(resistance::is);    }
+        resistances.removeIf(resistance::equals);    }
 
     // Gets all the entity's damage type resistances
     public List<DamageType> getResistances() {
@@ -328,7 +317,7 @@ public abstract class Entity extends Interactable implements Hoverable {
     // Adds a damage type weakness to the entity
     public void addWeakness(DamageType weakness) {
         for (DamageType damageType : weaknesses) {
-            if (weakness.is(damageType)) {
+            if (weakness.equals(damageType)) {
                 return;
             }
         }
@@ -336,7 +325,7 @@ public abstract class Entity extends Interactable implements Hoverable {
     }
 
     public void removeWeakness(DamageType weakness) {
-        weaknesses.removeIf(weakness::is);
+        weaknesses.removeIf(weakness::equals);
     }
 
     // Gets all the entity's damage type weaknesses
@@ -436,17 +425,17 @@ public abstract class Entity extends Interactable implements Hoverable {
     // Gets the formatted display name of the entity
     @Override
     public String getDisplayName() {
-        return super.getDisplayName() + statusDisplay();
+        return super.getDisplayName();
     }
 
     @Override
     public HoverInfo getHoverInfo() {
-        return new HoverInfo(getDisplayName().replace("@", ""),
-                HoverComponent.HEALTH.get() + getHealth()+"/"+getMaxHealth() + "\n"
-                        + HoverComponent.ARMOR.get() + getArmor() + "\n"
-                        + HoverComponent.DAMAGE.get() + getDamage() + "\n"
-                        + HoverComponent.LEVEL.get() + getLevel() + "\n"
-                        + (getHeldItem() != null ? HoverComponent.HELD_ITEM.get() + getHeldItem().getDisplayName() : ""));
+        return new HoverInfo(getName(),
+                HoverComponent.LEVEL.get() + getLevel() + "\n"
+                + HoverComponent.HEALTH.get() + new DecimalFormat("##.##").format(getHealth())+"/" +new DecimalFormat("##.##").format(getMaxHealth()) + "\n"
+                        + HoverComponent.ARMOR.get() + new DecimalFormat("##.##").format(getArmor()) + "\n"
+                        + HoverComponent.DAMAGE.get() + new DecimalFormat("##.##").format(getDamage()) + "\n"
+                        + (getHeldItem() != null ? HoverComponent.HELD_ITEM.get() + getHeldItem().getName() : ""));
     }
 
     // Formatted level display of the entity
@@ -462,7 +451,7 @@ public abstract class Entity extends Interactable implements Hoverable {
         String space = ", ";
 
         if (!getStatuses().isEmpty()) {
-            for (Status.Instance statusInstance : getStatuses()) {
+            for (StatusInstance statusInstance : getStatuses()) {
                 if (getStatuses().getLast() == statusInstance) {
                     space = "";
                 }
@@ -502,17 +491,17 @@ public abstract class Entity extends Interactable implements Hoverable {
             return false;
         }
 
-        ActionFeedback.ABILITY.printFeedback(sourceEntity.getDisplayName(),
-                        TextUtil.setColor(sourceEntity.getAbility().getName(), Color.cyan),
-                        this.getDisplayName());
+        ActionFeedback.ABILITY.printFeedback(sourceEntity,
+                        sourceEntity.getAbility(),
+                        this);
 
         return sourceEntity.getAbility().useAbility(sourceEntity, this);
     }
 
     @Override
     public boolean receiveResist(Interactable source) {
-        Status.Instance resInstance = null;
-        for (Status.Instance instance : getStatuses()) {
+        StatusInstance resInstance = null;
+        for (StatusInstance instance : getStatuses()) {
             if (instance.getStatus().isHarmful() &&
                     new Random().nextInt(instance.getAmplifier() + 1) == 1) {
 
@@ -553,7 +542,7 @@ public abstract class Entity extends Interactable implements Hoverable {
 
         getEntityRating(ia).changeScore(amount);
 
-        LogUtil.Log(LoggerType.INFO,
+        LogUtil.log(LoggerType.INFO,
                 "%s rating and mood on [%s]: %nMood = %s, Rating = %s",
                 this.getName(), ia.getName(),
                 entityRatings.get(targetID).getMood(),
@@ -700,13 +689,13 @@ public abstract class Entity extends Interactable implements Hoverable {
 
         if (!newInventory.isEmpty()) {
             for (ItemInstance item : newInventory) {
-                addItem(item);
+                addInventoryItem(item);
             }
         }
     }
 
     // Adds an item to the inventory
-    public void addItem(ItemInstance item) {
+    public void addInventoryItem(ItemInstance item) {
         item.setOwner(this);
         inventory.add(item.getID());
         if (item.getPos() != null) {

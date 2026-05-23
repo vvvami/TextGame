@@ -3,6 +3,7 @@ package net.vami.game.interactable.interaction.abilities;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 
 public class HypnosisAbility extends Ability {
@@ -17,7 +18,7 @@ public class HypnosisAbility extends Ability {
             return false;
         }
 
-        targetEntity.addStatus(new Status.Instance(
+        targetEntity.addStatus(new StatusInstance(
                 Statuses.CHARMED, 1, sourceEntity.getLevel(), sourceEntity));
 
         return true;

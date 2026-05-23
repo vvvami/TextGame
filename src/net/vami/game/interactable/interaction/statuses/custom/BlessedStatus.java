@@ -1,8 +1,10 @@
-package net.vami.game.interactable.interaction.statuses;
+package net.vami.game.interactable.interaction.statuses.custom;
 
 import net.vami.game.interactable.entity.Entity;
+import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.Statuses;
 
-public class BlessedStatus implements Status {
+public class BlessedStatus extends Status {
 
     @Override
     public void onApply(Entity target, Entity source) {

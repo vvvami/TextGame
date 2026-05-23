@@ -1,18 +1,12 @@
 package net.vami.game.interactable.item;
-import net.vami.game.Game;
-import net.vami.game.display.sound.Sound;
-import net.vami.game.interactable.item.attunement.AttunableItem;
-import net.vami.game.interactable.item.attunement.Attunement;
+import net.vami.game.display.panel.HoverInfo;
+import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.loot.Rollable;
 import net.vami.util.TextUtil;
-import net.vami.game.interactable.interaction.action.Action;
-import net.vami.game.interactable.Interactable;
-import net.vami.game.interactable.entity.Entity;
 
 import java.awt.*;
-import java.util.UUID;
 
-public class Item implements Rollable {
+public class Item implements Rollable, Hoverable {
 
     private String name;
 
@@ -31,8 +25,15 @@ public class Item implements Rollable {
         return super.equals(obj) || obj.getClass() == this.getClass();
     }
 
+    @Override
+    public HoverInfo getHoverInfo() {
+        return new HoverInfo(this.getDisplayName(),
+                "An item that does stuff");
+    }
+
+    @Override
     public String getDisplayName() {
-        return TextUtil.setColor(this.getName(), Color.magenta);
+        return TextUtil.setColor(getName(), Color.magenta);
     }
 
     public String getName() {

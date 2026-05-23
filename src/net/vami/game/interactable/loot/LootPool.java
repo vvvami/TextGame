@@ -2,6 +2,7 @@ package net.vami.game.interactable.loot;
 
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
+import net.vami.game.interactable.item.attunement.Attunement;
 
 import java.util.*;
 
@@ -21,17 +22,19 @@ public class LootPool implements Rollable {
         for (int i = 0; i < chanceList.size(); i++) {
             acc += chanceList.get(i);
             if (rnd < acc) {
-                List<Rollable> items = pool.keySet().stream().toList();
-                Rollable rollable = items.get(i);
-                Rollable item = null;
+                List<Rollable> choices = pool.keySet().stream().toList();
+                Rollable rollable = choices.get(i);
+                Rollable chosen = null;
 
                 if (rollable instanceof LootPool lootPool) {
-                    item = lootPool.choose();
+                    chosen = lootPool.choose();
                 } else if (rollable instanceof Item lootItem) {
-                    item = lootItem;
+                    chosen = lootItem;
+                } else if (rollable instanceof Attunement attunement) {
+                    chosen = attunement;
                 }
 
-                return item;
+                return chosen;
             }
         }
         // This should never reach here

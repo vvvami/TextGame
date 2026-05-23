@@ -2,6 +2,7 @@ package net.vami.game.interactable.item.custom;
 
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemBreakable;
@@ -16,7 +17,7 @@ public class HolySerumItem extends Item implements ItemUseable, ItemBreakable {
 
     @Override
     public void onUse(Interactable source, ItemInstance item) {
-        source.addStatus(new Status.Instance(
+        source.addStatus(new StatusInstance(
                 Statuses.BLESSED,
                 1,
                 3

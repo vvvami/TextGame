@@ -17,7 +17,7 @@ public class CalcUtil {
         if (target instanceof Entity targetEntity) {
             // Increases damage if the damagetype is in the weaknesses arraylist
             for (DamageType weakness : targetEntity.getWeaknesses()) {
-                if (weakness.is(damageType)) {
+                if (weakness.equals(damageType)) {
                     finalAmount = finalAmount * 2;
                     break;
                 }
@@ -25,7 +25,7 @@ public class CalcUtil {
 
             // Reduces damage if the damagetype is in the resistances arraylist
             for (DamageType resistance : targetEntity.getResistances()) {
-                if (resistance.is(damageType)) {
+                if (resistance.equals(damageType)) {
                     finalAmount = finalAmount / 2;
                     break;
                 }

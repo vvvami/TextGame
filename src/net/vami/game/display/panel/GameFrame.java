@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class GameFrame extends JFrame {
     GamePanel gamePanel;
     HoverPanel hoverPanel;
-    public static final String FONT = "Voces";
+    public static final String FONT = "Arial";
 
     public GameFrame() {
 

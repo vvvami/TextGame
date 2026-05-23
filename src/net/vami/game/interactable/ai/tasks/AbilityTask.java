@@ -10,7 +10,7 @@ public class AbilityTask extends Task {
             Tasks.SUPPORT_ABILITY.taskAction(source);
         } else {
             if (!source.hasTarget()) {
-                Game.display(source,"%s tries to cast a spell, but fails. %n", source.getDisplayName());
+                Game.display(source,"%s tries to cast a spell, but fails. %n", source);
             } else {
                 source.getTarget().receiveAbility(source);
             }

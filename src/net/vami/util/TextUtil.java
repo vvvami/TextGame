@@ -15,20 +15,21 @@ public class TextUtil {
     public static final String COLOR_CODE = "&";
     public static final String HOVER_CODE = "@";
 
-    public static void display(Interactable source, String text, Object ... args) {
-        display(source, defaultTextColor, text, args);
-    }
-
     public static void display(@Nullable Interactable source, Color color, String text, Object ... args) {
         if (source == null
                 || source instanceof ItemInstance
                 || source.getPos().equals(Game.player.getPos())) {
 
             GamePanel.setParentTextColor(color);
-            Game.getDisplay().display(String.format(text, args), color, source);
-            LogUtil.Log(text, args);
+
+            Game.getDisplay().display(text, color, args);
+            LogUtil.log(text, args);
 
         }
+    }
+
+    public static void display(Interactable source, String text, Object ... args) {
+        display(source, defaultTextColor, text, args);
     }
 
     public static void display(String text, Color color, Object ... args) {
@@ -66,6 +67,22 @@ public class TextUtil {
         colorMap.put(COLOR_CODE + "7", Color.orange);
         colorMap.put(COLOR_CODE + "8", Color.red);
         colorMap.put(COLOR_CODE + "9", Color.magenta);
+        colorMap.put(COLOR_CODE + "a", Color.gray);
+        colorMap.put(COLOR_CODE + "b", Color.lightGray);
+        colorMap.put(COLOR_CODE + "c", Color.darkGray);
     }
 
+    public static final String RED = colorMap.getKey(Color.RED);
+    public static final String GREEN = colorMap.getKey(Color.GREEN);
+    public static final String YELLOW = colorMap.getKey(Color.YELLOW);
+    public static final String BLUE = colorMap.getKey(Color.BLUE);
+    public static final String CYAN = colorMap.getKey(Color.CYAN);
+    public static final String PINK = colorMap.getKey(Color.PINK);
+    public static final String BLACK = colorMap.getKey(Color.BLACK);
+    public static final String WHITE = colorMap.getKey(Color.WHITE);
+    public static final String GRAY = colorMap.getKey(Color.GRAY);
+    public static final String LIGHT_GRAY = colorMap.getKey(Color.LIGHT_GRAY);
+    public static final String DARK_GRAY = colorMap.getKey(Color.DARK_GRAY);
+    public static final String MAGENTA = colorMap.getKey(Color.MAGENTA);
+    public static final String ORANGE = colorMap.getKey(Color.ORANGE);
 }

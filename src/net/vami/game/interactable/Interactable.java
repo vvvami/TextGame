@@ -1,12 +1,11 @@
 package net.vami.game.interactable;
 import com.google.gson.*;
-import net.vami.game.display.panel.HoverComponent;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.ai.Brain;
 import net.vami.game.interactable.entity.PlayerEntity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.interaction.modifier.Modifier;
-import net.vami.game.interactable.item.Item;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
@@ -17,7 +16,6 @@ import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.util.*;
 
-import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -30,7 +28,7 @@ public class Interactable implements Hoverable{
     private Set<Action> receivableActions = new HashSet<>();
     private Set<Action> availableActions = new HashSet<>();
 
-    private List<Status.Instance> statusEffects = new ArrayList<>();
+    private List<StatusInstance> statusEffects = new ArrayList<>();
     private List<Status> immunities = new ArrayList<>();
 
 //    private Interactable ended;
@@ -61,7 +59,7 @@ public class Interactable implements Hoverable{
     // Spawns an interactable with a defined position
     public static void spawnInteractable(Interactable interactable, Position position) {
         if (interactable.isEnded()) {
-            LogUtil.Log(LoggerType.ERROR,
+            LogUtil.log(LoggerType.ERROR,
                     "Cannot spawn ended interactable: %s",
                     interactable.getDisplayName());
             return;
@@ -69,7 +67,7 @@ public class Interactable implements Hoverable{
 
         Node nodeNew = Node.findNode(position);
         if (nodeNew == null) {
-            LogUtil.Log(LoggerType.ERROR,
+            LogUtil.log(LoggerType.ERROR,
                     "Cannot spawn interactable: Node does not exist at position! %s, %s",
                     interactable, position.toString());
             return;
@@ -96,7 +94,7 @@ public class Interactable implements Hoverable{
     public static void spawnInteractable(Interactable interactable) {
         if (interactable instanceof Entity entity
                 && entity.isEnded()) {
-            LogUtil.Log(LoggerType.ERROR,
+            LogUtil.log(LoggerType.ERROR,
                     "Cannot spawn dead interactable: %s",
                     interactable.getDisplayName());
             return;
@@ -248,11 +246,9 @@ public class Interactable implements Hoverable{
         this.name = name;
     }
 
+    @Override
     public String getDisplayName() {
-        String name = getName();
-        if (!TextUtil.isHoverable(name))
-            name = TextUtil.setHoverable(name);
-        return name;
+        return getName();
     }
 
     public List<Modifier> getModifiers() {
@@ -264,11 +260,9 @@ public class Interactable implements Hoverable{
             return false;
         }
 
-        String targetName = this == source ? "" : " " + this.getName();
-
         if (!source.availableActions.contains(action)) {
             Game.display(this,"%s tries to %s %s, but nothing happens.%n",
-                    source.getName(), action.getSynonyms().getFirst(), targetName);
+                    source, action.getSynonyms().getFirst(), this);
             return false;
         }
 
@@ -469,7 +463,7 @@ public class Interactable implements Hoverable{
     }
 
     // Adds a status effect. Stacks the status according to the status' parameters defined in the Status interface
-    public void addStatus(Status.Instance instance) {
+    public void addStatus(StatusInstance instance) {
 
         // Checks if the interactable is immune to the given status effect
         if (isImmuneTo(instance.getStatus())) {
@@ -489,7 +483,7 @@ public class Interactable implements Hoverable{
         /* Checks if the interactable already has the status applied,
            then stacks its duration/amplifier accordingly */
         if (this.hasSpecifiedStatus(status)) {
-            Status.Instance tempInstance = this.getStatusInstance(status);
+            StatusInstance tempInstance = this.getStatusInstance(status);
 
             if (status.stacksAmplifier()) {
                 instance.setAmplifier(instance.getAmplifier() + tempInstance.getAmplifier());
@@ -517,20 +511,20 @@ public class Interactable implements Hoverable{
 
     // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
     public void removeStatus(Status status) {
-        statusEffects.removeIf(statusInstance -> statusInstance.getStatus().is(status));
+        statusEffects.removeIf(statusInstance -> statusInstance.getStatus().equals(status));
     }
 
     // Triggered by the turn() function. Checks the entity's statuses and applies their effect accordingly.
     private void statusTurn() {
         if (hasStatus()) {
-            List<Status.Instance> removeList = new ArrayList<>();
-            for (Status.Instance statusInstance : statusEffects) {
+            List<StatusInstance> removeList = new ArrayList<>();
+            for (StatusInstance statusInstance : statusEffects) {
                 statusInstance.turn();
                 if (statusInstance.getDuration() <= 0) {
                     removeList.add(statusInstance);
                 }
             }
-            for (Status.Instance statusInstance : removeList) {
+            for (StatusInstance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
                 Game.display(this,"%s is no longer affected by %s. %n",
@@ -542,9 +536,9 @@ public class Interactable implements Hoverable{
     }
 
     // Gets the instance of a status on the entity (if it has it)
-    public Status.Instance getStatusInstance(Status status) {
-        for (Status.Instance statusInstance : statusEffects) {
-            if (status.is(statusInstance.getStatus())) {
+    public StatusInstance getStatusInstance(Status status) {
+        for (StatusInstance statusInstance : statusEffects) {
+            if (status.equals(statusInstance.getStatus())) {
                 return statusInstance;
             }
         }
@@ -554,8 +548,8 @@ public class Interactable implements Hoverable{
     // Check if the entity has a specific status applied to them
     public boolean hasSpecifiedStatus(Status status) {
         if (hasStatus()) {
-            for (Status.Instance statusInstance : statusEffects) {
-                if (statusInstance.getStatus().is(status)) {
+            for (StatusInstance statusInstance : statusEffects) {
+                if (statusInstance.getStatus().equals(status)) {
                     return true;
                 }
 
@@ -574,12 +568,12 @@ public class Interactable implements Hoverable{
     }
 
     // Gets the list of all statuses on the entity
-    public List<Status.Instance> getStatuses() {
+    public List<StatusInstance> getStatuses() {
 
         return statusEffects;
     }
 
-    public void setStatuses(List<Status.Instance> statusEffects) {
+    public void setStatuses(List<StatusInstance> statusEffects) {
         this.statusEffects = statusEffects;
     }
 
@@ -589,7 +583,7 @@ public class Interactable implements Hoverable{
 
     public void addImmunity(Status status) {
         for (Status status1 : immunities) {
-            if (status1.is(status)) {
+            if (status1.equals(status)) {
                 return;
             }
         }
@@ -597,7 +591,7 @@ public class Interactable implements Hoverable{
     }
 
     public void removeImmunity(Status immunity) {
-        immunities.removeIf(immunity::is);
+        immunities.removeIf(immunity::equals);
     }
 
     public List<Status> getImmunities() {
@@ -606,7 +600,7 @@ public class Interactable implements Hoverable{
 
     public boolean isImmuneTo(Status status) {
         for (Status immunity : immunities) {
-            if (immunity.is(status)) {
+            if (immunity.equals(status)) {
                 return true;
             }
         }
@@ -653,7 +647,7 @@ public class Interactable implements Hoverable{
     @Override
     public HoverInfo getHoverInfo() {
         return new HoverInfo(
-                getDisplayName().replace("@", ""),
+                this.getDisplayName(),
                 "Stuff"
         );
     }

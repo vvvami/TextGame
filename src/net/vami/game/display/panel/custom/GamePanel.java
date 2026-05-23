@@ -2,7 +2,6 @@ package net.vami.game.display.panel.custom;
 
 import net.vami.game.Game;
 import net.vami.game.display.panel.GameFrame;
-import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.Hoverable;
 import net.vami.util.Input;
 import net.vami.util.LogUtil;
@@ -15,6 +14,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.IllegalFormatException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GamePanel extends JPanel {
     Container mainContainer;
@@ -156,7 +158,7 @@ public class GamePanel extends JPanel {
 
         Style style = gameText.addStyle(null, null);
         StyleConstants.setForeground(style, color);
-        StyleConstants.setUnderline(style, true);
+//        StyleConstants.setUnderline(style, true);
 
         style.addAttribute(HOVER_OBJECT_KEY, hoverObject);
 
@@ -167,58 +169,108 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void display(String text, Color color, Hoverable hoverObject) {
-        Color defaultColor = color != null ? color : parentTextColor;
-        Color currentColor = defaultColor;
-
-        Hoverable currentHoverObject = null;
+    private void writeFormattedText(String text, Color baseColor, Hoverable hoverObject) {
+        Color currentColor = baseColor != null ? baseColor : TextUtil.defaultTextColor;
 
         int chunkStart = 0;
         int i = 0;
 
-        while (i < text.length()) {
+        while (i < text.length() - 1) {
+            String colorCode = text.substring(i, i + 2);
 
-            // Color code: &7, &r, &c, etc.
-            if (text.charAt(i) == '&' && i + 1 < text.length()) {
-                writeChunk(text, chunkStart, i, currentColor, currentHoverObject);
+            if (TextUtil.colorMap.containsKey(colorCode)) {
+                writeChunk(
+                        text,
+                        chunkStart,
+                        i,
+                        currentColor,
+                        hoverObject
+                );
 
-                String code = text.substring(i, i + 2);
+                Color mappedColor = TextUtil.colorMap.get(colorCode);
 
-                if (code.equals("&r")) {
-                    currentColor = defaultColor;
-                } else {
-                    Color newColor = TextUtil.colorMap.get(code);
-                    if (newColor != null) {
-                        currentColor = newColor;
-                    }
-                }
+                currentColor = mappedColor != null
+                        ? mappedColor
+                        : TextUtil.defaultTextColor;
 
                 i += 2;
                 chunkStart = i;
-                continue;
+            } else {
+                i++;
             }
-
-            // Hover toggle marker
-            if (text.startsWith(TextUtil.HOVER_CODE, i)) {
-                writeChunk(text, chunkStart, i, currentColor, currentHoverObject);
-
-                if (currentHoverObject == null) {
-                    currentHoverObject = hoverObject;
-                } else {
-                    currentHoverObject = null;
-                }
-
-                i += TextUtil.HOVER_CODE.length();
-                chunkStart = i;
-                continue;
-            }
-
-            i++;
         }
 
-        writeChunk(text, chunkStart, text.length(), currentColor, currentHoverObject);
+        writeChunk(
+                text,
+                chunkStart,
+                text.length(),
+                currentColor,
+                hoverObject
+        );
+    }
 
-        gameText.scrollRectToVisible(new Rectangle(0, gameText.getHeight(), 1, 10));
+    private static final Pattern FORMAT_SPECIFIER = Pattern.compile(
+            "%(?:\\d+\\$)?[-#+ 0,(<]*\\d*(?:\\.\\d+)?[tT]?[a-zA-Z%]"
+    );
+
+    public void display(String text, Color color, Object... args) {
+        Color baseColor = color != null ? color : TextUtil.defaultTextColor;
+
+        Matcher matcher = FORMAT_SPECIFIER.matcher(text);
+
+        int lastTextIndex = 0;
+        int argIndex = 0;
+
+        while (matcher.find()) {
+
+            if (matcher.start() > lastTextIndex) {
+                String rawChunk = text.substring(lastTextIndex, matcher.start());
+                writeFormattedText(rawChunk, baseColor, null);
+            }
+
+            String specifier = matcher.group();
+            char conversion = specifier.charAt(specifier.length() - 1);
+
+            if (conversion == '%') {
+                writeFormattedText("%", baseColor, null);
+            } else if (conversion == 'n') {
+                writeFormattedText(System.lineSeparator(), baseColor, null);
+            } else {
+                if (argIndex >= args.length) {
+                    writeFormattedText(specifier, baseColor, null);
+                } else {
+                    Object arg = args[argIndex++];
+
+                    Hoverable hoverObject = null;
+                    Object displayValue = arg;
+
+                    if (arg instanceof Hoverable hoverable) {
+                        hoverObject = hoverable;
+                        displayValue = hoverable.getDisplayName();
+                    }
+
+                    String renderedText;
+
+                    try {
+                        renderedText = String.format(specifier, displayValue);
+                    } catch (IllegalFormatException e) {
+                        renderedText = String.valueOf(displayValue);
+                    }
+
+                    writeFormattedText(renderedText, baseColor, hoverObject);
+                }
+            }
+
+            lastTextIndex = matcher.end();
+        }
+
+        if (lastTextIndex < text.length()) {
+            writeFormattedText(text.substring(lastTextIndex), baseColor, null);
+        }
+
+        gameText.scrollRectToVisible(
+                new Rectangle(0, gameText.getHeight(), 1, 10)
+        );
     }
 
     private void writeChunk(String text, int start, int end, Color color, Hoverable hoverObject) {
@@ -252,16 +304,11 @@ public class GamePanel extends JPanel {
             }
             playerTextInput = playerTextInput.stripLeading();
             playerTextInputArea.setText("");
-            LogUtil.Log(playerTextInput);
+            LogUtil.log(playerTextInput);
             Game.display("> %s%n", TextUtil.defaultTextColor, playerTextInput);
 
             Input.playerInput.setInput(playerTextInput);
         }
 
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
     }
 }

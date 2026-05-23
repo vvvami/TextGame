@@ -1,10 +1,11 @@
-package net.vami.game.interactable.interaction.statuses;
+package net.vami.game.interactable.interaction.statuses.custom;
 
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.modifier.Modifier;
 import net.vami.game.interactable.interaction.modifier.ModifierType;
+import net.vami.game.interactable.interaction.statuses.Status;
 
-public class ArmoredStatus implements Status {
+public class ArmoredStatus extends Status {
 
     @Override
     public void onApply(Entity target, Entity source) {

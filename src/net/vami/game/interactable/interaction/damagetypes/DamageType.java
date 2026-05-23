@@ -1,24 +1,38 @@
 package net.vami.game.interactable.interaction.damagetypes;
 
 import com.google.gson.annotations.JsonAdapter;
+import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.world.DamageTypeAdapter;
 
 @JsonAdapter(DamageTypeAdapter.class)
-public interface DamageType {
+public abstract class DamageType implements Hoverable {
 
-    default void onHit(Interactable target, Interactable source, float amount) {
+    public void onHit(Interactable target, Interactable source, float amount) {
 
     }
 
-    String getName();
+    public abstract String getName();
 
-    Sound getSound();
+    public abstract Sound getSound();
 
-    default boolean is(DamageType damageType) {
-        return this.getClass() == damageType.getClass();
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj)
+                || this.getClass() == obj.getClass();
     }
 
+
+    @Override
+    public String getDisplayName() {
+        return getName();
+    }
+
+    @Override
+    public HoverInfo getHoverInfo() {
+        return new HoverInfo(getDisplayName(), "A damage type.");
+    }
 }
 

@@ -10,7 +10,7 @@ public class SanctifyAbility extends Ability {
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
         for (Ability ability : Ability.registry()) {
-            if (ability.isSelfCast()) {
+            if (ability.isSupport()) {
                 ability.useAbility(source, target);
             }
         }

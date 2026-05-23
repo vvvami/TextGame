@@ -4,6 +4,7 @@ import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.interaction.statuses.Statuses;
 
 public class FlamesAbility extends Ability {
@@ -13,7 +14,7 @@ public class FlamesAbility extends Ability {
 
         if (source instanceof Entity sourceEntity) {
             target.hurt(sourceEntity, sourceEntity.getLevel(), DamageTypes.FIRE);
-            target.addStatus(new Status.Instance(
+            target.addStatus(new StatusInstance(
                     Statuses.BURNING, sourceEntity.getLevel(), sourceEntity.getLevel() * 2, sourceEntity));
         }
         return true;

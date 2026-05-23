@@ -1,6 +1,8 @@
 package net.vami.game.interactable.item.attunement;
 
 import com.google.gson.annotations.JsonAdapter;
+import net.vami.game.display.panel.HoverInfo;
+import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
@@ -9,7 +11,7 @@ import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.loot.Rollable;
 
 @JsonAdapter(AttunementAdapter.class)
-public abstract class Attunement implements Rollable {
+public abstract class Attunement implements Rollable, Hoverable {
     public abstract String getName();
     public abstract boolean isCurse();
 
@@ -49,5 +51,15 @@ public abstract class Attunement implements Rollable {
     // If the item is of UseableItem, this will be triggered on use
     public void onUse(ItemInstance item, Entity source) {
 
+    }
+
+    @Override
+    public HoverInfo getHoverInfo() {
+        return new HoverInfo(getDisplayName(),"Applies an effect to an item.");
+    }
+
+    @Override
+    public String getDisplayName() {
+        return getName();
     }
 }

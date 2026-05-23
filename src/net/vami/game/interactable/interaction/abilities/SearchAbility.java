@@ -20,7 +20,7 @@ public class SearchAbility extends Ability {
 
                 if (distance <= 3) {
                     Game.display(source, "You are alerted to the presence of [%s] at %s%n",
-                            interactable.getName(), interactable.getPos().toString());
+                            interactable, interactable.getPos().toString());
                     ((Entity) source).setTarget((Entity) target);
                     return true;
                 }
@@ -46,8 +46,4 @@ public class SearchAbility extends Ability {
         return true;
     }
 
-    @Override
-    public boolean isSelfCast() {
-        return true;
-    }
 }

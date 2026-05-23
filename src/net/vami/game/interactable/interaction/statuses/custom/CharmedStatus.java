@@ -1,11 +1,12 @@
-package net.vami.game.interactable.interaction.statuses;
+package net.vami.game.interactable.interaction.statuses.custom;
 
 import net.vami.game.interactable.entity.Entity;
+import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.util.TextUtil;
 
 import java.awt.*;
 
-public class CharmedStatus implements Status {
+public class CharmedStatus extends Status {
 
     @Override
     public String getName() {

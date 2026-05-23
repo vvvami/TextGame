@@ -1,7 +1,6 @@
 package net.vami.game.interactable.ai;
 
 import net.vami.game.interactable.interaction.action.Action;
-import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Direction;
 import net.vami.game.Game;
@@ -41,24 +40,27 @@ public class PlayerHandler {
         return node.stringToInteractable(input);
     }
 
-    private static boolean isTargeting(String input) {
+    private static boolean noValidTarget(String input) {
         input = input.substring(input.indexOf(' ') + 1);
-        return !input.isBlank();
+        return input.isBlank();
     }
 
     private static boolean combatSwitch(String input, Node node, Action action) {
         Interactable target = getActionTarget(input, node);
 
-        if (action == Action.ABILITY && Game.player.getAbility().isSelfCast()) {
-            target = Game.player;
+
+        if (target == null && noValidTarget(input)) {
+
+            if (action == Action.ABILITY && Game.player.getAbility().isSupport()) {
+                target = Game.player;
+            } else {
+                target = Game.getEnemyContext();
+                Game.setEnemyContext(null);
+            }
         }
 
-        if (target == null && isTargeting(input)) {
-            if (Game.getEnemyContext() == null) {
-                return false;
-            }
-           target = Game.getEnemyContext();
-           Game.setEnemyContext(null);
+        if (target == null) {
+            return false;
         }
 
         return target.receiveAction(Game.player, action);
@@ -93,18 +95,12 @@ public class PlayerHandler {
             }
         }
 
-        if (Game.player.hasHeldItem() &&
-                Game.player.getHeldItem().getName().equalsIgnoreCase(input)) {
-
+        if (Game.player.hasHeldItem()) {
             target = Game.player.getHeldItem();
         }
 
         if (target == null) {
-            if (Game.getItemContext() == null) {
-                return false;
-            }
-            target = Game.getItemContext();
-            Game.setItemContext(null);
+            return false;
         }
 
         return target.receiveAction(Game.player, action);

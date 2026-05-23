@@ -1,5 +1,7 @@
 package net.vami.game.interactable.interaction.statuses;
 
+import net.vami.game.interactable.interaction.statuses.custom.*;
+
 public final class Statuses {
     public static final BlessedStatus BLESSED = new BlessedStatus();
     public static final BurningStatus BURNING = new BurningStatus();

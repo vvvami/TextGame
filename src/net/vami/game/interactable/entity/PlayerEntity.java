@@ -3,13 +3,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.ai.EntityMood;
-import net.vami.game.interactable.ai.EntityRating;
 import net.vami.game.interactable.interaction.abilities.Abilities;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.interaction.patrons.Patron;
 import net.vami.game.Game;
 import net.vami.game.interactable.item.Items;
-import net.vami.game.interactable.item.custom.ExplorersMapItem;
 import net.vami.util.*;
 
 import java.awt.*;
@@ -104,7 +102,7 @@ public class PlayerEntity extends Entity {
         playerName = capitalize(playerName);
 
         if (isInvalidName(playerName)) {
-            LogUtil.Log(LoggerType.ERROR, "Name is invalid!");
+            LogUtil.log(LoggerType.ERROR, "Name is invalid!");
             return null;
         }
 
@@ -115,7 +113,7 @@ public class PlayerEntity extends Entity {
                     .level(1)
                     .ability(Abilities.PRAY));
 
-            createdPlayer.addItem(Items.EXPLORERS_MAP.create());
+            createdPlayer.addInventoryItem(Items.EXPLORERS_MAP.create());
 
             Game.display("Your adventure begins. %n");
         }

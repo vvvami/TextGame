@@ -34,7 +34,7 @@ public class TargetTask extends Task {
             return false;
         }
         source.setTarget(targetList.getFirst());
-        LogUtil.Log(LoggerType.DEBUG,
+        LogUtil.log(LoggerType.DEBUG,
                 "Selected target: %s", source.getTarget().getName());
         return true;
     }

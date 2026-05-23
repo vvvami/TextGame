@@ -4,10 +4,8 @@ import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
-import net.vami.game.interactable.item.attunement.AttunableItem;
+import net.vami.game.interactable.item.attunement.ItemAttunable;
 import net.vami.game.interactable.item.attunement.Attunement;
-import net.vami.game.interactable.item.attunement.Attunements;
-import net.vami.game.interactable.item.attunement.ReinforcedAttunement;
 import net.vami.game.interactable.loot.Pools;
 
 public class AttunementAltarInteractable extends Interactable {
@@ -16,15 +14,19 @@ public class AttunementAltarInteractable extends Interactable {
         addReceivableAction(Action.ATTACK);
     }
 
+    public AttunementAltarInteractable() {
+        this("Attuner");
+    }
+
     @Override
     public boolean receiveAttack(Interactable source) {
         if (source instanceof Entity sourceEntity
         && sourceEntity.hasHeldItem()
-        && sourceEntity.getHeldItem().get() instanceof AttunableItem) {
+        && sourceEntity.getHeldItem().get() instanceof ItemAttunable) {
             sourceEntity.getHeldItem().setAttunement((Attunement) Pools.ALTAR_ATTUNEMENTS.choose());
             Game.display(source, "%s has attuned %s with \"%s\"! %n",
-                    sourceEntity.getDisplayName(), sourceEntity.getHeldItem().getDisplayName(),
-                    sourceEntity.getHeldItem().getAttunement().getName());
+                    sourceEntity, sourceEntity.getHeldItem(),
+                    sourceEntity.getHeldItem().getAttunement());
             return true;
         }
         return false;

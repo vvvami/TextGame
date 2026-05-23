@@ -10,7 +10,7 @@ public class AttunerRoom implements Room {
 
     @Override
     public void init(Node node) {
-        AttunementAltarInteractable attuner = new AttunementAltarInteractable("Attuner");
+        AttunementAltarInteractable attuner = new AttunementAltarInteractable();
         Interactable.spawnInteractable(attuner, node.getPos());
     }
 

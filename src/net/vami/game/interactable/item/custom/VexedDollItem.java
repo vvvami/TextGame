@@ -4,6 +4,7 @@ import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.statuses.Status;
+import net.vami.game.interactable.interaction.statuses.StatusInstance;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
@@ -19,7 +20,7 @@ public class VexedDollItem extends Item implements ItemUseable {
     public boolean useCondition(ItemInstance item) {
         if (item.getOwner().getTarget() == null) {return false;}
 
-        for (Status.Instance instance : item.getOwner().getTarget().getStatuses()) {
+        for (StatusInstance instance : item.getOwner().getTarget().getStatuses()) {
             if (!instance.getStatus().isHarmful()) {
                 status = instance.getStatus();
                 return true;
@@ -33,7 +34,7 @@ public class VexedDollItem extends Item implements ItemUseable {
         Entity sourceEntity = (Entity) source;
         sourceEntity.getTarget().removeStatus(status);
 
-        Game.display("%s had their %s removed!", sourceEntity.getTarget().getName(), status.getName());
+        Game.display("%s had their %s removed!", sourceEntity.getTarget(), status);
     }
 
     @Override

@@ -7,9 +7,9 @@ import net.vami.game.interactable.item.ItemBreakable;
 import net.vami.game.interactable.item.ItemHoldable;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
-import net.vami.game.interactable.item.attunement.AttunableItem;
+import net.vami.game.interactable.item.attunement.ItemAttunable;
 
-public class KnivesOfQalathItem extends ItemHoldable implements ItemBreakable, AttunableItem, ItemUseable {
+public class KnivesOfQalathItem extends ItemHoldable implements ItemBreakable, ItemAttunable, ItemUseable {
     private transient boolean doubleHit;
 
     public KnivesOfQalathItem(String name, Attributes attributes) {

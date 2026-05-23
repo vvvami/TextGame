@@ -12,8 +12,8 @@ public final class Pools {
 
     public static final LootPool WEAPONS = new LootPool()
             .add(Items.SPEAR_OF_NIRAEN, 4)
-            .add(Items.KNIVES_OF_QALATH, 3)
-            .add(Items.AMARAL, 1);
+            .add(Items.KNIVES_OF_QALATH, 1)
+            .add(Items.AMARAL, 2);
 
     public static final LootPool POTIONS = new LootPool()
             .add(Items.HOLY_SERUM, 1)
