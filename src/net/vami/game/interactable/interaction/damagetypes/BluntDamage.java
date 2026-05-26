@@ -20,7 +20,7 @@ public class BluntDamage extends DamageType {
 
     @Override
     public String getName() {
-        return "👊";
+        return "Blunt";
     }
 
     @Override

@@ -95,7 +95,7 @@ public class PlayerHandler {
             }
         }
 
-        if (Game.player.hasHeldItem()) {
+        if (target == null && Game.player.hasHeldItem()) {
             target = Game.player.getHeldItem();
         }
 

@@ -22,23 +22,23 @@ public class ExplorersMapItem extends Item implements ItemUseable {
     public void onUse(Interactable source, ItemInstance item) {
         Game.display(source, "%s is located at %s.%n", source, source.getPos().toString());
         Position position = source.getPos();
-        for (Direction direction : Direction.values()) {
-            if (Node.findNode(position.add(direction)) == null) {
-                continue;
-            }
-            /*if (Node.getNodeFromPosition(position.add(direction)).getEntrances()
-                    .contains(direction.getOpposite())) {
-                Game.display(this.getOwner(), "You have an entrance available %sward. %n", direction.toString().toLowerCase());
-            }*/
+//        for (Direction direction : Direction.values()) {
+//            if (Node.findNode(position.add(direction)) == null) {
+//                continue;
+//            }
+//            /*if (Node.getNodeFromPosition(position.add(direction)).getEntrances()
+//                    .contains(direction.getOpposite())) {
+//                Game.display(this.getOwner(), "You have an entrance available %sward. %n", direction.toString().toLowerCase());
+//            }*/
+//
+//        }
 
-        }
-
-        for (Node node : Node.getNodeMap().values()) {
-            if (!node.getInteractables().isEmpty()) {
-                for (Interactable interactable : node.getInteractables()) {
-                    System.out.println(interactable.getName() + " " + interactable.getPos().toString());
-                }
-            }
-        }
+//        for (Node node : Node.getNodeMap().values()) {
+//            if (!node.getInteractables().isEmpty()) {
+//                for (Interactable interactable : node.getInteractables()) {
+//                    System.out.println(interactable.getName() + " " + interactable.getPos().toString());
+//                }
+//            }
+//        }
     }
 }

@@ -15,11 +15,14 @@ public class PrayAbility extends Ability {
 
             targetEntity.heal(sourceEntity, sourceEntity.getLevel());
 
-            targetEntity.addStatus(new StatusInstance
-                    (Statuses.BLESSED,
-                            Math.max(1 ,sourceEntity.getLevel() / 2),
-                            Math.max(1 ,sourceEntity.getLevel() / 2),
-                            sourceEntity));
+            targetEntity.addStatus(Statuses.BLESSED,
+                            Math.max(1, sourceEntity.getLevel() / 2),
+                            Math.max(1, sourceEntity.getLevel() + 10),
+                            sourceEntity);
+            targetEntity.addStatus(Statuses.ARMORED,
+                    10,
+                    10,
+                    sourceEntity);
         }
         return true;
     }

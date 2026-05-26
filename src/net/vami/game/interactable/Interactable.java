@@ -497,16 +497,20 @@ public class Interactable implements Hoverable{
         }
         // This else displays the status application message,
         // since we know the interactable doesn't have it applied
-        else {
-            String statusName = status.getName();
-            statusName = TextUtil.setColor(statusName, status.getColor());
-            Game.display(this,"%s is now %s. %n", this.getName(),
-                    statusName);
-        }
+//        else {
+//            String statusName = status.getName();
+//            statusName = TextUtil.setColor(statusName, status.getColor());
+//            Game.display(this,"%s is now %s. %n", this,
+//                    statusName);
+//        }
 
         statusEffects.add(instance);
         // The instance's onApply effect is called here
         instance.onApply();
+    }
+
+    public void addStatus(Status status, int amplifier, int duration, Interactable source) {
+        addStatus(new StatusInstance(status, amplifier, duration, source));
     }
 
     // Remove a status. Removing a status means removing an entire instance of that status, because Statuses can stack
@@ -528,9 +532,8 @@ public class Interactable implements Hoverable{
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
                 Game.display(this,"%s is no longer affected by %s. %n",
-                        getDisplayName(),
-                        TextUtil.setColor(statusInstance.getStatus().getName(),
-                                statusInstance.getStatus().getColor()));
+                        this,
+                        statusInstance.getStatus());
             }
         }
     }

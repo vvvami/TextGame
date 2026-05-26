@@ -6,6 +6,7 @@ import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
+import net.vami.util.TextUtil;
 
 import java.awt.*;
 import java.util.UUID;
@@ -59,6 +60,6 @@ public abstract class Status implements Hoverable {
 
     @Override
     public String getDisplayName() {
-        return getName();
+        return TextUtil.setColor(getName(), isHarmful() ? Color.red : Color.green);
     }
 }

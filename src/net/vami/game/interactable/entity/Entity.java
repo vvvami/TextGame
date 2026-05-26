@@ -122,7 +122,12 @@ public abstract class Entity extends Interactable implements Hoverable {
                 setTarget(null);
         }
 
-        LogUtil.log("Entity ticked: [%s %s, %s, %s]", this.getName(), this.getPos().toString(), this.getID(), this);
+        ArrayList<String> items = new ArrayList<>();
+        items.add("start");
+        if (!getItems().isEmpty()) {
+            items.addAll(getItems().stream().map(ItemInstance::getName).toList());
+        }
+        LogUtil.log("Entity ticked: %s, %s, %s", this.getName(), this.getID(), items);
     }
 
     @Override
@@ -253,8 +258,8 @@ public abstract class Entity extends Interactable implements Hoverable {
 
         if (health < getMaxHealth()) {
             Game.playSound(this.getPos(), Sound.HEAL, 65);
-            ActionFeedback.HEAL.printFeedback(this, source,
-                    TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange));
+            ActionFeedback.HEAL.printFeedback(this,
+                    TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange), source);
 
         }
 
@@ -430,11 +435,23 @@ public abstract class Entity extends Interactable implements Hoverable {
 
     @Override
     public HoverInfo getHoverInfo() {
+        String statusFinal = "";
+        if (hasStatus()) {
+            ArrayList<StatusInstance> statusList = new ArrayList<>(getStatuses());
+
+            for (StatusInstance status : statusList) {
+
+                statusFinal = statusFinal.concat(", " + status.getDisplayName());
+            }
+            statusFinal = statusFinal.substring(2);
+        }
+
         return new HoverInfo(getName(),
                 HoverComponent.LEVEL.get() + getLevel() + "\n"
                 + HoverComponent.HEALTH.get() + new DecimalFormat("##.##").format(getHealth())+"/" +new DecimalFormat("##.##").format(getMaxHealth()) + "\n"
                         + HoverComponent.ARMOR.get() + new DecimalFormat("##.##").format(getArmor()) + "\n"
                         + HoverComponent.DAMAGE.get() + new DecimalFormat("##.##").format(getDamage()) + "\n"
+                        + HoverComponent.STATUSES.get() + statusFinal
                         + (getHeldItem() != null ? HoverComponent.HELD_ITEM.get() + getHeldItem().getName() : ""));
     }
 
@@ -678,9 +695,17 @@ public abstract class Entity extends Interactable implements Hoverable {
 
     public List<ItemInstance> getItems() {
         ArrayList<ItemInstance> itemList = new ArrayList<>();
-        itemList.addAll(getInventory());
-        itemList.addAll(getEquippedItems());
-        itemList.add(getHeldItem());
+        if (!getInventory().isEmpty()) {
+            itemList.addAll(getInventory());
+        }
+
+        if (!getEquippedItems().isEmpty()) {
+            itemList.addAll(getEquippedItems());
+        }
+
+        if (hasHeldItem()) {
+            itemList.add(getHeldItem());
+        }
         return itemList;
     }
 

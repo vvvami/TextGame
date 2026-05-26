@@ -140,6 +140,8 @@ public class ItemInstance extends Interactable {
                     entitySource.removeEquippedOrHeldItem(entitySource.getHeldItem());
                 }
             }
+
+            entitySource.removeInventoryItem(this);
             Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
             Game.display(entitySource,"%s holds %s. %n", entitySource, this);
             entitySource.setHeldItem(this);

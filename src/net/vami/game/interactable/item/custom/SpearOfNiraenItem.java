@@ -32,7 +32,7 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable, Item
 
     @Override
     public String failMessage(ItemInstance item) {
-        return "There is nothing to target.";
+        return "There is nothing to target. %n";
     }
 
     @Override

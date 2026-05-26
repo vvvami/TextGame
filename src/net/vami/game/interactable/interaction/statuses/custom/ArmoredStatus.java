@@ -29,7 +29,7 @@ public class ArmoredStatus extends Status {
 
     @Override
     public String getName() {
-        return "BLSD";
+        return "ARMR";
     }
 
     @Override
