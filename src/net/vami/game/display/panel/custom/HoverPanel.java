@@ -35,6 +35,9 @@ public class HoverPanel extends JPanel {
         this.popupY = y;
         this.hoverInfo = hoverInfo;
         this.showing = true;
+
+        calculatePopupSize();
+        keepPopupInsidePanel();
         repaint();
     }
 
@@ -42,6 +45,56 @@ public class HoverPanel extends JPanel {
         this.showing = false;
         this.hoverInfo = null;
         repaint();
+    }
+
+    private void keepPopupInsidePanel() {
+        int edgeMargin = 10;
+
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+
+        int maxX = panelWidth - popupWidth - edgeMargin;
+        int maxY = panelHeight - popupHeight - edgeMargin;
+
+        popupX = Math.min(popupX, maxX);
+        popupY = Math.min(popupY, maxY);
+
+        popupX = Math.max(popupX, edgeMargin);
+        popupY = Math.max(popupY, edgeMargin);
+    }
+
+    private void calculatePopupSize() {
+        if (hoverInfo == null) return;
+
+        String description = hoverInfo.getDescription();
+        String[] descriptionLines = description == null || description.isEmpty()
+                ? new String[0]
+                : description.split("\\R"); // handles \n, \r\n, etc.
+
+        int padding = 15;
+        int lineSpacing = 22;
+        int titleAreaHeight = 50;
+
+        FontMetrics titleMetrics = getFontMetrics(titleFont);
+        FontMetrics descriptionMetrics = getFontMetrics(descriptionFont);
+
+        String title = hoverInfo.getTitle() == null ? "" : hoverInfo.getTitle();
+
+        int titleWidth = titleMetrics.stringWidth(title);
+
+        int maxDescriptionWidth = 0;
+
+        for (String line : descriptionLines) {
+            int lineWidth = descriptionMetrics.stringWidth(line);
+            maxDescriptionWidth = Math.max(maxDescriptionWidth, lineWidth);
+        }
+
+        int maxTextWidth = Math.max(titleWidth, maxDescriptionWidth);
+
+        int minWidth = 200;
+
+        popupWidth = Math.max(minWidth, maxTextWidth + padding * 2);
+        popupHeight = titleAreaHeight + descriptionLines.length * lineSpacing + padding;
     }
 
     private void drawColoredString(
@@ -125,31 +178,6 @@ public class HoverPanel extends JPanel {
         int titleY = popupY + 35;
         int descriptionStartY = popupY + 65;
         int lineSpacing = 22;
-
-        int titleAreaHeight = 50;
-        int descriptionHeight = descriptionLines.length * lineSpacing;
-
-        FontMetrics titleMetrics = g2.getFontMetrics(titleFont);
-        FontMetrics descriptionMetrics = g2.getFontMetrics(descriptionFont);
-
-        int titleWidth = titleMetrics.stringWidth(hoverInfo.getTitle());
-
-        int maxDescriptionWidth = 0;
-
-        for (String line : descriptionLines) {
-            int lineWidth = descriptionMetrics.stringWidth(line);
-
-            if (lineWidth > maxDescriptionWidth) {
-                maxDescriptionWidth = lineWidth;
-            }
-        }
-
-        int maxTextWidth = Math.max(titleWidth, maxDescriptionWidth);
-
-        int minWidth = 200;
-
-        popupWidth = Math.max(minWidth, maxTextWidth + padding * 2);
-        popupHeight = titleAreaHeight + descriptionHeight + padding;
 
         // --- DRAWING THE ACTUAL RECT AND TEXT ---
 

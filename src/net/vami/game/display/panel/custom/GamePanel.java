@@ -134,15 +134,15 @@ public class GamePanel extends JPanel {
         playerTextInputArea.getActionMap().put("enterAction", enterAction);
         playerTextInputArea.setFocusable(true);
 
-//        KeyboardFocusManager.getCurrentKeyboardFocusManager()
-//                .addPropertyChangeListener("focusOwner", e -> {
-//                    if (playerTextInputArea.isShowing()
-//                            && e.getNewValue() != playerTextInputArea) {
-//                        SwingUtilities.invokeLater(() ->
-//                                playerTextInputArea.requestFocusInWindow()
-//                        );
-//                    }
-//                });
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addPropertyChangeListener("focusOwner", e -> {
+                    if (playerTextInputArea.isShowing()
+                            && e.getNewValue() != playerTextInputArea) {
+                        SwingUtilities.invokeLater(() ->
+                                playerTextInputArea.requestFocusInWindow()
+                        );
+                    }
+                });
 
         // Layout
         mainLayout = new SpringLayout();
