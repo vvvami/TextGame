@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 public class GameFrame extends JFrame {
     GamePanel gamePanel;
     HoverPanel hoverPanel;
-    public static final String FONT = "Arial";
+    public static final String FONT = "Bahnschrift";
 
     public GameFrame() {
 
@@ -41,7 +41,6 @@ public class GameFrame extends JFrame {
 
         this.pack();
         this.setVisible(true);
-
     }
 
     public GamePanel getPanel() {
@@ -49,9 +48,5 @@ public class GameFrame extends JFrame {
     }
 
     public HoverPanel getHoverPanel() { return hoverPanel; }
-
-    public void setHoverPoint(int x, int y) {
-        hoverPanel.setBounds(x, y, hoverPanel.getWidth(), hoverPanel.getHeight());
-    }
 
 }

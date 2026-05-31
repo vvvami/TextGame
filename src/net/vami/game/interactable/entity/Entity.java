@@ -451,7 +451,7 @@ public abstract class Entity extends Interactable implements Hoverable {
                 + HoverComponent.HEALTH.get() + new DecimalFormat("##.##").format(getHealth())+"/" +new DecimalFormat("##.##").format(getMaxHealth()) + "\n"
                         + HoverComponent.ARMOR.get() + new DecimalFormat("##.##").format(getArmor()) + "\n"
                         + HoverComponent.DAMAGE.get() + new DecimalFormat("##.##").format(getDamage()) + "\n"
-                        + HoverComponent.STATUSES.get() + statusFinal
+                        + (hasStatus() ? HoverComponent.STATUSES.get() + statusFinal : "")
                         + (getHeldItem() != null ? HoverComponent.HELD_ITEM.get() + getHeldItem().getName() : ""));
     }
 

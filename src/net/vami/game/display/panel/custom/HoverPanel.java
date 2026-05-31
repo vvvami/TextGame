@@ -1,11 +1,14 @@
 package net.vami.game.display.panel.custom;
 
+import net.vami.game.Game;
 import net.vami.game.display.panel.GameFrame;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.util.TextUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
 
 
 public class HoverPanel extends JPanel {
@@ -22,6 +25,12 @@ public class HoverPanel extends JPanel {
     }
 
     public void showAt(int x, int y, HoverInfo hoverInfo) {
+        if (showing
+                && popupX == x
+                && popupY == y) {
+            return;
+        }
+
         this.popupX = x;
         this.popupY = y;
         this.hoverInfo = hoverInfo;
@@ -80,13 +89,35 @@ public class HoverPanel extends JPanel {
         }
     }
 
+    private static final Color hoverColor = new Color(30, 30, 30, 230);
+    private static final Font titleFont = new Font(GameFrame.FONT, Font.BOLD, 22);
+    private static final Font descriptionFont = new Font(GameFrame.FONT, Font.PLAIN, 16);
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         if (!showing || hoverInfo == null) return;
 
+        // --- RENDERING HINTS ---
         Graphics2D g2 = (Graphics2D) g.create();
+
+        g2.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+        );
+
+        g2.setRenderingHint(
+                RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON
+        );
+
+        g2.setRenderingHint(
+                RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_QUALITY
+        );
+
+        // --- AUTO-SIZING FOR DISPLAY ---
 
         String[] descriptionLines = hoverInfo.getDescription().split("\n");
 
@@ -98,15 +129,37 @@ public class HoverPanel extends JPanel {
         int titleAreaHeight = 50;
         int descriptionHeight = descriptionLines.length * lineSpacing;
 
+        FontMetrics titleMetrics = g2.getFontMetrics(titleFont);
+        FontMetrics descriptionMetrics = g2.getFontMetrics(descriptionFont);
+
+        int titleWidth = titleMetrics.stringWidth(hoverInfo.getTitle());
+
+        int maxDescriptionWidth = 0;
+
+        for (String line : descriptionLines) {
+            int lineWidth = descriptionMetrics.stringWidth(line);
+
+            if (lineWidth > maxDescriptionWidth) {
+                maxDescriptionWidth = lineWidth;
+            }
+        }
+
+        int maxTextWidth = Math.max(titleWidth, maxDescriptionWidth);
+
+        int minWidth = 200;
+
+        popupWidth = Math.max(minWidth, maxTextWidth + padding * 2);
         popupHeight = titleAreaHeight + descriptionHeight + padding;
 
-        g2.setColor(new Color(30, 30, 30, 230));
+        // --- DRAWING THE ACTUAL RECT AND TEXT ---
+
+        g2.setColor(hoverColor);
         g2.fillRoundRect(popupX, popupY, popupWidth, popupHeight, 16, 16);
 
         g2.setColor(Color.WHITE);
         g2.drawRoundRect(popupX, popupY, popupWidth, popupHeight, 16, 16);
 
-        g2.setFont(new Font(GameFrame.FONT, Font.BOLD, 22));
+        g2.setFont(titleFont);
 
         drawColoredString(
                 g2,
@@ -116,7 +169,7 @@ public class HoverPanel extends JPanel {
                 TextUtil.defaultTextColor
         );
 
-        g2.setFont(new Font(GameFrame.FONT, Font.PLAIN, 16));
+        g2.setFont(descriptionFont);
 
         int textY = descriptionStartY;
 

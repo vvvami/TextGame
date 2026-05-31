@@ -55,6 +55,6 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable, Item
 
     @Override
     public HoverInfo getHoverInfo() {
-        return new HoverInfo(getDisplayName(),"A holy spear of light.");
+        return new HoverInfo(getDisplayName(),"A holy spear of light.\nIt grows stronger when thrown, but refuses to come back...");
     }
 }

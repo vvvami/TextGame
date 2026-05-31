@@ -31,7 +31,10 @@ public class GamePanel extends JPanel {
     private static Color parentTextColor = null;
 
     private static final String HOVER_OBJECT_KEY = "hoverObject";
-
+    private Hoverable currentHoverObject = null;
+    private int currentHoverStart = -1;
+    private int currentHoverEnd = -1;
+    private boolean hoverPopupVisible = false;
 
     public GamePanel(JFrame frame) {
         gameText = new JTextPane();
@@ -45,37 +48,65 @@ public class GamePanel extends JPanel {
         gameText.setFont(mainFont);
         gameText.setVisible(true);
 
+        gameText.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hideHoverIfNeeded();
+            }
+        });
+
         gameText.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
+                StyledDocument doc = gameText.getStyledDocument();
+                int documentLength = doc.getLength();
+
                 int offset = gameText.viewToModel2D(e.getPoint());
 
-                if (offset < 0 || offset >= gameText.getDocument().getLength()) {
-                    Game.getFrame().getHoverPanel().hidePopup();
+                if (offset < 0 || offset >= documentLength) {
+                    hideHoverIfNeeded();
                     return;
                 }
 
-                StyledDocument doc = gameText.getStyledDocument();
                 Element element = doc.getCharacterElement(offset);
                 AttributeSet attributes = element.getAttributes();
 
                 Hoverable hoverObject = (Hoverable) attributes.getAttribute(HOVER_OBJECT_KEY);
 
-                if (hoverObject != null) {
-                    Point glassPoint = SwingUtilities.convertPoint(
-                            gameText,
-                            e.getPoint(),
-                            Game.getFrame().getGlassPane()
-                    );
-
-                    Game.getFrame().getHoverPanel().showAt(
-                            glassPoint.x + 20,
-                            glassPoint.y + 20,
-                            hoverObject.getHoverInfo()
-                    );
-                } else {
-                    Game.getFrame().getHoverPanel().hidePopup();
+                if (hoverObject == null) {
+                    hideHoverIfNeeded();
+                    return;
                 }
+
+                int hoverStart = element.getStartOffset();
+                int hoverEnd = element.getEndOffset();
+
+                boolean sameHoverRegion =
+                        hoverPopupVisible &&
+                                hoverObject == currentHoverObject &&
+                                hoverStart == currentHoverStart &&
+                                hoverEnd == currentHoverEnd;
+
+                if (sameHoverRegion) {
+                    return;
+                }
+
+                currentHoverObject = hoverObject;
+                currentHoverStart = hoverStart;
+                currentHoverEnd = hoverEnd;
+                hoverPopupVisible = true;
+
+                Point glassPoint = SwingUtilities.convertPoint(
+                        gameText,
+                        e.getPoint(),
+                        Game.getFrame().getGlassPane()
+                );
+
+                Game.getFrame().getHoverPanel().showAt(
+                        glassPoint.x + 20,
+                        glassPoint.y + 20,
+                        hoverObject.getHoverInfo()
+                );
             }
         });
 
@@ -96,7 +127,6 @@ public class GamePanel extends JPanel {
         playerTextInputArea.setCaretColor(Color.white);
         playerTextInputArea.setSelectionColor(Color.white);
         playerTextInputArea.setEditable(false);
-        gameText.setComponentZOrder(playerTextInputArea, 0);
 
         // Action instantiation
         enterAction = new enterAction();
@@ -104,15 +134,15 @@ public class GamePanel extends JPanel {
         playerTextInputArea.getActionMap().put("enterAction", enterAction);
         playerTextInputArea.setFocusable(true);
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager()
-                .addPropertyChangeListener("focusOwner", e -> {
-                    if (playerTextInputArea.isShowing()
-                            && e.getNewValue() != playerTextInputArea) {
-                        SwingUtilities.invokeLater(() ->
-                                playerTextInputArea.requestFocusInWindow()
-                        );
-                    }
-                });
+//        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+//                .addPropertyChangeListener("focusOwner", e -> {
+//                    if (playerTextInputArea.isShowing()
+//                            && e.getNewValue() != playerTextInputArea) {
+//                        SwingUtilities.invokeLater(() ->
+//                                playerTextInputArea.requestFocusInWindow()
+//                        );
+//                    }
+//                });
 
         // Layout
         mainLayout = new SpringLayout();
@@ -135,6 +165,19 @@ public class GamePanel extends JPanel {
         mainLayout.putConstraint(SpringLayout.WEST, gameTextArea, 10, SpringLayout.WEST, mainContainer);
         mainLayout.putConstraint(SpringLayout.EAST, playerTextInputArea, -10, SpringLayout.EAST, mainContainer);
         mainLayout.putConstraint(SpringLayout.WEST, playerTextInputArea, 10, SpringLayout.WEST, mainContainer);
+    }
+
+    private void hideHoverIfNeeded() {
+        if (!hoverPopupVisible) {
+            return;
+        }
+
+        hoverPopupVisible = false;
+        currentHoverObject = null;
+        currentHoverStart = -1;
+        currentHoverEnd = -1;
+
+        Game.getFrame().getHoverPanel().hidePopup();
     }
 
     private void write(String text, Color c)
