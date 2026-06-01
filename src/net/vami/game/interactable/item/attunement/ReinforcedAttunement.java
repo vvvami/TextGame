@@ -25,7 +25,7 @@ public class ReinforcedAttunement extends Attunement {
 
     @Override
     public boolean applyCondition(ItemInstance item) {
-        return item instanceof ItemBreakable;
+        return item.get() instanceof ItemBreakable;
     }
 
     @Override

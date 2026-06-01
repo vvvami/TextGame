@@ -1,6 +1,7 @@
 package net.vami.game.interactable.interaction.damagetypes;
 
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 
 public class PoisonDamage extends DamageType {
 
@@ -11,6 +12,6 @@ public class PoisonDamage extends DamageType {
 
     @Override
     public Sound getSound() {
-        return Sound.BLEED_DAMAGE;
+        return Sounds.BLEED_DAMAGE;
     }
 }

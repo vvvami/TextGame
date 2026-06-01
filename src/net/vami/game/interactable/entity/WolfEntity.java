@@ -1,5 +1,6 @@
 package net.vami.game.interactable.entity;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.ai.*;
 import net.vami.game.interactable.ai.tasks.*;
@@ -52,7 +53,7 @@ public class WolfEntity extends Entity {
 
     @Override
     public @Nullable Sound getDeathSound() {
-        return Sound.WEREWOLF_DEATH;
+        return Sounds.WEREWOLF_DEATH;
     }
 
 }

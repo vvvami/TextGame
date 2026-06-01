@@ -20,4 +20,7 @@ public class HoverComponent {
     public static final HoverComponent ARMOR = new HoverComponent("Armor");
     public static final HoverComponent STATUSES = new HoverComponent("Statuses");
 
+    public static final HoverComponent DURABILITY = new HoverComponent("Durability");
+    public static final HoverComponent ATTUNEMENT = new HoverComponent("Attunement");
+
 }

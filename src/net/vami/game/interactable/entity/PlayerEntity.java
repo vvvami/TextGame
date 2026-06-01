@@ -47,7 +47,7 @@ public class PlayerEntity extends Entity {
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
         saveInteractables(this);
-        Game.display("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this.getDisplayName());
+        Game.display("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this);
         return true;
     }
 
@@ -111,7 +111,7 @@ public class PlayerEntity extends Entity {
         if (createdPlayer == null) {
             createdPlayer = new PlayerEntity(playerName, new Attributes()
                     .level(1)
-                    .ability(Abilities.PRAY));
+                    .ability(Abilities.ARTHUUROS));
 
             createdPlayer.addInventoryItem(Items.EXPLORERS_MAP.create());
 

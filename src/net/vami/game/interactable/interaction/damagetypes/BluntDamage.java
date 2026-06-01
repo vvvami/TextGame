@@ -1,6 +1,7 @@
 package net.vami.game.interactable.interaction.damagetypes;
 
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.statuses.Status;
 import net.vami.game.interactable.interaction.statuses.StatusInstance;
@@ -25,6 +26,6 @@ public class BluntDamage extends DamageType {
 
     @Override
     public Sound getSound() {
-        return Sound.BLUNT_DAMAGE;
+        return Sounds.BLUNT_DAMAGE;
     }
 }

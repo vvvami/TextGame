@@ -2,6 +2,7 @@ package net.vami.game.interactable.custom;
 
 import net.vami.game.Game;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
@@ -27,7 +28,7 @@ public class ChestInteractable extends Interactable {
             Game.display(sourceEntity, "%s opens %s.%n", sourceEntity, this);
             for (UUID uuid : inventory) {
                 ItemInstance item = (ItemInstance) Interactable.getInteractableFromID(uuid);
-                Game.playSound(this, Sound.ITEM_DROP, 65);
+                Game.playSound(this, Sounds.ITEM_DROP, 65);
                 sourceEntity.addInventoryItem(item);
                 Game.display(sourceEntity, "%s has obtained %s! %n", sourceEntity, item);
             }

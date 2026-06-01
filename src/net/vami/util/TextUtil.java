@@ -7,6 +7,7 @@ import net.vami.game.interactable.item.ItemInstance;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class TextUtil {
 
@@ -42,6 +43,12 @@ public class TextUtil {
     }
 
     public static String setColor(String input, Color color) {
+        input = colorMap.getKey(color) + input + colorMap.getKey(null);
+        return input;
+    }
+
+    public static String setColor(double num, Color color) {
+        String input = new DecimalFormat("#").format(num);
         input = colorMap.getKey(color) + input + colorMap.getKey(null);
         return input;
     }

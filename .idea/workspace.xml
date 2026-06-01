@@ -9,10 +9,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="render improvements">
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="clamping and focus again">
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sounds.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/class_backups/AbilityEnum.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/class_backups/DamageTypeEnum.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/class_backups/StatusEnum.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/class_backups/StatusInstanceClass.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/HoverComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/HoverComponent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/HoverPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/HoverPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/ChestInteractable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/ChestInteractable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/AngelEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/AngelEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/PlayerEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/WolfEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/WolfEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/BleedDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/BleedDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/BluntDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/BluntDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/FireDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/FireDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/IceDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/IceDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/PoisonDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/PoisonDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/SharpDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/SharpDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/Attunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/Attunement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/ReinforcedAttunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/ReinforcedAttunement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/AmaralItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/AmaralItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +48,7 @@
         <option value="Enum" />
         <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="Record" />
         <option value="Class" />
       </list>
     </option>
@@ -410,7 +434,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780222299635</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="clamping and focus again">
+      <option name="closed" value="true" />
+      <created>1780224911997</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1780224911997</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -425,7 +457,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="performance improvements and some cleanup" />
     <MESSAGE value="start of target stuff" />
     <MESSAGE value="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)" />
     <MESSAGE value="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;" />
@@ -450,7 +481,8 @@
     <MESSAGE value="popups working&#10;bug with feedback messages, possibly weapon equipping and dropping as well - need to log the items fo each entity for interactions&#10;check popup coloring and attunements as well" />
     <MESSAGE value="fixes &amp; status popup&#10;- fixed healing message&#10;- fixed item hold issue&#10;- added statuses to interactable popup" />
     <MESSAGE value="render improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="render improvements" />
+    <MESSAGE value="clamping and focus again" />
+    <option name="LAST_COMMIT_MESSAGE" value="clamping and focus again" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

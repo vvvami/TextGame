@@ -86,7 +86,7 @@ public abstract class Game {
                 return;
             }
 
-            input = input.stripLeading();
+            input = input.stripLeading(); // eliminates space leading to the actual input
             PlayerHandler.inputToAction(input);
             prevPlayerNode.afterPlayerTurn();
             preInput();

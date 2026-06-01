@@ -14,7 +14,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayDeque;
 import java.util.IllegalFormatException;
+import java.util.Queue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -256,6 +258,10 @@ public class GamePanel extends JPanel {
             "%(?:\\d+\\$)?[-#+ 0,(<]*\\d*(?:\\.\\d+)?[tT]?[a-zA-Z%]"
     );
 
+    private record TextRun(String text, Color color, Hoverable hoverObject) {}
+    private final Queue<TextRun> textQueue = new ArrayDeque<>();
+    private final Timer textTimer = new Timer(500, e -> flushNextLine());
+
     public void display(String text, Color color, Object... args) {
         Color baseColor = color != null ? color : TextUtil.defaultTextColor;
 
@@ -268,19 +274,19 @@ public class GamePanel extends JPanel {
 
             if (matcher.start() > lastTextIndex) {
                 String rawChunk = text.substring(lastTextIndex, matcher.start());
-                writeFormattedText(rawChunk, baseColor, null);
+                queueFormattedText(rawChunk, baseColor, null);
             }
 
             String specifier = matcher.group();
             char conversion = specifier.charAt(specifier.length() - 1);
 
             if (conversion == '%') {
-                writeFormattedText("%", baseColor, null);
+                queueFormattedText("%", baseColor, null);
             } else if (conversion == 'n') {
-                writeFormattedText(System.lineSeparator(), baseColor, null);
+                queueFormattedText("\n", baseColor, null);
             } else {
                 if (argIndex >= args.length) {
-                    writeFormattedText(specifier, baseColor, null);
+                    queueFormattedText(specifier, baseColor, null);
                 } else {
                     Object arg = args[argIndex++];
 
@@ -300,7 +306,7 @@ public class GamePanel extends JPanel {
                         renderedText = String.valueOf(displayValue);
                     }
 
-                    writeFormattedText(renderedText, baseColor, hoverObject);
+                    queueFormattedText(renderedText, baseColor, hoverObject);
                 }
             }
 
@@ -308,12 +314,61 @@ public class GamePanel extends JPanel {
         }
 
         if (lastTextIndex < text.length()) {
-            writeFormattedText(text.substring(lastTextIndex), baseColor, null);
+            queueFormattedText(text.substring(lastTextIndex), baseColor, null);
+        }
+
+        if (!textTimer.isRunning()) {
+            textTimer.setInitialDelay(0); // first line appears immediately
+            textTimer.start();
+        }
+    }
+
+    private void queueFormattedText(String text, Color color, Hoverable hoverObject) {
+        text = text.replace("\r\n", "\n").replace("\r", "\n");
+
+        int start = 0;
+
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == '\n') {
+                if (i > start) {
+                    textQueue.add(new TextRun(text.substring(start, i), color, hoverObject));
+                }
+
+                textQueue.add(new TextRun("\n", color, null));
+                start = i + 1;
+            }
+        }
+
+        if (start < text.length()) {
+            textQueue.add(new TextRun(text.substring(start), color, hoverObject));
+        }
+    }
+
+    private void flushNextLine() {
+        if (textQueue.isEmpty()) {
+            textTimer.stop();
+            return;
+        }
+
+        while (!textQueue.isEmpty()) {
+            TextRun run = textQueue.poll();
+
+            writeFormattedText(run.text(), run.color(), run.hoverObject());
+
+            if (run.text().equals("\n")) {
+                break;
+            }
         }
 
         gameText.scrollRectToVisible(
                 new Rectangle(0, gameText.getHeight(), 1, 10)
         );
+
+        gameText.repaint();
+
+        if (textQueue.isEmpty()) {
+            textTimer.stop();
+        }
     }
 
     private void writeChunk(String text, int start, int end, Color color, Hoverable hoverObject) {
@@ -354,4 +409,5 @@ public class GamePanel extends JPanel {
         }
 
     }
+
 }

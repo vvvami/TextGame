@@ -15,7 +15,7 @@ public class AmaralItem extends ItemHoldable implements ItemBreakable, ItemUseab
     public AmaralItem(String name, Attributes attributes) {
         super(name, attributes
                 .damageType(DamageTypes.FIRE)
-                .baseDamage(15));
+                .baseDamage(5));
     }
 
     public AmaralItem(Attributes attributes) {

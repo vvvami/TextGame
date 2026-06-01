@@ -3,6 +3,7 @@ import net.vami.game.Game;
 import net.vami.game.display.panel.HoverComponent;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.ai.EntityMood;
 import net.vami.game.interactable.ai.EntityRating;
@@ -99,9 +100,9 @@ public abstract class Entity extends Interactable implements Hoverable {
         for (ItemInstance item : dropList) {
             item.setPos(this.getPos());
             if (item == dropList.getLast()) {
-                Game.playSound(this, Sound.ITEM_DROP, 65);
+                Game.playSound(this, Sounds.ITEM_DROP, 65);
             }
-            Game.display(this,"%s dropped %s! %n", this.getName(), item.getDisplayName());
+            Game.display(this,"%s dropped %s! %n", this, item);
         }
         super.remove();
     }
@@ -178,7 +179,7 @@ public abstract class Entity extends Interactable implements Hoverable {
 
         // Play damagetype sound
         Game.playSound(this,
-                damageType.getSound() == null ? Sound.BLUNT_DAMAGE : damageType.getSound(), 65);
+                damageType.getSound() == null ? Sounds.BLUNT_DAMAGE : damageType.getSound(), 65);
 
 
         // Reduce the target's health
@@ -257,7 +258,7 @@ public abstract class Entity extends Interactable implements Hoverable {
         }
 
         if (health < getMaxHealth()) {
-            Game.playSound(this.getPos(), Sound.HEAL, 65);
+            Game.playSound(this.getPos(), Sounds.HEAL, 65);
             ActionFeedback.HEAL.printFeedback(this,
                     TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange), source);
 
@@ -284,7 +285,7 @@ public abstract class Entity extends Interactable implements Hoverable {
                     .ability(this.attributes.abilityAttribute);
             this.attributes.initialize();
 
-            Game.playSound(this, Sound.HEAL, 65);
+            Game.playSound(this, Sounds.HEAL, 65);
             Game.display(this, Color.gray, "%s grows stronger... %n", this.getName());
         }
     }

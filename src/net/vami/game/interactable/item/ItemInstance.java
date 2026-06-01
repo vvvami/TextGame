@@ -1,14 +1,18 @@
 package net.vami.game.interactable.item;
 
 import net.vami.game.Game;
+import net.vami.game.display.panel.HoverComponent;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.item.attunement.ItemAttunable;
 import net.vami.game.interactable.item.attunement.Attunement;
+import net.vami.util.TextUtil;
 
+import java.awt.*;
 import java.util.UUID;
 
 public class ItemInstance extends Interactable {
@@ -60,12 +64,14 @@ public class ItemInstance extends Interactable {
             this.attunement.onItemHurt(this, amount);
         }
 
+        Game.display(this, "%s has lost %s durability!%n", this, TextUtil.setColor(amount, Color.orange));
+
         if (durability <= 0) {
-            Game.playSound(this.getOwner(), Sound.ITEM_BREAK, 65);
+            Game.playSound(this.getOwner(), Sounds.ITEM_BREAK, 65);
             getOwner().removeInventoryItem(this);
             getOwner().removeEquippedOrHeldItem(this);
             this.erase();
-            Game.display(this,"%s has broken!%n", this.getDisplayName());
+            Game.display(this,"%s has broken!%n", this);
         }
     }
 
@@ -130,7 +136,7 @@ public class ItemInstance extends Interactable {
             if (entitySource.hasHeldItem()) {
                 entitySource.getHeldItem().onUnequip();
                 entitySource.addInventoryItem(entitySource.getHeldItem());
-                Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
+                Game.playSound(this.getOwner(), Sounds.ITEM_PICKUP, 65);
                 Game.display(entitySource,"%s stashes %s. %n", entitySource, entitySource.getHeldItem());
 
                 if (entitySource.getHeldItem() == this) {
@@ -142,7 +148,7 @@ public class ItemInstance extends Interactable {
             }
 
             entitySource.removeInventoryItem(this);
-            Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
+            Game.playSound(this.getOwner(), Sounds.ITEM_EQUIP, 65);
             Game.display(entitySource,"%s holds %s. %n", entitySource, this);
             entitySource.setHeldItem(this);
             holdable.onEquip(this);
@@ -160,13 +166,13 @@ public class ItemInstance extends Interactable {
                 this.onUnequip();
                 entitySource.removeEquippedOrHeldItem(this);
                 entitySource.addInventoryItem(this);
-                Game.playSound(this.getOwner(), Sound.ITEM_DROP, 65);
+                Game.playSound(this.getOwner(), Sounds.ITEM_DROP, 65);
                 Game.display(this,"%s stashes %s. %n", entitySource, this);
                 return false;
             }
 
             entitySource.addEquippedItem(this);
-            Game.playSound(this.getOwner(), Sound.ITEM_EQUIP, 65);
+            Game.playSound(this.getOwner(), Sounds.ITEM_EQUIP, 65);
             Game.display(this,"%s equips %s. %n", entitySource, this);
             return super.receiveEquip(source);
         }
@@ -185,7 +191,7 @@ public class ItemInstance extends Interactable {
         if (this.get() instanceof ItemHoldable && !entitySource.hasHeldItem()) {
             this.receiveEquip(entitySource);
         } else {
-            Game.playSound(this.getOwner(), Sound.ITEM_PICKUP, 65);
+            Game.playSound(this.getOwner(), Sounds.ITEM_PICKUP, 65);
             Game.display(this.getOwner(),"%s takes %s. %n", entitySource, this);
         }
         this.setOwner(entitySource);
@@ -224,7 +230,7 @@ public class ItemInstance extends Interactable {
         sourceEntity.removeEquippedOrHeldItem(this);
         this.setOwner(null);
         this.setPos(sourceEntity.getPos());
-        Game.playSound(sourceEntity, Sound.ITEM_DROP, 65);
+        Game.playSound(sourceEntity, Sounds.ITEM_DROP, 65);
         Game.display(sourceEntity,"%s has dropped %s. %n", sourceEntity, this);
         Game.setItemContext(this);
         return super.receiveDrop(source);
@@ -266,6 +272,10 @@ public class ItemInstance extends Interactable {
 
     @Override
     public HoverInfo getHoverInfo() {
-        return this.get().getHoverInfo();
+        return new HoverInfo(get().getHoverInfo().getTitle(),
+                this.get().getHoverInfo().getDescription() + "\n"
+        + (hasAttunement() ? HoverComponent.ATTUNEMENT.get() + getAttunement().getDisplayName() : "")
+        + (getMaxDurability() > 0 ? HoverComponent.DURABILITY.get() + getDurability() + "/" + getMaxDurability() : ""));
+
     }
 }

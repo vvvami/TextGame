@@ -9,6 +9,9 @@ import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.loot.Rollable;
+import net.vami.util.TextUtil;
+
+import java.awt.*;
 
 @JsonAdapter(AttunementAdapter.class)
 public abstract class Attunement implements Rollable, Hoverable {
@@ -60,6 +63,6 @@ public abstract class Attunement implements Rollable, Hoverable {
 
     @Override
     public String getDisplayName() {
-        return getName();
+        return TextUtil.setColor(getName(), Color.yellow);
     }
 }
