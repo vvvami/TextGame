@@ -1,6 +1,7 @@
 package net.vami.game.interactable.item.custom;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
@@ -40,7 +41,7 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable, Item
         Entity sourceEntity = (Entity) source;
         Entity tempTarget = sourceEntity.getTarget();
 
-        Game.display(sourceEntity, "%s has thrown %s at %s! %n",
+        Display.showText(sourceEntity, "%s has thrown %s at %s! %n",
                     sourceEntity, this, tempTarget);
 
         sourceEntity.removeEquippedOrHeldItem(item);

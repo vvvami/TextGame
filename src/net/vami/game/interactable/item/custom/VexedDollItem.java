@@ -1,6 +1,7 @@
 package net.vami.game.interactable.item.custom;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.statuses.Status;
@@ -34,7 +35,7 @@ public class VexedDollItem extends Item implements ItemUseable {
         Entity sourceEntity = (Entity) source;
         sourceEntity.getTarget().removeStatus(status);
 
-        Game.display("%s had their %s removed!", sourceEntity.getTarget(), status);
+        Display.showText("%s had their %s removed!", sourceEntity.getTarget(), status);
     }
 
     @Override

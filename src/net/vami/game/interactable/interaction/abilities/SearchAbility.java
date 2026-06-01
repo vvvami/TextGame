@@ -1,12 +1,11 @@
 package net.vami.game.interactable.interaction.abilities;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
-import net.vami.game.world.Position;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SearchAbility extends Ability {
 
@@ -19,14 +18,14 @@ public class SearchAbility extends Ability {
                 int distance = source.getPos().distance(interactable.getPos());
 
                 if (distance <= 3) {
-                    Game.display(source, "You are alerted to the presence of [%s] at %s%n",
+                    Display.showText(source, "You are alerted to the presence of [%s] at %s%n",
                             interactable, interactable.getPos().toString());
                     ((Entity) source).setTarget((Entity) target);
                     return true;
                 }
             }
         }
-        Game.display(source, "Your search finds nothing. %n");
+        Display.showText(source, "Your search finds nothing. %n");
         return false;
     }
 

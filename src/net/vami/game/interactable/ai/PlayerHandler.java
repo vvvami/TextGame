@@ -68,6 +68,20 @@ public class PlayerHandler {
 
     private static boolean takeItemSwitch(String input, Node node, Action action) {
         Interactable target = getActionTarget(input, node);
+
+        input = input.substring(input.indexOf(' ') + 1);
+        if (input.equals("all")) {
+            int i = 0;
+            for (Interactable interactable : Game.player.getNode().getInteractables()) {
+                if (interactable instanceof ItemInstance item) {
+                    item.receiveAction(Game.player, action);
+                }
+                i++;
+            }
+            Game.setItemContext(null);
+            return i > 0;
+        }
+
         if (target == null) {
             if (Game.getItemContext() == null) {
                 return false;

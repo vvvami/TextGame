@@ -1,6 +1,7 @@
 package net.vami.game.interactable.interaction.statuses;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.Interactable;
@@ -50,7 +51,7 @@ public class StatusInstance implements Hoverable {
     public void turn() {
         Interactable interactable = Interactable.getInteractableFromID(target);
         if (interactable.isImmuneTo(this.getStatus())) {
-            Game.display(interactable, "%s's immunity negates %s."
+            Display.showText(interactable, "%s's immunity negates %s."
                     , interactable, this.getStatus());
             return;
         }

@@ -1,5 +1,7 @@
 package net.vami.game.interactable.entity;
 import net.vami.game.Game;
+import net.vami.game.display.Display;
+import net.vami.game.display.Segmental;
 import net.vami.game.display.panel.HoverComponent;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.display.sound.Sound;
@@ -100,9 +102,9 @@ public abstract class Entity extends Interactable implements Hoverable {
         for (ItemInstance item : dropList) {
             item.setPos(this.getPos());
             if (item == dropList.getLast()) {
-                Game.playSound(this, Sounds.ITEM_DROP, 65);
+                Display.playSound(this, Sounds.ITEM_DROP, 65);
             }
-            Game.display(this,"%s dropped %s! %n", this, item);
+            Display.showText(this,"%s dropped %s! %n", this, item);
         }
         super.remove();
     }
@@ -177,15 +179,11 @@ public abstract class Entity extends Interactable implements Hoverable {
         if (finalAmount == 1 && this.hasItemEquipped(Items.VUNN_TOOTH_NECKLACE))
             finalAmount = 0;
 
-        // Play damagetype sound
-        Game.playSound(this,
-                damageType.getSound() == null ? Sounds.BLUNT_DAMAGE : damageType.getSound(), 65);
-
-
         // Reduce the target's health
         health -= finalAmount;
 
-        ActionFeedback.HURT.printFeedback(this, source,
+        ActionFeedback.HURT.printFeedback(damageType.getSound() == null ? Sounds.BLUNT_DAMAGE : damageType.getSound(),
+                65,this, source,
                 TextUtil.setColor(new DecimalFormat("##.##").format(finalAmount), Color.orange),
                 damageType);
 
@@ -222,10 +220,9 @@ public abstract class Entity extends Interactable implements Hoverable {
             onEnded();
 
             // Plays death sound and display the death text
-            if (this.getDeathSound() != null) {
-                Game.playSound(this, this.getDeathSound(), 65);
-            }
-            Game.display(this,"%s has died! %n", this);
+            Display.display(this,
+                    new Segmental("%s has died! %n", this),
+                    this.getDeathSound(), 65);
             // We use remove() and not annihilate()
             // Reason: status instances may last longer than the entity that inflicted them (we still need their UUID)
             this.remove();
@@ -258,9 +255,10 @@ public abstract class Entity extends Interactable implements Hoverable {
         }
 
         if (health < getMaxHealth()) {
-            Game.playSound(this.getPos(), Sounds.HEAL, 65);
-            ActionFeedback.HEAL.printFeedback(this,
-                    TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange), source);
+            ActionFeedback.HEAL.printFeedback(Sounds.HEAL, 65,
+                    this,
+                    TextUtil.setColor(new DecimalFormat("##.##").format(amount), Color.orange),
+                    source);
 
         }
 
@@ -285,8 +283,9 @@ public abstract class Entity extends Interactable implements Hoverable {
                     .ability(this.attributes.abilityAttribute);
             this.attributes.initialize();
 
-            Game.playSound(this, Sounds.HEAL, 65);
-            Game.display(this, Color.gray, "%s grows stronger... %n", this.getName());
+            Display.display(this,
+                    new Segmental(Color.gray, "%s grows stronger... %n", this.getName()),
+                    Sounds.HEAL, 65);
         }
     }
 
@@ -509,7 +508,7 @@ public abstract class Entity extends Interactable implements Hoverable {
             return false;
         }
 
-        ActionFeedback.ABILITY.printFeedback(sourceEntity,
+        ActionFeedback.ABILITY.printFeedback(null, 0, sourceEntity,
                         sourceEntity.getAbility(),
                         this);
 
@@ -533,7 +532,7 @@ public abstract class Entity extends Interactable implements Hoverable {
         }
 
         removeStatus(resInstance.getStatus());
-        Game.display(this,"%s resisted and lost %s. %n", source.getName(), resInstance.getStatus().getName());
+        Display.showText(this,"%s resisted and lost %s. %n", source.getName(), resInstance.getStatus().getName());
         return true;
     }
 

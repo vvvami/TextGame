@@ -1,6 +1,7 @@
 package net.vami.game.interactable.entity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.vami.game.display.Display;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.ai.EntityMood;
 import net.vami.game.interactable.interaction.abilities.Abilities;
@@ -47,7 +48,7 @@ public class PlayerEntity extends Entity {
     public boolean receiveSave(Interactable source) {
         savePlayer(this);
         saveInteractables(this);
-        Game.display("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this);
+        Display.showText("The Goddess still loves you.%nGood luck, %s.%n", Color.gray, this);
         return true;
     }
 
@@ -115,7 +116,7 @@ public class PlayerEntity extends Entity {
 
             createdPlayer.addInventoryItem(Items.EXPLORERS_MAP.create());
 
-            Game.display("Your adventure begins. %n");
+            Display.print("Your adventure begins. %n");
         }
 
         Interactable.loadInteractables(createdPlayer.getName());

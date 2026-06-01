@@ -1,6 +1,10 @@
 package net.vami.game.interactable.interaction.action;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
+import net.vami.game.display.Segmental;
+import net.vami.game.display.sound.Sound;
+import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.world.Node;
 import net.vami.util.TextUtil;
@@ -29,16 +33,14 @@ public class ActionFeedback {
         return this;
     }
 
-    public void printFeedback(int option, Object ... args) {
-        TextUtil.display(feedbackList.get(option), args);
-    }
-
-    public void printFeedback(@NotNull ActionFeedbackType type, Object ... args) {
+    public void printFeedback(@NotNull ActionFeedbackType type, Sound sound, int volume, Object ... args) {
         Interactable source = Node.findNode(Game.player.getPos()).stringToInteractable(((Interactable) Arrays.stream(args).toList().getFirst()).getName());
-        Game.display(source, feedbackList.get(type.ordinal()), args);
+        Display.display(source,
+                new Segmental(feedbackList.get(type.ordinal()), args),
+                sound, volume);
     }
 
-    public void printFeedback(Object ... args) {
+    public void printFeedback(Sound sound, int volume, Object ... args) {
         ArrayList<Object> argsList = new ArrayList<>(Arrays.stream(args).distinct().toList());
         ActionFeedbackType feedbackType = ActionFeedbackType.NORMAL;
 
@@ -50,7 +52,7 @@ public class ActionFeedback {
         }
 
 
-        this.printFeedback(feedbackType, argsList.toArray());
+        this.printFeedback(feedbackType, sound, volume, argsList.toArray());
     }
 
     public static final ActionFeedback HURT = new ActionFeedback(4)

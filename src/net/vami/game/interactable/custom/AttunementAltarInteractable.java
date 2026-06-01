@@ -1,6 +1,7 @@
 package net.vami.game.interactable.custom;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
@@ -24,7 +25,7 @@ public class AttunementAltarInteractable extends Interactable {
         && sourceEntity.hasHeldItem()
         && sourceEntity.getHeldItem().get() instanceof ItemAttunable) {
             sourceEntity.getHeldItem().setAttunement((Attunement) Pools.ALTAR_ATTUNEMENTS.choose());
-            Game.display(source, "%s has attuned %s with \"%s\"! %n",
+            Display.showText(source, "%s has attuned %s with \"%s\"! %n",
                     sourceEntity, sourceEntity.getHeldItem(),
                     sourceEntity.getHeldItem().getAttunement());
             return true;

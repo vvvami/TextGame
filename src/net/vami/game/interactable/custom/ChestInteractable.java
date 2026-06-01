@@ -1,7 +1,8 @@
 package net.vami.game.interactable.custom;
 
 import net.vami.game.Game;
-import net.vami.game.display.sound.Sound;
+import net.vami.game.display.Display;
+import net.vami.game.display.Segmental;
 import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
@@ -25,12 +26,13 @@ public class ChestInteractable extends Interactable {
     @Override
     public boolean receiveTake(Interactable source) {
         if (source instanceof Entity sourceEntity) {
-            Game.display(sourceEntity, "%s opens %s.%n", sourceEntity, this);
+            Display.showText(sourceEntity, "%s opens %s.%n", sourceEntity, this);
             for (UUID uuid : inventory) {
                 ItemInstance item = (ItemInstance) Interactable.getInteractableFromID(uuid);
-                Game.playSound(this, Sounds.ITEM_DROP, 65);
                 sourceEntity.addInventoryItem(item);
-                Game.display(sourceEntity, "%s has obtained %s! %n", sourceEntity, item);
+                Display.display(sourceEntity,
+                        new Segmental("%s has obtained %s! %n", sourceEntity, item),
+                        Sounds.ITEM_DROP, 65);
             }
         }
         return super.receiveTake(source);
@@ -44,12 +46,9 @@ public class ChestInteractable extends Interactable {
             dropList.add(item);
         }
 
-        Game.display(this,"%s was cracked open by %s! %n", this, source);
-        for (ItemInstance item : dropList) {
+        Display.showText(source, "%s was cracked open by %s! %n", this, source);
 
-//            if (item == dropList.getLast()) {
-//                Game.playSound(this, Sound.ITEM_DROP, 65);
-//            }
+        for (ItemInstance item : dropList) {
             item.receiveDrop(source);
         }
 

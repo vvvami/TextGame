@@ -1,8 +1,10 @@
-package net.vami.game.display.panel.custom;
+package net.vami.game.display.panel;
 
 import net.vami.game.Game;
-import net.vami.game.display.panel.GameFrame;
+import net.vami.game.display.Display;
+import net.vami.game.display.sound.Sound;
 import net.vami.game.interactable.Hoverable;
+import net.vami.game.world.Position;
 import net.vami.util.Input;
 import net.vami.util.LogUtil;
 import net.vami.util.TextUtil;
@@ -258,11 +260,44 @@ public class GamePanel extends JPanel {
             "%(?:\\d+\\$)?[-#+ 0,(<]*\\d*(?:\\.\\d+)?[tT]?[a-zA-Z%]"
     );
 
-    private record TextRun(String text, Color color, Hoverable hoverObject) {}
-    private final Queue<TextRun> textQueue = new ArrayDeque<>();
-    private final Timer textTimer = new Timer(500, e -> flushNextLine());
+    private record TextRun(
+            String text,
+            Color color,
+            Hoverable hoverObject,
+            Sound sound,
+            Position soundPosition,
+            int volume
+    ) {
+        static TextRun text(String text, Color color, Hoverable hoverObject) {
+            return new TextRun(text, color, hoverObject, null, null, 0);
+        }
 
-    public void display(String text, Color color, Object... args) {
+        static TextRun textWithSound(
+                String text,
+                Color color,
+                Hoverable hoverObject,
+                Position position,
+                Sound sound,
+                int volume
+        ) {
+            return new TextRun(text, color, hoverObject, sound, position, volume);
+        }
+
+        boolean hasSound() {
+            return sound != null;
+        }
+    }
+
+    private Sound pendingDisplaySound = null;
+    private Position pendingDisplaySoundPosition = null;
+    private int pendingDisplaySoundVolume = 0;
+
+    private final Queue<TextRun> textQueue = new ArrayDeque<>();
+    private final Timer textTimer = new Timer(Game.GAME_DELAY, e -> flushNextLine());
+    private boolean ignoreTimer = false;
+
+    public void showText(Color color, String text, Object... args) {
+
         Color baseColor = color != null ? color : TextUtil.defaultTextColor;
 
         Matcher matcher = FORMAT_SPECIFIER.matcher(text);
@@ -318,9 +353,67 @@ public class GamePanel extends JPanel {
         }
 
         if (!textTimer.isRunning()) {
-            textTimer.setInitialDelay(0); // first line appears immediately
-            textTimer.start();
+            textTimer.setInitialDelay(0);
+            textTimer.restart();
         }
+
+        if (ignoreTimer) {
+            ignoreTimer = false;
+            textTimer.setInitialDelay(0);
+            textTimer.stop();
+            flushNextLine();
+        }
+    }
+
+    public void display(
+            Position position,
+            Color color,
+            String text,
+            Sound sound,
+            int volume,
+            Object... args
+    ) {
+        pendingDisplaySound = sound;
+        pendingDisplaySoundPosition = position;
+        pendingDisplaySoundVolume = volume;
+
+        showText(color, text, args);
+
+        // Fallback: if the text was empty or only newlines, still play the sound.
+        if (pendingDisplaySound != null) {
+            textQueue.add(new TextRun(
+                    "",
+                    color,
+                    null,
+                    pendingDisplaySound,
+                    pendingDisplaySoundPosition,
+                    pendingDisplaySoundVolume
+            ));
+
+            pendingDisplaySound = null;
+            pendingDisplaySoundPosition = null;
+            pendingDisplaySoundVolume = 0;
+        }
+    }
+
+    private void addTextRun(String text, Color color, Hoverable hoverObject) {
+        if (pendingDisplaySound != null && !text.equals("\n")) {
+            textQueue.add(new TextRun(
+                    text,
+                    color,
+                    hoverObject,
+                    pendingDisplaySound,
+                    pendingDisplaySoundPosition,
+                    pendingDisplaySoundVolume
+            ));
+
+            pendingDisplaySound = null;
+            pendingDisplaySoundPosition = null;
+            pendingDisplaySoundVolume = 0;
+            return;
+        }
+
+        textQueue.add(TextRun.text(text, color, hoverObject));
     }
 
     private void queueFormattedText(String text, Color color, Hoverable hoverObject) {
@@ -331,16 +424,16 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < text.length(); i++) {
             if (text.charAt(i) == '\n') {
                 if (i > start) {
-                    textQueue.add(new TextRun(text.substring(start, i), color, hoverObject));
+                    addTextRun(text.substring(start, i), color, hoverObject);
                 }
 
-                textQueue.add(new TextRun("\n", color, null));
+                addTextRun("\n", color, null);
                 start = i + 1;
             }
         }
 
         if (start < text.length()) {
-            textQueue.add(new TextRun(text.substring(start), color, hoverObject));
+            addTextRun(text.substring(start), color, hoverObject);
         }
     }
 
@@ -352,6 +445,10 @@ public class GamePanel extends JPanel {
 
         while (!textQueue.isEmpty()) {
             TextRun run = textQueue.poll();
+
+            if (run.hasSound()) {
+                run.sound().playAudible(run.soundPosition(), run.volume());
+            }
 
             writeFormattedText(run.text(), run.color(), run.hoverObject());
 
@@ -370,6 +467,15 @@ public class GamePanel extends JPanel {
             textTimer.stop();
         }
     }
+
+    public void print(Color color, String text, Object... args) {
+        showText(color, text, args);
+
+        while (!textQueue.isEmpty()) {
+            flushNextLine();
+        }
+    }
+
 
     private void writeChunk(String text, int start, int end, Color color, Hoverable hoverObject) {
         if (start >= end) return;
@@ -397,17 +503,16 @@ public class GamePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             String playerTextInput = playerTextInputArea.getText();
-            if (playerTextInput.isBlank()) {
+            if (playerTextInput.isBlank() || !textQueue.isEmpty()) {
                 return;
             }
             playerTextInput = playerTextInput.stripLeading();
             playerTextInputArea.setText("");
             LogUtil.log(playerTextInput);
-            Game.display("> %s%n", TextUtil.defaultTextColor, playerTextInput);
+            Display.print(TextUtil.defaultTextColor, "> %s%n", playerTextInput);
 
             Input.playerInput.setInput(playerTextInput);
         }
 
     }
-
 }

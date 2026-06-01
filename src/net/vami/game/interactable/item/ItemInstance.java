@@ -1,9 +1,10 @@
 package net.vami.game.interactable.item;
 
 import net.vami.game.Game;
+import net.vami.game.display.Display;
+import net.vami.game.display.Segmental;
 import net.vami.game.display.panel.HoverComponent;
 import net.vami.game.display.panel.HoverInfo;
-import net.vami.game.display.sound.Sound;
 import net.vami.game.display.sound.Sounds;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.entity.Entity;
@@ -64,14 +65,14 @@ public class ItemInstance extends Interactable {
             this.attunement.onItemHurt(this, amount);
         }
 
-        Game.display(this, "%s has lost %s durability!%n", this, TextUtil.setColor(amount, Color.orange));
+        Display.showText(this, "%s has lost %s durability!%n", this, TextUtil.setColor(amount, Color.orange));
 
         if (durability <= 0) {
-            Game.playSound(this.getOwner(), Sounds.ITEM_BREAK, 65);
+            Display.playSound(this.getOwner(), Sounds.ITEM_BREAK, 65);
             getOwner().removeInventoryItem(this);
             getOwner().removeEquippedOrHeldItem(this);
             this.erase();
-            Game.display(this,"%s has broken!%n", this);
+            Display.showText(this,"%s has broken!%n", this);
         }
     }
 
@@ -90,17 +91,17 @@ public class ItemInstance extends Interactable {
 
     public void setAttunement(Attunement attunement) {
         if (!(this.get() instanceof ItemAttunable attunable)) {
-            Game.display(this, "%s cannot hold the power of attunement. %n", this);
+            Display.showText(this, "%s cannot hold the power of attunement. %n", this);
             return;
         }
 
         if (!attunable.canAttune()) {
-            Game.display(this,"%s cannot be attuned. %n", this);
+            Display.showText(this,"%s cannot be attuned. %n", this);
             return;
         }
 
         if (!attunement.applyCondition(this)) {
-            Game.display(this,"%s cannot grasp the reality of \"%s\". %n",
+            Display.showText(this,"%s cannot grasp the reality of \"%s\". %n",
                     this, attunement);
             return;
         }
@@ -111,7 +112,7 @@ public class ItemInstance extends Interactable {
 
     public void removeAttunement() {
         if (!this.attunement.removeCondition(this)) {
-            Game.display(this,"\"%s\" refuses to leave %s. %n", this, this.attunement.getName());
+            Display.showText(this,"\"%s\" refuses to leave %s. %n", this, this.attunement.getName());
         }
         this.attunement.onRemove(this);
         this.attunement = null;
@@ -136,8 +137,10 @@ public class ItemInstance extends Interactable {
             if (entitySource.hasHeldItem()) {
                 entitySource.getHeldItem().onUnequip();
                 entitySource.addInventoryItem(entitySource.getHeldItem());
-                Game.playSound(this.getOwner(), Sounds.ITEM_PICKUP, 65);
-                Game.display(entitySource,"%s stashes %s. %n", entitySource, entitySource.getHeldItem());
+                Display.display(entitySource,
+                        new Segmental("%s stashes %s. %n",
+                                entitySource, entitySource.getHeldItem()),
+                        Sounds.ITEM_PICKUP, 65);
 
                 if (entitySource.getHeldItem() == this) {
                     entitySource.removeEquippedOrHeldItem(this);
@@ -148,8 +151,11 @@ public class ItemInstance extends Interactable {
             }
 
             entitySource.removeInventoryItem(this);
-            Game.playSound(this.getOwner(), Sounds.ITEM_EQUIP, 65);
-            Game.display(entitySource,"%s holds %s. %n", entitySource, this);
+
+            Display.display(entitySource,
+                    new Segmental("%s holds %s. %n", entitySource, this),
+                    Sounds.ITEM_EQUIP, 65);
+
             entitySource.setHeldItem(this);
             holdable.onEquip(this);
             return super.receiveEquip(source);
@@ -157,7 +163,7 @@ public class ItemInstance extends Interactable {
         } else if (this.get() instanceof ItemEquipable equipable) {
 
             if (entitySource.getEquippedItems().size() >= entitySource.getMaxEquipSlots()) {
-                Game.display(this,"%s cannot equip more items. %n",
+                Display.showText(this,"%s cannot equip more items. %n",
                         entitySource);
                 return false;
             }
@@ -166,14 +172,14 @@ public class ItemInstance extends Interactable {
                 this.onUnequip();
                 entitySource.removeEquippedOrHeldItem(this);
                 entitySource.addInventoryItem(this);
-                Game.playSound(this.getOwner(), Sounds.ITEM_DROP, 65);
-                Game.display(this,"%s stashes %s. %n", entitySource, this);
+                Display.playSound(this.getOwner(), Sounds.ITEM_DROP, 65);
+                Display.showText(this,"%s stashes %s. %n", entitySource, this);
                 return false;
             }
 
             entitySource.addEquippedItem(this);
-            Game.playSound(this.getOwner(), Sounds.ITEM_EQUIP, 65);
-            Game.display(this,"%s equips %s. %n", entitySource, this);
+            Display.playSound(this.getOwner(), Sounds.ITEM_EQUIP, 65);
+            Display.showText(this,"%s equips %s. %n", entitySource, this);
             return super.receiveEquip(source);
         }
 
@@ -191,8 +197,9 @@ public class ItemInstance extends Interactable {
         if (this.get() instanceof ItemHoldable && !entitySource.hasHeldItem()) {
             this.receiveEquip(entitySource);
         } else {
-            Game.playSound(this.getOwner(), Sounds.ITEM_PICKUP, 65);
-            Game.display(this.getOwner(),"%s takes %s. %n", entitySource, this);
+            Display.display(this.getOwner(),
+                    new Segmental("%s takes %s. %n", entitySource, this),
+                    Sounds.ITEM_PICKUP, 65);
         }
         this.setOwner(entitySource);
         return true;
@@ -210,7 +217,7 @@ public class ItemInstance extends Interactable {
                 return true;
 
             } else {
-                Game.display(itemUseable.failMessage(this));
+                Display.showText(itemUseable.failMessage(this));
             }
         }
         return false;
@@ -230,8 +237,9 @@ public class ItemInstance extends Interactable {
         sourceEntity.removeEquippedOrHeldItem(this);
         this.setOwner(null);
         this.setPos(sourceEntity.getPos());
-        Game.playSound(sourceEntity, Sounds.ITEM_DROP, 65);
-        Game.display(sourceEntity,"%s has dropped %s. %n", sourceEntity, this);
+        Display.display(sourceEntity,
+                new Segmental("%s has dropped %s. %n", sourceEntity, this),
+                Sounds.ITEM_DROP, 65);
         Game.setItemContext(this);
         return super.receiveDrop(source);
     }

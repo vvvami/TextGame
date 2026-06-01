@@ -1,12 +1,7 @@
 package net.vami.game.display.panel;
 
-import net.vami.game.display.panel.custom.GamePanel;
-import net.vami.game.display.panel.custom.HoverPanel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GameFrame extends JFrame {
     GamePanel gamePanel;

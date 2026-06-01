@@ -2,15 +2,17 @@ package net.vami.game.display.sound;
 
 import net.vami.game.Game;
 import net.vami.game.interactable.Interactable;
-import net.vami.game.interactable.item.Item;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Position;
 
 import javax.sound.sampled.*;
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Sound {
     private static final String DIRECTORY = "/assets/sounds/";
@@ -20,6 +22,19 @@ public class Sound {
     private float volumeFloat;
     private SoundType soundType;
     private static ArrayList<Sound> sounds = new ArrayList<>();
+
+    private static final Queue<SoundRun> soundQueue = new ArrayDeque<>();
+    private static final Timer soundTimer = new Timer(Game.GAME_DELAY, e -> flushNextSound());
+
+    private static class SoundRun {
+        private final Sound sound;
+        private final int volume;
+
+        private SoundRun(Sound sound, int volume) {
+            this.sound = sound;
+            this.volume = volume;
+        }
+    }
 
     public Sound(String fileName, SoundType type) {
         if (hasAvailableAudioOutput()) {
@@ -129,20 +144,46 @@ public class Sound {
         return !getAvailableAudioOutputs().isEmpty();
     }
 
-
-    public void playSound(Position position, int volume) {
+    public void playSound(Interactable source, int volume) {
         if (!Sound.hasAvailableAudioOutput()) {
             return;
         }
 
-        if (position == null) {
+        if (source instanceof ItemInstance ||
+                source.getNode() == Game.getCurrentNode()) {
             this.play(volume);
+        }
+    }
+
+    public void playSound(Position position, int volume, int msDelay) {
+        if (!Sound.hasAvailableAudioOutput()) {
             return;
         }
 
-        if (position.equals(Game.player.getPos())) {
-            this.play(volume);
+        if (audioClip == null) {
+            return;
         }
+
+        if (!isAudible(position)) {
+            return;
+        }
+
+        if (msDelay <= 0) {
+            play(volume);
+            return;
+        }
+
+        Timer timer = new Timer(msDelay, e -> play(volume));
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private boolean isAudible(Position position) {
+        return position == null || position.equals(Game.player.getPos());
+    }
+
+    public void playSound(Position position, int volume) {
+        playSound(position, volume, 0);
     }
 
     public void playMusic(int volume) {
@@ -159,6 +200,45 @@ public class Sound {
         }
         this.play(volume);
         this.loop();
+    }
+
+    public void queue(int volume) {
+        queue(volume, 0);
+    }
+
+    public void queue(int volume, int initialDelayMillis) {
+        soundQueue.add(new SoundRun(this, volume));
+
+        if (!soundTimer.isRunning()) {
+            soundTimer.setInitialDelay(initialDelayMillis);
+            soundTimer.setDelay(Game.GAME_DELAY);
+            soundTimer.restart();
+        }
+    }
+
+    private static void flushNextSound() {
+        SoundRun nextSound = soundQueue.poll();
+
+        if (nextSound == null) {
+            soundTimer.stop();
+            return;
+        }
+
+        nextSound.sound.play(nextSound.volume);
+    }
+
+    public void playAudible(Position position, int volume) {
+        if (!Sound.hasAvailableAudioOutput()) {
+            return;
+        }
+
+        if (audioClip == null) {
+            return;
+        }
+
+        if (isAudible(position)) {
+            this.play(volume);
+        }
     }
 }
 

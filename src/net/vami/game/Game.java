@@ -1,9 +1,10 @@
 package net.vami.game;
 
+import net.vami.game.display.Display;
+import net.vami.game.display.Segmental;
 import net.vami.game.display.panel.GameFrame;
-import net.vami.game.display.panel.custom.GamePanel;
+import net.vami.game.display.panel.GamePanel;
 import net.vami.game.display.sound.Sound;
-import net.vami.game.interactable.Hoverable;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.ai.PlayerHandler;
 import net.vami.game.interactable.interaction.action.Action;
@@ -38,6 +39,9 @@ public abstract class Game {
     private static GameFrame frame;
 
     public static InputProvider inputProvider;
+
+    public static final int GAME_DELAY = 750;
+
 
     public static void startGame() {
         if (player == null) {
@@ -100,7 +104,7 @@ public abstract class Game {
 
     private static class PlayerCreator implements InputReceiver {
         protected PlayerCreator() {
-            Game.display("Enter your name, traveler: %n");
+            Display.print("Enter your name, traveler: %n");
             Input.playerInput.captureInput(this);
         }
         @Override
@@ -135,7 +139,7 @@ public abstract class Game {
             return true;
         }
         if (Game.player.isEnded()) {
-            Game.display("Game Over! %n");
+            Display.showText("Game Over! %n");
             Game.endGame = true;
         }
         return Game.endGame;
@@ -146,36 +150,7 @@ public abstract class Game {
         return Game.getCurrentNode().getInteractables();
     }
 
-    public static void playSound(Interactable source, Sound sound, int volume) {
-        playSound(source.getPos(), sound, volume);
-    }
-
-    public static void playSound(Position position, Sound sound, int volume) {
-        sound.playSound(position, volume);
-    }
-
-    public static void playMusic(Sound sound, int volume) {
-        sound.playMusic(volume);
-    }
-
-    public static void display(Interactable source, Color color, String text, Object ... args) {
-        TextUtil.display(source, color, text, args);
-    }
-
-    public static void display(Interactable source, String text, Object ... args) {
-        display(source, TextUtil.defaultTextColor, text, args);
-    }
-
-    public static void display(String text, Color color, Object ... args) {
-        display(null, color, text, args);
-
-    }
-
-    public static void display(String text, Object ... args) {
-        display(text, TextUtil.defaultTextColor, args);
-    }
-
-    public static GamePanel getDisplay() {
+    public static GamePanel getPanel() {
         return frame.getPanel();
     }
 

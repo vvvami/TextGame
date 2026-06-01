@@ -1,4 +1,4 @@
-package net.vami.game.display.panel.custom;
+package net.vami.game.display.panel;
 
 public class TitlePanel {
 

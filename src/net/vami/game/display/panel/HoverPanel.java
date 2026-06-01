@@ -1,14 +1,9 @@
-package net.vami.game.display.panel.custom;
+package net.vami.game.display.panel;
 
-import net.vami.game.Game;
-import net.vami.game.display.panel.GameFrame;
-import net.vami.game.display.panel.HoverInfo;
 import net.vami.util.TextUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collections;
 
 
 public class HoverPanel extends JPanel {

@@ -1,5 +1,6 @@
 package net.vami.game.interactable;
 import com.google.gson.*;
+import net.vami.game.display.Display;
 import net.vami.game.display.panel.HoverInfo;
 import net.vami.game.interactable.ai.Brain;
 import net.vami.game.interactable.entity.PlayerEntity;
@@ -261,13 +262,13 @@ public class Interactable implements Hoverable{
         }
 
         if (!source.availableActions.contains(action)) {
-            Game.display(this,"%s tries to %s %s, but nothing happens.%n",
+            Display.showText(this,"%s tries to %s %s, but nothing happens.%n",
                     source, action.getSynonyms().getFirst(), this);
             return false;
         }
 
         if (!receivableActions.contains(action)) {
-            Game.display("Nothing happens.%n");
+            Display.showText("Nothing happens.%n");
             return false;
         }
 
@@ -431,7 +432,7 @@ public class Interactable implements Hoverable{
         }
         */
 
-        Game.display(source,"%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
+        Display.print("%s moves %s. %n", this.getName(), direction.toString().toLowerCase());
         this.setPos(newPos);
         return true;
     }
@@ -467,7 +468,7 @@ public class Interactable implements Hoverable{
 
         // Checks if the interactable is immune to the given status effect
         if (isImmuneTo(instance.getStatus())) {
-            Game.display(this,getDisplayName() + " is immune! %n");
+            Display.showText(this,getDisplayName() + " is immune! %n");
             return;
         }
 
@@ -531,7 +532,7 @@ public class Interactable implements Hoverable{
             for (StatusInstance statusInstance : removeList) {
                 statusInstance.onEnded();
                 removeStatus(statusInstance.getStatus());
-                Game.display(this,"%s is no longer affected by %s. %n",
+                Display.showText(this,"%s is no longer affected by %s. %n",
                         this,
                         statusInstance.getStatus());
             }
