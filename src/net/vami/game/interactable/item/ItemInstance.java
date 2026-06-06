@@ -41,10 +41,6 @@ public class ItemInstance extends Interactable {
         this.addReceivableAction(Action.USE);
     }
 
-    public HashMap<String, Datcon> data() {
-        return data;
-    }
-
     public Datcon getData(String key) {
         return data.get(key);
     }
@@ -61,8 +57,19 @@ public class ItemInstance extends Interactable {
     public void removeData(String key) {
         if (!data.containsKey(key)) {
             LogUtil.log(LoggerType.INFO, "Data not found: %s, %s", key, item);
+            return;
         }
+
         data.remove(key);
+    }
+
+    public void setData(String key, Object value) {
+        if (!data.containsKey(key)) {
+            LogUtil.log(LoggerType.INFO, "Data not found: %s, %s", key, item);
+            return;
+        }
+
+        data.put(key, new Datcon<>(value));
     }
 
     public Item get() {

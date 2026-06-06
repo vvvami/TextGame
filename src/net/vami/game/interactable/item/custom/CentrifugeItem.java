@@ -19,7 +19,8 @@ public class CentrifugeItem extends ItemEquipable {
 
         item.addData("test", 0);
 
-        int count = (int) item.getData("test").get();
+        int count = item.getData("test").asInt();
+
         count++;
         if (count == 3) {
             ItemInstance potion = ((Item) Pools.POTIONS.choose()).create();
@@ -28,6 +29,6 @@ public class CentrifugeItem extends ItemEquipable {
              count = 0;
         }
 
-        item.getData("test").set(count);
+        item.setData("test", count);
     }
 }
