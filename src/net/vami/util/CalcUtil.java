@@ -31,10 +31,6 @@ public class CalcUtil {
                 }
             }
 
-            if (source != null && source.hasSpecifiedStatus(Statuses.POISONED)) {
-                finalAmount *= 0.75f;
-            }
-
             // Armor defense calculation
             if (targetEntity.getArmor() > 0) {
                 finalAmount = Math.max(1, finalAmount - targetEntity.getArmor());

@@ -14,13 +14,17 @@ import org.jetbrains.annotations.Nullable;
 public class AngelEntity extends Entity {
     public AngelEntity(String name, Attributes attributes) {
         super(name, attributes
-                .level(5)
+                .level(1)
+                .maxHealth(30)
+                .baseDamage(5)
+                .armor(0)
                 .damageType(DamageTypes.FIRE)
                 .ability(Abilities.PRAY));
 
         addResistance(DamageTypes.SHARP);
         addResistance(DamageTypes.BLEED);
         addResistance(DamageTypes.FIRE);
+        addResistance(DamageTypes.ICE);
 
         addWeakness(DamageTypes.POISON);
 

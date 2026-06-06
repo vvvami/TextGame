@@ -17,11 +17,12 @@ public class BerserkSerumItem extends Item implements ItemUseable, ItemBreakable
 
     @Override
     public void onUse(Interactable source, ItemInstance item) {
-        source.addStatus(new StatusInstance(
+        source.addStatus(
                 Statuses.FRENZIED,
                 1,
-                3
-        ));
+                3,
+                source
+        );
         item.hurt(1);
     }
 

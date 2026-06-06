@@ -19,7 +19,7 @@ public class TearsOfArthuurosItem extends Item implements ItemUseable, ItemBreak
 
     @Override
     public boolean useCondition(ItemInstance item) {
-        return item.getOwner().getHealth() < item.getOwner().getAttributes().getMaxHealth();
+        return item.getOwner().getHealth() < item.getOwner().getMaxHealth();
     }
 
     @Override

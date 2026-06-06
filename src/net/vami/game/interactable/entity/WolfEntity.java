@@ -30,7 +30,7 @@ public class WolfEntity extends Entity {
     @Override
     public void hurt(Interactable source, float amount, DamageType damageType) {
         super.hurt(source, amount, damageType);
-        if (this.getHealth() < (float) this.getMaxHealth() / 2) {
+        if (this.getHealth() < this.getMaxHealth() / 2) {
             addTask(Tasks.ABILITY_OR_TARGET, 10);
             removeTask(Tasks.TARGET_ANY_AND_ATTACK);
             addTask(Tasks.TARGET_AND_ATTACK, 10);

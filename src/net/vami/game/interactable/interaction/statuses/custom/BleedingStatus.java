@@ -4,7 +4,7 @@ import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.interaction.statuses.Status;
 
-public class WoundedStatus extends Status {
+public class BleedingStatus extends Status {
 
     @Override
     public String getName() {

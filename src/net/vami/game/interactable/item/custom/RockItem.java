@@ -8,9 +8,7 @@ import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.interactable.item.ItemUseable;
 
 public class RockItem extends Item implements ItemUseable {
-    public RockItem() {
-
-    }
+    public RockItem() {super("Rock");}
 
     @Override
     public void onUse(Interactable source, ItemInstance item) {
@@ -18,6 +16,7 @@ public class RockItem extends Item implements ItemUseable {
         if (owner.hasTarget()) {
             Interactable interactable = owner.getTarget();
             interactable.hurt(owner, owner.getDamage(), DamageTypes.BLUNT);
+            item.receiveDrop(owner);
         }
     }
 }

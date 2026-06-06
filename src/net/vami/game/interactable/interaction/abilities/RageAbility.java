@@ -11,8 +11,9 @@ public class RageAbility extends Ability {
     @Override
     public boolean useAbility(Interactable source, Interactable target) {
         if (source instanceof Entity sourceEntity) {
-            target.addStatus(new StatusInstance(
-                    Statuses.FRENZIED, 1, sourceEntity.getLevel() + 1, sourceEntity));
+            target.addStatus(
+                    Statuses.FRENZIED, sourceEntity.getLevel() + 1,
+                    sourceEntity.getLevel() + 1, sourceEntity);
         }
 
         return true;

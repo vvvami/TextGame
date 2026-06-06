@@ -43,9 +43,9 @@ public class KnivesOfQalathItem extends ItemHoldable implements ItemBreakable, I
 
 
     @Override
-    public boolean onEquip(ItemInstance item) {
+    public boolean onHold(ItemInstance item) {
         doubleHit = false;
-        return super.onEquip(item);
+        return super.onHold(item);
     }
 
     @Override

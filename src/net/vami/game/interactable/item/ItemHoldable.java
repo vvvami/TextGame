@@ -1,9 +1,6 @@
 package net.vami.game.interactable.item;
 
-import net.vami.game.Game;
-import net.vami.game.display.sound.Sound;
 import net.vami.game.interactable.Interactable;
-import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 
@@ -14,7 +11,7 @@ public abstract class ItemHoldable extends Item {
     public ItemHoldable(String name, Attributes attributes) {
         super(name);
         this.attributes = attributes;
-        attributes.setDefaults();
+        attributes.initialize();
     }
 
     public ItemHoldable(Attributes attributes) {
@@ -42,11 +39,11 @@ public abstract class ItemHoldable extends Item {
 
     }
 
-    public boolean onEquip(ItemInstance item) {
+    public boolean onHold(ItemInstance item) {
         return true;
     }
 
-    public boolean onUnequip(ItemInstance item) {
+    public boolean onStash(ItemInstance item) {
         return true;
     }
 
@@ -59,7 +56,7 @@ public abstract class ItemHoldable extends Item {
             damageTypeAttribute = null;
         }
 
-        public void setDefaults() {
+        public void initialize() {
             if (this.baseDamageAttribute == -1) {this.baseDamageAttribute = 1;}
             if (this.damageTypeAttribute == null) {this.damageTypeAttribute = DamageTypes.BLUNT;}
         }

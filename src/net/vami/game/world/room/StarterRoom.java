@@ -13,7 +13,7 @@ public class StarterRoom implements Room {
     @Override
     public void init(Node node) {
         ChestInteractable chest = new ChestInteractable("Chest");
-        chest.roll(Pools.WEAPONS, 10);
+        chest.roll(Pools.POTIONS, 1);
         Interactable.spawnInteractable(chest, node.getPos());
 
         AttunementAltarInteractable attuner = new AttunementAltarInteractable("Attuner");

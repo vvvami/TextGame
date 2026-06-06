@@ -501,8 +501,8 @@ public class Interactable implements Hoverable{
 //        else {
 //            String statusName = status.getName();
 //            statusName = TextUtil.setColor(statusName, status.getColor());
-//            Game.display(this,"%s is now %s. %n", this,
-//                    statusName);
+            Display.showText(this,"%s is now %s. %n", this,
+                    status);
 //        }
 
         statusEffects.add(instance);

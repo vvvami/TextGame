@@ -23,6 +23,8 @@ public class Sound {
     private SoundType soundType;
     private static ArrayList<Sound> sounds = new ArrayList<>();
 
+    public static boolean ENABLED = true;
+
     private static final Queue<SoundRun> soundQueue = new ArrayDeque<>();
     private static final Timer soundTimer = new Timer(Game.GAME_DELAY, e -> flushNextSound());
 
@@ -80,6 +82,8 @@ public class Sound {
     }
 
     public void play(int volume) {
+        if (!ENABLED) return;
+
         if (audioClip.isActive()) {
             registerClip();
         } else {

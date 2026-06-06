@@ -3,26 +3,29 @@ package net.vami.game.interactable.item.custom;
 import net.vami.game.interactable.Interactable;
 import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
-import net.vami.game.interactable.interaction.statuses.Statuses;
 import net.vami.game.interactable.item.ItemHoldable;
 
-public class WoodenSwordItem extends ItemHoldable {
-    public WoodenSwordItem(String name, Attributes attributes) {
+public class ChakramItem extends ItemHoldable {
+    public ChakramItem(String name, Attributes attributes) {
         super(name, attributes
                 .baseDamage(1)
-                .damageType(DamageTypes.BLUNT));
+                .damageType(DamageTypes.SHARP));
     }
 
-    public WoodenSwordItem(Attributes attributes) {
-        this("Wooden Sword", attributes);
+    public ChakramItem(Attributes attributes) {
+        this("Chakram", attributes);
     }
 
-    public WoodenSwordItem() {
+    public ChakramItem() {
         this(new Attributes());
     }
 
     @Override
     public void onHit(Interactable owner, Interactable target, DamageType damageType, float amount) {
-        target.addStatus(Statuses.BLEED, 1, 1, owner);
+        if (Math.random() <= 0.5) {
+            target.hurt(owner, amount, damageType);
+        }
+
+        super.onHit(owner, target, damageType, amount);
     }
 }

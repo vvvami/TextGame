@@ -11,9 +11,12 @@ import net.vami.game.interactable.entity.Entity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.item.attunement.ItemAttunable;
 import net.vami.game.interactable.item.attunement.Attunement;
+import net.vami.util.LogUtil;
+import net.vami.util.LoggerType;
 import net.vami.util.TextUtil;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class ItemInstance extends Interactable {
@@ -22,6 +25,8 @@ public class ItemInstance extends Interactable {
     private UUID owner;
     private Attunement attunement;
     private int durability;
+
+    private HashMap<String, Datcon> data = new HashMap<>();
 
     public ItemInstance(Item item) {
         this.item = item;
@@ -34,6 +39,30 @@ public class ItemInstance extends Interactable {
         this.addReceivableAction(Action.EQUIP);
         this.addReceivableAction(Action.DROP);
         this.addReceivableAction(Action.USE);
+    }
+
+    public HashMap<String, Datcon> data() {
+        return data;
+    }
+
+    public Datcon getData(String key) {
+        return data.get(key);
+    }
+
+    public void addData(String key, Object value) {
+        if (data.containsKey(key)) {
+            LogUtil.log(LoggerType.INFO, "Duplicate data found: %s, %s", key, item);
+            return;
+        }
+
+        data.put(key, new Datcon<>(value));
+    }
+
+    public void removeData(String key) {
+        if (!data.containsKey(key)) {
+            LogUtil.log(LoggerType.INFO, "Data not found: %s, %s", key, item);
+        }
+        data.remove(key);
     }
 
     public Item get() {
@@ -157,7 +186,7 @@ public class ItemInstance extends Interactable {
                     Sounds.ITEM_EQUIP, 65);
 
             entitySource.setHeldItem(this);
-            holdable.onEquip(this);
+            holdable.onHold(this);
             return super.receiveEquip(source);
 
         } else if (this.get() instanceof ItemEquipable equipable) {

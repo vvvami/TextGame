@@ -17,7 +17,9 @@ public class SupportAbilityTask extends Task {
             }
         }
 
-        if (targetList.isEmpty()) return false;
+        if (targetList.isEmpty()) {
+            return source.receiveAbility(source);
+        }
 
         target = targetList.get(new Random().nextInt(targetList.size()));
         return target.receiveAbility(source);

@@ -8,6 +8,7 @@ import net.vami.game.interactable.interaction.abilities.Abilities;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.interaction.patrons.Patron;
 import net.vami.game.Game;
+import net.vami.game.interactable.interaction.patrons.Patrons;
 import net.vami.game.interactable.item.Items;
 import net.vami.util.*;
 
@@ -110,11 +111,21 @@ public class PlayerEntity extends Entity {
         PlayerEntity createdPlayer = loadPlayer(playerName);
 
         if (createdPlayer == null) {
+
+            Patron randPatron = Patrons.ARTHUUROS;
             createdPlayer = new PlayerEntity(playerName, new Attributes()
-                    .level(1)
-                    .ability(Abilities.ARTHUUROS));
+                    .level(randPatron.level())
+                    .armor(randPatron.armor())
+                    .ability(randPatron.ability())
+                    .maxHealth(randPatron.maxHealth())
+                    .baseDamage(randPatron.baseDamage())
+                    .damageType(randPatron.damageType()));
+
+            randPatron.init(createdPlayer);
+            createdPlayer.setPatron(randPatron);
 
             createdPlayer.addInventoryItem(Items.EXPLORERS_MAP.create());
+            createdPlayer.addEquippedItem(Items.CENTRIFUGE.create());
 
             Display.print("Your adventure begins. %n");
         }
@@ -139,5 +150,17 @@ public class PlayerEntity extends Entity {
             rating = EntityMood.FRIENDLY.get();
         }
         createMoodRating(ia, rating);
+    }
+
+    public void applyPatron() {
+        if (patron == null) return;
+
+        this.getAttributes()
+                .level(patron.level())
+                .armor(patron.armor())
+                .baseDamage(patron.baseDamage())
+                .maxHealth(patron.maxHealth())
+                .ability(patron.ability())
+                .damageType(patron.damageType());
     }
 }

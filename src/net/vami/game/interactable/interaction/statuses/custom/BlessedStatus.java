@@ -9,8 +9,8 @@ public class BlessedStatus extends Status {
     @Override
     public void onApply(Entity target, Entity source) {
         if (target != null) {
-            if (target.hasSpecifiedStatus(Statuses.WOUNDED)) {
-                target.removeStatus(Statuses.WOUNDED);
+            if (target.hasSpecifiedStatus(Statuses.BLEED)) {
+                target.removeStatus(Statuses.BLEED);
             }
         }
     }

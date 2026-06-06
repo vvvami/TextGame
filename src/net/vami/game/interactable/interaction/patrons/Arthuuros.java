@@ -7,7 +7,7 @@ import net.vami.game.interactable.interaction.damagetypes.DamageType;
 import net.vami.game.interactable.interaction.damagetypes.DamageTypes;
 import net.vami.game.interactable.item.Items;
 
-public class Arthuuros implements Patron {
+public class Arthuuros extends Patron {
     @Override
     public String name() {
         return "Arthuuros";
@@ -40,11 +40,14 @@ public class Arthuuros implements Patron {
 
     @Override
     public Ability ability() {
-        return Abilities.RAGE;
+        return Abilities.ARTHUUROS;
     }
 
     @Override
     public void init(PlayerEntity player) {
         player.addEquippedItem(Items.VUNN_TOOTH_NECKLACE.create());
+        player.addInventoryItem(Items.ROCK.create());
+        player.addInventoryItem(Items.ROCK.create());
+        player.addInventoryItem(Items.ROCK.create());
     }
 }

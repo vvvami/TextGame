@@ -4,6 +4,7 @@ import net.vami.game.Game;
 import net.vami.game.display.Display;
 import net.vami.game.display.sound.Sound;
 import net.vami.game.interactable.Hoverable;
+import net.vami.game.interactable.Interactable;
 import net.vami.game.world.Position;
 import net.vami.util.Input;
 import net.vami.util.LogUtil;
@@ -39,6 +40,8 @@ public class GamePanel extends JPanel {
     private int currentHoverStart = -1;
     private int currentHoverEnd = -1;
     private boolean hoverPopupVisible = false;
+    private int underlinedStart = -1;
+    private int underlinedEnd = -1;
 
     public GamePanel(JFrame frame) {
         gameText = new JTextPane();
@@ -56,6 +59,30 @@ public class GamePanel extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 hideHoverIfNeeded();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                StyledDocument doc = gameText.getStyledDocument();
+                int offset = gameText.viewToModel2D(e.getPoint());
+
+                Element element = doc.getCharacterElement(offset);
+                AttributeSet attributes = element.getAttributes();
+
+                Hoverable hoverObject = (Hoverable) attributes.getAttribute(HOVER_OBJECT_KEY);
+
+                if (!(hoverObject instanceof Interactable interactable)) {
+                    return;
+                }
+
+                String playerText = playerTextInputArea.getText();
+                if (playerText.isBlank()) {
+                    return;
+                }
+
+                playerTextInputArea.setText(playerText
+                        + (!playerText.endsWith(" ") ? " " : "")
+                        + interactable.getName());
             }
         });
 
@@ -99,6 +126,8 @@ public class GamePanel extends JPanel {
                 currentHoverStart = hoverStart;
                 currentHoverEnd = hoverEnd;
                 hoverPopupVisible = true;
+
+                underlineHoverText(hoverStart, hoverEnd);
 
                 Point glassPoint = SwingUtilities.convertPoint(
                         gameText,
@@ -181,7 +210,44 @@ public class GamePanel extends JPanel {
         currentHoverStart = -1;
         currentHoverEnd = -1;
 
+        clearHoverUnderline();
+
         Game.getFrame().getHoverPanel().hidePopup();
+    }
+
+    private void underlineHoverText(int start, int end) {
+        clearHoverUnderline();
+
+        StyledDocument doc = gameText.getStyledDocument();
+
+        SimpleAttributeSet underline = new SimpleAttributeSet();
+        StyleConstants.setUnderline(underline, true);
+
+        doc.setCharacterAttributes(start, end - start, underline, false);
+
+        underlinedStart = start;
+        underlinedEnd = end;
+    }
+
+    private void clearHoverUnderline() {
+        if (underlinedStart < 0 || underlinedEnd <= underlinedStart) {
+            return;
+        }
+
+        StyledDocument doc = gameText.getStyledDocument();
+
+        SimpleAttributeSet noUnderline = new SimpleAttributeSet();
+        StyleConstants.setUnderline(noUnderline, false);
+
+        doc.setCharacterAttributes(
+                underlinedStart,
+                underlinedEnd - underlinedStart,
+                noUnderline,
+                false
+        );
+
+        underlinedStart = -1;
+        underlinedEnd = -1;
     }
 
     private void write(String text, Color c)
@@ -471,9 +537,11 @@ public class GamePanel extends JPanel {
     public void print(Color color, String text, Object... args) {
         showText(color, text, args);
 
+        Sound.ENABLED = false;
         while (!textQueue.isEmpty()) {
             flushNextLine();
         }
+        Sound.ENABLED = true;
     }
 
 
@@ -503,7 +571,7 @@ public class GamePanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             String playerTextInput = playerTextInputArea.getText();
-            if (playerTextInput.isBlank() || !textQueue.isEmpty()) {
+            if (playerTextInput.isBlank()) {
                 return;
             }
             playerTextInput = playerTextInput.stripLeading();

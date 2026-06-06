@@ -1,5 +1,6 @@
 package net.vami.game.interactable.ai;
 
+import net.vami.game.interactable.entity.PlayerEntity;
 import net.vami.game.interactable.interaction.action.Action;
 import net.vami.game.interactable.item.ItemInstance;
 import net.vami.game.world.Direction;
@@ -97,27 +98,34 @@ public class PlayerHandler {
         ItemInstance target = null;
         input = input.substring(input.indexOf(' ') + 1);
 
-        for (ItemInstance item : Game.player.getInventory()) {
+        PlayerEntity player = Game.player;
+
+        for (ItemInstance item : player.getInventory()) {
             if (item.getName().equalsIgnoreCase(input)) {
                 target = item;
             }
         }
 
-        for (ItemInstance item : Game.player.getEquippedItems()) {
+        for (ItemInstance item : player.getEquippedItems()) {
             if (item.getName().equalsIgnoreCase(input)) {
                 target = item;
             }
         }
 
-        if (target == null && Game.player.hasHeldItem()) {
-            target = Game.player.getHeldItem();
+        if (player.hasHeldItem()
+        && player.getHeldItem().getName().equalsIgnoreCase(input)) {
+            target = player.getHeldItem();
+        }
+
+        if (input.isBlank() && action == Action.USE && player.hasHeldItem()) {
+            target = player.getHeldItem();
         }
 
         if (target == null) {
             return false;
         }
 
-        return target.receiveAction(Game.player, action);
+        return target.receiveAction(player, action);
     }
 
     private static boolean movementSwitch(String[] inputArr, Action action) {

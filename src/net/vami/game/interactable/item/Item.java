@@ -18,8 +18,6 @@ public class Item implements Rollable, Hoverable {
         this("Item");
     }
 
-
-
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj) || obj.getClass() == this.getClass();

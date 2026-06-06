@@ -39,6 +39,8 @@ public class SpearOfNiraenItem extends ItemHoldable implements ItemUseable, Item
     @Override
     public void onUse(Interactable source, ItemInstance item) {
         Entity sourceEntity = (Entity) source;
+        if (!(item == sourceEntity.getHeldItem())) return;
+
         Entity tempTarget = sourceEntity.getTarget();
 
         Display.showText(sourceEntity, "%s has thrown %s at %s! %n",

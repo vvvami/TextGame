@@ -125,12 +125,13 @@ public abstract class Entity extends Interactable implements Hoverable {
                 setTarget(null);
         }
 
+        brainTurn();
+
         ArrayList<String> items = new ArrayList<>();
-        items.add("start");
         if (!getItems().isEmpty()) {
             items.addAll(getItems().stream().map(ItemInstance::getName).toList());
         }
-        LogUtil.log("Entity ticked: %s, %s, %s", this.getName(), this.getID(), items);
+        LogUtil.log("Entity ticked: %s, %s, %s", this.getName(), this.getID(), !items.isEmpty() ? items : "");
     }
 
     @Override
@@ -152,6 +153,10 @@ public abstract class Entity extends Interactable implements Hoverable {
     }
 
     public abstract void initializeBrain();
+
+    public void brainTurn() {
+
+    }
 
     public void addTask(Task task, int priority) {
         this.brain.addTask(task, priority);
@@ -183,7 +188,7 @@ public abstract class Entity extends Interactable implements Hoverable {
         health -= finalAmount;
 
         ActionFeedback.HURT.printFeedback(damageType.getSound() == null ? Sounds.BLUNT_DAMAGE : damageType.getSound(),
-                65,this, source,
+                55,this, source,
                 TextUtil.setColor(new DecimalFormat("##.##").format(finalAmount), Color.orange),
                 damageType);
 
@@ -231,7 +236,7 @@ public abstract class Entity extends Interactable implements Hoverable {
             if (source instanceof Entity entity) {
                 entity.setTarget(null);
 
-                int random = new Random().nextInt(1, Math.max(2, entity.getLevel() - this.getLevel()));
+                int random = new Random().nextInt(1, Math.max(2, (entity.getLevel() * 5) - this.getLevel()));
                 if (random == 1) {
                     entity.setHealth(entity.getMaxHealth());
                     entity.addLevel(1);
@@ -659,7 +664,7 @@ public abstract class Entity extends Interactable implements Hoverable {
     }
 
     public void addEquippedItem(ItemInstance item) {
-        if (!(item.get() instanceof ItemHoldable)) return;
+        if (!(item.get() instanceof ItemEquipable)) return;
         item.setOwner(this);
         equippedItems.add(item.getID());
     }
@@ -825,8 +830,7 @@ public abstract class Entity extends Interactable implements Hoverable {
         public void initialize() {
             if (levelAttribute == -1) {levelAttribute = 1;}
             if (maxHealthAttribute == -1) {maxHealthAttribute = 5 * levelAttribute;}
-            if (damageAttribute == -1) {
-                damageAttribute = levelAttribute;}
+            if (damageAttribute == -1) {damageAttribute = levelAttribute;}
             if (armorAttribute == -1) {armorAttribute = levelAttribute;}
             if (damageTypeAttribute == null) {damageTypeAttribute = DamageTypes.BLUNT;}
             if (abilityAttribute == null) {abilityAttribute = Abilities.RAGE;}

@@ -9,34 +9,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="text delay and changes&#10;- sounds now in Sounds.java class&#10;- text now has a delay but sound doesnt, working on it">
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/display/Display.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/vami/game/display/Segmental.java" afterDir="false" />
+    <list default="true" id="3136be04-cb31-4266-b789-acc7ee317d77" name="Changes" comment="delay works mostly with weird caveats, but works yay&#10;use Display.display for text + sound">
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/custom/DazedStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Datcon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/CentrifugeItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ChakramItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/PurifiedPowderItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/StaffItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/HoverPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/HoverPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/custom/TitlePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/TitlePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/panel/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/panel/GamePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/display/sound/Sound.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/Interactable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/PlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/AbilityTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/AbilityTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/AttackTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/AttackTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/AttunementAltarInteractable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/AttunementAltarInteractable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/ChestInteractable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/custom/ChestInteractable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/SupportAbilityTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/ai/tasks/SupportAbilityTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/AngelEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/AngelEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/PlayerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/PlayerEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/abilities/SearchAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/abilities/SearchAbility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/action/ActionFeedback.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/action/ActionFeedback.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/StatusInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/StatusInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/WolfEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/entity/WolfEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/abilities/RageAbility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/abilities/RageAbility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/SharpDamage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/damagetypes/SharpDamage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/patrons/Arthuuros.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/patrons/Arthuuros.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/patrons/Patron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/patrons/Patron.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/Statuses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/Statuses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/custom/BlessedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/custom/BlessedStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/custom/WoundedStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/interaction/statuses/custom/BleedingStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemHoldable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemHoldable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/ItemInstance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/GluttonAttunement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/attunement/GluttonAttunement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/AmaralItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/AmaralItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ExplorersMapItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ExplorersMapItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/Items.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ArthuurosReapingArmbandItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/ArthuurosArmbandItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/BerserkSerumItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/BerserkSerumItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/KnivesOfQalathItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/KnivesOfQalathItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/RockItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/RockItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/SpearOfNiraenItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/SpearOfNiraenItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/VexedDollItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/VexedDollItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/TextUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/TearsOfArthuurosItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/TearsOfArthuurosItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/WoodenSwordItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/interactable/item/custom/WoodenSwordItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/game/world/room/StarterRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/game/world/room/StarterRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/vami/util/CalcUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/vami/util/CalcUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,29 +115,29 @@
     <option name="flattenModules" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.TextGame.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "progress",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/vami/Desktop/TextGame/src/net/vami/game/world/room",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.TextGame.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;progress&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vami/Desktop/TextGame/src/net/vami/game/world/room&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\vami\Desktop\TextGame\src\net\vami\game\world\room" />
@@ -139,11 +148,11 @@
       <recent name="C:\Users\vami\Desktop\TextGame\src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="net.vami.game.interactable.interaction.abilities" />
       <recent name="net.vami.game.interactable.item.custom" />
+      <recent name="net.vami.game.interactable.interaction.statuses.custom" />
+      <recent name="net.vami.game.interactable.interaction.abilities" />
       <recent name="net.vami.game.interactable.interaction.statuses" />
       <recent name="net.vami.game.world.room" />
-      <recent name="net.vami.game.interactable.entity" />
     </key>
   </component>
   <component name="RunManager">
@@ -451,7 +460,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780310106807</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="delay works mostly with weird caveats, but works yay&#10;use Display.display for text + sound">
+      <option name="closed" value="true" />
+      <created>1780356894950</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1780356894950</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -466,7 +483,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="revamped AI to be more than just a boolean&#10;&#10;- added 3 moods (hostile, neutral, friendly)&#10;- added ratings that affect the entity's mood (float)&#10;- only entities can have moods and ratings, but interactables can be rated as well (item preference system?)&#10;- changed up some of the ally/enemy backend to reflect the newest changes&#10;&#10;- more shenanigans (i forgot, its late)" />
     <MESSAGE value="more changes, including renaming &quot;rating&quot; in EntityRating to &quot;score&quot;" />
     <MESSAGE value="fixed ai issues + interactable spawning issues" />
     <MESSAGE value="fixed targeting issue and issue with initial entityrating application using the createInteractableRating() method" />
@@ -491,7 +507,8 @@
     <MESSAGE value="render improvements" />
     <MESSAGE value="clamping and focus again" />
     <MESSAGE value="text delay and changes&#10;- sounds now in Sounds.java class&#10;- text now has a delay but sound doesnt, working on it" />
-    <option name="LAST_COMMIT_MESSAGE" value="text delay and changes&#10;- sounds now in Sounds.java class&#10;- text now has a delay but sound doesnt, working on it" />
+    <MESSAGE value="delay works mostly with weird caveats, but works yay&#10;use Display.display for text + sound" />
+    <option name="LAST_COMMIT_MESSAGE" value="delay works mostly with weird caveats, but works yay&#10;use Display.display for text + sound" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
